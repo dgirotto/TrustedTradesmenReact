@@ -1,32 +1,42 @@
-import React from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
+
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import logo from "./logo.svg";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+
 import "./App.css";
 
-function App() {
-  return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
+import Login from "./components/Login/Login";
 
-    <Button variant="contained" color="primary">
-      Hello World
-    </Button>
-  );
+// https://www.youtube.com/watch?v=l6nmysZKHFU&t=40s
+
+// interface State {
+//   isAuth: boolean;
+//   isDrawerOpen: boolean;
+//   isMobile: boolean;
+//   user: JwtUser | null;
+// }
+
+export default class App extends Component {
+  // constructor() {
+  //   this.state = {
+  //     isAuth: false,
+  //     isDrawerOpen: false,
+  //     isMobile: false,
+  //     user: null
+  //   };
+  // }
+
+  render() {
+    return (
+      <div className="App">
+        Main page!
+        <Login></Login>
+      </div>
+    );
+  }
 }
-
-export default App;
