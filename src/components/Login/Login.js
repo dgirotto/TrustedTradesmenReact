@@ -1,7 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
+import Container from "@material-ui/core/Container";
 
-const login = props => {
-  return <h1>Hey</h1>;
-};
-
-export default login;
+export default class Login extends Component {
+  render() {
+    return <Container fixed>HI</Container>;
+  }
+}

@@ -1,42 +1,52 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-
+import Toolbar from "./components/Toolbar/Toolbar";
+import SideDrawer from "./components/SideDrawer/SideDrawer";
+import Backdrop from "./components/Backdrop/Backdrop";
 import "./App.css";
 
-import Login from "./components/Login/Login";
+class App extends Component {
+  // In modern React, we can set the state this way (instead of having to use
+  // a constructor and calling super())
+  state = {
+    sideDrawerOpen: false
+  };
 
-// https://www.youtube.com/watch?v=l6nmysZKHFU&t=40s
+  // New function declaration: "myFunc = () => {}" ensures the "this" keyword
+  // refers to the component's state instead of the click event object
+  drawerToggleClickHandler = () => {
+    // React updates its state in "batches" now, updating of the state is done async
+    // Therefore, we must use function notation within setState() and pass previous state in
+    this.setState(prevState => {
+      return { sideDrawerOpen: !prevState.sideDrawerOpen };
+    });
+  };
 
-// interface State {
-//   isAuth: boolean;
-//   isDrawerOpen: boolean;
-//   isMobile: boolean;
-//   user: JwtUser | null;
-// }
-
-export default class App extends Component {
-  // constructor() {
-  //   this.state = {
-  //     isAuth: false,
-  //     isDrawerOpen: false,
-  //     isMobile: false,
-  //     user: null
-  //   };
-  // }
+  backdropClickHandler = () => {
+    this.setState(prevState => {
+      return { sideDrawerOpen: false };
+    });
+  };
 
   render() {
+    let backdrop;
+    if (this.state.sideDrawerOpen) {
+      backdrop = <Backdrop click={this.backdropClickHandler} />;
+    }
+
     return (
-      <div className="App">
-        Main page!
-        <Login></Login>
+      <div className="app-container">
+        {/* Pass a reference to the drawerClickHandler function to the toolbar component */}
+        <Toolbar
+          drawerToggleClickHandler={this.drawerToggleClickHandler}
+        ></Toolbar>
+        <SideDrawer show={this.state.sideDrawerOpen} />
+        {backdrop}
+        <main className="main">
+          <p>Page content</p>
+        </main>
       </div>
     );
   }
 }
+
+export default App;
