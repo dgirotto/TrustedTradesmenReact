@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Toolbar from "./components/Toolbar/Toolbar";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
 import Backdrop from "./components/Backdrop/Backdrop";
+import ServiceList from "./components/ServiceList/ServiceList";
 import "./App.css";
 
 class App extends Component {
@@ -42,7 +43,7 @@ class App extends Component {
         <SideDrawer show={this.state.sideDrawerOpen} />
         {backdrop}
         <main className="main">
-          <p>Page content</p>
+          <ServiceList />
         </main>
       </div>
     );

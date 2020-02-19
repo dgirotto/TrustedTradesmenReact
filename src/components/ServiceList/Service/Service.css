@@ -1,0 +1,12 @@
+.service {
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0 0 3px rgb(48, 48, 48);
+  background: rgb(223, 223, 223);
+  cursor: pointer;
+}
+
+.service__title {
+  text-align: center;
+  text-transform: uppercase;
+}
