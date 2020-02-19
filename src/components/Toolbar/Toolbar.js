@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 
 import "./Toolbar.css";
@@ -13,18 +14,23 @@ const toolbar = props => (
         <DrawerToggleButton click={props.drawerToggleClickHandler} />
       </div>
       <div className="toolbar__logo">
-        <a href="/">THE LOGO</a>
+        <Link to="/">THE LOGO</Link>
       </div>
       <div className="spacer" />
       <div className="toolbar__navigation-items">
         <ul>
-          <li>
-            {/* TODO: Add routerlink here */}
-            <a href="/">Services</a>
-          </li>
-          <li>
-            <a href="/">Account</a>
-          </li>
+          <Link to="/services">
+            <li>
+              Services
+              {/* <a href="/">Services</a> */}
+            </li>
+          </Link>
+          <Link to="/account">
+            <li>
+              Account
+              {/* <a href="/">Account</a> */}
+            </li>
+          </Link>
         </ul>
       </div>
     </nav>

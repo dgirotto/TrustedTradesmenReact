@@ -1,0 +1,24 @@
+.login-form > form {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  margin: auto;
+}
+
+.login-form > form > * {
+  margin-top: 15px !important;
+}
+
+.login-form__button {
+  width: 150px;
+  margin: auto !important;
+  background-color: #ab3535;
+  color: white;
+  font-weight: bold;
+}
+
+.login-form__span {
+  font-size: smaller;
+  font-style: italic;
+  cursor: pointer;
+}

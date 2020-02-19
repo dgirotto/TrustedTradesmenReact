@@ -1,8 +1,15 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import Toolbar from "./components/Toolbar/Toolbar";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
 import Backdrop from "./components/Backdrop/Backdrop";
-import ServiceList from "./components/ServiceList/ServiceList";
+import HomePage from "./pages/HomePage/HomePage";
+import ServicesPage from "./pages/ServicesPage/ServicesPage";
+import ServiceDetailsPage from "./pages/ServiceDetailsPage/ServiceDetailsPage";
+import AccountPage from "./pages/AccountPage/AccountPage";
+import Login from "./components/Login/Login";
+
 import "./App.css";
 
 class App extends Component {
@@ -35,17 +42,25 @@ class App extends Component {
     }
 
     return (
-      <div className="app-container">
-        {/* Pass a reference to the drawerClickHandler function to the toolbar component */}
-        <Toolbar
-          drawerToggleClickHandler={this.drawerToggleClickHandler}
-        ></Toolbar>
-        <SideDrawer show={this.state.sideDrawerOpen} />
-        {backdrop}
-        <main className="main">
-          <ServiceList />
-        </main>
-      </div>
+      <Router>
+        <div className="app-container">
+          <Toolbar
+            drawerToggleClickHandler={this.drawerToggleClickHandler}
+          ></Toolbar>
+          <SideDrawer show={this.state.sideDrawerOpen} />
+          {backdrop}
+
+          <main className="main">
+            <Switch>
+              <Route path="/" exact component={HomePage} />
+              <Route path="/services" exact component={ServicesPage} />
+              <Route path="/services/:id" component={ServiceDetailsPage} />
+              <Route path="/account" component={AccountPage} />
+              {/* <Login /> */}
+            </Switch>
+          </main>
+        </div>
+      </Router>
     );
   }
 }
