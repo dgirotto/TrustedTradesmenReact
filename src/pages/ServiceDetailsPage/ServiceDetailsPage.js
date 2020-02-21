@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import Title from "../../components/Title/Title";
 import "./ServiceDetailsPage.css";
 
 class ServiceDetailsPage extends Component {
   render() {
-    return <div>Service Details</div>;
+    return <Title size="Large">Service Details</Title>;
   }
 }
 

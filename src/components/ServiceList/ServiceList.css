@@ -1,6 +1,5 @@
 .services {
   display: flex;
-  /* margin: auto; */
 }
 
 @media (min-width: 768px) {

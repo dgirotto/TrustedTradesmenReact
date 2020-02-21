@@ -1,0 +1,20 @@
+.Title {
+  text-align: center;
+  margin: 0;
+  padding: 10px 0;
+}
+.Small {
+  font-size: 20px;
+}
+.Medium {
+  font-size: 25px;
+}
+.Large {
+  font-size: 30px;
+}
+.Red {
+  color: #ab3535;
+}
+.Black {
+  color: rgb(40, 40, 40);
+}

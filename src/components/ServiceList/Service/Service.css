@@ -4,6 +4,7 @@
   box-shadow: 0 0 3px rgb(48, 48, 48);
   background: #dfdfdf;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .service:hover {
