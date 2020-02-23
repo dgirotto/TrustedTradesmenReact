@@ -1,14 +1,17 @@
-.Login {
-  width: 90%;
-  max-width: 500px;
-  margin: auto;
-}
-
-.Login form {
+.App > form {
   display: flex;
   flex-direction: column;
+  width: 80%;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
 }
 
-.Login form > * {
-  margin: 5px 0;
+.App > form > * {
+  margin: 8px 0;
+}
+
+.Error {
+  font-size: smaller;
+  color: #ab3535;
 }

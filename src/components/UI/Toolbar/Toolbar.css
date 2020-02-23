@@ -5,10 +5,12 @@
   width: 100%;
   background: #ab3535;
   height: 56px;
+  z-index: 100;
 }
 
 .toolbar__logo {
-  margin-left: 1rem;
+  margin-left: 18px;
+  margin-top: 5px;
 }
 
 .toolbar__logo a {

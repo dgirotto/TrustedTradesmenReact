@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaRegHandshake } from "react-icons/fa";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 
 import "./Toolbar.css";
@@ -14,7 +15,9 @@ const toolbar = props => (
         <DrawerToggleButton click={props.drawerToggleClickHandler} />
       </div>
       <div className="toolbar__logo">
-        <Link to="/">THE LOGO</Link>
+        <Link to="/">
+          <FaRegHandshake size="35" />
+        </Link>
       </div>
       <div className="spacer" />
       <div className="toolbar__navigation-items">

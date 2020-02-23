@@ -12,6 +12,7 @@ import JobsPage from "./pages/JobsPage/JobsPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 
+import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 
 class App extends Component {
@@ -32,11 +33,6 @@ class App extends Component {
   };
 
   render() {
-    let backdrop;
-    if (this.state.sideDrawerOpen) {
-      backdrop = <Backdrop click={this.backdropClickHandler} />;
-    }
-
     return (
       <Router>
         <div className="app-container">
@@ -44,9 +40,14 @@ class App extends Component {
             drawerToggleClickHandler={this.drawerToggleClickHandler}
           ></Toolbar>
           <SideDrawer show={this.state.sideDrawerOpen} />
-          {backdrop}
+
+          {this.state.sideDrawerOpen ? (
+            <Backdrop click={this.backdropClickHandler} />
+          ) : null}
+
           <main className="main">
             <Switch>
+              <Route path="/auth" component={ProtectedRoute} />
               <Route path="/" exact component={HomePage} />
               <Route path="/services" exact component={ServicesPage} />
               <Route path="/services/:id" component={ServiceDetailsPage} />
