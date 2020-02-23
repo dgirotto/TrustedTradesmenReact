@@ -7,34 +7,63 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 class LoginPage extends Component {
-  state = {
-    // isAuth: false,
-    isLoading: false,
-    email: null,
-    password: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      isLoading: false,
+      error: null
+    };
+  }
+
+  // login = () => {
+  //   axios
+  //     .post("http://dgirotto.a2hosted.com/api/user/login.php", {
+  //       email: this.state.email,
+  //       password: this.state.password
+  //     })
+  //     .then(res => {
+  //       this.setState({ error: null });
+  //       console.log(res.data.jwt);
+  //       localStorage.setItem(
+  //         "login",
+  //         JSON.stringify({
+  //           token: res.data.jwt
+  //         })
+  //       );
+  //       this.setFromLocalStorage();
+  //       this.getAccountDetails();
+  //     })
+  //     .catch(() => {
+  //       this.setState({ error: "Invalid username or password!" });
+  //     });
+  // };
 
   login = () => {
     axios
-      .post("http://dgirotto.a2hosted.com/api/user/login.php", {
-        email: this.state.email,
-        password: this.state.password
-      })
+      .post(
+        "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api/user/login.php",
+        {
+          email: this.state.email,
+          password: this.state.password
+        }
+      )
       .then(res => {
-        this.setState({ error: null });
-        console.log(res.data.jwt);
-        localStorage.setItem(
-          "login",
-          JSON.stringify({
-            token: res.data.jwt
-          })
-        );
-        this.setFromLocalStorage();
-        this.getAccountDetails();
+        localStorage.setItem("jwt-token", res.data.jwt);
+        this.props.history.push("/account");
       })
-      .catch(() => {
-        this.setState({ error: "Invalid username or password!" });
+      .catch(error => {
+        this.setState({ error: error.message });
       });
+  };
+
+  register = () => {
+    alert("Hello");
+  };
+
+  change = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   render() {
@@ -45,20 +74,20 @@ class LoginPage extends Component {
             Login
           </Title>
           <TextField
-            onChange={event => {
-              this.setState({ email: event.target.value });
-            }}
-            label="email"
             type="text"
+            name="email"
+            label="email"
+            value={this.state.email}
             variant="outlined"
+            onChange={this.change}
           ></TextField>
           <TextField
-            onChange={event => {
-              this.setState({ password: event.target.value });
-            }}
-            label="password"
             type="password"
+            name="password"
+            label="password"
+            value={this.state.password}
             variant="outlined"
+            onChange={this.change}
           ></TextField>
           {this.state.error ? (
             <span className="Error">{this.state.error}</span>

@@ -50,7 +50,9 @@
   padding: 0;
 }
 .toolbar__navigation-items li {
-  padding: 0 0.5rem;
+  /* padding: 0 0.75rem; */
+  padding-left: 1.5rem;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

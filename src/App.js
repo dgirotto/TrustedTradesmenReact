@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Toolbar from "./components/UI/Toolbar/Toolbar";
 import SideDrawer from "./components/UI/SideDrawer/SideDrawer";
@@ -34,7 +34,7 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <BrowserRouter>
         <div className="app-container">
           <Toolbar
             drawerToggleClickHandler={this.drawerToggleClickHandler}
@@ -47,17 +47,18 @@ class App extends Component {
 
           <main className="main">
             <Switch>
-              <Route path="/auth" component={ProtectedRoute} />
               <Route path="/" exact component={HomePage} />
               <Route path="/services" exact component={ServicesPage} />
               <Route path="/services/:id" component={ServiceDetailsPage} />
-              <Route path="/jobs" component={JobsPage} />
-              <Route path="/account" component={AccountPage} />
               <Route path="/login" component={LoginPage} />
+              <ProtectedRoute>
+                <Route path="/account" component={AccountPage} />
+                <Route path="/jobs" component={JobsPage} />
+              </ProtectedRoute>
             </Switch>
           </main>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
