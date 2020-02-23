@@ -26,7 +26,7 @@ class AccountPage extends Component {
   render() {
     return (
       <div className="account-details-container">
-        <h3 className="account-details__title">Account Details</h3>
+        <h3 className="account-details__title">Account Page</h3>
       </div>
     );
   }

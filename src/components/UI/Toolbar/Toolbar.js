@@ -20,16 +20,19 @@ const toolbar = props => (
       <div className="toolbar__navigation-items">
         <ul>
           <Link to="/services">
-            <li>
-              Services
-              {/* <a href="/">Services</a> */}
-            </li>
+            <li>Services</li>
+          </Link>
+          <Link to="/jobs">
+            <li>Jobs</li>
           </Link>
           <Link to="/account">
-            <li>
-              Account
-              {/* <a href="/">Account</a> */}
-            </li>
+            <li>Account</li>
+          </Link>
+          <Link to="/login">
+            <li>Login</li>
+          </Link>
+          <Link to="/logout">
+            <li>Logout</li>
           </Link>
         </ul>
       </div>

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import ServiceList from "../../components/ServiceList/ServiceList";
-import Title from "../../components/Title/Title";
+import Title from "../../components/UI/Title/Title";
 import "./ServicesPage.css";
 
 class ServicesPage extends Component {
   render() {
     return (
       <div>
-        <Title size="Large" color="Red">
+        <Title size="Large" color="Black">
           Services
         </Title>
         <ServiceList />

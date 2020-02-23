@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "../../Title/Title";
+import Title from "../../UI/Title/Title";
 import "./Service.css";
 
 const service = props => (

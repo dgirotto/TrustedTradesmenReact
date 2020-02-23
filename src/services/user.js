@@ -1,9 +1,7 @@
 // import axios, { AxiosPromise } from "axios";
-// import { CacheService } from "./caching";
 
 // function getService() {
 //   const headers = getHeaders(serviceId);
-
 //   return axios.get(
 //     "http://dgirotto.a2hosted.com/api/service/read_one.php?serviceId=" +
 //       serviceId,
@@ -29,5 +27,6 @@
 // }
 
 // export const ServicesService = {
+//   getService,
 //   getServices
 // };

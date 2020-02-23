@@ -1,0 +1,14 @@
+.Login {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.Login form {
+  display: flex;
+  flex-direction: column;
+}
+
+.Login form > * {
+  margin: 5px 0;
+}

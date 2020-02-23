@@ -3,6 +3,7 @@ import "./SideDrawer.css";
 
 const sideDrawer = props => {
   let drawerClasses = "side-drawer";
+
   if (props.show) {
     drawerClasses = "side-drawer open";
   }
@@ -11,10 +12,19 @@ const sideDrawer = props => {
     <nav className={drawerClasses}>
       <ul>
         <li>
-          <a href="/">Services</a>
+          <a href="/services">Services</a>
         </li>
         <li>
-          <a href="/">Account</a>
+          <a href="/jobs">Jobs</a>
+        </li>
+        <li>
+          <a href="/account">Account</a>
+        </li>
+        <li>
+          <a href="/login">Login</a>
+        </li>
+        <li>
+          <a href="/logout">Logout</a>
         </li>
       </ul>
     </nav>
