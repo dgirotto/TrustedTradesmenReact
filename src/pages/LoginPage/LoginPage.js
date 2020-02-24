@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 import { AuthService } from "../../services/auth";
+import { CacheService } from "../../services/caching";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -50,8 +51,12 @@ class LoginPage extends Component {
     AuthService.login(auth)
       .then(res => {
         const token = res.data.jwt;
+
+        console.log("JWT: " + JSON.stringify(res));
+        alert("GOT JWT: " + res.data.jwt);
+
         localStorage.setItem("jwt-token", token);
-        // CacheService.cacheToken(token);
+        CacheService.cacheToken(token);
         this.setState({ isLoading: false });
         window.location.href = "/account";
       })
