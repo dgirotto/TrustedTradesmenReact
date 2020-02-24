@@ -19,7 +19,8 @@ export class JwtHelper {
 
   static decodeToken(token = "") {
     if (token === null || token === "") {
-      return { upn: "" };
+      // return { upn: "" };
+      return null;
     }
     const parts = token.split(".");
     if (parts.length !== 3) {

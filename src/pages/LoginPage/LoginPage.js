@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import "./LoginPage.css";
 
 import Title from "../../components/UI/Title/Title";
@@ -15,7 +14,6 @@ class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
-      isAuth: false,
       isLoading: false,
       error: null
     };
@@ -27,15 +25,15 @@ class LoginPage extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.isAuth !== prevProps.isAuth) {
-      this.setState({ isAuth: this.props.isAuth }, () => {
-        if (this.state.isAuth) {
-          window.location.href = "/";
-        }
-      });
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.isAuth !== prevProps.isAuth) {
+  //     this.setState({ isAuth: this.props.isAuth }, () => {
+  //       if (this.state.isAuth) {
+  //         window.location.href = "/";
+  //       }
+  //     });
+  //   }
+  // }
 
   login = () => {
     if (!this.state.email || !this.state.password) {
@@ -54,7 +52,7 @@ class LoginPage extends Component {
         localStorage.setItem("jwt-token", token);
         CacheService.cacheToken(token);
         this.setState({ isLoading: false });
-        window.location.href = "/account";
+        window.location.href = "/";
       })
       .catch(error => {
         this.setState({ error: error.message, isLoading: false });

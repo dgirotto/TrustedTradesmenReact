@@ -22,11 +22,12 @@ function isExpired() {
       expired = false;
     }
   }
+
   return expired;
 }
 
 function deleteCachedToken() {
-  localStorage.removeItem(TOKEN_SESSION_ID);
+  localStorage.removeItem(TOKEN_STORE_ID);
 }
 
 function getCachedUser() {

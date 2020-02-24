@@ -1,5 +1,5 @@
 .toolbar {
-  position: fixed; /* TODO: review "fixed"  */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -31,15 +31,21 @@
 }
 
 .toolbar__navigation-items a {
-  color: white;
   text-decoration: none;
 }
 
-.toolbar__navigation-items a:hover {
-  /* color: #35ab35; */
+.toolbar__navigation-items li {
+  cursor: pointer;
+  padding-left: 1.5rem;
+  font-weight: 500;
+  color: white;
+}
+
+.toolbar__navigation-items li:hover {
   color: rgb(238, 178, 25);
 }
-.toolbar__navigation-items a:active {
+
+.toolbar__navigation-items li:active {
   color: white;
 }
 
@@ -48,11 +54,6 @@
   display: flex;
   margin: 0;
   padding: 0;
-}
-.toolbar__navigation-items li {
-  /* padding: 0 0.75rem; */
-  padding-left: 1.5rem;
-  font-weight: 500;
 }
 
 @media (max-width: 768px) {

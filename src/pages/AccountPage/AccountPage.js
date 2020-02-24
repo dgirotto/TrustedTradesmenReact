@@ -5,9 +5,13 @@ class AccountPage extends Component {
   state = {
     accountInfo: {
       email: null,
+      password: null,
+      newPassword: null,
+      confirmNewPassword: null,
       firstName: null,
       lastName: null,
       phone: null,
+      addressId: null,
       address: null,
       city: null,
       postalCode: null,
@@ -22,6 +26,12 @@ class AccountPage extends Component {
       services: null
     }
   };
+
+  // user/change_pwd.php: (password, newPassword)
+
+  // user/update.php:
+  // 0, 2, 3: (firstName, lastName, phone, addressId, )
+  // 1:
 
   render() {
     return (

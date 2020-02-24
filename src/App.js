@@ -24,17 +24,25 @@ class App extends Component {
     sideDrawerOpen: false
   };
 
-  componentDidMount() {
-    this.authenticate();
-  }
-
   authenticate() {
-    if (AuthService.isAuthenticated) {
-      this.setState({ isAuth: true, user: AuthService.getAuthenticatedUser() });
+    if (AuthService.isAuthenticated()) {
+      this.setState({
+        isAuth: true,
+        user: AuthService.getAuthenticatedUser()
+      });
     } else {
       this.setState({ isAuth: false });
     }
   }
+
+  componentDidMount() {
+    this.authenticate();
+  }
+
+  handleLogout = () => {
+    this.setState({ isAuth: false, user: null });
+    AuthService.logout();
+  };
 
   drawerToggleClickHandler = () => {
     this.setState(prevState => {
@@ -53,9 +61,16 @@ class App extends Component {
       <BrowserRouter>
         <div className="app-container">
           <Toolbar
+            isAuth={this.state.isAuth}
+            logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
-          ></Toolbar>
-          <SideDrawer show={this.state.sideDrawerOpen} />
+          />
+
+          <SideDrawer
+            isAuth={this.state.isAuth}
+            logout={this.handleLogout}
+            show={this.state.sideDrawerOpen}
+          />
 
           {this.state.sideDrawerOpen ? (
             <Backdrop click={this.backdropClickHandler} />
@@ -77,6 +92,7 @@ class App extends Component {
               />
               <PrivateRoute path="/account" component={AccountPage} />
               <PrivateRoute path="/jobs" component={JobsPage} />
+              <Route path="/logout" component={LoginPage} />
             </Switch>
           </main>
         </div>
