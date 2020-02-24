@@ -51,10 +51,6 @@ class LoginPage extends Component {
     AuthService.login(auth)
       .then(res => {
         const token = res.data.jwt;
-
-        console.log("JWT: " + JSON.stringify(res));
-        alert("GOT JWT: " + res.data.jwt);
-
         localStorage.setItem("jwt-token", token);
         CacheService.cacheToken(token);
         this.setState({ isLoading: false });

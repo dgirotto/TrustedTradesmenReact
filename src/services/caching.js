@@ -12,20 +12,17 @@ function getCachedToken() {
 
 function isExpired() {
   const token = getCachedToken();
+  let expired = true;
 
-  return false;
+  if (token) {
+    const expTimeInMillis = JwtHelper.decodeToken(token)["exp"] * 1000;
+    const currTimeinMillis = Date.now();
 
-  //   let expired = false;
-
-  //   if (token) {
-  //     const expTimeInMillis = JwtHelper.decodeToken(token)["exp"] * 1000;
-  //     const currTimeinMillis = Date.now();
-  //     if (expTimeInMillis >= currTimeinMillis) {
-  //       expired = true;
-  //     }
-  //   }
-
-  //   return expired;
+    if (expTimeInMillis >= currTimeinMillis) {
+      expired = false;
+    }
+  }
+  return expired;
 }
 
 function deleteCachedToken() {

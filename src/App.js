@@ -61,21 +61,11 @@ class App extends Component {
             <Backdrop click={this.backdropClickHandler} />
           ) : null}
 
-          {/* <main className="main">
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              <Route path="/services" exact component={ServicesPage} />
-              <Route path="/services/:id" component={ServiceDetailsPage} />
-              <Route path="/login" component={LoginPage} />
-              <Route path="/account" component={AccountPage} />
-              <Route path="/jobs" component={JobsPage} />
-            </Switch>
-          </main> */}
-
           <main className="main">
             <Switch>
               <Route path="/" exact component={HomePage} />
               <Route path="/services" exact component={ServicesPage} />
+              <Route path="/services/:id" component={ServiceDetailsPage} />
               <Route
                 path="/login"
                 render={() => (
@@ -86,6 +76,7 @@ class App extends Component {
                 )}
               />
               <PrivateRoute path="/account" component={AccountPage} />
+              <PrivateRoute path="/jobs" component={JobsPage} />
             </Switch>
           </main>
         </div>

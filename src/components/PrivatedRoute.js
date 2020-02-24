@@ -9,8 +9,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
       AuthService.isAuthenticated() ? (
         <Component {...props} />
       ) : (
-        <h1>NOT AUTHENTICATED</h1>
-        // <Redirect to={{ pathname: "/login" }} />
+        <Redirect to={{ pathname: "/login" }} />
       )
     }
   />

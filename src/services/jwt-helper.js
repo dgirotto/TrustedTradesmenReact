@@ -11,14 +11,9 @@ export class JwtHelper {
         output += "=";
         break;
       default:
-        // tslint:disable-next-line:no-string-throw
         throw new Error("Illegal base64url string!");
     }
-
     const token = window.escape(window.atob(output));
-
-    console.log("Decoded URI: " + decodeURIComponent(token));
-
     return decodeURIComponent(token);
   }
 

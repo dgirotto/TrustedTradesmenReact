@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { CacheService } from "./caching";
 
-const commonEndpoint = "http://dgirotto.a2hosted.com/api";
-// const commonEndpoint =
-//   "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api";
+// const commonEndpoint = "http://dgirotto.a2hosted.com/api";
+const commonEndpoint =
+  "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api";
 
 function login(body) {
   return axios.post(`${commonEndpoint}/user/login.php`, body);
@@ -28,7 +28,7 @@ function register(body) {
 // }
 
 function isAuthenticated() {
-  return CacheService.isExpired();
+  return !CacheService.isExpired();
 }
 
 function getAuthenticatedUser() {
