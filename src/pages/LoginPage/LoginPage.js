@@ -6,55 +6,57 @@ import Title from "../../components/UI/Title/Title";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+import { AuthService } from "../../services/auth";
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
+      isAuth: false,
       isLoading: false,
       error: null
     };
   }
 
-  // login = () => {
-  //   axios
-  //     .post("http://dgirotto.a2hosted.com/api/user/login.php", {
-  //       email: this.state.email,
-  //       password: this.state.password
-  //     })
-  //     .then(res => {
-  //       this.setState({ error: null });
-  //       console.log(res.data.jwt);
-  //       localStorage.setItem(
-  //         "login",
-  //         JSON.stringify({
-  //           token: res.data.jwt
-  //         })
-  //       );
-  //       this.setFromLocalStorage();
-  //       this.getAccountDetails();
-  //     })
-  //     .catch(() => {
-  //       this.setState({ error: "Invalid username or password!" });
-  //     });
-  // };
+  componentDidMount() {
+    if (this.props.isAuth) {
+      window.location.href = "/account";
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.isAuth !== prevProps.isAuth) {
+      this.setState({ isAuth: this.props.isAuth }, () => {
+        if (this.state.isAuth) {
+          window.location.href = "/";
+        }
+      });
+    }
+  }
 
   login = () => {
-    axios
-      .post(
-        "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api/user/login.php",
-        {
-          email: this.state.email,
-          password: this.state.password
-        }
-      )
+    if (!this.state.email || !this.state.password) {
+      return;
+    }
+    this.setState({ isLoading: true });
+
+    const auth = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    AuthService.login(auth)
       .then(res => {
-        localStorage.setItem("jwt-token", res.data.jwt);
-        this.props.history.push("/account");
+        const token = res.data.jwt;
+        localStorage.setItem("jwt-token", token);
+        // CacheService.cacheToken(token);
+        this.setState({ isLoading: false });
+        window.location.href = "/account";
       })
       .catch(error => {
-        this.setState({ error: error.message });
+        this.setState({ error: error.message, isLoading: false });
       });
   };
 

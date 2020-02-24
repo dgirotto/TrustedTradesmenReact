@@ -12,13 +12,29 @@ import JobsPage from "./pages/JobsPage/JobsPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+import { PrivateRoute } from "./components/PrivatedRoute";
+import { AuthService } from "./services/auth";
+
 import "./App.css";
 
 class App extends Component {
   state = {
+    isAuth: false,
+    user: null,
     sideDrawerOpen: false
   };
+
+  componentDidMount() {
+    this.authenticate();
+  }
+
+  authenticate() {
+    if (AuthService.isAuthenticated) {
+      this.setState({ isAuth: true, user: AuthService.getAuthenticatedUser() });
+    } else {
+      this.setState({ isAuth: false });
+    }
+  }
 
   drawerToggleClickHandler = () => {
     this.setState(prevState => {
@@ -45,16 +61,31 @@ class App extends Component {
             <Backdrop click={this.backdropClickHandler} />
           ) : null}
 
-          <main className="main">
+          {/* <main className="main">
             <Switch>
               <Route path="/" exact component={HomePage} />
               <Route path="/services" exact component={ServicesPage} />
               <Route path="/services/:id" component={ServiceDetailsPage} />
               <Route path="/login" component={LoginPage} />
-              <ProtectedRoute>
-                <Route path="/account" component={AccountPage} />
-                <Route path="/jobs" component={JobsPage} />
-              </ProtectedRoute>
+              <Route path="/account" component={AccountPage} />
+              <Route path="/jobs" component={JobsPage} />
+            </Switch>
+          </main> */}
+
+          <main className="main">
+            <Switch>
+              <Route path="/" exact component={HomePage} />
+              <Route path="/services" exact component={ServicesPage} />
+              <Route
+                path="/login"
+                render={() => (
+                  <LoginPage
+                    isAuth={this.state.auth}
+                    authenticate={this.authenticate}
+                  />
+                )}
+              />
+              <PrivateRoute path="/account" component={AccountPage} />
             </Switch>
           </main>
         </div>
