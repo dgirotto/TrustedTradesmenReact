@@ -6,17 +6,25 @@
   background: #ab3535;
   height: 56px;
   z-index: 100;
-}
-
-.toolbar__logo {
-  margin-left: 18px;
-  margin-top: 5px;
+  font-family: "Hammersmith One";
 }
 
 .toolbar__logo a {
+  display: flex;
+  justify-content: center;
+  align-content: center;
   color: white;
   text-decoration: none;
+  margin-left: 1.1rem;
+}
+
+.toolbar__logo a span {
   font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+.logo-text {
+  margin-top: 3px;
 }
 
 .spacer {
@@ -26,19 +34,21 @@
 .toolbar__navigation {
   height: 100%; /* takes the parent height (56px) */
   display: flex; /* default flex direction is left to right (horizontal) */
-  align-items: center; /* centers flex items vertially */
+  align-items: center;
   padding: 0 1rem;
 }
 
 .toolbar__navigation-items a {
+  padding-top: 5px;
   text-decoration: none;
 }
 
 .toolbar__navigation-items li {
   cursor: pointer;
-  padding-left: 1.5rem;
+  padding-left: 2rem;
   font-weight: 500;
   color: white;
+  font-size: 16px;
 }
 
 .toolbar__navigation-items li:hover {
@@ -56,6 +66,10 @@
   padding: 0;
 }
 
+.logout-link {
+  margin-top: -2px;
+}
+
 @media (max-width: 768px) {
   .toolbar__navigation-items {
     display: none;
@@ -66,7 +80,7 @@
   .toolbar__toggle-button {
     display: none;
   }
-  .toolbar__logo {
+  .toolbar__logo a {
     margin-left: 0;
   }
 }

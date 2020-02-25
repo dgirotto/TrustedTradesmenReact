@@ -17,23 +17,27 @@ const ToolBar = props => {
         <div className="toolbar__logo">
           <Link to="/">
             <FaRegHandshake size="35" />
+            <span className="logo-text">TRUSTED TRADESMEN</span>
           </Link>
         </div>
         <div className="spacer" />
         <div className="toolbar__navigation-items">
           <ul>
+            <Link to="/">
+              <li>HOME</li>
+            </Link>
             <Link to="/services">
-              <li>Services</li>
+              <li>SERVICES</li>
             </Link>
             {props.isAuth ? (
               <Aux>
                 <Link to="/jobs">
-                  <li>Jobs</li>
+                  <li>JOBS</li>
                 </Link>
                 <Link to="/account">
-                  <li>Account</li>
+                  <li>ACCOUNT</li>
                 </Link>
-                <Link to="/logout">
+                <Link className="logout-link" to="/logout">
                   <li onClick={props.logout}>
                     <FiLogOut size="20" />
                   </li>
@@ -41,7 +45,7 @@ const ToolBar = props => {
               </Aux>
             ) : (
               <Link to="/login">
-                <li>Login</li>
+                <li>LOGIN</li>
               </Link>
             )}
           </ul>

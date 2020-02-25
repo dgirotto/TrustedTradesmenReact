@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Aux from "../../../helpers/Aux";
 import "./SideDrawer.css";
 
 const sideDrawer = props => {
@@ -11,21 +13,35 @@ const sideDrawer = props => {
   return (
     <nav className={drawerClasses}>
       <ul>
-        <li>
-          <a href="/services">Services</a>
-        </li>
-        <li>
-          <a href="/jobs">Jobs</a>
-        </li>
-        <li>
-          <a href="/account">Account</a>
-        </li>
-        <li>
-          <a href="/login">Login</a>
-        </li>
-        <li>
-          <a href="/logout">Logout</a>
-        </li>
+        <Link onClick={props.drawerToggleClickHandler} to="/">
+          <li>Home</li>
+        </Link>
+        <Link onClick={props.drawerToggleClickHandler} to="/services">
+          <li>Services</li>
+        </Link>
+        {props.isAuth ? (
+          <Aux>
+            <Link onClick={props.drawerToggleClickHandler} to="/jobs">
+              <li>Jobs</li>
+            </Link>
+            <Link onClick={props.drawerToggleClickHandler} to="/account">
+              <li>Account</li>
+            </Link>
+            <Link
+              onClick={() => {
+                props.logout();
+                props.drawerToggleClickHandler();
+              }}
+              to="/logout"
+            >
+              <li>Logout</li>
+            </Link>
+          </Aux>
+        ) : (
+          <Link onClick={props.drawerToggleClickHandler} to="/login">
+            <li>Login</li>
+          </Link>
+        )}
       </ul>
     </nav>
   );

@@ -70,6 +70,7 @@ class App extends Component {
             isAuth={this.state.isAuth}
             logout={this.handleLogout}
             show={this.state.sideDrawerOpen}
+            drawerToggleClickHandler={this.drawerToggleClickHandler}
           />
           {this.state.sideDrawerOpen ? (
             <Backdrop click={this.backdropClickHandler} />
