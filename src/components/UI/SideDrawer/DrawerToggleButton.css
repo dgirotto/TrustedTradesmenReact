@@ -9,6 +9,7 @@
   border: none;
   cursor: pointer;
   box-sizing: border-box;
+  margin-left: 1.3rem;
 }
 .toggle-button :focus {
   outline: none;
