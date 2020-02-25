@@ -1,0 +1,27 @@
+.table-row:hover > * {
+  cursor: pointer;
+  background-color: rgb(228, 228, 228);
+  font-weight: bold;
+}
+
+.jobs-page-container {
+  display: flex;
+  padding: 0 16px;
+}
+
+.jobs-page-container > div {
+  flex: 1;
+  padding: 10px;
+}
+
+@media (min-width: 769px) {
+  .jobs-page-container {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 768px) {
+  .jobs-page-container {
+    flex-direction: column;
+  }
+}
