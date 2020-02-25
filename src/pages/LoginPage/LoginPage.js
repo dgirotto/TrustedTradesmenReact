@@ -81,7 +81,7 @@ class LoginPage extends Component {
             value={this.state.email}
             variant="outlined"
             onChange={this.change}
-          ></TextField>
+          />
           <TextField
             type="password"
             name="password"
@@ -89,7 +89,7 @@ class LoginPage extends Component {
             value={this.state.password}
             variant="outlined"
             onChange={this.change}
-          ></TextField>
+          />
           {this.state.error ? (
             <span className="Error">{this.state.error}</span>
           ) : null}

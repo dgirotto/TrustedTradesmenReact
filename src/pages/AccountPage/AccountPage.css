@@ -1,6 +1,31 @@
 .account-details-container {
+  width: 100%;
 }
 
 .account-details__title {
   text-align: center;
+}
+
+.textfield-container {
+  padding: 1rem;
+  max-width: 700px;
+}
+.textfield-container-row {
+  display: flex;
+  padding: 0.25rem;
+}
+.textfield-container-row > div:first-child {
+  margin-right: 1.5rem;
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+}
+.textfield-container-row > div:nth-child(2) {
+  flex: 4;
+}
+.textfield-container-row > div:nth-child(2) > div {
+  width: 100%;
 }

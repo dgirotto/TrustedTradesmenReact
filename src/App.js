@@ -60,18 +60,17 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="app-container">
+          {/* TODO: Move this to its own component */}
           <Toolbar
             isAuth={this.state.isAuth}
             logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
           />
-
           <SideDrawer
             isAuth={this.state.isAuth}
             logout={this.handleLogout}
             show={this.state.sideDrawerOpen}
           />
-
           {this.state.sideDrawerOpen ? (
             <Backdrop click={this.backdropClickHandler} />
           ) : null}
@@ -92,7 +91,7 @@ class App extends Component {
               />
               <PrivateRoute path="/account" component={AccountPage} />
               <PrivateRoute path="/jobs" component={JobsPage} />
-              <Route path="/logout" component={LoginPage} />
+              <PrivateRoute path="/logout" component={LoginPage} />
             </Switch>
           </main>
         </div>
