@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import "./LeadsPage.css";
-
+import { LeadsService } from "../../services/leads";
 import Title from "../../components/UI/Title/Title";
+import Loader from "../../components/UI/Loader/Loader";
+
+import "./LeadsPage.css";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -25,9 +27,24 @@ const rows = [
 
 class LeadsPage extends Component {
   state = {
-    accountType: this.props.accountType,
-    leadsData: {}
+    leads: null,
+    isLoading: false
   };
+
+  componentDidMount() {
+    this.setState({ isLoading: true });
+
+    LeadsService.getLeads()
+      .then(res => {
+        this.setState({ leads: res.data });
+        this.setState({ isLoading: false });
+        console.log(rows);
+        console.log(this.state.leads);
+      })
+      .catch(err => {
+        console.error("Error while getting leads" + err.response);
+      });
+  }
 
   render() {
     return (
@@ -35,32 +52,40 @@ class LeadsPage extends Component {
         <Title color="Black" size="Small">
           LEADS
         </Title>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow className="table-row" key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+        {this.state.leads && (
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Service</TableCell>
+                  <TableCell align="right">Budget</TableCell>
+                  <TableCell align="right">Description</TableCell>
+                  <TableCell align="right">Address</TableCell>
+                  <TableCell align="right">City</TableCell>
+                  <TableCell align="right">Postal Code</TableCell>
+                  <TableCell align="right">Province</TableCell>
+                  <TableCell align="right">isAccepted</TableCell>
+                  <TableCell align="right">Date</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {this.state.leads.map(lead => (
+                  <TableRow className="table-row" key={lead.leadId}>
+                    <TableCell align="right">{lead.serviceId}</TableCell>
+                    <TableCell align="right">{lead.budget}</TableCell>
+                    <TableCell align="right">{lead.description}</TableCell>
+                    <TableCell align="right">{lead.address}</TableCell>
+                    <TableCell align="right">{lead.city}</TableCell>
+                    <TableCell align="right">{lead.postalCode}</TableCell>
+                    <TableCell align="right">{lead.province}</TableCell>
+                    <TableCell align="right">{lead.isAccepted}</TableCell>
+                    <TableCell align="right">{lead.creationDate}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </div>
     );
   }

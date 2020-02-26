@@ -22,7 +22,6 @@ function isExpired() {
       expired = false;
     }
   }
-
   return expired;
 }
 

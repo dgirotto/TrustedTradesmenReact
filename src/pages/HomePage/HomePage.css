@@ -1,7 +1,23 @@
-.home {
-  color: green;
+.home-container {
+  padding: 0 16px;
 }
 
-.home__title {
-  text-align: center;
+.home-container > div {
+  display: flex;
+}
+.home-container > div > div {
+  flex: 1;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.main-img {
+  width: auto;
+  max-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .home-container > div {
+    flex-direction: column;
+  }
 }

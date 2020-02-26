@@ -21,9 +21,9 @@ const sideDrawer = props => {
         </Link>
         {props.isAuth ? (
           <Aux>
-            <Link onClick={props.drawerToggleClickHandler} to="/contractors">
+            {/* <Link onClick={props.drawerToggleClickHandler} to="/contractors">
               <li>Contractors</li>
-            </Link>
+            </Link> */}
             <Link onClick={props.drawerToggleClickHandler} to="/leads">
               <li>Leads</li>
             </Link>
