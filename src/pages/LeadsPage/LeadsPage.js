@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./JobsPage.css";
+import "./LeadsPage.css";
 
 import Title from "../../components/UI/Title/Title";
 
@@ -23,17 +23,17 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9)
 ];
 
-class JobsPage extends Component {
+class LeadsPage extends Component {
   state = {
     accountType: this.props.accountType,
-    jobsData: {}
+    leadsData: {}
   };
 
   render() {
     return (
-      <div className="jobs-page-container">
+      <div className="leads-page-container">
         <Title color="Black" size="Small">
-          JOBS
+          LEADS
         </Title>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
@@ -66,4 +66,4 @@ class JobsPage extends Component {
   }
 }
 
-export default JobsPage;
+export default LeadsPage;

@@ -8,6 +8,9 @@ import Backdrop from "./components/UI/Backdrop/Backdrop";
 import HomePage from "./pages/HomePage/HomePage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import ServiceDetailsPage from "./pages/ServiceDetailsPage/ServiceDetailsPage";
+import ContractorsPage from "./pages/ContractorsPage/ContractorsPage";
+import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
+import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -28,6 +31,7 @@ class App extends Component {
     if (AuthService.isAuthenticated()) {
       this.setState({
         isAuth: true,
+        // does "user" store the account type too?
         user: AuthService.getAuthenticatedUser()
       });
     } else {
@@ -90,8 +94,14 @@ class App extends Component {
                   />
                 )}
               />
-              <PrivateRoute path="/account" component={AccountPage} />
+              <PrivateRoute path="/contractors" component={ContractorsPage} />
+              <PrivateRoute
+                path="/contractors/:id"
+                component={ContractorDetailsPage}
+              />
+              <PrivateRoute path="/leads" component={LeadsPage} />
               <PrivateRoute path="/jobs" component={JobsPage} />
+              <PrivateRoute path="/account" component={AccountPage} />
               <PrivateRoute path="/logout" component={LoginPage} />
             </Switch>
           </main>

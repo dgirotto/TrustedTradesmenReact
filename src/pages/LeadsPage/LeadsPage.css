@@ -1,9 +1,9 @@
 .table-row:hover > * {
   cursor: pointer;
-  background-color: rgb(228, 228, 228);
+  /* background-color: rgb(228, 228, 228); */
   font-weight: bold;
 }
 
-.jobs-page-container {
+.leads-page-container {
   padding: 0 16px;
 }

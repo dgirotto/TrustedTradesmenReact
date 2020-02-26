@@ -31,6 +31,12 @@ const ToolBar = props => {
             </Link>
             {props.isAuth ? (
               <Aux>
+                <Link to="/contractors">
+                  <li>CONTRACTORS</li>
+                </Link>
+                <Link to="/leads">
+                  <li>LEADS</li>
+                </Link>
                 <Link to="/jobs">
                   <li>JOBS</li>
                 </Link>
