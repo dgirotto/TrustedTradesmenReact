@@ -1,7 +1,8 @@
 .home-container {
-  padding: 0 16px;
+  width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
 }
-
 .home-container > div {
   display: flex;
 }
@@ -10,12 +11,6 @@
   padding: 10px;
   box-sizing: border-box;
 }
-
-.main-img {
-  width: auto;
-  max-width: 500px;
-}
-
 @media (max-width: 768px) {
   .home-container > div {
     flex-direction: column;

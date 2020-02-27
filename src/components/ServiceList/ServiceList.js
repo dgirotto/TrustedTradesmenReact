@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import Loader from "../UI/Loader/Loader";
-import Backdrop from "../UI/Backdrop/Backdrop";
 import Axios from "axios";
 import Service from "./Service/Service";
+import Title from "../../components/UI/Title/Title";
+import Aux from "../../helpers/Aux";
 import "./ServiceList.css";
 
 export default class ServiceList extends Component {
   state = {
-    isLoading: true,
-    services: []
+    services: null
   };
 
   // Invoked immediately after a component is mounted (inserted into the tree)
@@ -18,7 +17,7 @@ export default class ServiceList extends Component {
     Axios.get("http://dgirotto.a2hosted.com/api/service/read.php")
       .then(res => {
         this.setState({ services: res.data });
-        this.setState({ isLoading: false });
+        this.props.isDoneLoading();
       })
       .catch(err => {
         console.error("Error while getting services: " + err.response);
@@ -27,20 +26,20 @@ export default class ServiceList extends Component {
 
   render() {
     return (
-      <div>
-        <div className="services">
-          {this.state.services.map(service => (
-            <Service key={service.serviceId} service={service} />
-          ))}
-        </div>
-        {this.state.isLoading ? (
-          // TODO: Use Aux component here
-          <div>
-            <Loader size={60} />
-            <Backdrop />
-          </div>
-        ) : null}
-      </div>
+      <Aux>
+        {this.state.services && (
+          <Aux>
+            <Title size="Medium" color="Black">
+              SERVICES
+            </Title>
+            <div className="services">
+              {this.state.services.map(service => (
+                <Service key={service.serviceId} service={service} />
+              ))}
+            </div>
+          </Aux>
+        )}
+      </Aux>
     );
   }
 }

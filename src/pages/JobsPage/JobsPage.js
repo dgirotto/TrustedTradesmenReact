@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import "./JobsPage.css";
-
+import { JobsService } from "../../services/jobs";
 import Title from "../../components/UI/Title/Title";
+import Loader from "../../components/UI/Loader/Loader";
+import Backdrop from "../../components/UI/Backdrop/Backdrop";
+import Aux from "../../helpers/Aux";
+
+import "./JobsPage.css";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,56 +15,75 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9)
-];
-
 class JobsPage extends Component {
   state = {
-    accountType: this.props.accountType,
-    jobsData: {}
+    jobs: null,
+    isLoading: false
   };
+
+  componentDidMount() {
+    this.setState({ isLoading: true });
+
+    JobsService.getJobs()
+      .then(res => {
+        this.setState({ jobs: res.data });
+        this.setState({ isLoading: false });
+      })
+      .catch(err => {
+        console.error("Error while getting jobs" + err.response);
+      });
+  }
 
   render() {
     return (
       <div className="jobs-page-container">
-        <Title color="Black" size="Small">
-          JOBS
-        </Title>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow className="table-row" key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {this.state.jobs && (
+          <Aux>
+            <Title color="Black" size="Medium">
+              JOBS
+            </Title>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Service</TableCell>
+                    <TableCell align="right">Budget</TableCell>
+                    <TableCell align="right">Description</TableCell>
+                    <TableCell align="right">Address</TableCell>
+                    <TableCell align="right">City</TableCell>
+                    <TableCell align="right">Postal Code</TableCell>
+                    <TableCell align="right">Province</TableCell>
+                    <TableCell align="right">Creation Date</TableCell>
+                    <TableCell align="right">Completion Date</TableCell>
+                    <TableCell align="right">Inspection Date</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.jobs.map(job => (
+                    <TableRow className="table-row" key={job.jobId}>
+                      <TableCell align="right">{job.serviceId}</TableCell>
+                      <TableCell align="right">{job.budget}</TableCell>
+                      <TableCell align="right">{job.description}</TableCell>
+                      <TableCell align="right">{job.address}</TableCell>
+                      <TableCell align="right">{job.city}</TableCell>
+                      <TableCell align="right">{job.postalCode}</TableCell>
+                      <TableCell align="right">{job.province}</TableCell>
+                      <TableCell align="right">{job.creationDate}</TableCell>
+                      <TableCell align="right">{job.completionDate}</TableCell>
+                      <TableCell align="right">{job.inspectionDate}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Aux>
+        )}
+        {this.state.isLoading ? (
+          <Aux>
+            <Loader size={60} />
+            <Backdrop />
+          </Aux>
+        ) : null}
       </div>
     );
   }

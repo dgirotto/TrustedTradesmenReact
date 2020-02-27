@@ -1,16 +1,15 @@
 .service {
-  margin: 10px;
   padding: 10px;
   box-shadow: 0 0 3px rgb(48, 48, 48);
   background: #dfdfdf;
   cursor: pointer;
   box-sizing: border-box;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
-
 .service:hover {
   background: rgb(240, 240, 240);
 }
-
 .service__title {
   text-align: center;
   text-transform: uppercase;

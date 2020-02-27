@@ -4,7 +4,7 @@ import "./LoginPage.css";
 import Title from "../../components/UI/Title/Title";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import Loader from "../../components/UI/Loader/Loader";
 import { AuthService } from "../../services/auth";
 import { CacheService } from "../../services/caching";
 
@@ -96,9 +96,12 @@ class LoginPage extends Component {
           <Button onClick={this.login} variant="contained" color="primary">
             Login
           </Button>
-          <Button onClick={this.register} variant="contained" color="secondary">
+
+          {this.isLoading && <Loader size={30} />}
+
+          {/* <Button onClick={this.register} variant="contained" color="secondary">
             Create Account
-          </Button>
+          </Button> */}
         </form>
       </div>
     );
