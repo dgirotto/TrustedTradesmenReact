@@ -83,16 +83,10 @@ class App extends Component {
           <main className="main">
             <Switch>
               <Route path="/" exact component={HomePage} />
-              <Route
-                path="/services"
-                exact
-                component={ServicesPage}
-                // isAuth={this.state.isAuth}
-              />
+              <Route path="/services" exact component={ServicesPage} />
               <PrivateRoute
                 path="/services/:id"
                 component={ServiceDetailsPage}
-                allowed={[0, 1, 2, 3]}
               />
               <Route
                 path="/login"
@@ -103,38 +97,20 @@ class App extends Component {
                   />
                 )}
               />
-              <PrivateRoute
-                path="/contractors"
-                component={ContractorsPage}
-                allowed={[0, 1, 2, 3]}
-              />
+              <PrivateRoute path="/contractors" component={ContractorsPage} />
               <PrivateRoute
                 path="/contractors/:id"
                 component={ContractorDetailsPage}
-                allowed={[0, 1, 2, 3]}
               />
-              {/* Contractors and Admins can access leads page */}
               <PrivateRoute
                 path="/leads"
                 component={LeadsPage}
-                allowed={[1, 3]}
+                notAllowed={[0, 2]}
               />
-              {/*  Contractors, Inspectors and Admins can access jobs page */}
-              <PrivateRoute
-                path="/jobs"
-                component={JobsPage}
-                allowed={[1, 2, 3]}
-              />
-              <PrivateRoute
-                path="/account"
-                component={AccountPage}
-                allowed={[0, 1, 2, 3]}
-              />
-              <PrivateRoute
-                path="/logout"
-                component={LoginPage}
-                allowed={[0, 1, 2, 3]}
-              />
+              <PrivateRoute path="/jobs" component={JobsPage} />
+              <PrivateRoute path="/account" component={AccountPage} />
+              {/* TODO: Log out user if user navigates to /logout endpoint directly */}
+              <PrivateRoute path="/logout" component={LoginPage} />
             </Switch>
           </main>
         </div>
