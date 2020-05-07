@@ -1,6 +1,8 @@
 export class JwtHelper {
   static urlBase64Decode(str) {
     let output = str.replace(/-/g, "+").replace(/_/g, "/");
+    
+    // Pads JWT part with equal signs
     switch (output.length % 4) {
       case 0:
         break;
@@ -13,7 +15,7 @@ export class JwtHelper {
       default:
         throw new Error("Illegal base64url string!");
     }
-    const token = window.escape(window.atob(output));
+    const token = window.encodeURI(window.atob(output));
     return decodeURIComponent(token);
   }
 
@@ -21,7 +23,7 @@ export class JwtHelper {
     if (token === null || token === "") {
       // return { upn: "" };
       return null;
-    }
+    } 
     const parts = token.split(".");
     if (parts.length !== 3) {
       throw new Error("JWT must have 3 parts");

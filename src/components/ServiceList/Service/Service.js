@@ -3,8 +3,8 @@ import Title from "../../UI/Title/Title";
 import "./Service.css";
 
 const service = props => (
-  <div className="service">
-    <Title size="Small" color="Black">
+  <div onClick={() => props.click(props.service.serviceId)} className="service">
+    <Title size="Small" color="Red">
       {props.service.serviceName}
     </Title>
     <p>{props.service.description}</p>

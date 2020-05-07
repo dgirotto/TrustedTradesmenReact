@@ -23,16 +23,14 @@ import "./App.css";
 class App extends Component {
   state = {
     isAuth: false,
-    user: null,
     sideDrawerOpen: false
   };
 
   authenticate() {
     if (AuthService.isAuthenticated()) {
+      // TODO: Get UserType from auth service and pass to PrivateRoute, ToolBar, and SideDrawer
       this.setState({
-        isAuth: true,
-        // does "user" store the account type too?
-        user: AuthService.getAuthenticatedUser()
+        isAuth: true
       });
     } else {
       this.setState({ isAuth: false });
@@ -44,7 +42,9 @@ class App extends Component {
   }
 
   handleLogout = () => {
-    this.setState({ isAuth: false, user: null });
+    this.setState({
+      isAuth: false
+    });
     AuthService.logout();
   };
 
@@ -83,26 +83,58 @@ class App extends Component {
           <main className="main">
             <Switch>
               <Route path="/" exact component={HomePage} />
-              <Route path="/services" exact component={ServicesPage} />
-              <Route path="/services/:id" component={ServiceDetailsPage} />
+              <Route
+                path="/services"
+                exact
+                component={ServicesPage}
+                // isAuth={this.state.isAuth}
+              />
+              <PrivateRoute
+                path="/services/:id"
+                component={ServiceDetailsPage}
+                allowed={[0, 1, 2, 3]}
+              />
               <Route
                 path="/login"
                 render={() => (
                   <LoginPage
-                    isAuth={this.state.auth}
+                    isAuth={this.state.isAuth}
                     authenticate={this.authenticate}
                   />
                 )}
               />
-              <PrivateRoute path="/contractors" component={ContractorsPage} />
+              <PrivateRoute
+                path="/contractors"
+                component={ContractorsPage}
+                allowed={[0, 1, 2, 3]}
+              />
               <PrivateRoute
                 path="/contractors/:id"
                 component={ContractorDetailsPage}
+                allowed={[0, 1, 2, 3]}
               />
-              <PrivateRoute path="/leads" component={LeadsPage} />
-              <PrivateRoute path="/jobs" component={JobsPage} />
-              <PrivateRoute path="/account" component={AccountPage} />
-              <PrivateRoute path="/logout" component={LoginPage} />
+              {/* Contractors and Admins can access leads page */}
+              <PrivateRoute
+                path="/leads"
+                component={LeadsPage}
+                allowed={[1, 3]}
+              />
+              {/*  Contractors, Inspectors and Admins can access jobs page */}
+              <PrivateRoute
+                path="/jobs"
+                component={JobsPage}
+                allowed={[1, 2, 3]}
+              />
+              <PrivateRoute
+                path="/account"
+                component={AccountPage}
+                allowed={[0, 1, 2, 3]}
+              />
+              <PrivateRoute
+                path="/logout"
+                component={LoginPage}
+                allowed={[0, 1, 2, 3]}
+              />
             </Switch>
           </main>
         </div>

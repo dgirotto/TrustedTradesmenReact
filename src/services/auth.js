@@ -27,6 +27,11 @@ function register(body) {
 //   });
 // }
 
+function getRole() {
+  const user = getAuthenticatedUser();
+  return user.data.accountType;
+}
+
 function isAuthenticated() {
   return !CacheService.isExpired();
 }
@@ -47,6 +52,7 @@ export const AuthService = {
   logout,
   register,
   // changePassword,
+  getRole,
   isAuthenticated,
   getAuthenticatedUser
 };

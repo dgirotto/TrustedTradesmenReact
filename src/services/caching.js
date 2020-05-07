@@ -7,7 +7,7 @@ function cacheToken(token) {
 }
 
 function getCachedToken() {
-  return localStorage.getItem("jwt-token");
+  return localStorage.getItem(TOKEN_STORE_ID);
 }
 
 function isExpired() {

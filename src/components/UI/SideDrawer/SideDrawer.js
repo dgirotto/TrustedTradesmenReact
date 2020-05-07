@@ -24,9 +24,11 @@ const sideDrawer = props => {
             {/* <Link onClick={props.drawerToggleClickHandler} to="/contractors">
               <li>Contractors</li>
             </Link> */}
+            {/* Contractors and Admins can access leads page */}
             <Link onClick={props.drawerToggleClickHandler} to="/leads">
               <li>Leads</li>
             </Link>
+            {/*  Contractors, Inspectors and Admins can access jobs page */}
             <Link onClick={props.drawerToggleClickHandler} to="/jobs">
               <li>Jobs</li>
             </Link>

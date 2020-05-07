@@ -1,16 +1,17 @@
 .service {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
-  box-shadow: 0 0 3px rgb(48, 48, 48);
-  background: #dfdfdf;
+  height: 100%;
+  width: 100%;
   cursor: pointer;
-  box-sizing: border-box;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  background: #353535;
+  color: #fff;
 }
+
 .service:hover {
-  background: rgb(240, 240, 240);
-}
-.service__title {
-  text-align: center;
-  text-transform: uppercase;
+  background: #fff;
+  color: #353535;
 }

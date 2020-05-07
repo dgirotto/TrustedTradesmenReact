@@ -7,12 +7,13 @@ import "./ServiceList.css";
 
 export default class ServiceList extends Component {
   state = {
-    services: null
+    services: null,
+    isAuth: false
   };
 
   // Invoked immediately after a component is mounted (inserted into the tree)
   componentDidMount() {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, isAuth: this.props.isAuth });
 
     Axios.get("http://dgirotto.a2hosted.com/api/service/read.php")
       .then(res => {
@@ -24,6 +25,10 @@ export default class ServiceList extends Component {
       });
   }
 
+  serviceCardClickHandler = arg => {
+    window.location.href = "/services/" + arg;
+  };
+
   render() {
     return (
       <Aux>
@@ -34,7 +39,11 @@ export default class ServiceList extends Component {
             </Title>
             <div className="services">
               {this.state.services.map(service => (
-                <Service key={service.serviceId} service={service} />
+                <Service
+                  click={this.serviceCardClickHandler}
+                  key={service.serviceId}
+                  service={service}
+                />
               ))}
             </div>
           </Aux>

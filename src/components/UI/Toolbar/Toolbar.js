@@ -34,9 +34,11 @@ const ToolBar = props => {
                 {/* <Link to="/contractors">
                   <li>CONTRACTORS</li>
                 </Link> */}
+                {/* Contractors and Admins can access leads page */}
                 <Link to="/leads">
                   <li>LEADS</li>
                 </Link>
+                {/*  Contractors, Inspectors and Admins can access jobs page */}
                 <Link to="/jobs">
                   <li>JOBS</li>
                 </Link>

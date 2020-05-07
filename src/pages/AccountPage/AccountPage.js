@@ -47,8 +47,8 @@ class AccountPage extends Component {
     return (
       <div className="account-details-container">
         <div className="textfield-container">
-          <form>
-            <Title align="Left" size="Small" color="Black">
+          <form>            
+            <Title align="Left" size="Small" color="Black"> 
               <IoMdContact size="25" />
               &nbsp; CONTACT INFORMATION
             </Title>

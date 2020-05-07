@@ -60,7 +60,7 @@ class LoginPage extends Component {
   };
 
   register = () => {
-    alert("Hello");
+    alert("Register Clicked");
   };
 
   change = event => {
