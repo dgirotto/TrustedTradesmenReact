@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./AccountPage.css";
+import "./SettingsPage.css";
 import { FaHammer } from "react-icons/fa";
 import { TiContacts } from "react-icons/ti";
 import { IoMdContact } from "react-icons/io";
@@ -8,7 +8,7 @@ import Title from "../../components/UI/Title/Title";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-class AccountPage extends Component {
+class SettingsPage extends Component {
   state = {
     isEditing: false,
     // accountType: this.props.accountType,
@@ -47,8 +47,8 @@ class AccountPage extends Component {
     return (
       <div className="account-details-container">
         <div className="textfield-container">
-          <form>            
-            <Title align="Left" size="Small" color="Black"> 
+          <form>
+            <Title align="Left" size="Small" color="Black">
               <IoMdContact size="25" />
               &nbsp; CONTACT INFORMATION
             </Title>
@@ -247,4 +247,4 @@ class AccountPage extends Component {
   }
 }
 
-export default AccountPage;
+export default SettingsPage;

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiSettings } from "react-icons/fi";
+import { AiOutlineHome } from "react-icons/ai";
 import Aux from "../../../helpers/Aux";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 
@@ -24,29 +25,34 @@ const ToolBar = props => {
         <div className="toolbar__navigation-items">
           <ul>
             <Link to="/">
-              <li>HOME</li>
+              <li className="icon-link">
+                <AiOutlineHome size="20" />
+              </li>
             </Link>
             <Link to="/services">
               <li>SERVICES</li>
             </Link>
             {props.isAuth ? (
               <Aux>
-                {/* <Link to="/contractors">
+                <Link to="/contractors">
                   <li>CONTRACTORS</li>
-                </Link> */}
-                {/* Contractors and Admins can access leads page */}
-                <Link to="/leads">
-                  <li>LEADS</li>
                 </Link>
-                {/*  Contractors, Inspectors and Admins can access jobs page */}
+                {/* Contractors and Admins can access leads page */}
+                {props.userType != 0 && props.userType != 2 ? (
+                  <Link to="/leads">
+                    <li>LEADS</li>
+                  </Link>
+                ) : null}
                 <Link to="/jobs">
                   <li>JOBS</li>
                 </Link>
-                <Link to="/account">
-                  <li>ACCOUNT</li>
+                <Link to="/settings">
+                  <li className="icon-link-settings">
+                    <FiSettings size="18" />
+                  </li>
                 </Link>
-                <Link className="logout-link" to="/logout">
-                  <li onClick={props.logout}>
+                <Link to="/logout">
+                  <li className="icon-link" onClick={props.logout}>
                     <FiLogOut size="20" />
                   </li>
                 </Link>

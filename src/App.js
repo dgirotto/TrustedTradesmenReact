@@ -12,7 +12,7 @@ import ContractorsPage from "./pages/ContractorsPage/ContractorsPage";
 import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
-import AccountPage from "./pages/AccountPage/AccountPage";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 
 import { PrivateRoute } from "./components/PrivatedRoute";
@@ -69,14 +69,16 @@ class App extends Component {
           {/* TODO: Move this to its own component */}
           <Toolbar
             isAuth={this.state.isAuth}
+            userType={this.state.userType}
             logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
           />
           <SideDrawer
             isAuth={this.state.isAuth}
+            userType={this.state.userType}
             logout={this.handleLogout}
-            show={this.state.sideDrawerOpen}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
+            show={this.state.sideDrawerOpen}
           />
           {this.state.sideDrawerOpen ? (
             <Backdrop click={this.backdropClickHandler} />
@@ -110,7 +112,7 @@ class App extends Component {
                 notAllowed={[0, 2]}
               />
               <PrivateRoute path="/jobs" component={JobsPage} />
-              <PrivateRoute path="/account" component={AccountPage} />
+              <PrivateRoute path="/settings" component={SettingsPage} />
               {/* TODO: Log out user if user navigates to /logout */}
               <PrivateRoute path="/logout" component={LoginPage} />
             </Switch>

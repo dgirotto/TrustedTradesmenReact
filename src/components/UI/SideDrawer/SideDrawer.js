@@ -30,14 +30,16 @@ const sideDrawer = props => {
             <Link onClick={props.drawerToggleClickHandler} to="/contractors">
               <li>Contractors</li>
             </Link>
-            <Link onClick={props.drawerToggleClickHandler} to="/leads">
-              <li>Leads</li>
-            </Link>
+            {props.userType != 0 && props.userType != 2 ? (
+              <Link onClick={props.drawerToggleClickHandler} to="/leads">
+                <li>Leads</li>
+              </Link>
+            ) : null}
             <Link onClick={props.drawerToggleClickHandler} to="/jobs">
               <li>Jobs</li>
             </Link>
-            <Link onClick={props.drawerToggleClickHandler} to="/account">
-              <li>Account</li>
+            <Link onClick={props.drawerToggleClickHandler} to="/settings">
+              <li>Settings</li>
             </Link>
             <Link
               onClick={() => {

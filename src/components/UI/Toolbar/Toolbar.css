@@ -65,8 +65,12 @@
   padding: 0;
 }
 
-.logout-link {
+.icon-link {
   margin-top: -2px;
+}
+
+.icon-link-settings {
+  margin-top: -1px;
 }
 
 @media (max-width: 768px) {
