@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Aux from "../../../helpers/Aux";
 import "./SideDrawer.css";
+import { RiCloseLine } from "react-icons/ri";
 
 const sideDrawer = props => {
   let drawerClasses = "side-drawer";
@@ -12,6 +13,11 @@ const sideDrawer = props => {
 
   return (
     <nav className={drawerClasses}>
+      <RiCloseLine
+        class="close-icon"
+        size="43"
+        onClick={props.drawerToggleClickHandler}
+      />
       <ul>
         <Link onClick={props.drawerToggleClickHandler} to="/">
           <li>Home</li>
@@ -21,14 +27,12 @@ const sideDrawer = props => {
         </Link>
         {props.isAuth ? (
           <Aux>
-            {/* <Link onClick={props.drawerToggleClickHandler} to="/contractors">
+            <Link onClick={props.drawerToggleClickHandler} to="/contractors">
               <li>Contractors</li>
-            </Link> */}
-            {/* Contractors and Admins can access leads page */}
+            </Link>
             <Link onClick={props.drawerToggleClickHandler} to="/leads">
               <li>Leads</li>
             </Link>
-            {/*  Contractors, Inspectors and Admins can access jobs page */}
             <Link onClick={props.drawerToggleClickHandler} to="/jobs">
               <li>Jobs</li>
             </Link>

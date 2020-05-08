@@ -23,17 +23,18 @@ import "./App.css";
 class App extends Component {
   state = {
     isAuth: false,
+    userType: null,
     sideDrawerOpen: false
   };
 
   authenticate() {
     if (AuthService.isAuthenticated()) {
-      // TODO: Get UserType from auth service and pass to PrivateRoute, ToolBar, and SideDrawer
       this.setState({
-        isAuth: true
+        isAuth: true,
+        userType: AuthService.getRole()
       });
     } else {
-      this.setState({ isAuth: false });
+      this.setState({ isAuth: false, userType: null });
     }
   }
 
@@ -43,7 +44,8 @@ class App extends Component {
 
   handleLogout = () => {
     this.setState({
-      isAuth: false
+      isAuth: false,
+      userType: null
     });
     AuthService.logout();
   };
@@ -109,7 +111,7 @@ class App extends Component {
               />
               <PrivateRoute path="/jobs" component={JobsPage} />
               <PrivateRoute path="/account" component={AccountPage} />
-              {/* TODO: Log out user if user navigates to /logout endpoint directly */}
+              {/* TODO: Log out user if user navigates to /logout */}
               <PrivateRoute path="/logout" component={LoginPage} />
             </Switch>
           </main>
