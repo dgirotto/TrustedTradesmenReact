@@ -13,11 +13,8 @@ import { AccountService } from "../../services/account";
 
 class SettingsPage extends Component {
   state = {
-    isEditing: false,
-    isLoading: false,
     userType: AuthService.getRole(),
-    accountDetails: null,
-    accountInfo: {
+    accountDetails: {
       email: null,
       password: null,
       newPassword: null,
@@ -37,7 +34,9 @@ class SettingsPage extends Component {
       instagram: null,
       website: null,
       services: null
-    }
+    },
+    hasEdited: false,
+    isLoading: false
   };
 
   // user/change_pwd.php: (password, newPassword)
@@ -52,29 +51,29 @@ class SettingsPage extends Component {
 
     AccountService.getAccountDetails()
       .then(res => {
-        // this.setState({ accountDetails: res.data });
-        this.setState({ accountInfo: res.data });
+        this.setState({ accountDetails: res.data });
         this.setState({ isLoading: false });
-        console.log(this.state.accountInfo);
+        console.log(this.state.accountDetails);
       })
       .catch(err => {
         console.error("Error while getting account details: " + err.response);
       });
   }
 
-  editDetailsClickHandler = () => {
-    this.setState({
-      isEditing: true
-    });
-  };
-
-  saveDetailsClickHandler = () => {
+  saveChangesClickHandler = () => {
     if (window.confirm("Are you sure you want to save your changes?")) {
       // Save changes
       this.setState({
-        isEditing: false
+        hasEdited: false
       });
     }
+  };
+
+  change = event => {
+    this.setState({
+      accountDetails: { [event.target.name]: event.target.value },
+      hasEdited: true
+    });
   };
 
   render() {
@@ -82,48 +81,25 @@ class SettingsPage extends Component {
       <div className="account-details-container">
         <div className="textfield-container">
           <form>
-            {this.state.isEditing ? (
-              <Button
-                onClick={this.saveDetailsClickHandler}
-                variant="contained"
-                color="secondary"
-              >
-                Save Details
-              </Button>
-            ) : (
-              <Button
-                onClick={this.editDetailsClickHandler}
-                variant="contained"
-                color="primary"
-              >
-                Edit Details
-              </Button>
-            )}
+            <Button
+              onClick={this.saveChangesClickHandler}
+              variant="contained"
+              color="secondary"
+              disabled={!this.state.hasEdited}
+            >
+              Save Changes
+            </Button>
             <Title align="Left" size="Small" color="Black">
               CONTACT INFORMATION
             </Title>
-            <div className="textfield-container-row">
-              <div>Email</div>
-              <div>
-                <TextField
-                  type="text"
-                  name="email"
-                  value={this.state.accountInfo.email}
-                  variant="outlined"
-                  disabled={!this.state.isEditing}
-                  onChange={this.change}
-                />
-              </div>
-            </div>
             <div className="textfield-container-row">
               <div>First Name</div>
               <div>
                 <TextField
                   type="text"
                   name="firstName"
-                  value={this.state.accountInfo.firstName}
+                  value={this.state.accountDetails.firstName}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -134,9 +110,8 @@ class SettingsPage extends Component {
                 <TextField
                   type="text"
                   name="lastName"
-                  value={this.state.accountInfo.lastName}
+                  value={this.state.accountDetails.lastName}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -147,9 +122,8 @@ class SettingsPage extends Component {
                 <TextField
                   type="text"
                   name="phone"
-                  value={this.state.accountInfo.phone}
+                  value={this.state.accountDetails.phone}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -164,9 +138,8 @@ class SettingsPage extends Component {
                 <TextField
                   type="text"
                   name="address"
-                  value={this.state.accountInfo.address}
+                  value={this.state.accountDetails.address}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -177,9 +150,8 @@ class SettingsPage extends Component {
                 <TextField
                   type="text"
                   name="city"
-                  value={this.state.accountInfo.city}
+                  value={this.state.accountDetails.city}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -190,9 +162,8 @@ class SettingsPage extends Component {
                 <TextField
                   type="text"
                   name="postalCode"
-                  value={this.state.accountInfo.postalCode}
+                  value={this.state.accountDetails.postalCode}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -203,9 +174,8 @@ class SettingsPage extends Component {
                 <TextField
                   type="text"
                   name="province"
-                  value={this.state.accountInfo.province}
+                  value={this.state.accountDetails.province}
                   variant="outlined"
-                  disabled={!this.state.isEditing}
                   onChange={this.change}
                 />
               </div>
@@ -222,9 +192,8 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="bio"
-                      value={this.state.accountInfo.bio}
+                      value={this.state.accountDetails.bio}
                       variant="outlined"
-                      disabled={!this.state.isEditing}
                       onChange={this.change}
                     />
                   </div>
@@ -235,9 +204,8 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="linkedin"
-                      value={this.state.accountInfo.linkedin}
+                      value={this.state.accountDetails.linkedin}
                       variant="outlined"
-                      disabled={!this.state.isEditing}
                       onChange={this.change}
                     />
                   </div>
@@ -248,9 +216,8 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="facebook"
-                      value={this.state.accountInfo.facebook}
+                      value={this.state.accountDetails.facebook}
                       variant="outlined"
-                      disabled={!this.state.isEditing}
                       onChange={this.change}
                     />
                   </div>
@@ -261,9 +228,8 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="youtube"
-                      value={this.state.accountInfo.youtube}
+                      value={this.state.accountDetails.youtube}
                       variant="outlined"
-                      disabled={!this.state.isEditing}
                       onChange={this.change}
                     />
                   </div>
@@ -274,9 +240,8 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="instagram"
-                      value={this.state.accountInfo.instagram}
+                      value={this.state.accountDetails.instagram}
                       variant="outlined"
-                      disabled={!this.state.isEditing}
                       onChange={this.change}
                     />
                   </div>
@@ -287,9 +252,8 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="website"
-                      value={this.state.accountInfo.website}
+                      value={this.state.accountDetails.website}
                       variant="outlined"
-                      disabled={!this.state.isEditing}
                       onChange={this.change}
                     />
                   </div>

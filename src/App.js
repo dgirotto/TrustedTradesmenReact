@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Toolbar from "./components/UI/Toolbar/Toolbar";
 import SideDrawer from "./components/UI/SideDrawer/SideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import HomePage from "./pages/HomePage/HomePage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import ServiceDetailsPage from "./pages/ServiceDetailsPage/ServiceDetailsPage";
@@ -116,6 +117,7 @@ class App extends Component {
               />
               {/* TODO: Log out user if user navigates to /logout */}
               <PrivateRoute path="/logout" component={LoginPage} />
+              <Route component={PageNotFound} />
             </Switch>
           </main>
         </div>
