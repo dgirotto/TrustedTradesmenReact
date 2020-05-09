@@ -14,7 +14,7 @@ const sideDrawer = props => {
   return (
     <nav className={drawerClasses}>
       <RiCloseLine
-        class="close-icon"
+        className="close-icon"
         size="43"
         onClick={props.drawerToggleClickHandler}
       />

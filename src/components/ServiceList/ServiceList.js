@@ -15,6 +15,7 @@ export default class ServiceList extends Component {
   componentDidMount() {
     this.setState({ isLoading: true, isAuth: this.props.isAuth });
 
+    // TODO: Get services using service
     Axios.get("http://dgirotto.a2hosted.com/api/service/read.php")
       .then(res => {
         this.setState({ services: res.data });

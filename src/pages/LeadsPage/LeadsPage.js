@@ -30,7 +30,7 @@ class LeadsPage extends Component {
         this.setState({ isLoading: false });
       })
       .catch(err => {
-        console.error("Error while getting leads" + err.response);
+        console.error("Error while getting leads: " + err.response);
       });
   }
 
