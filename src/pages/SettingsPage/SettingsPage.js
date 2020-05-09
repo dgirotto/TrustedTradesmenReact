@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import "./SettingsPage.css";
-import { FaHammer } from "react-icons/fa";
-import { TiContacts } from "react-icons/ti";
-import { IoMdContact } from "react-icons/io";
 import Aux from "../../helpers/Aux";
 import Title from "../../components/UI/Title/Title";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { AuthService } from "../../services/auth";
+
+// How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
 
 class SettingsPage extends Component {
   state = {
     isEditing: false,
-    // accountType: this.props.accountType,
-    accountType: 1,
+    userType: AuthService.getRole(),
     accountInfo: {
       email: null,
       password: null,
@@ -41,16 +40,51 @@ class SettingsPage extends Component {
   // user/update.php:
   // 0, 2, 3: (firstName, lastName, phone, address, city, postalCode, province)
   // 1: (firstName, lastName, phone, address, city, postalCode, province, bio,
-  //     photo, linkedin, facebook, youtx1ube, instagram, website, services)
+  //     photo, linkedin, facebook, youtube, instagram, website, services)
+
+  componentDidMount() {
+    // Get account details
+  }
+
+  editDetailsClickHandler = () => {
+    this.setState({
+      isEditing: true
+    });
+  };
+
+  saveDetailsClickHandler = () => {
+    if (window.confirm("Are you sure you want to save your changes?")) {
+      // Save changes
+      this.setState({
+        isEditing: false
+      });
+    }
+  };
 
   render() {
     return (
       <div className="account-details-container">
         <div className="textfield-container">
           <form>
+            {this.state.isEditing ? (
+              <Button
+                onClick={this.saveDetailsClickHandler}
+                variant="contained"
+                color="secondary"
+              >
+                Save Details
+              </Button>
+            ) : (
+              <Button
+                onClick={this.editDetailsClickHandler}
+                variant="contained"
+                color="primary"
+              >
+                Edit Details
+              </Button>
+            )}
             <Title align="Left" size="Small" color="Black">
-              <IoMdContact size="25" />
-              &nbsp; CONTACT INFORMATION
+              CONTACT INFORMATION
             </Title>
             <div className="textfield-container-row">
               <div>First Name</div>
@@ -93,8 +127,7 @@ class SettingsPage extends Component {
             </div>
             <br />
             <Title align="Left" size="Small" color="Black">
-              <TiContacts size="25" />
-              &nbsp; ADDRESS DETAILS
+              ADDRESS DETAILS
             </Title>
             <div className="textfield-container-row">
               <div>Address</div>
@@ -148,12 +181,11 @@ class SettingsPage extends Component {
                 />
               </div>
             </div>
-            {this.state.accountType === 1 ? (
+            {this.state.userType == 1 ? (
               <Aux>
                 <br />
                 <Title align="Left" size="Small" color="Black">
-                  <FaHammer size="18" />
-                  &nbsp; CONTRACTOR DETAILS
+                  CONTRACTOR DETAILS
                 </Title>
                 <div className="textfield-container-row">
                   <div>Bio</div>

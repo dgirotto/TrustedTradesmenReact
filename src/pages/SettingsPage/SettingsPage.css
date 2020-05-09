@@ -1,13 +1,38 @@
+/* const styles = theme => ({
+  textField: {
+      width: '90%',
+      marginLeft: 'auto',
+      marginRight: 'auto',            
+      paddingBottom: 0,
+      marginTop: 0,
+      fontWeight: 500
+  },
+  input: {
+      color: 'white'
+  }
+}); 
+
+<TextField
+    id="email"
+    label="Email"
+    className={classes.textField}
+    value={this.state.form_email}
+    onChange={this.handle_change('form_email')}
+    margin="normal"
+    InputProps={{
+        className: classes.input,
+    }}
+/>s
+*/
+
 .account-details-container {
   width: 100%;
   padding: 0 2rem;
   box-sizing: border-box;
 }
-
 .account-details__title {
   text-align: center;
 }
-
 .textfield-container {
   padding: 1rem 0;
   max-width: 700px;
