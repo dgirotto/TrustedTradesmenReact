@@ -11,6 +11,7 @@ function getAccountDetails() {
 
 function setAccountDetails(body) {
   const headers = getHeaders();
+  // TODO: What happens if you pass "headers" instead of "{ headers }"?
   return axios.post(`${commonEndpoint}/user/update.php`, body, { headers });
 }
 
