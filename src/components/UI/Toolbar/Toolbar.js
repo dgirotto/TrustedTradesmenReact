@@ -38,7 +38,7 @@ const ToolBar = props => {
                   <li>CONTRACTORS</li>
                 </Link>
                 {/* Contractors and Admins can access leads page */}
-                {props.userType != 0 && props.userType != 2 ? (
+                {props.userType !== 0 && props.userType !== 2 ? (
                   <Link to="/leads">
                     <li>LEADS</li>
                   </Link>

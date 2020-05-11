@@ -60,6 +60,7 @@ class App extends Component {
     });
   };
 
+  // TODO: Implement this: https://stackoverflow.com/questions/59422159/redirecting-a-user-to-the-page-they-requested-after-successful-authentication-wi
   render() {
     return (
       <BrowserRouter>

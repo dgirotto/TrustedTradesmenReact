@@ -12,8 +12,10 @@ class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      loginDetails: {
+        email: "",
+        password: ""
+      },
       isLoading: false,
       error: null
     };
@@ -21,7 +23,7 @@ class LoginPage extends Component {
 
   componentDidMount() {
     if (this.props.isAuth) {
-      window.location.href = "/account";
+      window.location.href = "/settings";
     }
   }
 
@@ -36,17 +38,12 @@ class LoginPage extends Component {
   // }
 
   login = () => {
-    if (!this.state.email || !this.state.password) {
+    if (!this.state.loginDetails.email || !this.state.loginDetails.password) {
       return;
     }
     this.setState({ isLoading: true });
 
-    const auth = {
-      email: this.state.email,
-      password: this.state.password
-    };
-
-    AuthService.login(auth)
+    AuthService.login(this.state.loginDetails)
       .then(res => {
         const token = res.data.jwt;
         localStorage.setItem("jwt-token", token);
@@ -64,7 +61,12 @@ class LoginPage extends Component {
   };
 
   change = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    const newLoginDetails = Object.assign(this.state.loginDetails, {
+      [event.target.name]: event.target.value
+    });
+    this.setState({
+      loginDetails: newLoginDetails
+    });
   };
 
   render() {
@@ -78,7 +80,7 @@ class LoginPage extends Component {
             type="text"
             name="email"
             label="email"
-            value={this.state.email}
+            value={this.state.loginDetails.email || ""}
             variant="outlined"
             onChange={this.change}
           />
@@ -86,7 +88,7 @@ class LoginPage extends Component {
             type="password"
             name="password"
             label="password"
-            value={this.state.password}
+            value={this.state.loginDetails.password || ""}
             variant="outlined"
             onChange={this.change}
           />
