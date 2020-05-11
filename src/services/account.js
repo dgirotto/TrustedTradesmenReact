@@ -9,6 +9,11 @@ function getAccountDetails() {
   return axios.get(`${commonEndpoint}/user/read_one.php`, { headers });
 }
 
+function setAccountDetails(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/user/update.php`, body, { headers });
+}
+
 function getHeaders() {
   const token = CacheService.getCachedToken();
 
@@ -19,5 +24,6 @@ function getHeaders() {
 }
 
 export const AccountService = {
-  getAccountDetails
+  getAccountDetails,
+  setAccountDetails
 };

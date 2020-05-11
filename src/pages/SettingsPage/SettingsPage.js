@@ -37,7 +37,8 @@ class SettingsPage extends Component {
     },
     hasEditedDetails: false,
     hasEditedPassword: false,
-    isLoading: false
+    isLoading: false,
+    error: null
   };
 
   componentDidMount() {
@@ -56,7 +57,17 @@ class SettingsPage extends Component {
 
   saveChangesClickHandler = () => {
     if (window.confirm("Are you sure you want to save your changes?")) {
-      // Save changes
+      this.setState({ isLoading: true });
+
+      AccountService.setAccountDetails(this.state.accountDetails)
+        .then(res => {
+          console.log(res);
+          this.setState({ isLoading: false });
+        })
+        .catch(error => {
+          console.log(error);
+          this.setState({ error: error.message, isLoading: false });
+        });
       this.setState({
         hasEditedDetails: false
       });
@@ -94,7 +105,7 @@ class SettingsPage extends Component {
       [event.target.name]: event.target.value
     });
     this.setState({
-      accountDetails: newPasswordDetails,
+      passwordDetails: newPasswordDetails,
       hasEditedPassword: true
     });
   };
