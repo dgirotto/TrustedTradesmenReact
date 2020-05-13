@@ -15,6 +15,12 @@ function setAccountDetails(body) {
   return axios.post(`${commonEndpoint}/user/update.php`, body, { headers });
 }
 
+function changePassword(body) {
+  const headers = getHeaders();
+  // TODO: What happens if you pass "headers" instead of "{ headers }"?
+  return axios.post(`${commonEndpoint}/user/change_pwd.php`, body, { headers });
+}
+
 function getHeaders() {
   const token = CacheService.getCachedToken();
 
@@ -26,5 +32,6 @@ function getHeaders() {
 
 export const AccountService = {
   getAccountDetails,
-  setAccountDetails
+  setAccountDetails,
+  changePassword
 };

@@ -33,14 +33,13 @@ class SettingsPage extends Component {
       services: null
     },
     passwordDetails: {
-      oldPassword: "",
+      password: "",
       newPassword: "",
       confirmNewPassword: ""
     },
     hasEditedDetails: false,
     hasEditedPassword: false,
-    isLoading: false,
-    error: null
+    isLoading: false
   };
 
   componentDidMount() {
@@ -52,45 +51,76 @@ class SettingsPage extends Component {
         this.setState({ isLoading: false });
         console.log(this.state.accountDetails);
       })
-      .catch(err => {
-        console.error("Error while getting account details: " + err.response);
+      .catch(error => {
+        this.displayMessage(
+          "Error while getting account details: " + error.response,
+          false
+        );
       });
   }
 
+  // Displays feedback to user
+  displayMessage(message, success) {
+    if (success) {
+      alert("Success: " + message);
+    } else {
+      alert("Failure: " + message);
+    }
+  }
+
   saveChangesClickHandler = () => {
-    if (window.confirm("Are you sure you want to save your changes?")) {
-      this.setState({ isLoading: true });
+    this.setState({ isLoading: true });
 
-      AccountService.setAccountDetails(this.state.accountDetails)
-        .then(res => {
-          console.log(res);
-          this.setState({ isLoading: fcalse });
-        })
-        .catch(error => {
-          console.log(error);
-          this.setState({ error: error.message, isLoading: false });
+    AccountService.setAccountDetails(this.state.accountDetails)
+      .then(res => {
+        this.setState({ isLoading: false });
+      })
+      .catch(error => {
+        this.displayMessage(
+          "Error while updating account details: " + error.response,
+          false
+        );
+        this.setState({ isLoading: false });
+      });
+
+    this.setState({
+      hasEditedDetails: false
+    });
+  };
+
+  changePasswordClickHandler = () => {
+    if (
+      this.state.passwordDetails.newPassword !==
+      this.state.passwordDetails.confirmNewPassword
+    ) {
+      this.displayMessage("New passwords don't match!", false);
+      return;
+    }
+    this.setState({ isLoading: true });
+
+    AccountService.changePassword({
+      password: this.state.passwordDetails.password,
+      newPassword: this.state.passwordDetails.newPassword
+    })
+      .then(res => {
+        this.setState({
+          hasEditedPassword: false,
+          isLoading: false,
+          passwordDetails: {
+            password: "",
+            newPassword: "",
+            confirmNewPassword: ""
+          }
         });
-      this.setState({
-        hasEditedDetails: false
+      })
+      .catch(error => {
+        this.displayMessage(
+          "Error when trying to change password: " + error.response,
+          false
+        );
+        this.setState({ isLoading: false });
       });
-    }
   };
-
-  updatePasswordClickHandler = () => {
-    if (window.confirm("Are you sure you want to update your password?")) {
-      // Save password
-      this.setState({
-        hasEditedPassword: false
-      });
-    }
-  };
-
-  // user/change_pwd.php: (password, newPassword)
-  //
-  // user/update.php:
-  // 0, 2, 3: (firstName, lastName, phone, address, city, postalCode, province)
-  // 1: (firstName, lastName, phone, address, city, postalCode, province, bio,
-  //     photo, linkedin, facebook, youtube, instagram, website, services)
 
   accountDetailsChange = event => {
     const newAccountDetails = Object.assign(this.state.accountDetails, {
@@ -309,9 +339,9 @@ class SettingsPage extends Component {
                   <div>
                     <TextField
                       type="password"
-                      name="oldPassword"
+                      name="password"
                       label="Old Password"
-                      value={this.state.passwordDetails.oldPassword || ""}
+                      value={this.state.passwordDetails.password || ""}
                       variant="outlined"
                       onChange={this.passwordChange}
                     />
@@ -344,7 +374,7 @@ class SettingsPage extends Component {
                   </div>
                 </div>
                 <Button
-                  onClick={this.updatePasswordClickHandler}
+                  onClick={this.changePasswordClickHandler}
                   variant="contained"
                   color="secondary"
                   disabled={!this.state.hasEditedPassword}
