@@ -102,7 +102,7 @@ class App extends Component {
                   />
                 )}
               />
-              <PrivateRoute path="/contractors" component={ContractorsPage} />
+              {/* <PrivateRoute path="/contractors" component={ContractorsPage} /> */}
               <PrivateRoute
                 path="/contractors/:id"
                 component={ContractorDetailsPage}

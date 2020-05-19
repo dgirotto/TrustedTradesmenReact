@@ -38,7 +38,6 @@ class SettingsPage extends Component {
       confirmNewPassword: ""
     },
     hasEditedDetails: false,
-    hasEditedPassword: false,
     isLoading: false
   };
 
@@ -104,7 +103,6 @@ class SettingsPage extends Component {
     })
       .then(res => {
         this.setState({
-          hasEditedPassword: false,
           isLoading: false,
           passwordDetails: {
             password: "",
@@ -137,8 +135,7 @@ class SettingsPage extends Component {
       [event.target.name]: event.target.value
     });
     this.setState({
-      passwordDetails: newPasswordDetails,
-      hasEditedPassword: true
+      passwordDetails: newPasswordDetails
     });
   };
 
@@ -377,7 +374,11 @@ class SettingsPage extends Component {
                   onClick={this.changePasswordClickHandler}
                   variant="contained"
                   color="secondary"
-                  disabled={!this.state.hasEditedPassword}
+                  disabled={
+                    !this.state.passwordDetails.password ||
+                    !this.state.passwordDetails.newPassword ||
+                    !this.state.passwordDetails.confirmNewPassword
+                  }
                 >
                   CHANGE PASSWORD
                 </Button>

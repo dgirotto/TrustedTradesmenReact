@@ -34,9 +34,9 @@ const ToolBar = props => {
             </Link>
             {props.isAuth ? (
               <Aux>
-                <Link to="/contractors">
+                {/* <Link to="/contractors">
                   <li>CONTRACTORS</li>
-                </Link>
+                </Link> */}
                 {/* Contractors and Admins can access leads page */}
                 {props.userType !== 0 && props.userType !== 2 ? (
                   <Link to="/leads">
