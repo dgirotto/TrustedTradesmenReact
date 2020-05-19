@@ -26,8 +26,7 @@ class LeadsPage extends Component {
 
     LeadsService.getLeads()
       .then(res => {
-        this.setState({ leads: res.data });
-        this.setState({ isLoading: false });
+        this.setState({ leads: res.data, isLoading: false });
       })
       .catch(err => {
         console.error("Error while getting leads: " + err.response);

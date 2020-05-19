@@ -52,9 +52,14 @@ const sideDrawer = props => {
             </Link>
           </Aux>
         ) : (
-          <Link onClick={props.drawerToggleClickHandler} to="/login">
-            <li>Login</li>
-          </Link>
+          <Aux>
+            <Link onClick={props.drawerToggleClickHandler} to="/register">
+              <li>Register</li>
+            </Link>
+            <Link onClick={props.drawerToggleClickHandler} to="/login">
+              <li>Login</li>
+            </Link>
+          </Aux>
         )}
       </ul>
     </nav>

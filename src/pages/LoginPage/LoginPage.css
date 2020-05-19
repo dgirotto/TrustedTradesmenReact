@@ -1,17 +1,12 @@
-.App > form {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  max-width: 500px;
-  margin: auto;
-  padding: 20px;
+.reset-password {
+  text-align: right;
+  cursor: pointer;
 }
-
-.App > form > * {
-  margin: 8px 0;
+.reset-password:hover {
+  text-decoration: underline;
+  color: #f50057;
 }
-
-.Error {
+.reset-password-msg {
+  padding-bottom: 5px;
   font-size: smaller;
-  color: #ab3535;
 }

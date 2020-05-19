@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import "./LoginPage.css";
 
 import Title from "../../components/UI/Title/Title";
+import Loader from "../../components/UI/Loader/Loader";
+import Backdrop from "../../components/UI/Backdrop/Backdrop";
+import Aux from "../../helpers/Aux";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Loader from "../../components/UI/Loader/Loader";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { AuthService } from "../../services/auth";
 import { CacheService } from "../../services/caching";
 
@@ -16,39 +21,27 @@ class LoginPage extends Component {
         email: "",
         password: ""
       },
+      emailToReset: "",
+      resetPassword: false,
+      remember: false,
       isLoading: false,
       error: null
     };
   }
 
   componentDidMount() {
-    if (this.props.isAuth) {
-      window.location.href = "/settings";
-    }
+    // if (this.props.isAuth) {
+    //   window.location.href = "/";
+    // }
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.isAuth !== prevProps.isAuth) {
-  //     this.setState({ isAuth: this.props.isAuth }, () => {
-  //       if (this.state.isAuth) {
-  //         window.location.href = "/";
-  //       }
-  //     });
-  //   }
-  // }
-
   login = () => {
-    if (!this.state.loginDetails.email || !this.state.loginDetails.password) {
-      return;
-    }
     this.setState({ isLoading: true });
-
     AuthService.login(this.state.loginDetails)
       .then(res => {
         const token = res.data.jwt;
         localStorage.setItem("jwt-token", token);
         CacheService.cacheToken(token);
-        this.setState({ isLoading: false });
         window.location.href = "/";
       })
       .catch(error => {
@@ -56,8 +49,26 @@ class LoginPage extends Component {
       });
   };
 
-  register = () => {
-    alert("Register Clicked");
+  resetPassword = () => {
+    this.setState({ isLoading: true });
+    AuthService.resetPassword({ email: this.state.emailToReset })
+      .then(res => {
+        // TODO: Emit message "Check your email for your new password"
+        this.setState({ isLoading: false });
+      })
+      .catch(error => {
+        this.setState({ error: error.message, isLoading: false });
+      });
+  };
+
+  handleCheckboxChange = () => {
+    this.setState({
+      remember: !this.state.remember
+    });
+  };
+
+  toggleResetPassword = () => {
+    this.setState({ resetPassword: !this.state.resetPassword });
   };
 
   change = event => {
@@ -69,42 +80,102 @@ class LoginPage extends Component {
     });
   };
 
+  emailChange = event => {
+    this.setState({
+      emailToReset: event.target.value
+    });
+  };
+
   render() {
     return (
-      <div className="App">
-        <form>
-          <Title size="Medium" color="Black">
-            Login
-          </Title>
-          <TextField
-            type="text"
-            name="email"
-            label="email"
-            value={this.state.loginDetails.email || ""}
-            variant="outlined"
-            onChange={this.change}
-          />
-          <TextField
-            type="password"
-            name="password"
-            label="password"
-            value={this.state.loginDetails.password || ""}
-            variant="outlined"
-            onChange={this.change}
-          />
-          {this.state.error ? (
-            <span className="Error">{this.state.error}</span>
-          ) : null}
-          <Button onClick={this.login} variant="contained" color="primary">
-            Login
-          </Button>
-
-          {this.isLoading && <Loader size={30} />}
-
-          {/* <Button onClick={this.register} variant="contained" color="secondary">
-            Create Account
-          </Button> */}
-        </form>
+      <div className="login-form">
+        {this.state.isLoading ? (
+          <Aux>
+            <Loader size={60} />
+            <Backdrop />
+          </Aux>
+        ) : !this.state.resetPassword ? (
+          <form>
+            <Title size="Medium" color="Black">
+              Login
+            </Title>
+            <TextField
+              type="text"
+              name="email"
+              label="email"
+              value={this.state.loginDetails.email || ""}
+              variant="outlined"
+              onChange={this.change}
+            />
+            <TextField
+              type="password"
+              name="password"
+              label="password"
+              value={this.state.loginDetails.password || ""}
+              variant="outlined"
+              onChange={this.change}
+            />
+            {/* <FormControlLabel
+              control={
+                <Checkbox
+                  onChange={this.handleCheckboxChange}
+                  checked={this.state.remember}
+                />
+              }
+              label="Remember me"
+            /> */}
+            <Button
+              disabled={
+                !this.state.loginDetails.email ||
+                !this.state.loginDetails.password
+              }
+              onClick={this.login}
+              variant="contained"
+              color="primary"
+            >
+              Login
+            </Button>
+            <span className="reset-password" onClick={this.toggleResetPassword}>
+              Forgot Password?
+            </span>
+            {this.state.error ? (
+              <span className="Error">{this.state.error}</span>
+            ) : null}
+          </form>
+        ) : (
+          <form>
+            <Title size="Medium" color="Black">
+              Forgot Password
+            </Title>
+            <span className="reset-password-msg">
+              Enter the email address associated with your account and we'll
+              email you a new password.
+            </span>
+            <TextField
+              type="text"
+              name="email"
+              label="email"
+              value={this.state.emailToReset || ""}
+              variant="outlined"
+              onChange={this.emailChange}
+            />
+            <Button
+              disabled={!this.state.emailToReset}
+              onClick={this.resetPassword}
+              variant="contained"
+              color="primary"
+            >
+              Reset Password
+            </Button>
+            <Button
+              onClick={this.toggleResetPassword}
+              variant="contained"
+              color="secondary"
+            >
+              Back
+            </Button>
+          </form>
+        )}
       </div>
     );
   }

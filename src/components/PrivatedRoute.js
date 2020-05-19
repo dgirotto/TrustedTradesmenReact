@@ -11,7 +11,7 @@ export const PrivateRoute = ({
     {...rest}
     render={props =>
       AuthService.isAuthenticated() ? (
-        notAllowed.indexOf(AuthService.getRole()) == -1 ? (
+        notAllowed.indexOf(AuthService.getRole()) === -1 ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />

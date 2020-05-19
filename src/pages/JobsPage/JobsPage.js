@@ -26,8 +26,7 @@ class JobsPage extends Component {
 
     JobsService.getJobs()
       .then(res => {
-        this.setState({ jobs: res.data });
-        this.setState({ isLoading: false });
+        this.setState({ jobs: res.data, isLoading: false });
       })
       .catch(err => {
         console.error("Error while getting jobs" + err.response);

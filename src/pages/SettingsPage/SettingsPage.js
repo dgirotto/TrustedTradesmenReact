@@ -157,7 +157,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="firstName"
-                      label="First Name"
+                      label="first name"
                       value={this.state.accountDetails.firstName || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -169,7 +169,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="lastName"
-                      label="Last Name"
+                      label="last name"
                       value={this.state.accountDetails.lastName || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -181,7 +181,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="phone"
-                      label="Phone"
+                      label="phone"
                       value={this.state.accountDetails.phone || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -197,7 +197,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="address"
-                      label="Address"
+                      label="address"
                       value={this.state.accountDetails.address || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -209,7 +209,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="city"
-                      label="City"
+                      label="city"
                       value={this.state.accountDetails.city || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -221,7 +221,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="postalCode"
-                      label="Postal Code"
+                      label="postal code"
                       value={this.state.accountDetails.postalCode || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -233,7 +233,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="text"
                       name="province"
-                      label="Province"
+                      label="province"
                       value={this.state.accountDetails.province || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
@@ -251,7 +251,7 @@ class SettingsPage extends Component {
                         <TextField
                           type="text"
                           name="bio"
-                          label="Bio"
+                          label="bio"
                           value={this.state.accountDetails.bio || ""}
                           variant="outlined"
                           onChange={this.accountDetailsChange}
@@ -263,7 +263,7 @@ class SettingsPage extends Component {
                         <TextField
                           type="text"
                           name="linkedin"
-                          label="Linkedin"
+                          label="linkedin"
                           value={this.state.accountDetails.linkedin || ""}
                           variant="outlined"
                           onChange={this.accountDetailsChange}
@@ -275,7 +275,7 @@ class SettingsPage extends Component {
                         <TextField
                           type="text"
                           name="facebook"
-                          label="Facebook"
+                          label="facebook"
                           value={this.state.accountDetails.facebook || ""}
                           variant="outlined"
                           onChange={this.accountDetailsChange}
@@ -287,7 +287,7 @@ class SettingsPage extends Component {
                         <TextField
                           type="text"
                           name="youtube"
-                          label="Youtube"
+                          label="youtube"
                           value={this.state.accountDetails.youtube || ""}
                           variant="outlined"
                           onChange={this.accountDetailsChange}
@@ -299,7 +299,7 @@ class SettingsPage extends Component {
                         <TextField
                           type="text"
                           name="instagram"
-                          label="Instagram"
+                          label="instagram"
                           value={this.state.accountDetails.instagram || ""}
                           variant="outlined"
                           onChange={this.accountDetailsChange}
@@ -311,7 +311,7 @@ class SettingsPage extends Component {
                         <TextField
                           type="text"
                           name="website"
-                          label="Website"
+                          label="website"
                           value={this.state.accountDetails.website || ""}
                           variant="outlined"
                           onChange={this.accountDetailsChange}
@@ -340,7 +340,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="password"
                       name="password"
-                      label="Old Password"
+                      label="old password"
                       value={this.state.passwordDetails.password || ""}
                       variant="outlined"
                       onChange={this.passwordChange}
@@ -352,7 +352,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="password"
                       name="newPassword"
-                      label="New Password"
+                      label="new password"
                       value={this.state.passwordDetails.newPassword || ""}
                       variant="outlined"
                       onChange={this.passwordChange}
@@ -364,7 +364,7 @@ class SettingsPage extends Component {
                     <TextField
                       type="password"
                       name="confirmNewPassword"
-                      label="Confirm New Password"
+                      label="confirm new password"
                       value={
                         this.state.passwordDetails.confirmNewPassword || ""
                       }

@@ -12,6 +12,7 @@ import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetai
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import { PrivateRoute } from "./components/PrivatedRoute";
 import { AuthService } from "./services/auth";
@@ -91,6 +92,7 @@ class App extends Component {
                 path="/services/:id"
                 component={ServiceDetailsPage}
               />
+              <Route path="/register" render={() => <RegisterPage />} />
               <Route
                 path="/login"
                 render={() => (
@@ -116,7 +118,6 @@ class App extends Component {
                 component={SettingsPage}
                 userType={this.state.userType}
               />
-              {/* TODO: Log out user if user navigates to /logout */}
               <PrivateRoute path="/logout" component={LoginPage} />
               <Route component={PageNotFound} />
             </Switch>

@@ -58,9 +58,14 @@ const ToolBar = props => {
                 </Link>
               </Aux>
             ) : (
-              <Link to="/login">
-                <li>LOGIN</li>
-              </Link>
+              <Aux>
+                <Link to="/register">
+                  <li>REGISTER</li>
+                </Link>
+                <Link to="/login">
+                  <li>LOGIN</li>
+                </Link>
+              </Aux>
             )}
           </ul>
         </div>
