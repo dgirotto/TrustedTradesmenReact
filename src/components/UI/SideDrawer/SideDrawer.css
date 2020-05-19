@@ -2,7 +2,7 @@
   float: right;
   cursor: pointer;
   padding: 10px;
-  color: #ab3535;
+  color: #282828;
 }
 .close-icon:hover {
   color: rgb(238, 178, 25);
@@ -38,7 +38,7 @@
 }
 
 .side-drawer a {
-  color: #ab3535;
+  color: #282828;
   text-decoration: none;
   font-size: 1.2rem;
 }

@@ -5,11 +5,13 @@
 }
 .card-container {
   display: flex;
+  /* justify-content: space-around; */
 }
 .card {
   display: flex;
   flex-direction: column;
   flex: 1;
+  /* max-width: 370px; */
   box-sizing: border-box;
   min-height: 400px;
   padding: 10px;
@@ -21,9 +23,10 @@
     rgb(238, 178, 25),
     rgb(240, 201, 100)
   );
+  font-family: "Varela Round", sans-serif;
 }
 .card-title {
-  font-size: 50px;
+  font-size: 70px;
   color: rgb(40, 40, 40);
 }
 .home-button {
@@ -36,8 +39,14 @@
   padding: 10px;
   color: rgb(40, 40, 40);
 }
+.card-divider {
+  margin-top: 5px !important;
+  margin-bottom: 10px !important;
+  padding: 0.5px;
+}
 @media (max-width: 768px) {
-  .home-container > div {
+  .card-container {
     flex-direction: column;
+    /* justify-content: space-around; */
   }
 }
