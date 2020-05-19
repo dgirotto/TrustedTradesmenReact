@@ -3,13 +3,38 @@
   padding: 0 2rem;
   box-sizing: border-box;
 }
-.home-container > div {
+.card-container {
   display: flex;
 }
-.home-container > div > div {
+.card {
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  padding: 10px;
   box-sizing: border-box;
+  min-height: 400px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  background: rgb(238, 178, 25);
+  background-image: linear-gradient(
+    to bottom right,
+    rgb(238, 178, 25),
+    rgb(240, 201, 100)
+  );
+}
+.card-title {
+  font-size: 50px;
+  color: rgb(40, 40, 40);
+}
+.home-button {
+  width: 200px;
+  margin: 10px auto !important;
+  background: rgb(40, 40, 40) !important;
+}
+.card-icon {
+  margin: 0 auto;
+  padding: 10px;
+  color: rgb(40, 40, 40);
 }
 @media (max-width: 768px) {
   .home-container > div {

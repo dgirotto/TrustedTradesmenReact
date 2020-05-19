@@ -1,64 +1,61 @@
 import React, { Component } from "react";
 import "./HomePage.css";
+
 import Title from "../../components/UI/Title/Title";
+import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import { FaUserCircle, FaToolbox, FaMoneyBillWave } from "react-icons/fa";
+
 class HomePage extends Component {
   render() {
     return (
       <div className="home-container">
         <Title size="Large" color="Black" align="Center">
-          WELCOME TO TRUSTED TRADESMEN
+          HOW IT WORKS
         </Title>
-        <div>
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Non
-            tellus orci ac auctor augue mauris augue. Amet tellus cras
-            adipiscing enim eu turpis egestas pretium aenean. Vitae auctor eu
-            augue ut lectus arcu bibendum. Et netus et malesuada fames ac. At
-            urna condimentum mattis pellentesque id nibh tortor id aliquet. Orci
-            ac auctor augue mauris augue neque. Porta non pulvinar neque laoreet
-            suspendisse interdum consectetur. Molestie ac feugiat sed lectus
-            vestibulum mattis ullamcorper. Ut enim blandit volutpat maecenas
-            volutpat blandit. Massa enim nec dui nunc mattis enim. Aenean et
-            tortor at risus viverra adipiscing at in. Lacus luctus accumsan
-            tortor posuere ac. Tincidunt lobortis feugiat vivamus at augue.
-            Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
-            habitant. Nibh tellus molestie nunc non blandit massa enim nec dui.
-            Pellentesque adipiscing commodo elit at.
+        <div className="card-container">
+          <div className="card">
+            <span class="card-title">1</span>
+            <Divider variant="middle" />
+            <FaUserCircle className="card-icon" size="60" />
+            CREATE AN ACCOUNT AND LOGIN
+            <Button
+              className="home-button"
+              onClick={() => (window.location.href = "/register")}
+              variant="contained"
+              color="primary"
+            >
+              REGISTER
+            </Button>
+            <span>OR</span>
+            <Button
+              className="home-button"
+              onClick={() => (window.location.href = "/login")}
+              variant="contained"
+              color="primary"
+            >
+              LOGIN
+            </Button>
           </div>
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Non
-            tellus orci ac auctor augue mauris augue. Amet tellus cras
-            adipiscing enim eu turpis egestas pretium aenean. Vitae auctor eu
-            augue ut lectus arcu bibendum. Et netus et malesuada fames ac. At
-            urna condimentum mattis pellentesque id nibh tortor id aliquet. Orci
-            ac auctor augue mauris augue neque. Porta non pulvinar neque laoreet
-            suspendisse interdum consectetur. Molestie ac feugiat sed lectus
-            vestibulum mattis ullamcorper. Ut enim blandit volutpat maecenas
-            volutpat blandit. Massa enim nec dui nunc mattis enim. Aenean et
-            tortor at risus viverra adipiscing at in. Lacus luctus accumsan
-            tortor posuere ac. Tincidunt lobortis feugiat vivamus at augue.
-            Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
-            habitant. Nibh tellus molestie nunc non blandit massa enim nec dui.
-            Pellentesque adipiscing commodo elit at.
+          <div className="card">
+            <span class="card-title">2</span>
+            <Divider variant="middle" />
+            <FaToolbox className="card-icon" size="60" />
+            CHOOSE FROM ONE OF OUR MANY SERVICES
+            <Button
+              className="home-button"
+              onClick={() => (window.location.href = "/services")}
+              variant="contained"
+              color="primary"
+            >
+              SERVICES
+            </Button>
           </div>
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Non
-            tellus orci ac auctor augue mauris augue. Amet tellus cras
-            adipiscing enim eu turpis egestas pretium aenean. Vitae auctor eu
-            augue ut lectus arcu bibendum. Et netus et malesuada fames ac. At
-            urna condimentum mattis pellentesque id nibh tortor id aliquet. Orci
-            ac auctor augue mauris augue neque. Porta non pulvinar neque laoreet
-            suspendisse interdum consectetur. Molestie ac feugiat sed lectus
-            vestibulum mattis ullamcorper. Ut enim blandit volutpat maecenas
-            volutpat blandit. Massa enim nec dui nunc mattis enim. Aenean et
-            tortor at risus viverra adipiscing at in. Lacus luctus accumsan
-            tortor posuere ac. Tincidunt lobortis feugiat vivamus at augue.
-            Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque
-            habitant. Nibh tellus molestie nunc non blandit massa enim nec dui.
-            Pellentesque adipiscing commodo elit at.
+          <div className="card">
+            <span class="card-title">3</span>
+            <Divider variant="middle" />
+            <FaMoneyBillWave className="card-icon" size="60" />
+            RECEIVE A QUOTE FROM ONE OF OUR QUALIFIED TRADESMEN
           </div>
         </div>
       </div>

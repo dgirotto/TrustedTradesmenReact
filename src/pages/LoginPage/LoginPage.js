@@ -97,7 +97,7 @@ class LoginPage extends Component {
         ) : !this.state.resetPassword ? (
           <form>
             <Title size="Medium" color="Black">
-              Login
+              LOGIN
             </Title>
             <TextField
               type="text"
@@ -133,7 +133,7 @@ class LoginPage extends Component {
               variant="contained"
               color="primary"
             >
-              Login
+              LOGIN
             </Button>
             <span className="reset-password" onClick={this.toggleResetPassword}>
               Forgot Password?
@@ -145,7 +145,7 @@ class LoginPage extends Component {
         ) : (
           <form>
             <Title size="Medium" color="Black">
-              Forgot Password
+              FORGOT PASSWORD
             </Title>
             <span className="reset-password-msg">
               Enter the email address associated with your account and we'll
@@ -165,14 +165,14 @@ class LoginPage extends Component {
               variant="contained"
               color="primary"
             >
-              Reset Password
+              RESET PASSWORD
             </Button>
             <Button
               onClick={this.toggleResetPassword}
               variant="contained"
               color="secondary"
             >
-              Back
+              BACK
             </Button>
           </form>
         )}

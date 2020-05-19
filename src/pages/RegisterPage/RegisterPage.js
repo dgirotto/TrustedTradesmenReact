@@ -71,7 +71,7 @@ class RegisterPage extends Component {
         ) : (
           <form>
             <Title size="Medium" color="Black">
-              Register
+              REGISTER
             </Title>
             <TextField
               type="text"
@@ -107,7 +107,14 @@ class RegisterPage extends Component {
               variant="contained"
               color="primary"
             >
-              Create Account
+              CREATE ACCOUNT
+            </Button>
+            <Button
+              onClick={() => (window.location.href = "/login")}
+              variant="contained"
+              color="secondary"
+            >
+              LOGIN PAGE
             </Button>
             {this.isLoading && <Loader size={30} />}
           </form>
