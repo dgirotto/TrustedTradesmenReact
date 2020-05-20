@@ -7,13 +7,12 @@ import "./ServiceList.css";
 
 export default class ServiceList extends Component {
   state = {
-    services: null,
-    isAuth: false
+    services: null
   };
 
   // Invoked immediately after a component is mounted (inserted into the tree)
   componentDidMount() {
-    this.setState({ isLoading: true, isAuth: this.props.isAuth });
+    this.setState({ isLoading: true });
 
     // TODO: Get services using service
     Axios.get("http://dgirotto.a2hosted.com/api/service/read.php")

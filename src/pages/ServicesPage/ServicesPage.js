@@ -14,9 +14,7 @@ class ServicesPage extends Component {
     };
   }
 
-  componentDidMount() {
-    this.setState({ isAuth: this.props.isAuth });
-  }
+  componentDidMount() {}
 
   isDoneLoading = () => {
     this.setState({ isLoading: false });
@@ -26,10 +24,7 @@ class ServicesPage extends Component {
     return (
       <div className={"services-page-container"}>
         <Aux>
-          <ServiceList
-            isAuth={this.state.isAuth}
-            isDoneLoading={this.isDoneLoading}
-          />
+          <ServiceList isDoneLoading={this.isDoneLoading} />
         </Aux>
         {this.state.isLoading ? (
           <Aux>

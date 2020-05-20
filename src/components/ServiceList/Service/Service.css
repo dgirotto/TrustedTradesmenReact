@@ -1,17 +1,16 @@
 .service {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  padding: 10px;
   cursor: pointer;
-  background: #353535;
-  color: #fff;
+  background: #353535 !important;
+  color: #fff !important;
+  font-family: "Varela Round", sans-serif;
+  text-align: center;
 }
 
 .service:hover {
-  background: #fff;
-  color: #353535;
+  background: #5b5b5b !important;
 }
