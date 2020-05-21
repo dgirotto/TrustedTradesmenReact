@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./RegisterPage.css";
 
 import Title from "../../components/UI/Title/Title";
-import Loader from "../../components/UI/Loader/Loader";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 
@@ -44,7 +43,14 @@ class RegisterPage extends Component {
     })
       .then(res => {
         // TODO: Emit message "Account Created"
-        this.setState({ isLoading: false });
+        this.setState({
+          registerDetails: {
+            email: "",
+            password: "",
+            confirmPassword: ""
+          },
+          isLoading: false
+        });
       })
       .catch(error => {
         this.setState({ error: error.message, isLoading: false });
@@ -63,62 +69,54 @@ class RegisterPage extends Component {
   render() {
     return (
       <div className="login-form">
-        {this.state.isLoading ? (
-          <Aux>
-            <Loader size={60} />
-            <Backdrop />
-          </Aux>
-        ) : (
-          <form>
-            <Title size="Medium" color="Black">
-              REGISTER
-            </Title>
-            <TextField
-              type="text"
-              name="email"
-              label="email"
-              variant="outlined"
-              onChange={this.change}
-            />
-            <TextField
-              type="password"
-              name="password"
-              label="password"
-              variant="outlined"
-              onChange={this.change}
-            />
-            <TextField
-              type="password"
-              name="confirmPassword"
-              label="confirm password"
-              variant="outlined"
-              onChange={this.change}
-            />
-            {this.state.error ? (
-              <span className="Error">{this.state.error}</span>
-            ) : null}
-            <Button
-              disabled={
-                !this.state.registerDetails.email ||
-                !this.state.registerDetails.password ||
-                !this.state.registerDetails.confirmPassword
-              }
-              onClick={this.register}
-              variant="contained"
-              color="primary"
-            >
-              CREATE ACCOUNT
-            </Button>
-            <Button
-              onClick={() => (window.location.href = "/login")}
-              variant="contained"
-              color="secondary"
-            >
-              LOGIN PAGE
-            </Button>
-            {this.isLoading && <Loader size={30} />}
-          </form>
-        )}
+        <form>
+          <Title size="Medium" color="Black">
+            REGISTER
+          </Title>
+          <TextField
+            type="text"
+            name="email"
+            label="email"
+            value={this.state.registerDetails.email || ""}
+            variant="outlined"
+            onChange={this.change}
+          />
+          <TextField
+            type="password"
+            name="password"
+            label="password"
+            value={this.state.registerDetails.password || ""}
+            variant="outlined"
+            onChange={this.change}
+          />
+          <TextField
+            type="password"
+            name="confirmPassword"
+            label="confirm password"
+            value={this.state.registerDetails.confirmPassword || ""}
+            variant="outlined"
+            onChange={this.change}
+          />
+          {this.state.error ? (
+            <span className="Error">{this.state.error}</span>
+          ) : null}
+          <Button
+            disabled={
+              !this.state.registerDetails.email ||
+              !this.state.registerDetails.password ||
+              !this.state.registerDetails.confirmPassword
+            }
+            onClick={this.register}
+            variant="contained"
+            color="primary"
+          >
+            CREATE ACCOUNT
+          </Button>
+          <p>
+            Have an account? Login <a href="/login">here</a>
+          </p>
+        </form>
+        {this.state.isLoading ? <Backdrop /> : null}
       </div>
     );
   }

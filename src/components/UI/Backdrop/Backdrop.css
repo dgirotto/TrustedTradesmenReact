@@ -1,9 +1,12 @@
 .backdrop {
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100; /* above the "main" content, beneath the sidedrawer */
   width: 100%;
   height: 100%;
   top: 0px;
   left: 0px;
-  background: rgba(155, 155, 155, 0.3);
+  background: rgba(255, 255, 255, 0.6);
 }

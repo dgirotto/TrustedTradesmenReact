@@ -1,11 +1,8 @@
 import React from "react";
-import "./Loader.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import "./Loader.css";
 const loader = props => (
-  <div className="Loader">
-    <CircularProgress size={props.size} color="secondary" />
-  </div>
+  <CircularProgress className="loader" size={props.size} />
 );
 
 export default loader;

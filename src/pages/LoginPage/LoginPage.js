@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./LoginPage.css";
 
 import Title from "../../components/UI/Title/Title";
-import Loader from "../../components/UI/Loader/Loader";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 
@@ -89,12 +88,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="login-form">
-        {this.state.isLoading ? (
-          <Aux>
-            <Loader size={60} />
-            <Backdrop />
-          </Aux>
-        ) : !this.state.resetPassword ? (
+        {!this.state.resetPassword ? (
           <form>
             <Title size="Medium" color="Black">
               LOGIN
@@ -124,6 +118,9 @@ class LoginPage extends Component {
               }
               label="Remember me"
             /> */}
+            <a className="reset-password" onClick={this.toggleResetPassword}>
+              Forgot Password?
+            </a>
             <Button
               disabled={
                 !this.state.loginDetails.email ||
@@ -135,9 +132,9 @@ class LoginPage extends Component {
             >
               LOGIN
             </Button>
-            <span className="reset-password" onClick={this.toggleResetPassword}>
-              Forgot Password?
-            </span>
+            <p>
+              Don't have an account? Create one <a href="/register">here</a>
+            </p>
             {this.state.error ? (
               <span className="Error">{this.state.error}</span>
             ) : null}
@@ -176,6 +173,7 @@ class LoginPage extends Component {
             </Button>
           </form>
         )}
+        {this.state.isLoading ? <Backdrop /> : null}
       </div>
     );
   }

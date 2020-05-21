@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { JobsService } from "../../services/jobs";
 import Title from "../../components/UI/Title/Title";
-import Loader from "../../components/UI/Loader/Loader";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 
@@ -77,12 +76,7 @@ class JobsPage extends Component {
             </TableContainer>
           </Aux>
         )}
-        {this.state.isLoading ? (
-          <Aux>
-            <Loader size={60} />
-            <Backdrop />
-          </Aux>
-        ) : null}
+        {this.state.isLoading ? <Backdrop /> : null}
       </div>
     );
   }
