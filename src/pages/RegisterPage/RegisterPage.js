@@ -5,6 +5,7 @@ import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 
+import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { AuthService } from "../../services/auth";
@@ -68,7 +69,7 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <div className="login-form">
+      <Card variant="outlined" className="login-form">
         <form>
           <Title size="Medium" color="Black">
             REGISTER
@@ -117,7 +118,7 @@ class RegisterPage extends Component {
           </p>
         </form>
         {this.state.isLoading ? <Backdrop /> : null}
-      </div>
+      </Card>
     );
   }
 }

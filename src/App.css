@@ -4,15 +4,19 @@
 .main {
   margin-top: 56px;
 }
+.login-form {
+  max-width: 450px;
+  width: 90%;
+  margin: 90px auto 0;
+}
 .login-form > form {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  /* width: 80%; */
   max-width: 400px;
   margin: auto;
   padding: 20px;
 }
 .login-form > form > * {
   margin: 8px 0;
-  /* background: white; */
 }

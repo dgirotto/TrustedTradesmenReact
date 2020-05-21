@@ -5,6 +5,7 @@ import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 
+import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -87,7 +88,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div className="login-form">
+      <Card variant="outlined" className="login-form">
         {!this.state.resetPassword ? (
           <form>
             <Title size="Medium" color="Black">
@@ -174,7 +175,7 @@ class LoginPage extends Component {
           </form>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
-      </div>
+      </Card>
     );
   }
 }

@@ -47,5 +47,6 @@
 @media (max-width: 768px) {
   .card-container {
     flex-direction: column;
+    max-width: 375px;
   }
 }
