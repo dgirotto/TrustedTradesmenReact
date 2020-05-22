@@ -181,7 +181,7 @@ class SettingsPage extends Component {
                   />
                 </div>
               </div>
-              <br />
+              {/* <br /> */}
               <Title>ADDRESS DETAILS</Title>
               <div className="textfield-container-row">
                 <div>

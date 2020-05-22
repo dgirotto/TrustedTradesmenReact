@@ -7,6 +7,7 @@ const service = props => (
   <Card
     onClick={() => props.click(props.service.serviceId)}
     className="service"
+    variant="outlined"
   >
     <Title size="Small">{props.service.serviceName.toUpperCase()}</Title>
     <p>{props.service.description}</p>

@@ -4,7 +4,7 @@
 .login-form {
   max-width: 450px;
   width: 90%;
-  margin: 90px auto 0;
+  margin: 30px auto 0;
 }
 .login-form > form {
   display: flex;
