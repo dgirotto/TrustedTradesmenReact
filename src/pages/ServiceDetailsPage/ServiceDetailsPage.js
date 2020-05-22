@@ -4,7 +4,7 @@ import "./ServiceDetailsPage.css";
 
 class ServiceDetailsPage extends Component {
   render() {
-    return <Title size="Large">ServiceDetails Page</Title>;
+    return <Title>ServiceDetails Page</Title>;
   }
 }
 

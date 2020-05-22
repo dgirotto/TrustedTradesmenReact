@@ -91,9 +91,7 @@ class LoginPage extends Component {
       <Card variant="outlined" className="login-form">
         {!this.state.resetPassword ? (
           <form>
-            <Title size="Medium" color="Black">
-              LOGIN
-            </Title>
+            <Title>LOGIN</Title>
             <TextField
               type="text"
               name="email"
@@ -142,9 +140,7 @@ class LoginPage extends Component {
           </form>
         ) : (
           <form>
-            <Title size="Medium" color="Black">
-              FORGOT PASSWORD
-            </Title>
+            <Title>FORGOT PASSWORD</Title>
             <span className="reset-password-msg">
               Enter the email address associated with your account and we'll
               email you a new password.

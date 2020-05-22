@@ -37,9 +37,7 @@ class LeadsPage extends Component {
       <div className="leads-page-container">
         {this.state.leads && (
           <Aux>
-            <Title color="Black" size="Medium">
-              LEADS
-            </Title>
+            <Title>LEADS</Title>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">
                 <TableHead>

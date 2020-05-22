@@ -34,9 +34,7 @@ export default class ServiceList extends Component {
       <Aux>
         {this.state.services && (
           <Aux>
-            <Title size="Medium" color="Black">
-              SERVICES
-            </Title>
+            <Title>SERVICES</Title>
             <div className="services">
               {this.state.services.map(service => (
                 <Service

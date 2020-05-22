@@ -11,9 +11,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="home-container">
-        <Title size="Large" color="Black" align="Center">
-          HOW IT WORKS
-        </Title>
+        <Title>HOW IT WORKS</Title>
         <div className="card-container">
           <Card className="card">
             <span class="card-title">1</span>

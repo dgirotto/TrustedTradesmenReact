@@ -37,9 +37,7 @@ class JobsPage extends Component {
       <div className="jobs-page-container">
         {this.state.jobs && (
           <Aux>
-            <Title color="Black" size="Medium">
-              JOBS
-            </Title>
+            <Title>JOBS</Title>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">
                 <TableHead>

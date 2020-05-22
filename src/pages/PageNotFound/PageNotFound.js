@@ -4,11 +4,7 @@ import Title from "../../components/UI/Title/Title";
 
 class PageNotFound extends Component {
   render() {
-    return (
-      <Title size="Large" color="Black" align="Center">
-        PAGE NOT FOUND!
-      </Title>
-    );
+    return <Title>404 - PAGE NOT FOUND!</Title>;
   }
 }
 

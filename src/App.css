@@ -1,9 +1,6 @@
 .app-container {
   height: 100%;
 }
-.main {
-  margin-top: 56px;
-}
 .login-form {
   max-width: 450px;
   width: 90%;
@@ -12,7 +9,6 @@
 .login-form > form {
   display: flex;
   flex-direction: column;
-  /* width: 80%; */
   max-width: 400px;
   margin: auto;
   padding: 20px;

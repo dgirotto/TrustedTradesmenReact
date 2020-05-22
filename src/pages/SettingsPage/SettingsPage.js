@@ -144,9 +144,7 @@ class SettingsPage extends Component {
         <div className="account-details-container">
           <div className="textfield-container">
             <form>
-              <Title align="Left" size="Small" color="Black">
-                CONTACT DETAILS
-              </Title>
+              <Title>CONTACT DETAILS</Title>
               <div className="textfield-container-row">
                 <div>
                   <TextField
@@ -184,9 +182,7 @@ class SettingsPage extends Component {
                 </div>
               </div>
               <br />
-              <Title align="Left" size="Small" color="Black">
-                ADDRESS DETAILS
-              </Title>
+              <Title>ADDRESS DETAILS</Title>
               <div className="textfield-container-row">
                 <div>
                   <TextField
@@ -238,9 +234,7 @@ class SettingsPage extends Component {
               {this.state.userType === 1 ? (
                 <Aux>
                   <br />
-                  <Title align="Left" size="Small" color="Black">
-                    CONTRACTOR DETAILS
-                  </Title>
+                  <Title>CONTRACTOR DETAILS</Title>
                   <div className="textfield-container-row">
                     <div>
                       <TextField
@@ -327,9 +321,7 @@ class SettingsPage extends Component {
           </div>
           <div className="textfield-container">
             <form>
-              <Title size="Small" color="Black">
-                CHANGE PASSWORD
-              </Title>
+              <Title>CHANGE PASSWORD</Title>
               <div className="textfield-container-row">
                 <div>
                   <TextField

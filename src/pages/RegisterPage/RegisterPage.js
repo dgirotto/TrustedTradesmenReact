@@ -71,9 +71,7 @@ class RegisterPage extends Component {
     return (
       <Card variant="outlined" className="login-form">
         <form>
-          <Title size="Medium" color="Black">
-            REGISTER
-          </Title>
+          <Title>REGISTER</Title>
           <TextField
             type="text"
             name="email"

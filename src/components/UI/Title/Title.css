@@ -1,23 +1,5 @@
-.Title {
-  margin: 0;
-  padding: 10px 0;
+.title {
   font-family: "Varela Round", sans-serif;
-}
-.Small {
-  font-size: 20px;
-}
-.Medium {
   font-size: 25px;
-}
-.Large {
-  font-size: 30px;
-}
-.Black {
-  color: rgb(40, 40, 40);
-}
-.Left {
-  text-align: left;
-}
-.Center {
-  text-align: center;
+  margin: 10px 0;
 }

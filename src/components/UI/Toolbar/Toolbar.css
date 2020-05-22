@@ -1,5 +1,5 @@
 .toolbar {
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   left: 0;
   width: 100%;
@@ -8,7 +8,6 @@
   z-index: 100;
   font-family: "Hammersmith One";
 }
-
 .toolbar__logo a {
   display: flex;
   justify-content: center;
@@ -17,31 +16,25 @@
   text-decoration: none;
   margin-left: 1.3rem;
 }
-
 .toolbar__logo a span {
   font-size: 1.5rem;
   margin-left: 0.7rem;
 }
-
 .logo-text {
   margin-top: 3px;
 }
-
 .spacer {
   flex: 1; /* takes all of the available empty space between logo and nav items */
 }
-
 .toolbar__navigation {
   height: 100%; /* takes the parent height (56px) */
   display: flex; /* default flex direction is left to right (horizontal) */
   align-items: center;
 }
-
 .toolbar__navigation-items a {
   padding-top: 5px;
   text-decoration: none;
 }
-
 .toolbar__navigation-items li {
   cursor: pointer;
   padding-left: 1.25rem;
@@ -49,36 +42,29 @@
   color: white;
   font-size: 16px;
 }
-
 .toolbar__navigation-items li:hover {
   color: rgb(238, 178, 25);
 }
-
 .toolbar__navigation-items li:active {
   color: white;
 }
-
 .toolbar__navigation-items ul {
   list-style: none;
   display: flex;
   margin-right: 1.3em;
   padding: 0;
 }
-
 .icon-link {
   margin-top: -2px;
 }
-
 .icon-link-settings {
   margin-top: -1px;
 }
-
 @media (max-width: 768px) {
   .toolbar__navigation-items {
     display: none;
   }
 }
-
 @media (min-width: 769px) {
   .toolbar__toggle-button {
     display: none;

@@ -84,44 +84,41 @@ class App extends Component {
             <Backdrop click={this.backdropClickHandler} />
           ) : null}
 
-          <main className="main">
-            <Switch>
-              <Route path="/" exact component={HomePage} />
-              <Route path="/services" exact component={ServicesPage} />
-              <PrivateRoute
-                path="/services/:id"
-                component={ServiceDetailsPage}
-              />
-              <Route path="/register" render={() => <RegisterPage />} />
-              <Route
-                path="/login"
-                render={() => (
-                  <LoginPage
-                    isAuth={this.state.isAuth}
-                    authenticate={this.authenticate}
-                  />
-                )}
-              />
-              {/* <PrivateRoute path="/contractors" component={ContractorsPage} /> */}
-              <PrivateRoute
-                path="/contractors/:id"
-                component={ContractorDetailsPage}
-              />
-              <PrivateRoute
-                path="/leads"
-                component={LeadsPage}
-                notAllowed={[0, 2]}
-              />
-              <PrivateRoute path="/jobs" component={JobsPage} />
-              <PrivateRoute
-                path="/settings"
-                component={SettingsPage}
-                userType={this.state.userType}
-              />
-              <PrivateRoute path="/logout" component={LoginPage} />
-              <Route component={PageNotFound} />
-            </Switch>
-          </main>
+          {/* <main className="main"> */}
+          <Switch>
+            <Route path="/" exact component={HomePage} />
+            <Route path="/services" exact component={ServicesPage} />
+            <PrivateRoute path="/services/:id" component={ServiceDetailsPage} />
+            <Route path="/register" render={() => <RegisterPage />} />
+            <Route
+              path="/login"
+              render={() => (
+                <LoginPage
+                  isAuth={this.state.isAuth}
+                  authenticate={this.authenticate}
+                />
+              )}
+            />
+            {/* <PrivateRoute path="/contractors" component={ContractorsPage} /> */}
+            <PrivateRoute
+              path="/contractors/:id"
+              component={ContractorDetailsPage}
+            />
+            <PrivateRoute
+              path="/leads"
+              component={LeadsPage}
+              notAllowed={[0, 2]}
+            />
+            <PrivateRoute path="/jobs" component={JobsPage} />
+            <PrivateRoute
+              path="/settings"
+              component={SettingsPage}
+              userType={this.state.userType}
+            />
+            <PrivateRoute path="/logout" component={LoginPage} />
+            <Route component={PageNotFound} />
+          </Switch>
+          {/* </main> */}
         </div>
       </BrowserRouter>
     );
