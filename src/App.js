@@ -81,7 +81,7 @@ class App extends Component {
             show={this.state.sideDrawerOpen}
           />
           {this.state.sideDrawerOpen ? (
-            <Backdrop click={this.backdropClickHandler} />
+            <Backdrop hideLoader={true} click={this.backdropClickHandler} />
           ) : null}
 
           {/* <main className="main"> */}
