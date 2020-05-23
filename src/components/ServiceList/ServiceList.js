@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import Service from "./Service/Service";
-import Title from "../../components/UI/Title/Title";
 import Aux from "../../helpers/Aux";
 import "./ServiceList.css";
 
@@ -33,18 +32,15 @@ export default class ServiceList extends Component {
     return (
       <Aux>
         {this.state.services && (
-          <Aux>
-            <Title>SERVICES</Title>
-            <div className="services">
-              {this.state.services.map(service => (
-                <Service
-                  click={this.serviceCardClickHandler}
-                  key={service.serviceId}
-                  service={service}
-                />
-              ))}
-            </div>
-          </Aux>
+          <div className="services">
+            {this.state.services.map(service => (
+              <Service
+                click={this.serviceCardClickHandler}
+                key={service.serviceId}
+                service={service}
+              />
+            ))}
+          </div>
         )}
       </Aux>
     );
