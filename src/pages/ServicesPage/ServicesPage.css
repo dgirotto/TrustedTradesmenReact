@@ -3,3 +3,18 @@
   padding: 0 2rem;
   box-sizing: border-box;
 }
+.services {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.service {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+.service:hover {
+  background: rgb(249, 218, 141) !important;
+}

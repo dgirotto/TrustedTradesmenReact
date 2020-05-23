@@ -30,9 +30,9 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
-    // if (this.props.isAuth) {
-    //   window.location.href = "/";
-    // }
+    if (this.props.isAuth) {
+      window.location.href = "/services";
+    }
   }
 
   login = () => {
@@ -42,7 +42,7 @@ class LoginPage extends Component {
         const token = res.data.jwt;
         localStorage.setItem("jwt-token", token);
         CacheService.cacheToken(token);
-        window.location.href = "/";
+        window.location.href = "/services";
       })
       .catch(error => {
         this.setState({ error: error.message, isLoading: false });
