@@ -89,7 +89,10 @@ class App extends Component {
             <Route path="/" exact component={HomePage} />
             <Route path="/services" exact component={ServicesPage} />
             <PrivateRoute path="/services/:id" component={ServiceDetailsPage} />
-            <Route path="/register" render={() => <RegisterPage />} />
+            <Route
+              path="/register"
+              render={() => <RegisterPage isAuth={this.state.isAuth} />}
+            />
             <Route
               path="/login"
               render={() => (

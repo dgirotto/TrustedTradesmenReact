@@ -24,7 +24,11 @@ class RegisterPage extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.isAuth) {
+      window.location.href = "/services";
+    }
+  }
 
   register = () => {
     if (

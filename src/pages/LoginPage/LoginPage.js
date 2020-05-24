@@ -22,7 +22,7 @@ class LoginPage extends Component {
         password: ""
       },
       emailToReset: "",
-      resetPassword: false,
+      showResetForm: false,
       remember: false,
       isLoading: false,
       error: null
@@ -68,7 +68,7 @@ class LoginPage extends Component {
   };
 
   toggleResetPassword = () => {
-    this.setState({ resetPassword: !this.state.resetPassword });
+    this.setState({ showResetForm: !this.state.showResetForm });
   };
 
   change = event => {
@@ -89,7 +89,7 @@ class LoginPage extends Component {
   render() {
     return (
       <Card variant="outlined" className="login-form">
-        {!this.state.resetPassword ? (
+        {!this.state.showResetForm ? (
           <form>
             <Title>LOGIN</Title>
             <TextField
