@@ -4,7 +4,7 @@ const commonEndpoint = "http://dgirotto.a2hosted.com/api";
 // const commonEndpoint =
 //   "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api";
 
-function getService(serviceId) {
+function getServiceDetails(serviceId) {
   return axios.get(
     `${commonEndpoint}/service/read_one.php?serviceId=${serviceId}`
   );
@@ -15,6 +15,6 @@ function getServices() {
 }
 
 export const ServicesService = {
-  getService,
+  getServiceDetails,
   getServices
 };

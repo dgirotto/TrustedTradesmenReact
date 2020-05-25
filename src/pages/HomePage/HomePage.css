@@ -39,6 +39,11 @@
   padding: 10px;
   color: rgb(40, 40, 40);
 }
+.card-icon-check {
+  margin: 0 auto;
+  padding: 10px;
+  color: rgb(13, 155, 13);
+}
 .card-divider {
   margin-top: 5px !important;
   margin-bottom: 10px !important;

@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import "./LoginPage.css";
-
-import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Aux from "../../helpers/Aux";
-
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -91,7 +87,7 @@ class LoginPage extends Component {
       <Card variant="outlined" className="login-form">
         {!this.state.showResetForm ? (
           <form>
-            <Title>LOGIN</Title>
+            <h2 className="form-title">LOGIN</h2>
             <TextField
               type="text"
               name="email"
@@ -140,7 +136,7 @@ class LoginPage extends Component {
           </form>
         ) : (
           <form>
-            <Title>FORGOT PASSWORD</Title>
+            <h2 className="form-title">FORGOT PASSWORD</h2>
             <span className="reset-password-msg">
               Enter the email address associated with your account and we'll
               email you a new password.

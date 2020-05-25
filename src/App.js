@@ -26,6 +26,10 @@ class App extends Component {
     sideDrawerOpen: false
   };
 
+  componentWillMount() {
+    this.authenticate();
+  }
+
   authenticate() {
     if (AuthService.isAuthenticated()) {
       this.setState({
@@ -35,10 +39,6 @@ class App extends Component {
     } else {
       this.setState({ isAuth: false, userType: null });
     }
-  }
-
-  componentWillMount() {
-    this.authenticate();
   }
 
   handleLogout = () => {
@@ -66,7 +66,6 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="app-container">
-          {/* TODO: Move this to its own component */}
           <Toolbar
             isAuth={this.state.isAuth}
             userType={this.state.userType}
@@ -84,10 +83,17 @@ class App extends Component {
             <Backdrop hideLoader={true} click={this.backdropClickHandler} />
           ) : null}
 
-          {/* <main className="main"> */}
           <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/services" exact component={ServicesPage} />
+            <Route
+              path="/"
+              exact
+              render={() => <HomePage isAuth={this.state.isAuth} />}
+            />
+            <Route
+              path="/services"
+              exact
+              render={() => <ServicesPage isAuth={this.state.isAuth} />}
+            />
             <PrivateRoute path="/services/:id" component={ServiceDetailsPage} />
             <Route
               path="/register"
@@ -116,12 +122,11 @@ class App extends Component {
             <PrivateRoute
               path="/settings"
               component={SettingsPage}
-              userType={this.state.userType}
+              // userType={this.state.userType}
             />
             <PrivateRoute path="/logout" component={LoginPage} />
             <Route component={PageNotFound} />
           </Switch>
-          {/* </main> */}
         </div>
       </BrowserRouter>
     );

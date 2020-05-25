@@ -22,9 +22,8 @@
     InputProps={{
         className: classes.input,
     }}
-/>s
+/>
 */
-
 .account-details-container {
   display: flex;
 }

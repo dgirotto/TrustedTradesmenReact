@@ -1,6 +1,13 @@
 .app-container {
   height: 100%;
 }
+.form-title {
+  text-align: left;
+  font-size: 20px;
+}
+/* .site-title {
+  text-align: center;
+} */
 .login-form {
   max-width: 450px;
   width: 85%;

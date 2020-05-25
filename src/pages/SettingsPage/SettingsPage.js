@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./SettingsPage.css";
-import Title from "../../components/UI/Title/Title";
-// import Loader from "../../components/UI/Loader/Loader";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 import TextField from "@material-ui/core/TextField";
@@ -140,11 +138,10 @@ class SettingsPage extends Component {
   render() {
     return (
       <Aux>
-        {/* {!this.state.isLoading && ( */}
         <div className="account-details-container">
           <div className="textfield-container">
             <form>
-              <Title>CONTACT DETAILS</Title>
+              <h2 className="form-title">CONTACT DETAILS</h2>
               <div className="textfield-container-row">
                 <div>
                   <TextField
@@ -182,7 +179,7 @@ class SettingsPage extends Component {
                 </div>
               </div>
               {/* <br /> */}
-              <Title>ADDRESS DETAILS</Title>
+              <h2 className="form-title">ADDRESS DETAILS</h2>
               <div className="textfield-container-row">
                 <div>
                   <TextField
@@ -234,7 +231,7 @@ class SettingsPage extends Component {
               {this.state.userType === 1 ? (
                 <Aux>
                   <br />
-                  <Title>CONTRACTOR DETAILS</Title>
+                  <h2 className="form-title">CONTRACTOR DETAILS</h2>
                   <div className="textfield-container-row">
                     <div>
                       <TextField
@@ -321,7 +318,7 @@ class SettingsPage extends Component {
           </div>
           <div className="textfield-container">
             <form>
-              <Title>CHANGE PASSWORD</Title>
+              <h2 className="form-title">CHANGE PASSWORD</h2>
               <div className="textfield-container-row">
                 <div>
                   <TextField
@@ -373,13 +370,7 @@ class SettingsPage extends Component {
             </form>
           </div>
         </div>
-        {/* )} */}
-        {this.state.isLoading && (
-          <Aux>
-            <Backdrop />
-            {/* <Loader size={60} /> */}
-          </Aux>
-        )}
+        {this.state.isLoading ? <Backdrop /> : null}
       </Aux>
     );
   }

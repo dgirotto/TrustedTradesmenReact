@@ -15,6 +15,9 @@
   cursor: pointer;
   text-align: center;
 }
+.service-title {
+  text-align: center !important;
+}
 .service:hover {
   background: rgb(249, 218, 141) !important;
 }

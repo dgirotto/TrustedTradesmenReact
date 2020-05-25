@@ -7,10 +7,13 @@ import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
 
 class ServicesPage extends Component {
-  state = {
-    services: null,
-    isLoading: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      services: null,
+      isLoading: false
+    };
+  }
 
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -35,7 +38,14 @@ class ServicesPage extends Component {
           <Aux>
             <Title>SERVICES</Title>
             <p>
-              <a href="/login">Login</a> and choose from our many services.
+              {this.props.isAuth ? (
+                <Aux>Choose </Aux>
+              ) : (
+                <Aux>
+                  <a href="/login">Login</a> and choose{" "}
+                </Aux>
+              )}
+              from our several services!
             </p>
             <br />
             <div className="services">
@@ -48,7 +58,9 @@ class ServicesPage extends Component {
                   className="service"
                   variant="outlined"
                 >
-                  <Title>{service.serviceName.toUpperCase()}</Title>
+                  <h2 className="form-title service-title">
+                    {service.serviceName.toUpperCase()}
+                  </h2>
                   <p>{service.description}</p>
                 </Card>
               ))}
