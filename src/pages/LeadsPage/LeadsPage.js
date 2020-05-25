@@ -29,6 +29,7 @@ class LeadsPage extends Component {
       })
       .catch(err => {
         console.error("Error while getting leads: " + err.response);
+        this.setState({ isLoading: false });
       });
   }
 
@@ -70,6 +71,12 @@ class LeadsPage extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
+          </Aux>
+        )}
+        {!this.state.leads && !this.state.isLoading && (
+          <Aux>
+            <Title>LEADS</Title>
+            <p>You don't have any Leads yet!</p>
           </Aux>
         )}
         {this.state.isLoading ? <Backdrop /> : null}

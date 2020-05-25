@@ -25,10 +25,12 @@ class JobsPage extends Component {
 
     JobsService.getJobs()
       .then(res => {
+        console.log(res.data);
         this.setState({ jobs: res.data, isLoading: false });
       })
       .catch(err => {
         console.error("Error while getting jobs" + err.response);
+        this.setState({ isLoading: false });
       });
   }
 
@@ -72,6 +74,12 @@ class JobsPage extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
+          </Aux>
+        )}
+        {!this.state.jobs && !this.state.isLoading && (
+          <Aux>
+            <Title>JOBS</Title>
+            <p>You don't have any Jobs yet!</p>
           </Aux>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
