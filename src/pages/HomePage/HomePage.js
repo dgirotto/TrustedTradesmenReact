@@ -48,7 +48,7 @@ class HomePage extends Component {
                 </Button>
               </Aux>
             ) : (
-              <FaCheck className="card-icon-check" size="50" />
+              <FaCheck className="card-icon-check" size="45" />
             )}
           </Card>
           <Card className="card">

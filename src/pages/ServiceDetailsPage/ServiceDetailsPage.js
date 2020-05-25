@@ -9,6 +9,7 @@ import "./ServiceDetailsPage.css";
 
 import { ServicesService } from "../../services/service";
 import { AccountService } from "../../services/account";
+import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
 
 class ServiceDetailsPage extends Component {
@@ -16,8 +17,15 @@ class ServiceDetailsPage extends Component {
     super(props);
     this.state = {
       serviceDetails: null,
+      accountDetails: null,
+      jobDetails: {
+        serviceId: this.props.match.params.id,
+        budget: null,
+        description: null
+      },
       userType: AuthService.getRole(),
       showAddJobForm: false,
+      hasEditedDetails: false,
       isLoading: false
     };
   }
@@ -34,6 +42,31 @@ class ServiceDetailsPage extends Component {
       });
   }
 
+  accountDetailsChange = event => {
+    const newAccountDetails = Object.assign(this.state.accountDetails, {
+      [event.target.name]: event.target.value
+    });
+    this.setState({
+      accountDetails: newAccountDetails,
+      hasEditedDetails: true
+    });
+  };
+
+  jobDetailsChange = event => {
+    const newJobDetails = Object.assign(this.state.jobDetails, {
+      [event.target.name]: event.target.value
+    });
+    this.setState({
+      jobDetails: newJobDetails,
+      hasEditedDetails: true
+    });
+  };
+
+  submitJobClickHandler = () => {
+    // this.setState({ isLoading: true });
+    // JobService.addJob(this.state.jobDetails);
+  };
+
   addJobClickHandler = () => {
     this.setState({ isLoading: true });
 
@@ -46,10 +79,10 @@ class ServiceDetailsPage extends Component {
         });
       })
       .catch(error => {
-        this.displayMessage(
-          "Error while getting account details: " + error.response,
-          false
-        );
+        // this.displayMessage(
+        //   "Error while getting account details: " + error.response,
+        //   false
+        // );
       });
   };
 
@@ -57,12 +90,98 @@ class ServiceDetailsPage extends Component {
     return (
       <Aux>
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
+        <h2 className="form-title">DESCRIPTION</h2>
+        <p>{this.state.serviceDetails.description}</p>
         {this.state.userType === 0 && !this.state.showAddJobForm ? (
-          <Button onClick={this.addJobClickHandler}>ADD JOB</Button>
+          <Button
+            onClick={this.addJobClickHandler}
+            variant="contained"
+            color="primary"
+          >
+            ADD JOB
+          </Button>
         ) : null}
         {this.state.showAddJobForm ? (
           <form>
-            <Button>SEND REQUEST</Button>
+            <div className="textfield-container-row">
+              <div>
+                <TextField
+                  type="text"
+                  name="budget"
+                  label="budget"
+                  value={this.state.jobDetails.budget || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-row">
+              <div>
+                <TextField
+                  type="text"
+                  name="description"
+                  label="description"
+                  value={this.state.jobDetails.description || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-row">
+              <div>
+                <TextField
+                  type="text"
+                  name="address"
+                  label="address"
+                  value={this.state.accountDetails.address || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-row">
+              <div>
+                <TextField
+                  type="text"
+                  name="city"
+                  label="city"
+                  value={this.state.accountDetails.city || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-row">
+              <div>
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="postal code"
+                  value={this.state.accountDetails.postalCode || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-row">
+              <div>
+                <TextField
+                  type="text"
+                  name="province"
+                  label="province"
+                  value={this.state.accountDetails.province || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+            </div>
+            <Button
+              onClick={this.submitJobClickHandler}
+              variant="contained"
+              color="primary"
+            >
+              SUBMIT JOB
+            </Button>
           </form>
         ) : null}
       </Aux>

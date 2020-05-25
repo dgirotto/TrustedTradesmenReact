@@ -9,6 +9,11 @@ function getJobs() {
   return axios.get(`${commonEndpoint}/job/read.php`, { headers });
 }
 
+function addJob(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/add.php`, body, { headers });
+}
+
 function getHeaders() {
   const token = CacheService.getCachedToken();
 
@@ -19,5 +24,6 @@ function getHeaders() {
 }
 
 export const JobsService = {
-  getJobs
+  getJobs,
+  addJob
 };

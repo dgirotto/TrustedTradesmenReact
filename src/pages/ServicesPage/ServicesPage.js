@@ -37,17 +37,11 @@ class ServicesPage extends Component {
         {this.state.services && (
           <Aux>
             <Title>SERVICES</Title>
-            <p>
-              {this.props.isAuth ? (
-                <Aux>Choose </Aux>
-              ) : (
-                <Aux>
-                  <a href="/login">Login</a> and choose{" "}
-                </Aux>
-              )}
-              from our several services!
-            </p>
-            <br />
+            {!this.props.isAuth ? (
+              <p>
+                <a href="/login">Login</a> and choose from our several services!
+              </p>
+            ) : null}
             <div className="services">
               {this.state.services.map(service => (
                 <Card
