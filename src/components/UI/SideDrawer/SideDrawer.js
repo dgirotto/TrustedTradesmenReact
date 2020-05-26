@@ -53,11 +53,11 @@ const sideDrawer = props => {
           </Aux>
         ) : (
           <Aux>
-            <Link onClick={props.drawerToggleClickHandler} to="/register">
-              <li>Register</li>
-            </Link>
             <Link onClick={props.drawerToggleClickHandler} to="/login">
               <li>Login</li>
+            </Link>
+            <Link onClick={props.drawerToggleClickHandler} to="/register">
+              <li>Register</li>
             </Link>
           </Aux>
         )}
