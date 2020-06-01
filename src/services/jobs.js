@@ -1,6 +1,7 @@
 import axios, { AxiosPromise } from "axios";
 import { CacheService } from "./caching";
 
+// const commonEndpoint = "http://dgirotto.a2hosted.com/api";
 const commonEndpoint =
   "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api";
 

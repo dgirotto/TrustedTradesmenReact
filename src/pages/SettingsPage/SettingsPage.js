@@ -17,6 +17,7 @@ class SettingsPage extends Component {
       firstName: "",
       lastName: "",
       phone: "",
+      addressId: "",
       address: "",
       city: "",
       postalCode: "",
