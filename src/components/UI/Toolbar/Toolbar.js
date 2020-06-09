@@ -46,6 +46,11 @@ const ToolBar = props => {
                 <Link to="/jobs">
                   <li>JOBS</li>
                 </Link>
+                {props.userType === 3 ? (
+                  <Link to="/admin">
+                    <li>ADMIN</li>
+                  </Link>
+                ) : null}
                 <Link to="/settings">
                   <li className="icon-link-settings">
                     <FiSettings size="18" />
