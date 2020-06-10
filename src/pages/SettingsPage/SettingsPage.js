@@ -4,12 +4,19 @@ import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
 
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
 
 class SettingsPage extends Component {
+  provinces = [
+    {
+      value: "ON"
+    }
+  ];
+
   state = {
     userType: AuthService.getRole(),
     accountDetails: {
@@ -29,7 +36,7 @@ class SettingsPage extends Component {
       youtube: "",
       instagram: "",
       website: "",
-      services: null
+      services: []
     },
     passwordDetails: {
       password: "",
@@ -144,166 +151,146 @@ class SettingsPage extends Component {
             <form>
               <h2 className="form-title">CONTACT DETAILS</h2>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="firstName"
-                    label="first name"
-                    value={this.state.accountDetails.firstName || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  type="text"
+                  name="firstName"
+                  label="first name"
+                  value={this.state.accountDetails.firstName || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="lastName"
-                    label="last name"
-                    value={this.state.accountDetails.lastName || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  type="text"
+                  name="lastName"
+                  label="last name"
+                  value={this.state.accountDetails.lastName || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="phone"
-                    label="phone"
-                    value={this.state.accountDetails.phone || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  type="text"
+                  name="phone"
+                  label="phone"
+                  value={this.state.accountDetails.phone || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
-              {/* <br /> */}
               <h2 className="form-title">ADDRESS DETAILS</h2>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="address"
-                    label="address"
-                    value={this.state.accountDetails.address || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  type="text"
+                  name="address"
+                  label="address"
+                  value={this.state.accountDetails.address || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="city"
-                    label="city"
-                    value={this.state.accountDetails.city || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  type="text"
+                  name="city"
+                  label="city"
+                  value={this.state.accountDetails.city || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="postalCode"
-                    label="postal code"
-                    value={this.state.accountDetails.postalCode || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="postal code"
+                  value={this.state.accountDetails.postalCode || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="text"
-                    name="province"
-                    label="province"
-                    value={this.state.accountDetails.province || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
+                <TextField
+                  select
+                  name="province"
+                  label="province"
+                  value={this.state.accountDetails.province || ""}
+                  onChange={this.accountDetailsChange}
+                  variant="outlined"
+                >
+                  {this.provinces.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
               {this.state.userType === 1 ? (
                 <Aux>
-                  <br />
                   <h2 className="form-title">CONTRACTOR DETAILS</h2>
                   <div className="textfield-container-row">
-                    <div>
-                      <TextField
-                        type="text"
-                        name="bio"
-                        label="bio"
-                        value={this.state.accountDetails.bio || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                    <TextField
+                      multiline
+                      rowsMax={6}
+                      type="text"
+                      name="bio"
+                      label="bio"
+                      value={this.state.accountDetails.bio || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                   <div className="textfield-container-row">
-                    <div>
-                      <TextField
-                        type="text"
-                        name="linkedin"
-                        label="linkedin"
-                        value={this.state.accountDetails.linkedin || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                    <TextField
+                      type="text"
+                      name="linkedin"
+                      label="linkedin"
+                      value={this.state.accountDetails.linkedin || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                   <div className="textfield-container-row">
-                    <div>
-                      <TextField
-                        type="text"
-                        name="facebook"
-                        label="facebook"
-                        value={this.state.accountDetails.facebook || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                    <TextField
+                      type="text"
+                      name="facebook"
+                      label="facebook"
+                      value={this.state.accountDetails.facebook || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                   <div className="textfield-container-row">
-                    <div>
-                      <TextField
-                        type="text"
-                        name="youtube"
-                        label="youtube"
-                        value={this.state.accountDetails.youtube || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                    <TextField
+                      type="text"
+                      name="youtube"
+                      label="youtube"
+                      value={this.state.accountDetails.youtube || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                   <div className="textfield-container-row">
-                    <div>
-                      <TextField
-                        type="text"
-                        name="instagram"
-                        label="instagram"
-                        value={this.state.accountDetails.instagram || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                    <TextField
+                      type="text"
+                      name="instagram"
+                      label="instagram"
+                      value={this.state.accountDetails.instagram || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                   <div className="textfield-container-row">
-                    <div>
-                      <TextField
-                        type="text"
-                        name="website"
-                        label="website"
-                        value={this.state.accountDetails.website || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                    <TextField
+                      type="text"
+                      name="website"
+                      label="website"
+                      value={this.state.accountDetails.website || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                 </Aux>
               ) : null}
@@ -321,40 +308,34 @@ class SettingsPage extends Component {
             <form>
               <h2 className="form-title">CHANGE PASSWORD</h2>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="password"
-                    name="password"
-                    label="old password"
-                    value={this.state.passwordDetails.password || ""}
-                    variant="outlined"
-                    onChange={this.passwordChange}
-                  />
-                </div>
+                <TextField
+                  type="password"
+                  name="password"
+                  label="old password"
+                  value={this.state.passwordDetails.password || ""}
+                  variant="outlined"
+                  onChange={this.passwordChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="password"
-                    name="newPassword"
-                    label="new password"
-                    value={this.state.passwordDetails.newPassword || ""}
-                    variant="outlined"
-                    onChange={this.passwordChange}
-                  />
-                </div>
+                <TextField
+                  type="password"
+                  name="newPassword"
+                  label="new password"
+                  value={this.state.passwordDetails.newPassword || ""}
+                  variant="outlined"
+                  onChange={this.passwordChange}
+                />
               </div>
               <div className="textfield-container-row">
-                <div>
-                  <TextField
-                    type="password"
-                    name="confirmNewPassword"
-                    label="confirm new password"
-                    value={this.state.passwordDetails.confirmNewPassword || ""}
-                    variant="outlined"
-                    onChange={this.passwordChange}
-                  />
-                </div>
+                <TextField
+                  type="password"
+                  name="confirmNewPassword"
+                  label="confirm new password"
+                  value={this.state.passwordDetails.confirmNewPassword || ""}
+                  variant="outlined"
+                  onChange={this.passwordChange}
+                />
               </div>
               <Button
                 onClick={this.changePasswordClickHandler}
