@@ -7,13 +7,15 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
+import { ServicesService } from "../../services/service";
 
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
 
 class SettingsPage extends Component {
   provinces = [
     {
-      value: "ON"
+      value: "ON",
+      label: "Ontario"
     }
   ];
 
@@ -43,6 +45,7 @@ class SettingsPage extends Component {
       newPassword: "",
       confirmNewPassword: ""
     },
+    services: [],
     hasEditedDetails: false,
     isLoading: false
   };
@@ -52,13 +55,29 @@ class SettingsPage extends Component {
 
     AccountService.getAccountDetails()
       .then(res => {
-        this.setState({ accountDetails: res.data, isLoading: false });
+        this.setState({ accountDetails: res.data });
       })
       .catch(error => {
         this.displayMessage(
           "Error while getting account details: " + error.response,
           false
         );
+      })
+      .then(() => {
+        if (this.state.userType === 1) {
+          ServicesService.getServices(true)
+            .then(res => {
+              this.setState({ services: res.data, isLoading: false });
+            })
+            .catch(error => {
+              this.displayMessage(
+                "Error while getting service list: " + error.response,
+                false
+              );
+            });
+        } else {
+          this.setState({ isLoading: false });
+        }
       });
   }
 
@@ -147,6 +166,11 @@ class SettingsPage extends Component {
     return (
       <Aux>
         <div className="account-details-container">
+          <ul>
+            {this.state.services.map(service => (
+              <li key={service.serviceId}>{service.serviceName}</li>
+            ))}
+          </ul>
           <div className="textfield-container">
             <form>
               <h2 className="form-title">CONTACT DETAILS</h2>
@@ -222,7 +246,7 @@ class SettingsPage extends Component {
                 >
                   {this.provinces.map(option => (
                     <MenuItem key={option.value} value={option.value}>
-                      {option.value}
+                      {option.label}
                     </MenuItem>
                   ))}
                 </TextField>
