@@ -5,6 +5,12 @@ import Aux from "../../helpers/Aux";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
 import { ServicesService } from "../../services/service";
@@ -38,7 +44,7 @@ class SettingsPage extends Component {
       youtube: "",
       instagram: "",
       website: "",
-      services: []
+      services: null
     },
     passwordDetails: {
       password: "",
@@ -55,6 +61,7 @@ class SettingsPage extends Component {
 
     AccountService.getAccountDetails()
       .then(res => {
+        res.data.services = res.data.services.split(",");
         this.setState({ accountDetails: res.data });
       })
       .catch(error => {
@@ -64,6 +71,7 @@ class SettingsPage extends Component {
         );
       })
       .then(() => {
+        console.log(this.state.accountDetails);
         if (this.state.userType === 1) {
           ServicesService.getServices(true)
             .then(res => {
@@ -144,6 +152,7 @@ class SettingsPage extends Component {
   };
 
   accountDetailsChange = event => {
+    console.log(this.state.accountDetails.services);
     const newAccountDetails = Object.assign(this.state.accountDetails, {
       [event.target.name]: event.target.value
     });
@@ -166,11 +175,6 @@ class SettingsPage extends Component {
     return (
       <Aux>
         <div className="account-details-container">
-          <ul>
-            {this.state.services.map(service => (
-              <li key={service.serviceId}>{service.serviceName}</li>
-            ))}
-          </ul>
           <div className="textfield-container">
             <form>
               <h2 className="form-title">CONTACT DETAILS</h2>
@@ -254,6 +258,26 @@ class SettingsPage extends Component {
               {this.state.userType === 1 ? (
                 <Aux>
                   <h2 className="form-title">CONTRACTOR DETAILS</h2>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">Services Offered:</FormLabel>
+                    <FormGroup>
+                      {this.state.services.map(service => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={this.accountDetailsChange}
+                              name={service.serviceName}
+                              checked={this.state.accountDetails.services.includes(
+                                service.serviceId
+                              )}
+                            />
+                          }
+                          label={service.serviceName}
+                          key={service.serviceId}
+                        />
+                      ))}
+                    </FormGroup>
+                  </FormControl>
                   <div className="textfield-container-row">
                     <TextField
                       multiline
