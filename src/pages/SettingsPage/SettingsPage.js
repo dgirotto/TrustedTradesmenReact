@@ -51,7 +51,7 @@ class SettingsPage extends Component {
       newPassword: "",
       confirmNewPassword: ""
     },
-    services: [],
+    services: null,
     hasEditedDetails: false,
     isLoading: false
   };
@@ -71,7 +71,6 @@ class SettingsPage extends Component {
         );
       })
       .then(() => {
-        console.log(this.state.accountDetails);
         if (this.state.userType === 1) {
           ServicesService.getServices(true)
             .then(res => {
@@ -152,7 +151,6 @@ class SettingsPage extends Component {
   };
 
   accountDetailsChange = event => {
-    console.log(this.state.accountDetails.services);
     const newAccountDetails = Object.assign(this.state.accountDetails, {
       [event.target.name]: event.target.value
     });
@@ -255,7 +253,7 @@ class SettingsPage extends Component {
                   ))}
                 </TextField>
               </div>
-              {this.state.userType === 1 ? (
+              {this.state.userType === 1 && this.state.services !== null ? (
                 <Aux>
                   <h2 className="form-title">CONTRACTOR DETAILS</h2>
                   <FormControl component="fieldset">
@@ -265,7 +263,38 @@ class SettingsPage extends Component {
                         <FormControlLabel
                           control={
                             <Checkbox
-                              onChange={this.accountDetailsChange}
+                              onChange={event => {
+                                var accountDetailsCopy = this.state
+                                  .accountDetails;
+
+                                if (event.target.checked) {
+                                  accountDetailsCopy.services.push(
+                                    event.target.value
+                                  );
+
+                                  this.setState({
+                                    accountDetails: accountDetailsCopy,
+                                    hasEditedDetails: true
+                                  });
+                                } else {
+                                  const index = accountDetailsCopy.services.indexOf(
+                                    event.target.value
+                                  );
+
+                                  if (index !== -1) {
+                                    accountDetailsCopy.services.splice(
+                                      index,
+                                      1
+                                    );
+
+                                    this.setState({
+                                      accountDetails: accountDetailsCopy,
+                                      hasEditedDetails: true
+                                    });
+                                  }
+                                }
+                              }}
+                              value={service.serviceId}
                               name={service.serviceName}
                               checked={this.state.accountDetails.services.includes(
                                 service.serviceId
