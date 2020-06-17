@@ -61,7 +61,9 @@ class SettingsPage extends Component {
 
     AccountService.getAccountDetails()
       .then(res => {
-        res.data.services = res.data.services.split(",");
+        if (this.state.userType === 1) {
+          res.data.services = res.data.services.split(",");
+        }
         this.setState({ accountDetails: res.data });
       })
       .catch(error => {
@@ -257,7 +259,7 @@ class SettingsPage extends Component {
                 <Aux>
                   <h2 className="form-title">CONTRACTOR DETAILS</h2>
                   <FormControl component="fieldset">
-                    <FormLabel component="legend">Services Offered:</FormLabel>
+                    {/* <FormLabel component="legend">Services Offered:</FormLabel> */}
                     <FormGroup>
                       {this.state.services.map(service => (
                         <FormControlLabel
