@@ -1,14 +1,24 @@
 .intro-container {
   display: flex;
+  flex-direction: column;
   padding: 20px;
   background: rgb(230, 230, 230);
+  box-shadow: 0 3px 2px -2px grey;
+}
+.intro {
+  max-width: 1300px;
+  margin: auto;
+}
+.intro-bottom {
+  display: flex;
 }
 .intro-photo {
-  margin: auto;
+  padding-right: 10px;
 }
 .intro-desc {
   padding-left: 20px;
   font-size: 20px;
+  padding-bottom: 20px;
 }
 .home-container {
   width: 100%;
@@ -68,8 +78,12 @@
   }
 }
 @media (max-width: 625px) {
-  .intro-container {
+  .intro-bottom {
     flex-direction: column;
+  }
+  .intro-photo {
+    margin: auto;
+    padding: 0;
   }
   .intro-desc {
     padding-top: 20px;
