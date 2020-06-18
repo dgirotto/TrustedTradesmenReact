@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { JobsService } from "../../services/jobs";
+import { JobService } from "../../services/jobs";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
@@ -23,7 +23,7 @@ class JobsPage extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    JobsService.getJobs()
+    JobService.getJobs()
       .then(res => {
         this.setState({ jobs: res.data, isLoading: false });
       })

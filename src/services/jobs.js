@@ -24,7 +24,7 @@ function getHeaders() {
   };
 }
 
-export const JobsService = {
+export const JobService = {
   getJobs,
   addJob
 };
