@@ -1,3 +1,15 @@
+.intro-container {
+  display: flex;
+  padding: 20px;
+  background: rgb(230, 230, 230);
+}
+.intro-photo {
+  margin: auto;
+}
+.intro-desc {
+  padding-left: 20px;
+  font-size: 20px;
+}
 .home-container {
   width: 100%;
   padding: 0 2rem;
@@ -53,5 +65,13 @@
   .card-container {
     flex-direction: column;
     max-width: 375px;
+  }
+}
+@media (max-width: 625px) {
+  .intro-container {
+    flex-direction: column;
+  }
+  .intro-desc {
+    padding-top: 20px;
   }
 }

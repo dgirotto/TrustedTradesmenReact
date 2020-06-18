@@ -382,8 +382,6 @@ class SettingsPage extends Component {
                 SAVE DETAILS
               </Button>
             </form>
-          </div>
-          <div className="textfield-container">
             <form>
               <h2 className="form-title">CHANGE PASSWORD</h2>
               <div className="textfield-container-row">
