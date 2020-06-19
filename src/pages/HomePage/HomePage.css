@@ -3,7 +3,7 @@
   flex-direction: column;
   padding: 20px;
   background: rgb(230, 230, 230);
-  box-shadow: 0 3px 2px -2px grey;
+  box-shadow: 0 2px 2px -2px grey;
 }
 .intro {
   max-width: 1300px;
@@ -48,7 +48,7 @@
   font-family: "Varela Round", sans-serif;
 }
 .card-title {
-  font-size: 70px;
+  font-size: 60px;
   color: rgb(40, 40, 40);
 }
 .home-button {
