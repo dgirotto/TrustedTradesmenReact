@@ -41,14 +41,14 @@ class HomePage extends Component {
                 rating from a qualified inspector who's also seen the job.
                 <br />
                 <br />
-                Get started below!
+                Get started today!
               </div>
             </div>
           </div>
         </div>
         <div className="home-container">
           <br />
-          <Title>HOW THINGS WORK</Title>
+          <Title>HOW IT WORKS</Title>
           <div className="card-container">
             <Card className="card">
               <span className="card-title">1</span>
@@ -100,6 +100,9 @@ class HomePage extends Component {
               <p>RECEIVE A QUOTE FROM ONE OF OUR QUALIFIED TRADESMEN</p>
             </Card>
           </div>
+
+          <br />
+          <Title>WHAT'S IN IT FOR YOU?</Title>
         </div>
       </Aux>
     );

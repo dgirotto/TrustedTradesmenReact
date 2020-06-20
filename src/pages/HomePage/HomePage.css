@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background: rgb(230, 230, 230);
-  box-shadow: 0 2px 2px -2px grey;
+  background: #ddecf1;
+  /* box-shadow: 0 2px 2px -2px grey; */
 }
 .intro {
   max-width: 1300px;
@@ -13,12 +13,15 @@
   display: flex;
 }
 .intro-photo {
-  padding-right: 10px;
+  padding-right: 30px;
+}
+.intro-photo img {
+  border-radius: 75px;
 }
 .intro-desc {
   padding-left: 20px;
   font-size: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 35px;
 }
 .home-container {
   width: 100%;
