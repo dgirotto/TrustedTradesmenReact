@@ -172,6 +172,7 @@ class SettingsPage extends Component {
   };
 
   render() {
+    // TODO: Render only when account details are loaded (issues with accountDetailsChange state)
     return (
       <Aux>
         <div className="account-details-container">

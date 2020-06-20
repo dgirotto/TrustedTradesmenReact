@@ -1,9 +1,8 @@
 .title {
   text-align: center;
-  /* font-family: "Varela Round", sans-serif; */
-  font-family: "Open Sans", sans-serif;
-  /* font-size: 25px; */
-  font-size: 32px;
+  font-family: "Varela Round", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
+  font-size: 30px;
   padding: 20px 0;
   margin: 0;
 }
