@@ -36,7 +36,6 @@ class ServiceDetailsPage extends Component {
         province: null
       },
       userType: AuthService.getRole(),
-      hasEditedDetails: false,
       isLoading: false
     };
   }
@@ -50,8 +49,6 @@ class ServiceDetailsPage extends Component {
 
         AccountService.getAccountDetails()
           .then(res => {
-            console.log(this.state.jobDetails);
-
             var jobDetailsCopy = this.state.jobDetails;
 
             jobDetailsCopy.address = res.data.address;
@@ -82,8 +79,7 @@ class ServiceDetailsPage extends Component {
       [event.target.name]: event.target.value
     });
     this.setState({
-      jobDetails: newJobDetails,
-      hasEditedDetails: true
+      jobDetails: newJobDetails
     });
   };
 
@@ -98,20 +94,16 @@ class ServiceDetailsPage extends Component {
         this.displayMessage("Error while adding job: " + error.response, false);
         this.setState({ isLoading: false });
       });
-
-    this.setState({
-      hasEditedDetails: false
-    });
   };
 
   renderContent() {
     return (
       <Aux>
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
+        <h2 className="form-title">DESCRIPTION</h2>
+        <p>{this.state.serviceDetails.description}</p>
         {this.state.userType === 0 ? (
           <div className="textfield-container">
-            <h2 className="form-title">DESCRIPTION</h2>
-            <p>{this.state.serviceDetails.description}</p>
             <div className="textfield-container-row">
               <TextField
                 type="text"
@@ -182,6 +174,16 @@ class ServiceDetailsPage extends Component {
               onClick={this.submitJobClickHandler}
               variant="contained"
               color="primary"
+              disabled={
+                !(
+                  this.state.jobDetails.budget &&
+                  this.state.jobDetails.description &&
+                  this.state.jobDetails.address &&
+                  this.state.jobDetails.city &&
+                  this.state.jobDetails.postalCode &&
+                  this.state.jobDetails.province
+                )
+              }
             >
               GET A QUOTE
             </Button>

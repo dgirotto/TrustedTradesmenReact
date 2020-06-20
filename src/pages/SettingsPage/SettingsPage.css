@@ -25,21 +25,8 @@
 />
 */
 .account-details-container {
-  display: flex;
-}
-.textfield-container {
-  width: 100%;
-  box-sizing: border-box;
   padding: 0 2rem;
-}
-.textfield-container-row {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  padding-bottom: 10px;
-  /* margin-right: 1.5rem; */
+  box-sizing: border-box;
 }
 @media (min-width: 769px) {
   .account-details-container {

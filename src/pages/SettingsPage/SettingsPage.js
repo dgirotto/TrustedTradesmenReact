@@ -258,7 +258,6 @@ class SettingsPage extends Component {
               <Aux>
                 <h2 className="form-title">CONTRACTOR DETAILS</h2>
                 <FormControl component="fieldset">
-                  {/* <FormLabel component="legend">Services Offered:</FormLabel> */}
                   <FormGroup>
                     {this.state.services.map(service => (
                       <FormControlLabel
@@ -377,6 +376,8 @@ class SettingsPage extends Component {
             >
               SAVE DETAILS
             </Button>
+            <br />
+            <br />
             <h2 className="form-title">CHANGE PASSWORD</h2>
             <div className="textfield-container-row">
               <TextField
@@ -413,9 +414,11 @@ class SettingsPage extends Component {
               variant="contained"
               color="secondary"
               disabled={
-                !this.state.passwordDetails.password ||
-                !this.state.passwordDetails.newPassword ||
-                !this.state.passwordDetails.confirmNewPassword
+                !(
+                  this.state.passwordDetails.password &&
+                  this.state.passwordDetails.newPassword &&
+                  this.state.passwordDetails.confirmNewPassword
+                )
               }
             >
               CHANGE PASSWORD

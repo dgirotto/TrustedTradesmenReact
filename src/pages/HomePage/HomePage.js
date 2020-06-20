@@ -100,9 +100,8 @@ class HomePage extends Component {
               <p>RECEIVE A QUOTE FROM ONE OF OUR QUALIFIED TRADESMEN</p>
             </Card>
           </div>
-
-          <br />
-          <Title>WHAT'S IN IT FOR YOU?</Title>
+          {/* <br />
+          <Title>WHAT'S IN IT FOR YOU?</Title> */}
         </div>
       </Aux>
     );
