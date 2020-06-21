@@ -28,28 +28,28 @@ class SettingsPage extends Component {
   state = {
     userType: AuthService.getRole(),
     accountDetails: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      addressId: "",
-      address: "",
-      city: "",
-      postalCode: "",
-      province: "",
-      bio: "",
-      photo: "",
-      linkedin: "",
-      facebook: "",
-      youtube: "",
-      instagram: "",
-      website: "",
+      email: null,
+      firstName: null,
+      lastName: null,
+      phone: null,
+      addressId: null,
+      address: null,
+      city: null,
+      postalCode: null,
+      province: null,
+      bio: null,
+      photo: null,
+      linkedin: null,
+      facebook: null,
+      youtube: null,
+      instagram: null,
+      website: null,
       services: null
     },
     passwordDetails: {
-      password: "",
-      newPassword: "",
-      confirmNewPassword: ""
+      password: null,
+      newPassword: null,
+      confirmNewPassword: null
     },
     services: null,
     hasEditedDetails: false,
@@ -174,8 +174,8 @@ class SettingsPage extends Component {
   render() {
     // TODO: Render only when account details are loaded (issues with accountDetailsChange state)
     return (
-      <Aux>
-        <div className="account-details-container">
+      <div className="account-details-container">
+        {this.state.accountDetails.email && (
           <div className="textfield-container">
             <h2 className="form-title">CONTACT DETAILS</h2>
             <div className="textfield-container-row">
@@ -425,9 +425,9 @@ class SettingsPage extends Component {
               CHANGE PASSWORD
             </Button>
           </div>
-        </div>
+        )}
         {this.state.isLoading ? <Backdrop /> : null}
-      </Aux>
+      </div>
     );
   }
 }
