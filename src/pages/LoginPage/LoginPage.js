@@ -84,27 +84,28 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <Card variant="outlined" className="login-form">
-        {!this.state.showResetForm ? (
-          <form>
-            <h2 className="form-title">LOGIN</h2>
-            <TextField
-              type="text"
-              name="email"
-              label="email"
-              value={this.state.loginDetails.email || ""}
-              variant="outlined"
-              onChange={this.change}
-            />
-            <TextField
-              type="password"
-              name="password"
-              label="password"
-              value={this.state.loginDetails.password || ""}
-              variant="outlined"
-              onChange={this.change}
-            />
-            {/* <FormControlLabel
+      <div className="login-page-container">
+        <Card variant="outlined" className="login-form">
+          {!this.state.showResetForm ? (
+            <form>
+              <h2 className="form-title">LOGIN</h2>
+              <TextField
+                type="text"
+                name="email"
+                label="email"
+                value={this.state.loginDetails.email || ""}
+                variant="outlined"
+                onChange={this.change}
+              />
+              <TextField
+                type="password"
+                name="password"
+                label="password"
+                value={this.state.loginDetails.password || ""}
+                variant="outlined"
+                onChange={this.change}
+              />
+              {/* <FormControlLabel
               control={
                 <Checkbox
                   onChange={this.handleCheckboxChange}
@@ -113,61 +114,62 @@ class LoginPage extends Component {
               }
               label="Remember me"
             /> */}
-            <a className="reset-password" onClick={this.toggleResetPassword}>
-              Forgot Password?
-            </a>
-            <Button
-              disabled={
-                !this.state.loginDetails.email ||
-                !this.state.loginDetails.password
-              }
-              onClick={this.login}
-              variant="contained"
-              color="primary"
-            >
-              LOGIN
-            </Button>
-            <p>
-              Don't have an account? Create one <a href="/register">here</a>
-            </p>
-            {this.state.error ? (
-              <span className="Error">{this.state.error}</span>
-            ) : null}
-          </form>
-        ) : (
-          <form>
-            <h2 className="form-title">FORGOT PASSWORD</h2>
-            <span className="reset-password-msg">
-              Enter the email address associated with your account and we'll
-              email you a new password.
-            </span>
-            <TextField
-              type="text"
-              name="email"
-              label="email"
-              value={this.state.emailToReset || ""}
-              variant="outlined"
-              onChange={this.emailChange}
-            />
-            <Button
-              disabled={!this.state.emailToReset}
-              onClick={this.resetPassword}
-              variant="contained"
-              color="primary"
-            >
-              RESET PASSWORD
-            </Button>
-            <Button
-              onClick={this.toggleResetPassword}
-              variant="contained"
-              color="secondary"
-            >
-              BACK
-            </Button>
-          </form>
-        )}
-        {this.state.isLoading ? <Backdrop /> : null}
-      </Card>
+              <a className="reset-password" onClick={this.toggleResetPassword}>
+                Forgot Password?
+              </a>
+              <Button
+                disabled={
+                  !this.state.loginDetails.email ||
+                  !this.state.loginDetails.password
+                }
+                onClick={this.login}
+                variant="contained"
+                color="primary"
+              >
+                LOGIN
+              </Button>
+              <p>
+                Don't have an account? Create one <a href="/register">here</a>
+              </p>
+              {this.state.error ? (
+                <span className="Error">{this.state.error}</span>
+              ) : null}
+            </form>
+          ) : (
+            <form>
+              <h2 className="form-title">FORGOT PASSWORD</h2>
+              <span className="reset-password-msg">
+                Enter the email address associated with your account and we'll
+                email you a new password.
+              </span>
+              <TextField
+                type="text"
+                name="email"
+                label="email"
+                value={this.state.emailToReset || ""}
+                variant="outlined"
+                onChange={this.emailChange}
+              />
+              <Button
+                disabled={!this.state.emailToReset}
+                onClick={this.resetPassword}
+                variant="contained"
+                color="primary"
+              >
+                RESET PASSWORD
+              </Button>
+              <Button
+                onClick={this.toggleResetPassword}
+                variant="contained"
+                color="secondary"
+              >
+                BACK
+              </Button>
+            </form>
+          )}
+          {this.state.isLoading ? <Backdrop /> : null}
+        </Card>
+      </div>
     );
   }
 }

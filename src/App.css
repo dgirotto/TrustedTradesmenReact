@@ -1,6 +1,5 @@
 .app-container {
   height: 100%;
-  margin-bottom: 50px;
 }
 .form-title {
   text-align: left;
@@ -9,7 +8,6 @@
 .login-form {
   max-width: 450px;
   width: 85%;
-  margin: 30px auto 0;
   padding: 10px;
 }
 .login-form > form {

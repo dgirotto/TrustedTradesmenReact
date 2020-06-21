@@ -47,7 +47,6 @@ class HomePage extends Component {
           </div>
         </div>
         <div className="home-container">
-          <br />
           <Title>HOW IT WORKS</Title>
           <div className="card-container">
             <Card className="card">

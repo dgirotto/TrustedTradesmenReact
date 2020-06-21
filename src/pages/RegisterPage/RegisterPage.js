@@ -69,54 +69,56 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <Card variant="outlined" className="login-form">
-        <form>
-          <h2 className="form-title">REGISTER</h2>
-          <TextField
-            type="text"
-            name="email"
-            label="email"
-            value={this.state.registerDetails.email || ""}
-            variant="outlined"
-            onChange={this.change}
-          />
-          <TextField
-            type="password"
-            name="password"
-            label="password"
-            value={this.state.registerDetails.password || ""}
-            variant="outlined"
-            onChange={this.change}
-          />
-          <TextField
-            type="password"
-            name="confirmPassword"
-            label="confirm password"
-            value={this.state.registerDetails.confirmPassword || ""}
-            variant="outlined"
-            onChange={this.change}
-          />
-          {this.state.error ? (
-            <span className="Error">{this.state.error}</span>
-          ) : null}
-          <Button
-            disabled={
-              !this.state.registerDetails.email ||
-              !this.state.registerDetails.password ||
-              !this.state.registerDetails.confirmPassword
-            }
-            onClick={this.register}
-            variant="contained"
-            color="primary"
-          >
-            CREATE ACCOUNT
-          </Button>
-          <p>
-            Have an account? Login <a href="/login">here</a>
-          </p>
-        </form>
-        {this.state.isLoading ? <Backdrop /> : null}
-      </Card>
+      <div class="register-page-container">
+        <Card variant="outlined" className="login-form">
+          <form>
+            <h2 className="form-title">REGISTER</h2>
+            <TextField
+              type="text"
+              name="email"
+              label="email"
+              value={this.state.registerDetails.email || ""}
+              variant="outlined"
+              onChange={this.change}
+            />
+            <TextField
+              type="password"
+              name="password"
+              label="password"
+              value={this.state.registerDetails.password || ""}
+              variant="outlined"
+              onChange={this.change}
+            />
+            <TextField
+              type="password"
+              name="confirmPassword"
+              label="confirm password"
+              value={this.state.registerDetails.confirmPassword || ""}
+              variant="outlined"
+              onChange={this.change}
+            />
+            {this.state.error ? (
+              <span className="Error">{this.state.error}</span>
+            ) : null}
+            <Button
+              disabled={
+                !this.state.registerDetails.email ||
+                !this.state.registerDetails.password ||
+                !this.state.registerDetails.confirmPassword
+              }
+              onClick={this.register}
+              variant="contained"
+              color="primary"
+            >
+              CREATE ACCOUNT
+            </Button>
+            <p>
+              Have an account? Login <a href="/login">here</a>
+            </p>
+          </form>
+          {this.state.isLoading ? <Backdrop /> : null}
+        </Card>
+      </div>
     );
   }
 }

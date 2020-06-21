@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
+  padding-top: 56px;
   background: #ddecf1;
 }
 .intro {

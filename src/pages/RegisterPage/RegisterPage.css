@@ -1,0 +1,7 @@
+.register-page-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
