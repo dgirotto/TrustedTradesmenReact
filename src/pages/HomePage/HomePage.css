@@ -3,11 +3,11 @@
   flex-direction: column;
   padding: 20px;
   background: #ddecf1;
-  /* box-shadow: 0 2px 2px -2px grey; */
 }
 .intro {
   max-width: 1250px;
   margin: auto;
+  padding: 0 30px;
 }
 .intro-bottom {
   display: flex;
@@ -21,9 +21,9 @@
 .intro-desc {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 20px;
-  /* color: #2d2d5a; */
   padding-left: 20px;
   padding-bottom: 35px;
+  text-align: justify;
 }
 .home-container {
   width: 100%;
@@ -92,5 +92,8 @@
   }
   .intro-desc {
     padding: 20px 10px 20px;
+  }
+  .intro {
+    padding: 0 10px;
   }
 }
