@@ -137,6 +137,38 @@ class AdminPage extends Component {
         {this.state.services && (
           <Aux>
             <Title>ADMIN PANEL</Title>
+            <div className="textfield-container-row">
+              <TextField
+                select
+                name="create"
+                label="create"
+                value={this.state.typeToCreate || ""}
+                // onChange={this.accountDetailsChange}
+                variant="outlined"
+              >
+                {this.typeToCreate.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div className="textfield-container-row">
+              <TextField
+                select
+                name="province"
+                label="province"
+                value={this.state.userType || ""}
+                // onChange={this.accountDetailsChange}
+                variant="outlined"
+              >
+                {this.userTypes.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
             <Aux>
               <h2 className="form-title">LOGIN DETAILS</h2>
               <div className="textfield-container">
