@@ -52,9 +52,10 @@ const ToolBar = props => {
                   </Link>
                 ) : null}
                 <Link to="/settings">
-                  <li className="icon-link-settings">
+                  {/* <li className="icon-link-settings">
                     <FiSettings size="18" />
-                  </li>
+                  </li> */}
+                  <li>SETTINGS</li>
                 </Link>
                 <Link to="/logout">
                   <li className="icon-link" onClick={props.logout}>
