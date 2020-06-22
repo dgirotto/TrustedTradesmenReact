@@ -25,22 +25,22 @@ class AdminPage extends Component {
 
   typeToCreate = [
     {
-      value: "0",
+      value: 1,
       label: "User"
     },
     {
-      value: "1",
+      value: 2,
       label: "Service"
     }
   ];
 
   userTypes = [
     {
-      value: "1",
+      value: 1,
       label: "Contractor"
     },
     {
-      value: "2",
+      value: 2,
       label: "Inspector"
     }
   ];
@@ -137,13 +137,33 @@ class AdminPage extends Component {
         {this.state.services && (
           <Aux>
             <Title>ADMIN PANEL</Title>
+            <Button
+              onClick={this.saveChangesClickHandler}
+              variant="contained"
+              color="secondary"
+              disabled={!this.state.hasEditedDetails}
+            >
+              CREATE
+            </Button>
+            {/* <Button
+              onClick={this.saveChangesClickHandler}
+              variant="contained"
+              color="secondary"
+              disabled={!this.state.hasEditedDetails}
+            >
+              RESET
+            </Button> */}
+            <br />
+            <br />
             <div className="textfield-container-row">
               <TextField
                 select
                 name="create"
                 label="create"
                 value={this.state.typeToCreate || ""}
-                // onChange={this.accountDetailsChange}
+                onChange={event => {
+                  this.setState({ typeToCreate: event.target.value });
+                }}
                 variant="outlined"
               >
                 {this.typeToCreate.map(option => (
@@ -153,22 +173,26 @@ class AdminPage extends Component {
                 ))}
               </TextField>
             </div>
-            <div className="textfield-container-row">
-              <TextField
-                select
-                name="province"
-                label="province"
-                value={this.state.userType || ""}
-                // onChange={this.accountDetailsChange}
-                variant="outlined"
-              >
-                {this.userTypes.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
+            {this.state.typeToCreate === 1 ? (
+              <div className="textfield-container-row">
+                <TextField
+                  select
+                  name="userType"
+                  label="user type"
+                  value={this.state.userType || ""}
+                  onChange={event => {
+                    this.setState({ userType: event.target.value });
+                  }}
+                  variant="outlined"
+                >
+                  {this.userTypes.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            ) : null}
             <Aux>
               <h2 className="form-title">LOGIN DETAILS</h2>
               <div className="textfield-container">
@@ -400,14 +424,6 @@ class AdminPage extends Component {
                     </div>
                   </Aux>
                 ) : null}
-                <Button
-                  onClick={this.saveChangesClickHandler}
-                  variant="contained"
-                  color="secondary"
-                  disabled={!this.state.hasEditedDetails}
-                >
-                  CREATE
-                </Button>
               </div>
             </Aux>
           </Aux>
