@@ -173,7 +173,6 @@ class SettingsPage extends Component {
   };
 
   render() {
-    // TODO: Render only when account details are loaded (issues with accountDetailsChange state)
     return (
       <div className="account-details-container">
         {this.state.accountDetails.email && (
@@ -300,9 +299,12 @@ class SettingsPage extends Component {
                               }}
                               value={service.serviceId}
                               name={service.serviceName}
-                              checked={this.state.accountDetails.services.includes(
-                                service.serviceId
-                              )}
+                              checked={
+                                this.state.accountDetails.services &&
+                                this.state.accountDetails.services.includes(
+                                  service.serviceId
+                                )
+                              }
                             />
                           }
                           label={service.serviceName}

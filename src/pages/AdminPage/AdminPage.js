@@ -5,59 +5,91 @@ import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { AuthService } from "../../services/auth";
-import { AccountService } from "../../services/account";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
-// How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
+import { AccountService } from "../../services/account";
+import { ServicesService } from "../../services/service";
 
 class AdminPage extends Component {
+  provinces = [
+    {
+      value: "ON",
+      label: "Ontario"
+    }
+  ];
+
+  typeToCreate = [
+    {
+      value: "0",
+      label: "User"
+    },
+    {
+      value: "1",
+      label: "Service"
+    }
+  ];
+
+  userTypes = [
+    {
+      value: "1",
+      label: "Contractor"
+    },
+    {
+      value: "2",
+      label: "Inspector"
+    }
+  ];
+
   state = {
-    userType: AuthService.getRole(),
-    adminDetails: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      phone: "",
-      addressId: "",
-      address: "",
-      city: "",
-      postalCode: "",
-      province: "",
-      bio: "",
-      photo: "",
-      linkedin: "",
-      facebook: "",
-      youtube: "",
-      instagram: "",
-      website: "",
+    accountDetails: {
+      email: null,
+      password: null,
+      confirmPassword: null,
+      firstName: null,
+      lastName: null,
+      phone: null,
+      address: null,
+      city: null,
+      postalCode: null,
+      province: null,
+      bio: null,
+      photo: null,
+      linkedin: null,
+      facebook: null,
+      youtube: null,
+      instagram: null,
+      website: null,
       services: null
     },
+    serviceDetails: {
+      serviceName: null,
+      description: null
+    },
+    services: null,
+    typeToCreate: null, // 0 = USER, 1 = SERVICE
+    userType: 1, // 1 = CONTRACTOR, 2 = INSPECTOR
     hasEditedDetails: false,
     isLoading: false
   };
 
   componentDidMount() {
-    // this.setState({ isLoading: true });
-    // AccountService.getAccountDetails()
-    //   .then(res => {
-    //     this.setState({ accountDetails: res.data, isLoading: false });
-    //   })
-    //   .catch(error => {
-    //     this.displayMessage(
-    //       "Error while getting account details: " + error.response,
-    //       false
-    //     );
-    //   });
+    this.setState({ isLoading: true });
+    ServicesService.getServices(1)
+      .then(res => {
+        this.setState({ services: res.data, isLoading: false });
+      })
+      .catch(error => {
+        // this.displayMessage(
+        //   "Error while getting service details: " + error.response,
+        //   false
+        // );
+      });
   }
-
-  //   // Displays feedback to user
-  //   displayMessage(message, success) {
-  //     if (success) {
-  //       alert("Success: " + message);
-  //     } else {
-  //       alert("Failure: " + message);
-  //     }
-  //   }
 
   //   saveChangesClickHandler = () => {
   //     this.setState({ isLoading: true });
@@ -77,22 +109,278 @@ class AdminPage extends Component {
   //     });
   //   };
 
-  //   accountDetailsChange = event => {
-  //     const newAccountDetails = Object.assign(this.state.accountDetails, {
-  //       [event.target.name]: event.target.value
-  //     });
-  //     this.setState({
-  //       accountDetails: newAccountDetails,
-  //       hasEditedDetails: true
-  //     });
-  //   };
+  resetClickHandler = () => {};
+
+  accountDetailsChange = event => {
+    const newAccountDetails = Object.assign(this.state.accountDetails, {
+      [event.target.name]: event.target.value
+    });
+    this.setState({
+      accountDetails: newAccountDetails,
+      hasEditedDetails: true
+    });
+  };
+
+  serviceDetailsChange = event => {
+    const newServiceDetails = Object.assign(this.state.serviceDetails, {
+      [event.target.name]: event.target.value
+    });
+    this.setState({
+      serviceDetails: newServiceDetails,
+      hasEditedDetails: true
+    });
+  };
 
   render() {
     return (
       <div className="admin-page-container">
-        <Aux>
-          <Title>ADMIN PANEL</Title>
-        </Aux>
+        {this.state.services && (
+          <Aux>
+            <Title>ADMIN PANEL</Title>
+            <Aux>
+              <h2 className="form-title">LOGIN DETAILS</h2>
+              <div className="textfield-container">
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="email"
+                    label="email"
+                    value={this.state.accountDetails.email || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="password"
+                    name="password"
+                    label="password"
+                    value={this.state.accountDetails.password || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="password"
+                    name="confirmPassword"
+                    label="confirm password"
+                    value={this.state.accountDetails.confirmPassword || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <h2 className="form-title">CONTACT DETAILS</h2>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="firstName"
+                    label="first name"
+                    value={this.state.accountDetails.firstName || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="lastName"
+                    label="last name"
+                    value={this.state.accountDetails.lastName || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="phone"
+                    label="phone"
+                    value={this.state.accountDetails.phone || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <h2 className="form-title">ADDRESS DETAILS</h2>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="address"
+                    label="address"
+                    value={this.state.accountDetails.address || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="city"
+                    label="city"
+                    value={this.state.accountDetails.city || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="postalCode"
+                    label="postal code"
+                    value={this.state.accountDetails.postalCode || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    select
+                    name="province"
+                    label="province"
+                    value={this.state.accountDetails.province || ""}
+                    onChange={this.accountDetailsChange}
+                    variant="outlined"
+                  >
+                    {this.provinces.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                {this.state.userType === 1 ? (
+                  <Aux>
+                    <h2 className="form-title">CONTRACTOR DETAILS</h2>
+                    <FormControl component="fieldset">
+                      <FormGroup>
+                        {this.state.services.map(service => (
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                onChange={event => {
+                                  var accountDetailsCopy = this.state
+                                    .accountDetails;
+
+                                  if (event.target.checked) {
+                                    accountDetailsCopy.services.push(
+                                      event.target.value
+                                    );
+
+                                    this.setState({
+                                      accountDetails: accountDetailsCopy,
+                                      hasEditedDetails: true
+                                    });
+                                  } else {
+                                    const index = accountDetailsCopy.services.indexOf(
+                                      event.target.value
+                                    );
+
+                                    if (index !== -1) {
+                                      accountDetailsCopy.services.splice(
+                                        index,
+                                        1
+                                      );
+
+                                      this.setState({
+                                        accountDetails: accountDetailsCopy,
+                                        hasEditedDetails: true
+                                      });
+                                    }
+                                  }
+                                }}
+                                value={service.serviceId}
+                                name={service.serviceName}
+                                checked={
+                                  this.state.accountDetails.services &&
+                                  this.state.accountDetails.services.includes(
+                                    service.serviceId
+                                  )
+                                }
+                              />
+                            }
+                            label={service.serviceName}
+                            key={service.serviceId}
+                          />
+                        ))}
+                      </FormGroup>
+                    </FormControl>
+                    <div className="textfield-container-row">
+                      <TextField
+                        multiline
+                        rowsMax={6}
+                        type="text"
+                        name="bio"
+                        label="bio"
+                        value={this.state.accountDetails.bio || ""}
+                        variant="outlined"
+                        onChange={this.accountDetailsChange}
+                      />
+                    </div>
+                    <div className="textfield-container-row">
+                      <TextField
+                        type="text"
+                        name="linkedin"
+                        label="linkedin"
+                        value={this.state.accountDetails.linkedin || ""}
+                        variant="outlined"
+                        onChange={this.accountDetailsChange}
+                      />
+                    </div>
+                    <div className="textfield-container-row">
+                      <TextField
+                        type="text"
+                        name="facebook"
+                        label="facebook"
+                        value={this.state.accountDetails.facebook || ""}
+                        variant="outlined"
+                        onChange={this.accountDetailsChange}
+                      />
+                    </div>
+                    <div className="textfield-container-row">
+                      <TextField
+                        type="text"
+                        name="youtube"
+                        label="youtube"
+                        value={this.state.accountDetails.youtube || ""}
+                        variant="outlined"
+                        onChange={this.accountDetailsChange}
+                      />
+                    </div>
+                    <div className="textfield-container-row">
+                      <TextField
+                        type="text"
+                        name="instagram"
+                        label="instagram"
+                        value={this.state.accountDetails.instagram || ""}
+                        variant="outlined"
+                        onChange={this.accountDetailsChange}
+                      />
+                    </div>
+                    <div className="textfield-container-row">
+                      <TextField
+                        type="text"
+                        name="website"
+                        label="website"
+                        value={this.state.accountDetails.website || ""}
+                        variant="outlined"
+                        onChange={this.accountDetailsChange}
+                      />
+                    </div>
+                  </Aux>
+                ) : null}
+                <Button
+                  onClick={this.saveChangesClickHandler}
+                  variant="contained"
+                  color="secondary"
+                  disabled={!this.state.hasEditedDetails}
+                >
+                  CREATE
+                </Button>
+              </div>
+            </Aux>
+          </Aux>
+        )}
+        {this.state.isLoading ? <Backdrop /> : null}
       </div>
     );
   }
