@@ -64,7 +64,7 @@ class AdminPage extends Component {
       youtube: null,
       instagram: null,
       website: null,
-      services: null
+      services: []
     },
     serviceDetails: {
       serviceName: null,
@@ -109,7 +109,30 @@ class AdminPage extends Component {
   //     });
   //   };
 
-  resetClickHandler = () => {};
+  resetClickHandler = () => {
+    for (var key in this.state.serviceDetails) {
+      if (this.state.serviceDetails.hasOwnProperty(key)) {
+        this.state.serviceDetails[key] = null;
+      }
+    }
+    for (var key in this.state.accountDetails) {
+      if (this.state.accountDetails.hasOwnProperty(key)) {
+        if (Array.isArray(this.state.accountDetails[key])) {
+          this.state.accountDetails[key] = [];
+        } else {
+          this.state.accountDetails[key] = null;
+        }
+      }
+    }
+    this.setState({
+      accountDetails: this.state.accountDetails,
+      serviceDetails: this.state.serviceDetails,
+      services: this.state.services,
+      typeToCreate: null,
+      userType: null,
+      hasEditedDetails: false
+    });
+  };
 
   accountDetailsChange = event => {
     const newAccountDetails = Object.assign(this.state.accountDetails, {
@@ -147,7 +170,7 @@ class AdminPage extends Component {
                 CREATE
               </Button>
               <Button
-                onClick={this.saveChangesClickHandler}
+                onClick={this.resetClickHandler}
                 variant="contained"
                 color="secondary"
                 disabled={!this.state.typeToCreate}
@@ -174,7 +197,8 @@ class AdminPage extends Component {
               </TextField>
             </div>
             {this.state.typeToCreate === 1 ? (
-              <Aux>
+              <div className="textfield-container">
+                <br />
                 <div className="textfield-container-row">
                   <TextField
                     select
@@ -194,7 +218,7 @@ class AdminPage extends Component {
                   </TextField>
                 </div>
                 {this.state.userType !== null ? (
-                  <div className="textfield-container">
+                  <Aux>
                     <h2 className="form-title">LOGIN DETAILS</h2>
                     <div className="textfield-container-row">
                       <TextField
@@ -424,9 +448,9 @@ class AdminPage extends Component {
                         </div>
                       </Aux>
                     ) : null}
-                  </div>
+                  </Aux>
                 ) : null}
-              </Aux>
+              </div>
             ) : null}
             {this.state.typeToCreate === 2 ? (
               <Aux>
