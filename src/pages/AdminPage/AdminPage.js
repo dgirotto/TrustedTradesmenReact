@@ -165,7 +165,13 @@ class AdminPage extends Component {
                 onClick={this.saveChangesClickHandler}
                 variant="contained"
                 color="primary"
-                disabled={!this.state.hasEditedDetails}
+                disabled={
+                  !(
+                    this.state.accountDetails.email &&
+                    this.state.accountDetails.password &&
+                    this.state.accountDetails.confirmPassword
+                  )
+                }
               >
                 CREATE
               </Button>
