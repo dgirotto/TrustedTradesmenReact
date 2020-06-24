@@ -154,6 +154,27 @@ class AdminPage extends Component {
     });
   };
 
+  disableCreateButton(type) {
+    if (!type) {
+      return true;
+    } else {
+      if (type === 1) {
+        // User
+        return !(
+          this.state.accountDetails.email &&
+          this.state.accountDetails.password &&
+          this.state.accountDetails.confirmPassword
+        );
+      } else {
+        // Service
+        return !(
+          this.state.serviceDetails.serviceName &&
+          this.state.serviceDetails.description
+        );
+      }
+    }
+  }
+
   render() {
     return (
       <div className="admin-page-container">
@@ -165,13 +186,7 @@ class AdminPage extends Component {
                 onClick={this.saveChangesClickHandler}
                 variant="contained"
                 color="primary"
-                disabled={
-                  !(
-                    this.state.accountDetails.email &&
-                    this.state.accountDetails.password &&
-                    this.state.accountDetails.confirmPassword
-                  )
-                }
+                disabled={this.disableCreateButton(this.state.typeToCreate)}
               >
                 CREATE
               </Button>
