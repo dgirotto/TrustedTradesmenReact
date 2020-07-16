@@ -13,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import { AccountService } from "../../services/account";
+import { AuthService } from "../../services/auth";
 import { ServicesService } from "../../services/service";
 
 class AdminPage extends Component {
@@ -34,7 +35,7 @@ class AdminPage extends Component {
     }
   ];
 
-  userTypes = [
+  accountTypes = [
     {
       value: 1,
       label: "Contractor"
@@ -47,6 +48,7 @@ class AdminPage extends Component {
 
   state = {
     accountDetails: {
+      accountType: null, // 1 = CONTRACTOR, 2 = INSPECTOR
       email: null,
       password: null,
       confirmPassword: null,
@@ -68,13 +70,15 @@ class AdminPage extends Component {
     },
     serviceDetails: {
       serviceName: null,
-      description: null
+      description: null,
+      icon: null,
+      photo: null
     },
     services: null,
     typeToCreate: null, // 1 = USER, 2 = SERVICE
-    userType: null, // 1 = CONTRACTOR, 2 = INSPECTOR
     hasEditedDetails: false,
-    isLoading: false
+    isLoading: false,
+    error: null
   };
 
   componentDidMount() {
@@ -87,27 +91,46 @@ class AdminPage extends Component {
         // this.displayMessage(
         //   "Error while getting service details: " + error.response,
         //   false
-        // );
+        // );1
       });
   }
 
-  //   saveChangesClickHandler = () => {
-  //     this.setState({ isLoading: true });
-  //     AccountService.setAccountDetails(this.state.accountDetails)
-  //       .then(res => {
-  //         this.setState({ isLoading: false });
-  //       })
-  //       .catch(error => {
-  //         this.displayMessage(
-  //           "Error while updating account details: " + error.response,
-  //           false
-  //         );
-  //         this.setState({ isLoading: false });
-  //       });
-  //     this.setState({
-  //       hasEditedDetails: false
-  //     });
-  //   };
+  saveChangesClickHandler = () => {
+    if (this.state.typeToCreate === 1) {
+      if (
+        this.state.accountDetails.password !==
+        this.state.accountDetails.confirmPassword
+      ) {
+        alert("Passwords do not match!");
+        this.setState({
+          error: "Passwords do not match!",
+          hasEditedDetails: false
+        });
+        return;
+      }
+      this.setState({ isLoading: true });
+
+      AuthService.register(this.state.accountDetails, true)
+        .then(res => {
+          alert("Account created!");
+          this.setState({ isLoading: false });
+        })
+        .catch(error => {
+          alert("Account creation failed");
+          this.setState({ error: error.message, isLoading: false });
+        });
+    } else {
+      ServicesService.addService(this.state.serviceDetails)
+        .then(res => {
+          alert("Service created!");
+          this.setState({ isLoading: false });
+        })
+        .catch(error => {
+          alert("Service creation failed");
+          this.setState({ error: error.message, isLoading: false });
+        });
+    }
+  };
 
   resetClickHandler = () => {
     for (var key in this.state.serviceDetails) {
@@ -129,7 +152,6 @@ class AdminPage extends Component {
       serviceDetails: this.state.serviceDetails,
       services: this.state.services,
       typeToCreate: null,
-      userType: null,
       hasEditedDetails: false
     });
   };
@@ -181,24 +203,6 @@ class AdminPage extends Component {
         {this.state.services && (
           <Aux>
             <Title>ADMIN PANEL</Title>
-            <div className="button-container">
-              <Button
-                onClick={this.saveChangesClickHandler}
-                variant="contained"
-                color="primary"
-                disabled={this.disableCreateButton(this.state.typeToCreate)}
-              >
-                CREATE
-              </Button>
-              <Button
-                onClick={this.resetClickHandler}
-                variant="contained"
-                color="secondary"
-                disabled={!this.state.typeToCreate}
-              >
-                RESET
-              </Button>
-            </div>
             <div className="textfield-container-row">
               <TextField
                 select
@@ -223,22 +227,20 @@ class AdminPage extends Component {
                 <div className="textfield-container-row">
                   <TextField
                     select
-                    name="userType"
-                    label="type"
-                    value={this.state.userType || ""}
-                    onChange={event => {
-                      this.setState({ userType: event.target.value });
-                    }}
+                    name="accountType"
+                    label="acccount type"
+                    value={this.state.accountDetails.accountType || ""}
+                    onChange={this.accountDetailsChange}
                     variant="outlined"
                   >
-                    {this.userTypes.map(option => (
+                    {this.accountTypes.map(option => (
                       <MenuItem key={option.value} value={option.value}>
                         {option.label}
                       </MenuItem>
                     ))}
                   </TextField>
                 </div>
-                {this.state.userType !== null ? (
+                {this.state.accountDetails.accountType !== null ? (
                   <Aux>
                     <h2 className="form-title">LOGIN DETAILS</h2>
                     <div className="textfield-container-row">
@@ -349,7 +351,7 @@ class AdminPage extends Component {
                         ))}
                       </TextField>
                     </div>
-                    {this.state.userType === 1 ? (
+                    {this.state.accountDetails.accountType === 1 ? (
                       <Aux>
                         <h2 className="form-title">CONTRACTOR DETAILS</h2>
                         <FormControl component="fieldset">
@@ -501,6 +503,26 @@ class AdminPage extends Component {
                   </div>
                 </div>
               </Aux>
+            ) : null}
+            {this.state.typeToCreate != null ? (
+              <div className="button-container">
+                <Button
+                  onClick={this.saveChangesClickHandler}
+                  disabled={this.disableCreateButton(this.state.typeToCreate)}
+                  variant="contained"
+                  color="primary"
+                >
+                  CREATE
+                </Button>
+                <Button
+                  onClick={this.resetClickHandler}
+                  disabled={!this.state.typeToCreate}
+                  variant="contained"
+                  color="secondary"
+                >
+                  RESET
+                </Button>
+              </div>
             ) : null}
           </Aux>
         )}

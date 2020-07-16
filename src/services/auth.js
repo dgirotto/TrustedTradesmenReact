@@ -13,7 +13,11 @@ function logout() {
   CacheService.deleteCachedToken();
 }
 
-function register(body) {
+function register(body, setHeader = false) {
+  if (setHeader) {
+    const headers = getHeaders();
+    return axios.post(`${commonEndpoint}/user/register.php`, body, { headers });
+  }
   return axios.post(`${commonEndpoint}/user/register.php`, body);
 }
 
@@ -34,10 +38,12 @@ function getAuthenticatedUser() {
   return CacheService.getCachedUser();
 }
 
-function setHeaders(token) {
+function getHeaders() {
+  const token = CacheService.getCachedToken();
+
   return {
-    "Content-Type": "application",
-    Authorization: token
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token
   };
 }
 
