@@ -113,6 +113,7 @@ class AdminPage extends Component {
       AuthService.register(this.state.accountDetails, true)
         .then(res => {
           alert("Account created!");
+          this.resetFormFields();
           this.setState({ isLoading: false });
         })
         .catch(error => {
@@ -123,6 +124,7 @@ class AdminPage extends Component {
       ServicesService.addService(this.state.serviceDetails)
         .then(res => {
           alert("Service created!");
+          this.resetFormFields();
           this.setState({ isLoading: false });
         })
         .catch(error => {
@@ -132,7 +134,7 @@ class AdminPage extends Component {
     }
   };
 
-  resetClickHandler = () => {
+  resetFormFields = () => {
     for (var key in this.state.serviceDetails) {
       if (this.state.serviceDetails.hasOwnProperty(key)) {
         this.state.serviceDetails[key] = null;
@@ -515,7 +517,7 @@ class AdminPage extends Component {
                   CREATE
                 </Button>
                 <Button
-                  onClick={this.resetClickHandler}
+                  onClick={this.resetFormFields}
                   disabled={!this.state.typeToCreate}
                   variant="contained"
                   color="secondary"
