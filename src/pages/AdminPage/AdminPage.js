@@ -91,7 +91,7 @@ class AdminPage extends Component {
         // this.displayMessage(
         //   "Error while getting service details: " + error.response,
         //   false
-        // );1
+        // );
       });
   }
 
