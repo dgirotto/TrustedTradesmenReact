@@ -62,7 +62,7 @@ class SettingsPage extends Component {
 
     AccountService.getAccountDetails()
       .then(res => {
-        if (this.state.userType === 1) {
+        if (this.state.userType === 1 && res.data.services !== null) {
           res.data.services = res.data.services.split(",");
         }
         this.setState({ accountDetails: res.data });
@@ -267,6 +267,12 @@ class SettingsPage extends Component {
                           control={
                             <Checkbox
                               onChange={event => {
+                                if (
+                                  this.state.accountDetails.services === null
+                                ) {
+                                  this.state.accountDetails.services = [];
+                                }
+
                                 var accountDetailsCopy = this.state
                                   .accountDetails;
 
