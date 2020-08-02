@@ -4,3 +4,13 @@
   padding-top: 56px;
   box-sizing: border-box;
 }
+.job-details-table {
+  width: 100%;
+  margin-top: 25px;
+}
+.job-details-table > tr > td {
+  padding: 10px;
+}
+.job-details-table > tr:nth-child(odd) {
+  background: rgb(250, 250, 250);
+}

@@ -47,7 +47,10 @@ function Row(props) {
               label="Pending Inspection"
             />
           ) : (
-            <Chip style={{ backgroundColor: "#ff5c33" }} label="In Progress" />
+            <Chip
+              style={{ backgroundColor: "rgb(255 174 154)" }}
+              label="In Progress"
+            />
           )}
         </TableCell>
       </TableRow>
@@ -55,7 +58,7 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <table style={{ width: "100%" }}>
+              <table className="job-details-table">
                 <tr>
                   <td>Address</td>
                   <td>
