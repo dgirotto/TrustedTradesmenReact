@@ -20,6 +20,7 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import Chip from "@material-ui/core/Chip";
 
 // const rows = [
 //   createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
@@ -51,58 +52,36 @@ function Row(props) {
   return (
     <React.Fragment>
       {/* <TableRow className={classes.root}> */}
-      <TableRow onClick={() => setOpen(!open)}>
+      <TableRow onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            // onClick={() => setOpen(!open)}
-          >
+          <IconButton aria-label="expand row" size="small">
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        {/* <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell> */}
-        <TableCell>0</TableCell>
-        <TableCell>A</TableCell>
-        <TableCell>B</TableCell>
-        <TableCell>C</TableCell>
-        <TableCell>D</TableCell>
-        <TableCell>D</TableCell>
+        <TableCell>{row.serviceId}</TableCell>
+        <TableCell>{row.address}</TableCell>
+        <TableCell>{row.city}</TableCell>
+        <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+        <TableCell>
+          {row.inspectionDate ? (
+            <Chip style={{ backgroundColor: "#99ff66" }} label="Inspected" />
+          ) : row.completionDate ? (
+            <Chip
+              style={{ backgroundColor: "#ffdb4d" }}
+              label="Pending Inspection"
+            />
+          ) : (
+            <Chip style={{ backgroundColor: "#ff5c33" }} label="In Progress" />
+          )}
+        </TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+      <TableRow style={{ background: "whitesmoke" }}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                TEST
               </Typography>
-              {/* <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>Total price ($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map(historyRow => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell>{historyRow.amount}</TableCell>
-                      <TableCell>
-                        {Math.round(historyRow.amount * row.price * 100) /
-                          100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table> */}
             </Box>
           </Collapse>
         </TableCell>
@@ -133,17 +112,26 @@ class JobsPage extends Component {
         {this.state.jobs && (
           <Aux>
             <Title>JOBS</Title>
-            <TableContainer component={Paper}>
+            <TableContainer style={{ borderRadius: "0" }} component={Paper}>
               <Table aria-label="collapsible table">
                 <TableHead>
                   <TableRow>
                     <TableCell />
-                    <TableCell>Service</TableCell>
-                    <TableCell>Address</TableCell>
-                    <TableCell>City</TableCell>
-                    <TableCell>Created</TableCell>
-                    <TableCell>Completed</TableCell>
-                    <TableCell>Inspected</TableCell>
+                    <TableCell>
+                      <b>Service</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Address</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>City</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Date Created</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Status</b>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
