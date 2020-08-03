@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { JobService } from "../../services/jobs";
+import { AuthService } from "../../services/auth";
+
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
@@ -22,8 +24,56 @@ import Box from "@material-ui/core/Box";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 
+function getJobStatus(row) {
+  let content = null;
+
+  if (row.contractorId === null) {
+    content = (
+      <Chip
+        className="status"
+        style={{ backgroundColor: "#e8f4f8" }}
+        label="Contractor Required"
+      />
+    );
+  } else if (row.completionDate === null) {
+    content = (
+      <Chip
+        className="status"
+        style={{ backgroundColor: "#ffae9a" }}
+        label="Job In Progress"
+      />
+    );
+  } else if (row.inspectorId === null) {
+    content = (
+      <Chip
+        className="status"
+        style={{ backgroundColor: "#ffdb4d" }}
+        label="Inspector Required"
+      />
+    );
+  } else if (row.inspectionDate === null) {
+    content = (
+      <Chip
+        className="status"
+        style={{ backgroundColor: "#ffff66" }}
+        label="Inspection Pending"
+      />
+    );
+  } else {
+    content = (
+      <Chip
+        className="status"
+        style={{ backgroundColor: "#99ff66" }}
+        label="Completed"
+      />
+    );
+  }
+
+  return content;
+}
+
 function Row(props) {
-  const { row } = props;
+  const row = props.row;
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -34,25 +84,12 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+        <TableCell>{row.jobId}</TableCell>
         <TableCell>{row.serviceName}</TableCell>
         <TableCell>{row.address}</TableCell>
         <TableCell>{row.city}</TableCell>
         <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
-        <TableCell>
-          {row.inspectionDate ? (
-            <Chip style={{ backgroundColor: "#99ff66" }} label="Inspected" />
-          ) : row.completionDate ? (
-            <Chip
-              style={{ backgroundColor: "#ffdb4d" }}
-              label="Pending Inspection"
-            />
-          ) : (
-            <Chip
-              style={{ backgroundColor: "rgb(255 174 154)" }}
-              label="In Progress"
-            />
-          )}
-        </TableCell>
+        <TableCell>{getJobStatus(row)}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -60,7 +97,15 @@ function Row(props) {
             <Box margin={1}>
               <table className="job-details-table">
                 <tr>
-                  <td>Address</td>
+                  <td>Job ID</td>
+                  <td>{row.jobId}</td>
+                </tr>
+                <tr>
+                  <td>Service Required</td>
+                  <td>{row.serviceName}</td>
+                </tr>
+                <tr>
+                  <td>Location</td>
                   <td>
                     {row.address} {row.city}, {row.province} {row.postalCode}
                   </td>
@@ -74,6 +119,10 @@ function Row(props) {
                   <td>{row.description}</td>
                 </tr>
                 <tr>
+                  <td>Created</td>
+                  <td>{row.creationDate.split(" ")[0]}</td>
+                </tr>
+                <tr>
                   <td>Last Updated</td>
                   <td>{row.lastUpdatedDate.split(" ")[0]}</td>
                 </tr>
@@ -82,7 +131,7 @@ function Row(props) {
                 <Button
                   onClick={() => alert("test")}
                   variant="contained"
-                  color="secondary"
+                  style={{ backgroundColor: "#3bb13b", color: "white" }}
                 >
                   ACCEPT JOB
                 </Button>
@@ -104,6 +153,7 @@ function Row(props) {
 
 class JobsPage extends Component {
   state = {
+    userType: AuthService.getRole(),
     jobs: null,
     isLoading: false
   };
@@ -139,6 +189,9 @@ class JobsPage extends Component {
                   <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
                     <TableCell />
                     <TableCell>
+                      <b>ID</b>
+                    </TableCell>
+                    <TableCell>
                       <b>SERVICE</b>
                     </TableCell>
                     <TableCell>
@@ -157,7 +210,11 @@ class JobsPage extends Component {
                 </TableHead>
                 <TableBody>
                   {this.state.jobs.map(job => (
-                    <Row key={job.jobId} row={job} />
+                    <Row
+                      key={job.jobId}
+                      row={job}
+                      userType={this.state.userType}
+                    />
                   ))}
                 </TableBody>
               </Table>
