@@ -20,13 +20,13 @@
   text-align: center;
 }
 .status.required {
-  background-color: #e8f4f8;
+  background-color: #f7f494;
 }
 .status.in-progress {
   background-color: #ffae9a;
 }
 .status.completed {
-  background-color: #99ff66;
+  background-color: #a2e481;
 }
 .content-div {
   display: flex;
