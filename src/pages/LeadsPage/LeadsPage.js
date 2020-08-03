@@ -34,6 +34,24 @@ class LeadsPage extends Component {
   }
 
   render() {
+    /* 
+    <div className="button-container">
+      <Button
+        onClick={() => alert("test")}
+        variant="contained"
+        style={{ backgroundColor: "#3bb13b", color: "white" }}
+      >
+        ACCEPT JOB
+      </Button>
+      <Button
+        onClick={() => alert("test")}
+        variant="contained"
+        color="secondary"
+      >
+        DECLINE JOB
+      </Button>
+    </div> 
+    */
     return (
       <div className="leads-page-container">
         {this.state.leads && (

@@ -15,6 +15,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
 
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -23,6 +24,75 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
+
+function getContent(row, userType) {
+  let content = null;
+
+  if (userType === 1 && row.completionDate === null) {
+    // CONTRACTOR
+    content = (
+      <div className="button-container" style={{ marginBottom: "30px" }}>
+        <TextField
+          id="date"
+          type="date"
+          style={{ width: "150px", marginRight: "20px" }}
+        />
+        <Button
+          onClick={() => alert("test")}
+          variant="contained"
+          style={{ backgroundColor: "#3bb13b", color: "white", width: "175px" }}
+        >
+          COMPLETE JOB
+        </Button>
+      </div>
+    );
+  } else if (userType == 2) {
+    // INSPECTOR
+    if (row.inspectorId === null) {
+      content = (
+        <div className="button-container" style={{ marginBottom: "30px" }}>
+          <Button
+            onClick={() => alert("test")}
+            variant="contained"
+            style={{
+              backgroundColor: "#3bb13b",
+              color: "white",
+              width: "150px"
+            }}
+          >
+            CLAIM JOB
+          </Button>
+        </div>
+      );
+    } else if (row.inspectionDate == null) {
+      content = (
+        <div className="button-container" style={{ marginBottom: "30px" }}>
+          <TextField
+            id="date"
+            type="date"
+            style={{
+              width: "150px",
+              marginRight: "20px"
+            }}
+          />
+          <br />
+          <Button
+            onClick={() => alert("test")}
+            variant="contained"
+            style={{
+              backgroundColor: "#3bb13b",
+              color: "white",
+              width: "175px"
+            }}
+          >
+            COMPLETE JOB
+          </Button>
+        </div>
+      );
+    }
+  }
+  return content;
+}
 
 function getJobStatus(row) {
   let content = null;
@@ -99,24 +169,7 @@ function Row(props) {
                   <td>{row.lastUpdatedDate.split(" ")[0]}</td>
                 </tr>
               </table>
-              {props.userType === 1 ? (
-                <div className="button-container">
-                  <Button
-                    onClick={() => alert("test")}
-                    variant="contained"
-                    style={{ backgroundColor: "#3bb13b", color: "white" }}
-                  >
-                    ACCEPT JOB
-                  </Button>
-                  <Button
-                    onClick={() => alert("test")}
-                    variant="contained"
-                    color="secondary"
-                  >
-                    DECLINE JOB
-                  </Button>
-                </div>
-              ) : null}
+              {getContent(row, props.userType)}
             </Box>
           </Collapse>
         </TableCell>

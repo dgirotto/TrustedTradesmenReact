@@ -6,7 +6,8 @@
 }
 .job-details-table {
   width: 100%;
-  margin-top: 25px;
+  margin: 25px 0;
+  border-spacing: 0px;
 }
 .job-details-table > tr > td {
   padding: 10px;
@@ -26,4 +27,8 @@
 }
 .status.completed {
   background-color: #99ff66;
+}
+.content-div {
+  display: flex;
+  flex-direction: column;
 }
