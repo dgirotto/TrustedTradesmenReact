@@ -28,45 +28,17 @@ function getJobStatus(row) {
   let content = null;
 
   if (row.contractorId === null) {
-    content = (
-      <Chip
-        className="status"
-        style={{ backgroundColor: "#e8f4f8" }}
-        label="Contractor Required"
-      />
-    );
+    content = <Chip className="status required" label="Contractor Required" />;
   } else if (row.completionDate === null) {
-    content = (
-      <Chip
-        className="status"
-        style={{ backgroundColor: "#ffae9a" }}
-        label="Job In Progress"
-      />
-    );
+    content = <Chip className="status in-progress" label="Job In Progress" />;
   } else if (row.inspectorId === null) {
-    content = (
-      <Chip
-        className="status"
-        style={{ backgroundColor: "#ffdb4d" }}
-        label="Inspector Required"
-      />
-    );
+    content = <Chip className="status required" label="Inspector Required" />;
   } else if (row.inspectionDate === null) {
     content = (
-      <Chip
-        className="status"
-        style={{ backgroundColor: "#ffff66" }}
-        label="Inspection Pending"
-      />
+      <Chip className="status in-progress" label="Requires Inspection" />
     );
   } else {
-    content = (
-      <Chip
-        className="status"
-        style={{ backgroundColor: "#99ff66" }}
-        label="Completed"
-      />
-    );
+    content = <Chip className="status completed" label="Completed" />;
   }
 
   return content;
@@ -92,7 +64,7 @@ function Row(props) {
         <TableCell>{getJobStatus(row)}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <table className="job-details-table">
@@ -127,22 +99,24 @@ function Row(props) {
                   <td>{row.lastUpdatedDate.split(" ")[0]}</td>
                 </tr>
               </table>
-              <div className="button-container">
-                <Button
-                  onClick={() => alert("test")}
-                  variant="contained"
-                  style={{ backgroundColor: "#3bb13b", color: "white" }}
-                >
-                  ACCEPT JOB
-                </Button>
-                <Button
-                  onClick={() => alert("test")}
-                  variant="contained"
-                  color="secondary"
-                >
-                  DECLINE JOB
-                </Button>
-              </div>
+              {props.userType === 1 ? (
+                <div className="button-container">
+                  <Button
+                    onClick={() => alert("test")}
+                    variant="contained"
+                    style={{ backgroundColor: "#3bb13b", color: "white" }}
+                  >
+                    ACCEPT JOB
+                  </Button>
+                  <Button
+                    onClick={() => alert("test")}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    DECLINE JOB
+                  </Button>
+                </div>
+              ) : null}
             </Box>
           </Collapse>
         </TableCell>

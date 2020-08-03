@@ -18,3 +18,12 @@
   width: 160px;
   text-align: center;
 }
+.status.required {
+  background-color: #e8f4f8;
+}
+.status.in-progress {
+  background-color: #ffae9a;
+}
+.status.completed {
+  background-color: #99ff66;
+}
