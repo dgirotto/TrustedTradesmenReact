@@ -25,57 +25,24 @@ import Box from "@material-ui/core/Box";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 
-function getContent(row, userType) {
-  let content = null;
+function Row(props) {
+  const row = props.row;
 
-  if (userType === 1 && row.completionDate === null) {
-    // CONTRACTOR
-    content = (
-      <div className="button-container" style={{ marginBottom: "30px" }}>
-        <TextField
-          id="date"
-          type="date"
-          style={{ width: "150px", marginRight: "20px" }}
-        />
-        <Button
-          onClick={() => alert("test")}
-          variant="contained"
-          style={{ backgroundColor: "#3bb13b", color: "white", width: "175px" }}
-        >
-          COMPLETE JOB
-        </Button>
-      </div>
-    );
-  } else if (userType == 2) {
-    // INSPECTOR
-    if (row.inspectorId === null) {
-      content = (
-        <div className="button-container" style={{ marginBottom: "30px" }}>
-          <Button
-            onClick={() => alert("test")}
-            variant="contained"
-            style={{
-              backgroundColor: "#3bb13b",
-              color: "white",
-              width: "150px"
-            }}
-          >
-            CLAIM JOB
-          </Button>
-        </div>
-      );
-    } else if (row.inspectionDate == null) {
+  const [open, setOpen] = React.useState(false);
+  // const [completionDate, setDate] = React.useState(null);
+
+  function getContent(row, userType) {
+    let content = null;
+
+    if (userType === 1 && row.completionDate === null) {
+      // CONTRACTOR
       content = (
         <div className="button-container" style={{ marginBottom: "30px" }}>
           <TextField
             id="date"
             type="date"
-            style={{
-              width: "150px",
-              marginRight: "20px"
-            }}
+            style={{ width: "150px", marginRight: "20px" }}
           />
-          <br />
           <Button
             onClick={() => alert("test")}
             variant="contained"
@@ -89,34 +56,75 @@ function getContent(row, userType) {
           </Button>
         </div>
       );
+    } else if (userType == 2) {
+      // INSPECTOR
+      if (row.inspectorId === null) {
+        content = (
+          <div className="button-container" style={{ marginBottom: "30px" }}>
+            <Button
+              onClick={() => alert("test")}
+              variant="contained"
+              style={{
+                backgroundColor: "#3bb13b",
+                color: "white",
+                width: "150px"
+              }}
+            >
+              CLAIM JOB
+            </Button>
+          </div>
+        );
+      } else if (row.inspectionDate == null) {
+        content = (
+          <div className="button-container" style={{ marginBottom: "30px" }}>
+            <TextField
+              id="date"
+              type="date"
+              style={{
+                width: "150px",
+                marginRight: "20px"
+              }}
+            />
+            <br />
+            <Button
+              onClick={() => alert("test")}
+              variant="contained"
+              style={{
+                backgroundColor: "#3bb13b",
+                color: "white",
+                width: "175px"
+              }}
+            >
+              COMPLETE JOB
+            </Button>
+          </div>
+        );
+      }
     }
-  }
-  return content;
-}
-
-function getJobStatus(row) {
-  let content = null;
-
-  if (row.contractorId === null) {
-    content = <Chip className="status required" label="Contractor Required" />;
-  } else if (row.completionDate === null) {
-    content = <Chip className="status in-progress" label="Job In Progress" />;
-  } else if (row.inspectorId === null) {
-    content = <Chip className="status required" label="Inspector Required" />;
-  } else if (row.inspectionDate === null) {
-    content = (
-      <Chip className="status in-progress" label="Requires Inspection" />
-    );
-  } else {
-    content = <Chip className="status completed" label="Completed" />;
+    return content;
   }
 
-  return content;
-}
+  function getJobStatus(row) {
+    let content = null;
 
-function Row(props) {
-  const row = props.row;
-  const [open, setOpen] = React.useState(false);
+    if (row.contractorId === null) {
+      content = (
+        <Chip className="status required" label="Contractor Required" />
+      );
+    } else if (row.completionDate === null) {
+      content = <Chip className="status in-progress" label="Job In Progress" />;
+    } else if (row.inspectorId === null) {
+      content = <Chip className="status required" label="Inspector Required" />;
+    } else if (row.inspectionDate === null) {
+      content = (
+        <Chip className="status in-progress" label="Requires Inspection" />
+      );
+    } else {
+      content = <Chip className="status completed" label="Completed" />;
+    }
+
+    return content;
+  }
 
   return (
     <React.Fragment>
