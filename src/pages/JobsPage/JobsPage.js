@@ -27,25 +27,62 @@ import Button from "@material-ui/core/Button";
 
 function Row(props) {
   const row = props.row;
-
   const [open, setOpen] = React.useState(false);
-  // const [completionDate, setDate] = React.useState(null);
+  const [completionDate, setDate] = React.useState(null);
+  const [isLoading, setLoading] = React.useState(false);
 
-  function getContent(row, userType) {
+  function claimClickHandler() {
+    setLoading(true);
+    let body = { jobId: row.jobId };
+
+    JobService.updateJob(body)
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error while updating job" + err.response);
+        setLoading(false);
+      });
+  }
+
+  function completeClickHandler() {
+    setLoading(true);
+    let body = null;
+    if (props.userType === 1) {
+      body = { jobId: row.jobId, completionDate: completionDate };
+    } else if (props.userType === 2) {
+      body = { jobId: row.jobId, inspectionDate: completionDate };
+    }
+
+    JobService.updateJob(body)
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error while updating job" + err.response);
+        setLoading(false);
+      });
+  }
+
+  function getContent() {
     let content = null;
 
-    if (userType === 1 && row.completionDate === null) {
+    if (props.userType === 1 && row.completionDate === null) {
       // CONTRACTOR
       content = (
         <div className="button-container" style={{ marginBottom: "30px" }}>
           <TextField
-            id="date"
             type="date"
+            value={completionDate || null}
+            onChange={event => {
+              setDate(event.target.value);
+            }}
             style={{ width: "150px", marginRight: "20px" }}
           />
           <Button
-            onClick={() => alert("test")}
             variant="contained"
+            onClick={() => completeClickHandler()}
+            disabled={completionDate === null}
             style={{
               backgroundColor: "#3bb13b",
               color: "white",
@@ -56,14 +93,14 @@ function Row(props) {
           </Button>
         </div>
       );
-    } else if (userType == 2) {
+    } else if (props.userType == 2) {
       // INSPECTOR
       if (row.inspectorId === null) {
         content = (
           <div className="button-container" style={{ marginBottom: "30px" }}>
             <Button
-              onClick={() => alert("test")}
               variant="contained"
+              onClick={() => claimClickHandler()}
               style={{
                 backgroundColor: "#3bb13b",
                 color: "white",
@@ -78,8 +115,11 @@ function Row(props) {
         content = (
           <div className="button-container" style={{ marginBottom: "30px" }}>
             <TextField
-              id="date"
               type="date"
+              value={completionDate || null}
+              onChange={event => {
+                setDate(event.target.value);
+              }}
               style={{
                 width: "150px",
                 marginRight: "20px"
@@ -87,8 +127,9 @@ function Row(props) {
             />
             <br />
             <Button
-              onClick={() => alert("test")}
               variant="contained"
+              onClick={() => completeClickHandler()}
+              disabled={completionDate === null}
               style={{
                 backgroundColor: "#3bb13b",
                 color: "white",
@@ -177,7 +218,7 @@ function Row(props) {
                   <td>{row.lastUpdatedDate.split(" ")[0]}</td>
                 </tr>
               </table>
-              {getContent(row, props.userType)}
+              {getContent()}
             </Box>
           </Collapse>
         </TableCell>
