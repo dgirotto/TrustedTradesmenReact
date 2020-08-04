@@ -179,7 +179,7 @@ function Row(props) {
         <TableCell>{row.serviceName}</TableCell>
         <TableCell>{row.address}</TableCell>
         <TableCell>{row.city}</TableCell>
-        <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+        <TableCell>{row.lastUpdatedDate.split(" ")[0]}</TableCell>
         <TableCell>{getJobStatus(row)}</TableCell>
       </TableRow>
       <TableRow>
@@ -192,9 +192,25 @@ function Row(props) {
                   <td>{row.jobId}</td>
                 </tr>
                 <tr>
-                  <td>Service Required</td>
+                  <td>Service</td>
                   <td>{row.serviceName}</td>
                 </tr>
+                <tr>
+                  <td>Creation Date</td>
+                  <td>{row.creationDate.split(" ")[0]}</td>
+                </tr>
+                {row.completionDate ? (
+                  <tr>
+                    <td>Job Completion Date</td>
+                    <td>{row.completionDate.split(" ")[0]}</td>
+                  </tr>
+                ) : null}
+                {row.inspectionDate ? (
+                  <tr>
+                    <td>Inspection Date</td>
+                    <td>{row.inspectionDate.split(" ")[0]}</td>
+                  </tr>
+                ) : null}
                 <tr>
                   <td>Location</td>
                   <td>
@@ -208,14 +224,6 @@ function Row(props) {
                 <tr>
                   <td>Description</td>
                   <td>{row.description}</td>
-                </tr>
-                <tr>
-                  <td>Created</td>
-                  <td>{row.creationDate.split(" ")[0]}</td>
-                </tr>
-                <tr>
-                  <td>Last Updated</td>
-                  <td>{row.lastUpdatedDate.split(" ")[0]}</td>
                 </tr>
               </table>
               {getContent()}
@@ -277,7 +285,7 @@ class JobsPage extends Component {
                       <b>CITY</b>
                     </TableCell>
                     <TableCell>
-                      <b>CREATED</b>
+                      <b>UPDATED</b>
                     </TableCell>
                     <TableCell>
                       <b>STATUS</b>
