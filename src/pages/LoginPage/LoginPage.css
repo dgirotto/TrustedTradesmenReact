@@ -5,16 +5,23 @@
   justify-content: center;
   height: 100%;
 }
+.login-form-title {
+  font-size: 30px;
+  padding-bottom: 20px;
+  color: #282828;
+}
 .reset-password {
   font-size: smaller;
-  text-align: right;
   cursor: pointer;
+  padding: 5px 0;
 }
 .reset-password:hover {
   text-decoration: underline;
   color: #f50057;
 }
 .reset-password-msg {
-  padding-bottom: 5px;
-  font-size: smaller;
+  padding-bottom: 25px;
+}
+.no-account-msg {
+  padding-top: 15px;
 }

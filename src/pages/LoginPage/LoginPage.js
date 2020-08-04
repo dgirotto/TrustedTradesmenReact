@@ -85,10 +85,10 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="login-page-container">
-        <Card variant="outlined" className="login-form">
+        <div className="login-form">
           {!this.state.showResetForm ? (
             <form>
-              <h2 className="form-title">LOGIN</h2>
+              <h2 className="login-form-title">LOGIN</h2>
               <TextField
                 type="text"
                 name="email"
@@ -128,16 +128,16 @@ class LoginPage extends Component {
               >
                 LOGIN
               </Button>
-              <p>
+              <div className="no-account-msg">
                 Don't have an account? Create one <a href="/register">here</a>
-              </p>
+              </div>
               {this.state.error ? (
                 <span className="Error">{this.state.error}</span>
               ) : null}
             </form>
           ) : (
             <form>
-              <h2 className="form-title">FORGOT PASSWORD</h2>
+              <h2 className="login-form-title">FORGOT PASSWORD</h2>
               <span className="reset-password-msg">
                 Enter the email address associated with your account and we'll
                 email you a new password.
@@ -168,7 +168,7 @@ class LoginPage extends Component {
             </form>
           )}
           {this.state.isLoading ? <Backdrop /> : null}
-        </Card>
+        </div>
       </div>
     );
   }

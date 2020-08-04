@@ -188,7 +188,7 @@ function Row(props) {
             <Box margin={1}>
               <table className="job-details-table">
                 <tr>
-                  <td>Job ID</td>
+                  <td style={{ width: "175px" }}>Job ID</td>
                   <td>{row.jobId}</td>
                 </tr>
                 <tr>
@@ -214,7 +214,7 @@ function Row(props) {
                 <tr>
                   <td>Location</td>
                   <td>
-                    {row.address} {row.city}, {row.province} {row.postalCode}
+                    {row.address}, {row.city}, {row.province}, {row.postalCode}
                   </td>
                 </tr>
                 <tr>

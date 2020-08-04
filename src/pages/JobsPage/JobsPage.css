@@ -16,7 +16,7 @@
   background: rgb(250, 250, 250);
 }
 .status {
-  width: 160px;
+  width: 175px;
   text-align: center;
 }
 .status.required {

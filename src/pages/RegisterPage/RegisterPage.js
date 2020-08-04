@@ -70,9 +70,9 @@ class RegisterPage extends Component {
   render() {
     return (
       <div class="register-page-container">
-        <Card variant="outlined" className="login-form">
+        <div className="login-form">
           <form>
-            <h2 className="form-title">REGISTER</h2>
+            <h2 className="login-form-title">REGISTER</h2>
             <TextField
               type="text"
               name="email"
@@ -112,12 +112,12 @@ class RegisterPage extends Component {
             >
               CREATE ACCOUNT
             </Button>
-            <p>
+            <div className="have-account-msg">
               Have an account? Login <a href="/login">here</a>
-            </p>
+            </div>
           </form>
           {this.state.isLoading ? <Backdrop /> : null}
-        </Card>
+        </div>
       </div>
     );
   }
