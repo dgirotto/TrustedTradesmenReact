@@ -54,7 +54,7 @@ class HomePage extends Component {
               <Divider className="card-divider" variant="middle" />
               <FaUserCircle className="card-icon" size="60" />
               <p>CREATE AN ACCOUNT AND LOGIN</p>
-              {!this.props.isAuth ? (
+              {!this.props.isAuth || this.props.userType !== 0 ? (
                 <Aux>
                   <Button
                     className="home-button"

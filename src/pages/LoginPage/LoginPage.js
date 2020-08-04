@@ -129,7 +129,7 @@ class LoginPage extends Component {
                 LOGIN
               </Button>
               <div className="no-account-msg">
-                Don't have an account? Create one <a href="/register">here</a>
+                Don't have an account? Create one <a href="/register">here</a>.
               </div>
               {this.state.error ? (
                 <span className="Error">{this.state.error}</span>

@@ -113,7 +113,7 @@ class RegisterPage extends Component {
               CREATE ACCOUNT
             </Button>
             <div className="have-account-msg">
-              Have an account? Login <a href="/login">here</a>
+              Already have an account? Login <a href="/login">here</a>.
             </div>
           </form>
           {this.state.isLoading ? <Backdrop /> : null}
