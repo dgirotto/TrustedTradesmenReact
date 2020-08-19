@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { CacheService } from "./caching";
+import { config } from "../config.js";
 
-// const commonEndpoint = "http://dgirotto.a2hosted.com/api";
-const commonEndpoint =
-  "https://cors-anywhere.herokuapp.com/http://dgirotto.a2hosted.com/api";
+const commonEndpoint = config.dev.apiUrl;
 
 function login(body) {
   return axios.post(`${commonEndpoint}/user/login.php`, body);

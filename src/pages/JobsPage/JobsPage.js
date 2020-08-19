@@ -6,6 +6,8 @@ import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
 
+import { isMobile } from "react-device-detect";
+
 import "./JobsPage.css";
 
 import Table from "@material-ui/core/Table";
@@ -66,8 +68,10 @@ function Row(props) {
 
   function getContent() {
     let content = null;
-
-    if (props.userType === 1 && row.completionDate === null) {
+    if (props.userType === 0 && row.contractorId == null) {
+      // CUSTOMER
+      content = <b>Need to get contractors</b>;
+    } else if (props.userType === 1 && row.completionDate === null) {
       // CONTRACTOR
       content = (
         <div className="button-container" style={{ marginBottom: "30px" }}>
