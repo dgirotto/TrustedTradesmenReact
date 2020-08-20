@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { LeadsService } from "../../services/leads";
+import { AuthService } from "../../services/auth";
+import { isMobile } from "react-device-detect";
+
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
@@ -13,6 +16,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+
+import IconButton from "@material-ui/core/IconButton";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import Collapse from "@material-ui/core/Collapse";
+import Box from "@material-ui/core/Box";
+import Chip from "@material-ui/core/Chip";
+import Button from "@material-ui/core/Button";
 
 class LeadsPage extends Component {
   state = {

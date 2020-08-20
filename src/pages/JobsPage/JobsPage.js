@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
+import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Aux from "../../helpers/Aux";
-
-import { isMobile } from "react-device-detect";
 
 import "./JobsPage.css";
 
@@ -26,6 +25,7 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
+import { LeadsService } from "../../services/leads";
 
 function Row(props) {
   const row = props.row;
@@ -68,9 +68,10 @@ function Row(props) {
 
   function getContent() {
     let content = null;
-    if (props.userType === 0 && row.contractorId == null) {
+
+    if (row.contractors && row.contractors.length > 0) {
       // CUSTOMER
-      content = <b>Need to get contractors</b>;
+      content = <b>WE HAVE CONTRACTORS</b>;
     } else if (props.userType === 1 && row.completionDate === null) {
       // CONTRACTOR
       content = (
@@ -241,21 +242,32 @@ function Row(props) {
 
 class JobsPage extends Component {
   state = {
-    userType: AuthService.getRole(),
+    userType: null,
     jobs: null,
     isLoading: false
   };
 
-  componentDidMount() {
-    this.setState({ isLoading: true });
+  getJobs() {
     JobService.getJobs()
       .then(res => {
+        res.data.forEach(job => {
+          if (this.state.userType === 0 && job.contractorId === null) {
+            LeadsService.getContractors(job.jobId).then(res => {
+              job.contractors = res.data;
+            });
+          }
+        });
         this.setState({ jobs: res.data, isLoading: false });
       })
       .catch(err => {
         console.error("Error while getting jobs" + err.response);
         this.setState({ isLoading: false });
       });
+  }
+
+  componentDidMount() {
+    this.setState({ userType: AuthService.getRole(), isLoading: true });
+    this.getJobs();
   }
 
   render() {
