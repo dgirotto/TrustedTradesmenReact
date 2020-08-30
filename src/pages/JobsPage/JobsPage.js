@@ -17,6 +17,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -31,6 +32,7 @@ function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
   const [completionDate, setDate] = React.useState(null);
+  const [contractor, setContractor] = React.useState(null);
   const [isLoading, setLoading] = React.useState(false);
 
   function claimClickHandler() {
@@ -71,7 +73,23 @@ function Row(props) {
 
     if (row.contractors && row.contractors.length > 0) {
       // CUSTOMER
-      content = <b>WE HAVE CONTRACTORS</b>;
+      content = (
+        <TextField
+          select
+          name="contractor"
+          value={contractor || null}
+          onChange={event => {
+            setContractor(event.target.value);
+          }}
+          variant="outlined"
+        >
+          {row.contractors.map(option => (
+            <MenuItem key={option.userId} value={option.userId}>
+              {option.firstName} {option.lastName}
+            </MenuItem>
+          ))}
+        </TextField>
+      );
     } else if (props.userType === 1 && row.completionDate === null) {
       // CONTRACTOR
       content = (
@@ -314,6 +332,7 @@ class JobsPage extends Component {
                       key={job.jobId}
                       row={job}
                       userType={this.state.userType}
+                      contractor={null}
                     />
                   ))}
                 </TableBody>
