@@ -1,29 +1,3 @@
-/* const styles = theme => ({
-  textField: {
-      width: '90%',
-      marginLeft: 'auto',
-      marginRight: 'auto',            
-      paddingBottom: 0,
-      marginTop: 0,
-      fontWeight: 500
-  },
-  input: {
-      color: 'white'
-  }
-}); 
-
-<TextField
-    id="email"
-    label="Email"
-    className={classes.textField}
-    value={this.state.form_email}
-    onChange={this.handle_change('form_email')}
-    margin="normal"
-    InputProps={{
-        className: classes.input,
-    }}
-/>
-*/
 .account-details-container {
   padding: 0 2rem;
   padding-top: 56px;

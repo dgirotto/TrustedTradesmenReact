@@ -35,9 +35,13 @@ function Row(props) {
   const [contractor, setContractor] = React.useState(null);
   const [isLoading, setLoading] = React.useState(false);
 
-  function claimClickHandler() {
+  function claimJob() {
     setLoading(true);
     let body = { jobId: row.jobId };
+
+    if (contractor !== null) {
+      body.contractorId = contractor;
+    }
 
     JobService.updateJob(body)
       .then(() => {
@@ -49,7 +53,7 @@ function Row(props) {
       });
   }
 
-  function completeClickHandler() {
+  function completeJob() {
     setLoading(true);
     let body = null;
     if (props.userType === 1) {
@@ -68,27 +72,66 @@ function Row(props) {
       });
   }
 
+  function hireContractor() {
+    if (
+      window.confirm("Are you sure you wish to hire the selected contractor?")
+    ) {
+      claimJob();
+    }
+  }
+
   function getContent() {
     let content = null;
 
     if (row.contractors && row.contractors.length > 0) {
       // CUSTOMER
       content = (
-        <TextField
-          select
-          name="contractor"
-          value={contractor || null}
-          onChange={event => {
-            setContractor(event.target.value);
-          }}
-          variant="outlined"
-        >
-          {row.contractors.map(option => (
-            <MenuItem key={option.userId} value={option.userId}>
-              {option.firstName} {option.lastName}
-            </MenuItem>
-          ))}
-        </TextField>
+        <Aux>
+          {row.contractors.length === 1 ? (
+            <p>A contractor is interested!</p>
+          ) : (
+            <p>
+              <b>{row.contractors.length}</b> contractors are interested!
+            </p>
+          )}
+          <div className="button-container" style={{ marginBottom: "30px" }}>
+            <TextField
+              select
+              name="contractor"
+              value={contractor || null}
+              onChange={event => {
+                setContractor(event.target.value);
+              }}
+              variant="outlined"
+              style={{
+                width: "250px",
+                marginRight: "20px"
+              }}
+            >
+              {row.contractors.map(option => (
+                <MenuItem key={option.userId} value={option.userId}>
+                  {option.firstName} {option.lastName}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Button
+              onClick={() => window.open("http://www.google.ca")}
+              disabled={contractor === null}
+              variant="contained"
+              color="primary"
+            >
+              SEE PROFILE
+            </Button>
+            <Button
+              onClick={() => hireContractor()}
+              disabled={contractor === null}
+              variant="contained"
+              color="secondary"
+            >
+              HIRE CONTRACTOR
+            </Button>
+          </div>
+        </Aux>
       );
     } else if (props.userType === 1 && row.completionDate === null) {
       // CONTRACTOR
@@ -104,7 +147,7 @@ function Row(props) {
           />
           <Button
             variant="contained"
-            onClick={() => completeClickHandler()}
+            onClick={() => completeJob()}
             disabled={completionDate === null}
             style={{
               backgroundColor: "#3bb13b",
@@ -123,7 +166,7 @@ function Row(props) {
           <div className="button-container" style={{ marginBottom: "30px" }}>
             <Button
               variant="contained"
-              onClick={() => claimClickHandler()}
+              onClick={() => claimJob()}
               style={{
                 backgroundColor: "#3bb13b",
                 color: "white",
@@ -151,7 +194,7 @@ function Row(props) {
             <br />
             <Button
               variant="contained"
-              onClick={() => completeClickHandler()}
+              onClick={() => completeJob()}
               disabled={completionDate === null}
               style={{
                 backgroundColor: "#3bb13b",
