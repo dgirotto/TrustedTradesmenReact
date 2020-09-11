@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
+import { LeadsService } from "../../services/leads";
 import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
@@ -26,7 +27,46 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-import { LeadsService } from "../../services/leads";
+
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+// function SnackbarTest() {
+//   const [open, setOpen] = React.useState(false);
+
+//   const handleClick = () => {
+//     setOpen(true);
+//   };
+
+//   const handleClose = (event, reason) => {
+//     if (reason === "clickaway") {
+//       return;
+//     }
+
+//     setOpen(false);
+//   };
+
+//   return (
+//     <div>
+//       <Button variant="outlined" onClick={handleClick}>
+//         Open success snackbar
+//       </Button>
+//       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+//         <Alert onClose={handleClose} severity="success">
+//           This is a success message!
+//         </Alert>
+//       </Snackbar>
+//       <Alert severity="error">This is an error message!</Alert>
+//       <Alert severity="warning">This is a warning message!</Alert>
+//       <Alert severity="info">This is an information message!</Alert>
+//       <Alert severity="success">This is a success message!</Alert>
+//     </div>
+//   );
+// }
 
 function Row(props) {
   const row = props.row;
@@ -305,12 +345,23 @@ class JobsPage extends Component {
   state = {
     userType: null,
     jobs: null,
-    isLoading: false
+    isLoading: false,
+    showSnackbar: false
+  };
+
+  componentDidMount() {
+    this.setState({ userType: AuthService.getRole(), isLoading: true });
+    this.getJobs();
+  }
+
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
   };
 
   getJobs() {
     JobService.getJobs()
       .then(res => {
+        this.toggleSnackbar();
         res.data.forEach(job => {
           if (this.state.userType === 0 && job.contractorId === null) {
             LeadsService.getContractors(job.jobId).then(res => {
@@ -324,11 +375,6 @@ class JobsPage extends Component {
         console.error("Error while getting jobs" + err.response);
         this.setState({ isLoading: false });
       });
-  }
-
-  componentDidMount() {
-    this.setState({ userType: AuthService.getRole(), isLoading: true });
-    this.getJobs();
   }
 
   render() {
@@ -390,6 +436,15 @@ class JobsPage extends Component {
           </Aux>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={6000}
+          onClose={this.toggleSnackbar}
+        >
+          <Alert onClose={this.toggleSnackbar} severity="success">
+            This is a success message!
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
