@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./HomePage.css";
-import Aux from "../../helpers/Aux";
+import Auxil from "../../helpers/Auxil";
 import Title from "../../components/UI/Title/Title";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -19,7 +19,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <Aux>
+      <Auxil>
         <div className="intro-container">
           <div className="intro">
             <div className="intro-top">
@@ -55,7 +55,7 @@ class HomePage extends Component {
               <FaUserCircle className="card-icon" size="60" />
               <p>CREATE AN ACCOUNT AND LOGIN</p>
               {!this.props.isAuth || this.props.userType !== 0 ? (
-                <Aux>
+                <Auxil>
                   <Button
                     className="home-button"
                     onClick={() => (window.location.href = "/register")}
@@ -73,7 +73,7 @@ class HomePage extends Component {
                   >
                     LOGIN
                   </Button>
-                </Aux>
+                </Auxil>
               ) : (
                 <FaCheck className="card-icon-check" size="45" />
               )}
@@ -102,7 +102,7 @@ class HomePage extends Component {
           {/* <br />
           <Title>WHAT'S IN IT FOR YOU?</Title> */}
         </div>
-      </Aux>
+      </Auxil>
     );
   }
 }

@@ -5,7 +5,7 @@ import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Aux from "../../helpers/Aux";
+import Auxil from "../../helpers/Auxil";
 
 import "./LeadsPage.css";
 
@@ -66,7 +66,7 @@ class LeadsPage extends Component {
     return (
       <div className="leads-page-container">
         {this.state.leads && (
-          <Aux>
+          <Auxil>
             <Title>LEADS</Title>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">
@@ -100,13 +100,13 @@ class LeadsPage extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Aux>
+          </Auxil>
         )}
         {!this.state.leads && !this.state.isLoading && (
-          <Aux>
+          <Auxil>
             <Title>LEADS</Title>
             <p>You don't have any Leads yet!</p>
-          </Aux>
+          </Auxil>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
       </div>

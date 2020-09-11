@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Aux from "../../helpers/Aux";
+import Auxil from "../../helpers/Auxil";
 import Title from "../../components/UI/Title/Title";
 import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
@@ -35,7 +35,7 @@ class ServicesPage extends Component {
     return (
       <div className="services-page-container">
         {this.state.services && (
-          <Aux>
+          <Auxil>
             <Title>SERVICES</Title>
             {!this.props.isAuth ? (
               <p>
@@ -59,7 +59,7 @@ class ServicesPage extends Component {
                 </Card>
               ))}
             </div>
-          </Aux>
+          </Auxil>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
       </div>

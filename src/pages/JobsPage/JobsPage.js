@@ -6,7 +6,7 @@ import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Aux from "../../helpers/Aux";
+import Auxil from "../../helpers/Auxil";
 
 import "./JobsPage.css";
 
@@ -126,7 +126,7 @@ function Row(props) {
     if (row.contractors && row.contractors.length > 0) {
       // CUSTOMER
       content = (
-        <Aux>
+        <Auxil>
           {row.contractors.length === 1 ? (
             <p>A contractor is interested!</p>
           ) : (
@@ -171,7 +171,7 @@ function Row(props) {
               HIRE CONTRACTOR
             </Button>
           </div>
-        </Aux>
+        </Auxil>
       );
     } else if (props.userType === 1 && row.completionDate === null) {
       // CONTRACTOR
@@ -381,7 +381,7 @@ class JobsPage extends Component {
     return (
       <div className="jobs-page-container">
         {this.state.jobs && (
-          <Aux>
+          <Auxil>
             <Title>JOBS</Title>
             <TableContainer
               style={{
@@ -427,13 +427,13 @@ class JobsPage extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Aux>
+          </Auxil>
         )}
         {!this.state.jobs && !this.state.isLoading && (
-          <Aux>
+          <Auxil>
             <Title>JOBS</Title>
             <p>You don't have any Jobs yet!</p>
-          </Aux>
+          </Auxil>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
         <Snackbar

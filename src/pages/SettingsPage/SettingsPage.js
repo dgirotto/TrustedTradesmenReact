@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./SettingsPage.css";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Aux from "../../helpers/Aux";
+import Auxil from "../../helpers/Auxil";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -175,7 +175,7 @@ class SettingsPage extends Component {
     return (
       <div className="account-details-container">
         {this.state.accountDetails.email && (
-          <Aux>
+          <Auxil>
             <Title>SETTINGS</Title>
             <div className="textfield-container">
               <h2 className="form-title">CONTACT DETAILS</h2>
@@ -257,7 +257,7 @@ class SettingsPage extends Component {
                 </TextField>
               </div>
               {this.state.userType === 1 && this.state.services !== null ? (
-                <Aux>
+                <Auxil>
                   <h2 className="form-title">CONTRACTOR DETAILS</h2>
                   <FormControl component="fieldset">
                     <FormGroup>
@@ -380,7 +380,7 @@ class SettingsPage extends Component {
                       onChange={this.accountDetailsChange}
                     />
                   </div>
-                </Aux>
+                </Auxil>
               ) : null}
               <Button
                 onClick={this.saveChangesClickHandler}
@@ -438,7 +438,7 @@ class SettingsPage extends Component {
                 CHANGE PASSWORD
               </Button>
             </div>
-          </Aux>
+          </Auxil>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
       </div>

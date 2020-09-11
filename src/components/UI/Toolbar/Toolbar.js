@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
 import { FiLogOut, FiSettings } from "react-icons/fi";
 import { AiOutlineHome } from "react-icons/ai";
-import Aux from "../../../helpers/Aux";
+import Auxil from "../../../helpers/Auxil";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 
 import "./Toolbar.css";
@@ -33,7 +33,7 @@ const ToolBar = props => {
               <li>SERVICES</li>
             </Link>
             {props.isAuth ? (
-              <Aux>
+              <Auxil>
                 {/* <Link to="/contractors">
                   <li>CONTRACTORS</li>
                 </Link> */}
@@ -62,16 +62,16 @@ const ToolBar = props => {
                     <FiLogOut size="20" />
                   </li>
                 </Link>
-              </Aux>
+              </Auxil>
             ) : (
-              <Aux>
+              <Auxil>
                 <Link to="/login">
                   <li>LOGIN</li>
                 </Link>
                 <Link to="/register">
                   <li>REGISTER</li>
                 </Link>
-              </Aux>
+              </Auxil>
             )}
           </ul>
         </div>

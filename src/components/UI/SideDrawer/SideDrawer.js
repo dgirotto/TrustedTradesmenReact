@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Aux from "../../../helpers/Aux";
+import Auxil from "../../../helpers/Auxil";
 import "./SideDrawer.css";
 import { RiCloseLine } from "react-icons/ri";
 
@@ -26,7 +26,7 @@ const sideDrawer = props => {
           <li>Services</li>
         </Link>
         {props.isAuth ? (
-          <Aux>
+          <Auxil>
             {/* <Link onClick={props.drawerToggleClickHandler} to="/contractors">
               <li>Contractors</li>
             </Link> */}
@@ -55,16 +55,16 @@ const sideDrawer = props => {
             >
               <li>Logout</li>
             </Link>
-          </Aux>
+          </Auxil>
         ) : (
-          <Aux>
+          <Auxil>
             <Link onClick={props.drawerToggleClickHandler} to="/login">
               <li>Login</li>
             </Link>
             <Link onClick={props.drawerToggleClickHandler} to="/register">
               <li>Register</li>
             </Link>
-          </Aux>
+          </Auxil>
         )}
       </ul>
     </nav>

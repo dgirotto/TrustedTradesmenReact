@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
-import Aux from "../../helpers/Aux";
+import Auxil from "../../helpers/Auxil";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Title from "../../components/UI/Title/Title";
 import "./ServiceDetailsPage.css";
@@ -98,7 +98,7 @@ class ServiceDetailsPage extends Component {
 
   renderContent() {
     return (
-      <Aux>
+      <Auxil>
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
         <h2 className="form-title">DESCRIPTION</h2>
         <p>{this.state.serviceDetails.description}</p>
@@ -189,7 +189,7 @@ class ServiceDetailsPage extends Component {
             </Button>
           </div>
         ) : null}
-      </Aux>
+      </Auxil>
     );
   }
 
