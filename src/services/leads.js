@@ -9,6 +9,13 @@ function getLeads() {
   return axios.get(`${commonEndpoint}/lead/read.php`, { headers });
 }
 
+function updateLead(body) {
+  const headers = getHeaders();
+  return axios.post(
+    `${commonEndpoint}/lead/update.php`, body, { headers }
+  );
+}
+
 function getContractors(jobId) {
   const headers = getHeaders();
   return axios.get(
@@ -28,5 +35,6 @@ function getHeaders() {
 
 export const LeadsService = {
   getLeads,
+  updateLead,
   getContractors
 };
