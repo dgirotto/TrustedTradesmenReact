@@ -37,6 +37,14 @@ function Row(props) {
   const [contractor, setContractor] = React.useState(null);
   const [isLoading, setLoading] = React.useState(false);
 
+  function dismissLead() {
+    if (
+      window.confirm("Are you sure you wish to dismiss this lead?")
+    ) {
+      claimLead(false);
+    }
+  }
+
   function claimLead(isAccepted) {
     setLoading(true);
     let body = { leadId: row.leadId };
@@ -110,14 +118,14 @@ function Row(props) {
                   variant="contained"
                   style={{ backgroundColor: "#3bb13b", color: "white" }}
                 >
-                  CLAIM JOB
+                  INTERESTED
                 </Button> 
                 <Button
-                  onClick={() => claimLead(false)}
+                  onClick={() => dismissLead()}
                   variant="contained"
                   color="secondary"
                 >
-                  DECLINE JOB
+                  DISMISS
                 </Button>
               </div> 
             </Box>
