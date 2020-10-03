@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
-import { LeadsService } from "../../services/leads";
 import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
@@ -30,8 +29,9 @@ import Button from "@material-ui/core/Button";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
 
-function Alert(props) {
+function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
@@ -95,35 +95,35 @@ function Row(props) {
       content = (
         <Auxil>
           {row.contractors.length === 1 ? (
-            <p>A contractor is interested!</p>
+            <Alert severity="info" color="info">A contractor has shown an interest in your job!</Alert>
           ) : (
-            <p>
-              <b>{row.contractors.length}</b> contractors are interested!
-            </p>
-          )}
+              <Alert severity="info">
+                <b>{row.contractors.length}</b> contractors have shown an interest in your job!
+              </Alert>
+            )}
+          <br />
+          <TextField
+            select
+            name="contractor"
+            value={contractor || row.contractors[0].contractorId}
+            onChange={event => {
+              setContractor(event.target.value);
+            }}
+            variant="outlined"
+            style={{
+              width: "250px",
+              marginRight: "20px"
+            }}
+          >
+            {row.contractors.map(option => (
+              <MenuItem key={option.contractorId} value={option.contractorId}>
+                {option.firstName} {option.lastName}
+              </MenuItem>
+            ))}
+          </TextField>
           <div className="button-container" style={{ marginBottom: "30px" }}>
-            <TextField
-              select
-              name="contractor"
-              value={contractor || null}
-              onChange={event => {
-                setContractor(event.target.value);
-              }}
-              variant="outlined"
-              style={{
-                width: "250px",
-                marginRight: "20px"
-              }}
-            >
-              {row.contractors.map(option => (
-                <MenuItem key={option.userId} value={option.userId}>
-                  {option.firstName} {option.lastName}
-                </MenuItem>
-              ))}
-            </TextField>
             <Button
               onClick={() => window.open("http://www.google.ca")}
-              disabled={contractor === null}
               variant="contained"
               color="primary"
             >
@@ -131,7 +131,6 @@ function Row(props) {
             </Button>
             <Button
               onClick={() => hireContractor()}
-              disabled={contractor === null}
               variant="contained"
               color="secondary"
             >
@@ -222,19 +221,29 @@ function Row(props) {
     let content = null;
 
     if (row.contractorId === null) {
-      content = (
-        <Chip className="status required" label="Contractor Required" />
-      );
+      if (row.contractors && row.contractors.length > 0) {
+        content = (
+          <Chip style={{ width: "185px" }} style={{ width: "185px" }} className="status interested" label={row.contractors.length === 1 ?
+            <span><b>1</b> Contractor Interested</span> :
+            <span><b>{row.contractors.length}</b> Contractors Interested</span>
+          } />
+        );
+      }
+      else {
+        content = (
+          <Chip style={{ width: "185px" }} className="status required" label="Contractor Required" />
+        );
+      }
     } else if (row.completionDate === null) {
-      content = <Chip className="status in-progress" label="Job In Progress" />;
+      content = <Chip style={{ width: "185px" }} className="status in-progress" label="Job In Progress" />;
     } else if (row.inspectorId === null) {
-      content = <Chip className="status required" label="Inspector Required" />;
+      content = <Chip style={{ width: "185px" }} className="status required" label="Inspector Required" />;
     } else if (row.inspectionDate === null) {
       content = (
-        <Chip className="status in-progress" label="Requires Inspection" />
+        <Chip style={{ width: "185px" }} className="status in-progress" label="Requires Inspection" />
       );
     } else {
-      content = <Chip className="status completed" label="Completed" />;
+      content = <Chip style={{ width: "185px" }} className="status completed" label="Completed" />;
     }
 
     return content;
@@ -312,23 +321,18 @@ class JobsPage extends Component {
   state = {
     userType: null,
     jobs: null,
-    isLoading: false,
+    isLoading: true,
     showSnackbar: false
   };
 
   componentDidMount() {
-    this.setState({ userType: AuthService.getRole(), isLoading: true });
-    
+    this.setState({ userType: AuthService.getRole() });
+    this.getJobs();
+  }
+
+  getJobs = () => {
     JobService.getJobs()
       .then(res => {
-        this.toggleSnackbar();
-        res.data.forEach(job => {
-          if (this.state.userType === 0 && job.contractorId === null) {
-            LeadsService.getContractors(job.jobId).then(res => {
-              job.contractors = res.data;
-            });
-          }
-        });
         this.setState({ jobs: res.data, isLoading: false });
       })
       .catch(err => {
@@ -344,7 +348,7 @@ class JobsPage extends Component {
   render() {
     return (
       <div className="jobs-page-container">
-        {this.state.jobs && (
+        {this.state.jobs && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
             <TableContainer
@@ -393,21 +397,24 @@ class JobsPage extends Component {
             </TableContainer>
           </Auxil>
         )}
+
         {!this.state.jobs && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
             <p>You don't have any Jobs yet!</p>
           </Auxil>
         )}
+
         {this.state.isLoading ? <Backdrop /> : null}
+
         <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={6000}
           onClose={this.toggleSnackbar}
         >
-          <Alert onClose={this.toggleSnackbar} severity="success">
+          <AlertPopup onClose={this.toggleSnackbar} severity="success">
             This is a success message!
-          </Alert>
+          </AlertPopup>
         </Snackbar>
       </div>
     );

@@ -19,6 +19,9 @@
   width: 175px;
   text-align: center;
 }
+.status.interested {
+  background-color: #e8f4fd;
+}
 .status.required {
   background-color: #f7f494;
 }

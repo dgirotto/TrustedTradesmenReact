@@ -16,14 +16,6 @@ function updateLead(body) {
   );
 }
 
-function getContractors(jobId) {
-  const headers = getHeaders();
-  return axios.get(
-    `${commonEndpoint}/user/get_contractors_leads.php?jobId=${jobId}`,
-    { headers }
-  );
-}
-
 function getHeaders() {
   const token = CacheService.getCachedToken();
 
@@ -35,6 +27,5 @@ function getHeaders() {
 
 export const LeadsService = {
   getLeads,
-  updateLead,
-  getContractors
+  updateLead
 };

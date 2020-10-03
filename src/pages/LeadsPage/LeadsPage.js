@@ -54,7 +54,7 @@ function Row(props) {
     }
     else {
       body.isAccepted = 0;
-    }   
+    }
 
     LeadsService.updateLead(body)
       .then(() => {
@@ -65,7 +65,7 @@ function Row(props) {
         setLoading(false);
       });
   }
-  
+
   return (
     <Auxil>
       <TableRow onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
@@ -118,8 +118,8 @@ function Row(props) {
                   variant="contained"
                   style={{ backgroundColor: "#3bb13b", color: "white" }}
                 >
-                  INTERESTED
-                </Button> 
+                  I'M INTERESTED
+                </Button>
                 <Button
                   onClick={() => dismissLead()}
                   variant="contained"
@@ -127,7 +127,7 @@ function Row(props) {
                 >
                   DISMISS
                 </Button>
-              </div> 
+              </div>
             </Box>
           </Collapse>
         </TableCell>
@@ -148,7 +148,6 @@ class LeadsPage extends Component {
 
     LeadsService.getLeads()
       .then(res => {
-        this.toggleSnackbar();
         this.setState({ leads: res.data, isLoading: false });
       })
       .catch(err => {
@@ -173,7 +172,7 @@ class LeadsPage extends Component {
                 borderRadius: "0",
                 boxShadow: "none"
               }}
-              component={Paper}              
+              component={Paper}
             >
               <Table aria-label="collapsible table">
                 <TableHead>
