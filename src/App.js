@@ -11,7 +11,7 @@ import ContractorsPage from "./pages/ContractorsPage/ContractorsPage";
 import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
-import AdminPage from "./pages/AdminPage/AdminPage";
+// import AdminPage from "./pages/AdminPage/AdminPage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -125,15 +125,15 @@ class App extends Component {
               notAllowed={[0, 2]}
             />
             <PrivateRoute path="/jobs" component={JobsPage} />
-            <PrivateRoute
+            {/* <PrivateRoute
               path="/admin"
               component={AdminPage}
               notAllowed={[0, 1, 2]}
-            />
+            /> */}
             <PrivateRoute
               path="/settings"
               component={SettingsPage}
-              // userType={this.state.userType}
+            // userType={this.state.userType}
             />
             <PrivateRoute path="/logout" component={LoginPage} />
             <Route component={PageNotFound} />

@@ -1,31 +1,51 @@
 .app-container {
   height: 100%;
 }
+
 .form-title {
   text-align: left;
   font-size: 20px;
 }
+
 .login-form {
   max-width: 450px;
   width: 85%;
   padding: 10px;
 }
+
 .login-form > form {
   display: flex;
   flex-direction: column;
   max-width: 400px;
   margin: auto;
 }
+
 .login-form > form > * {
   margin: 8px 0;
 }
+
 .textfield-container {
   width: 100%;
   box-sizing: border-box;
 }
+
 .textfield-container-row {
   display: flex;
   flex: 1;
   flex-direction: column;
   padding-bottom: 15px;
+}
+
+.button-container {
+  display: flex;
+  margin: 15px 0;
+}
+
+.button-container > button {
+  margin-right: 20px;
+}
+
+.field-desc {
+  display: block;
+  margin: 5px 0 17px 0;
 }

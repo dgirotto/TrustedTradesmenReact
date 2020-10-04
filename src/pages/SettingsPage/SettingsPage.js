@@ -25,6 +25,29 @@ class SettingsPage extends Component {
     }
   ];
 
+  travelDistances = [
+    {
+      value: 30,
+      label: "30 km"
+    },
+    {
+      value: 50,
+      label: "50 km"
+    },
+    {
+      value: 80,
+      label: "80 km"
+    },
+    {
+      value: 120,
+      label: "120 km"
+    },
+    {
+      value: 999,
+      label: "Over 120 km"
+    }
+  ];
+
   state = {
     userType: AuthService.getRole(),
     accountDetails: {
@@ -37,6 +60,7 @@ class SettingsPage extends Component {
       city: null,
       postalCode: null,
       province: null,
+      maxDistance: null,
       bio: null,
       photo: null,
       linkedin: null,
@@ -259,6 +283,7 @@ class SettingsPage extends Component {
               {this.state.userType === 1 && this.state.services !== null ? (
                 <Auxil>
                   <h2 className="form-title">CONTRACTOR DETAILS</h2>
+                  <span className="field-desc">Check off any service that you're willing to provide.</span>
                   <FormControl component="fieldset">
                     <FormGroup>
                       {this.state.services.map(service => (
@@ -318,6 +343,33 @@ class SettingsPage extends Component {
                       ))}
                     </FormGroup>
                   </FormControl>
+                  <span className="field-desc">How far you are willing to travel to a customer.</span>
+                  <div className="textfield-container-row">
+                    {/* <TextField
+                      multiline
+                      rowsMax={6}
+                      type="text"
+                      name="maxDistance"
+                      label="max travel distance"
+                      value={this.state.accountDetails.maxDistance || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    /> */}
+                    <TextField
+                      select
+                      name="maxDistance"
+                      label="max travel distance"
+                      value={this.state.accountDetails.maxDistance || ""}
+                      onChange={this.accountDetailsChange}
+                      variant="outlined"
+                    >
+                      {this.travelDistances.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
                   <div className="textfield-container-row">
                     <TextField
                       multiline
@@ -330,6 +382,7 @@ class SettingsPage extends Component {
                       onChange={this.accountDetailsChange}
                     />
                   </div>
+                  <span className="field-desc">Include links to each of your social media profiles (these links will be displayed on your dedicated page.</span>
                   <div className="textfield-container-row">
                     <TextField
                       type="text"

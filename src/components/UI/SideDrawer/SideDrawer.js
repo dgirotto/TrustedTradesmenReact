@@ -38,11 +38,11 @@ const sideDrawer = props => {
             <Link onClick={props.drawerToggleClickHandler} to="/jobs">
               <li>Jobs</li>
             </Link>
-            {props.userType === 3 ? (
+            {/* {props.userType === 3 ? (
               <Link onClick={props.drawerToggleClickHandler} to="/admin">
                 <li>Admin</li>
               </Link>
-            ) : null}
+            ) : null} */}
             <Link onClick={props.drawerToggleClickHandler} to="/settings">
               <li>Settings</li>
             </Link>
@@ -57,15 +57,15 @@ const sideDrawer = props => {
             </Link>
           </Auxil>
         ) : (
-          <Auxil>
-            <Link onClick={props.drawerToggleClickHandler} to="/login">
-              <li>Login</li>
-            </Link>
-            <Link onClick={props.drawerToggleClickHandler} to="/register">
-              <li>Register</li>
-            </Link>
-          </Auxil>
-        )}
+            <Auxil>
+              <Link onClick={props.drawerToggleClickHandler} to="/login">
+                <li>Login</li>
+              </Link>
+              <Link onClick={props.drawerToggleClickHandler} to="/register">
+                <li>Register</li>
+              </Link>
+            </Auxil>
+          )}
       </ul>
     </nav>
   );

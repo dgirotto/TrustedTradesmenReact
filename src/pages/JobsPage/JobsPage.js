@@ -123,7 +123,7 @@ function Row(props) {
           </TextField>
           <div className="button-container" style={{ marginBottom: "30px" }}>
             <Button
-              onClick={() => window.open("http://www.google.ca")}
+              onClick={() => window.open("/contractors/" + contractor)}
               variant="contained"
               color="primary"
             >
