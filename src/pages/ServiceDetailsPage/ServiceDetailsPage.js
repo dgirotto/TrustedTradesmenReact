@@ -102,6 +102,8 @@ class ServiceDetailsPage extends Component {
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
         <h2 className="form-title">DESCRIPTION</h2>
         <p>{this.state.serviceDetails.description}</p>
+        <br />
+        <p style={{ fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
         {this.state.userType === 0 ? (
           <div className="textfield-container">
             <div className="textfield-container-row">
@@ -185,7 +187,7 @@ class ServiceDetailsPage extends Component {
                 )
               }
             >
-              GET A QUOTE
+              SUBMIT REQUEST
             </Button>
           </div>
         ) : null}

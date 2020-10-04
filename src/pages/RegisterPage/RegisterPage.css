@@ -1,10 +1,11 @@
 .register-page-container {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 500px;
+  top: 76px;
 }
+
 .have-account-msg {
   padding-top: 15px;
 }

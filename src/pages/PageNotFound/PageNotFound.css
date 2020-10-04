@@ -1,0 +1,9 @@
+.page-not-found-container {
+    display: relative;
+    margin-top: 56px;
+    width: 100%;
+}
+
+.page-not-found-msg {
+    text-align:center;
+}

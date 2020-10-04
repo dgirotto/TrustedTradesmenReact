@@ -4,10 +4,12 @@
   flex-direction: column;
   padding: 0 40px 20px;
   top: 56px;
+
   background: #ddecf1;
 }
 
 .intro {
+  width: 90%;
   max-width: 1250px;
   margin: auto;
   padding: 0 30px;
@@ -41,7 +43,7 @@
 
 .card-container {
   display: flex;
-  max-width: 900px;
+  max-width: 920px;
   margin: auto;
 }
 
@@ -52,7 +54,7 @@
   box-sizing: border-box;
   min-height: 380px;
   padding: 20px;
-  margin: 15px;
+  margin: 10px;
   text-align: center;
   /* background: rgb(238, 178, 25); */
   background: rgb(236, 182, 44);
