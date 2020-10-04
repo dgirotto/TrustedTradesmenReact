@@ -49,11 +49,11 @@ class HomePage extends Component {
         <div className="home-container">
           <Title>HOW IT WORKS</Title>
           <div className="card-container">
-            <Card className="card">
-              <span className="card-title">1</span>
+            <Card className="card" style={{ borderRadius: "0" }}>
+              <span className="card-title">1.</span>
               <Divider className="card-divider" variant="middle" />
               <FaUserCircle className="card-icon" size="60" />
-              <p>CREATE AN ACCOUNT AND LOGIN</p>
+              <p>Create an account and login</p>
               {!this.props.isAuth || this.props.userType !== 0 ? (
                 <Auxil>
                   <Button
@@ -64,7 +64,7 @@ class HomePage extends Component {
                   >
                     REGISTER
                   </Button>
-                  <span>OR</span>
+                  <span>or</span>
                   <Button
                     className="home-button"
                     onClick={() => (window.location.href = "/login")}
@@ -75,14 +75,14 @@ class HomePage extends Component {
                   </Button>
                 </Auxil>
               ) : (
-                <FaCheck className="card-icon-check" size="45" />
-              )}
+                  <FaCheck className="card-icon-check" size="45" />
+                )}
             </Card>
-            <Card className="card">
-              <span className="card-title">2</span>
+            <Card className="card" style={{ borderRadius: "0" }}>
+              <span className="card-title">2.</span>
               <Divider className="card-divider" variant="middle" />
               <FaToolbox className="card-icon" size="60" />
-              <p>SELECT A SERVICE AND SUBMIT A JOB REQUEST</p>
+              <p>Select a service and submit a job request</p>
               <Button
                 className="home-button"
                 onClick={() => (window.location.href = "/services")}
@@ -92,11 +92,11 @@ class HomePage extends Component {
                 SERVICES
               </Button>
             </Card>
-            <Card className="card">
-              <span className="card-title">3</span>
+            <Card className="card" style={{ borderRadius: "0" }}>
+              <span className="card-title">3.</span>
               <Divider className="card-divider" variant="middle" />
               <FaMoneyBillWave className="card-icon" size="60" />
-              <p>RECEIVE A QUOTE FROM ONE OF OUR QUALIFIED TRADESMEN</p>
+              <p>Choose from one of our qualified tradesmen</p>
             </Card>
           </div>
           {/* <br />

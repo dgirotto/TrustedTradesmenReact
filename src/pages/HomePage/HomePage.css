@@ -1,8 +1,9 @@
 .intro-container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  padding-top: 56px;
+  padding: 0 40px 20px;
+  top: 56px;
   background: #ddecf1;
 }
 
@@ -26,21 +27,21 @@
 
 .intro-desc {
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 20px;
+  font-size: 17px;
   padding-left: 20px;
   padding-bottom: 35px;
   text-align: justify;
 }
 
 .home-container {
-  width: 100%;
-  padding: 0 2rem;
+  margin-top: 56px;
+  padding: 0 2rem 3rem;
   box-sizing: border-box;
 }
 
 .card-container {
   display: flex;
-  max-width: 1100px;
+  max-width: 900px;
   margin: auto;
 }
 
@@ -49,26 +50,29 @@
   flex-direction: column;
   flex: 1;
   box-sizing: border-box;
-  min-height: 400px;
-  padding: 10px;
-  margin: 10px;
+  min-height: 380px;
+  padding: 20px;
+  margin: 15px;
   text-align: center;
-  background: rgb(238, 178, 25);
+  /* background: rgb(238, 178, 25); */
+  background: rgb(236, 182, 44);
   background-image: linear-gradient(
     to bottom right,
-    rgb(238, 178, 25),
+    /* rgb(218, 164, 30),
+    rgb(249, 218, 141) */
+    rgb(236, 182, 44),
     rgb(249, 218, 141)
   );
   font-family: "Varela Round", sans-serif;
 }
 
 .card-title {
-  font-size: 60px;
+  font-size: 45px;
   color: rgb(40, 40, 40);
 }
 
 .home-button {
-  width: 200px;
+  width: 150px;
   margin: 10px auto !important;
   background: rgb(40, 40, 40) !important;
 }
