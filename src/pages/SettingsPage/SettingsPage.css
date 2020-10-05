@@ -1,6 +1,5 @@
 .account-details-container {
   padding: 0 2rem 3rem;
-  padding-top: 56px;
   box-sizing: border-box;
 }
 @media (min-width: 769px) {

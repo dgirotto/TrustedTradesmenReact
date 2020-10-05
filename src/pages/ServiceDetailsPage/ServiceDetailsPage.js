@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -25,7 +24,6 @@ class ServiceDetailsPage extends Component {
     super(props);
     this.state = {
       serviceDetails: null,
-      accountDetails: null,
       jobDetails: {
         serviceId: this.props.match.params.id,
         budget: null,
@@ -57,7 +55,6 @@ class ServiceDetailsPage extends Component {
             jobDetailsCopy.postalCode = res.data.postalCode;
 
             this.setState({
-              accountDetails: res.data,
               jobDetails: jobDetailsCopy,
               isLoading: false
             });
@@ -199,7 +196,6 @@ class ServiceDetailsPage extends Component {
     return (
       <div className="service-details-page-container">
         {this.state.serviceDetails &&
-          this.state.accountDetails &&
           this.renderContent()}
         {this.state.isLoading ? <Backdrop /> : null}
       </div>

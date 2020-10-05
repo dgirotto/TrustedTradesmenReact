@@ -3,8 +3,6 @@
   display: flex;
   flex-direction: column;
   padding: 0 40px 20px;
-  top: 56px;
-
   background: #ddecf1;
 }
 
@@ -36,7 +34,6 @@
 }
 
 .home-container {
-  margin-top: 56px;
   padding: 0 2rem 3rem;
   box-sizing: border-box;
 }

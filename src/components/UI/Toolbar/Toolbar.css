@@ -1,10 +1,7 @@
 .toolbar {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   background: #282828;
-  height: 56px;
+  height: 48px;
   z-index: 100;
   font-family: "Hammersmith One";
 }
@@ -40,7 +37,7 @@
   padding-left: 1.25rem;
   font-weight: 500;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
 }
 .toolbar__navigation-items li:hover {
   color: rgb(238, 178, 25);

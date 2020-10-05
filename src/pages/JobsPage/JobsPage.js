@@ -127,7 +127,7 @@ function Row(props) {
               variant="contained"
               color="primary"
             >
-              SEE PROFILE
+              VIEW PROFILE
             </Button>
             <Button
               onClick={() => hireContractor()}
@@ -367,19 +367,19 @@ class JobsPage extends Component {
                       <b>ID</b>
                     </TableCell>
                     <TableCell>
-                      <b>SERVICE</b>
+                      <b>Service</b>
                     </TableCell>
                     <TableCell>
-                      <b>ADDRESS</b>
+                      <b>Address</b>
                     </TableCell>
                     <TableCell>
-                      <b>CITY</b>
+                      <b>City</b>
                     </TableCell>
                     <TableCell>
-                      <b>UPDATED</b>
+                      <b>Last Updated</b>
                     </TableCell>
                     <TableCell>
-                      <b>STATUS</b>
+                      <b>Status</b>
                     </TableCell>
                   </TableRow>
                 </TableHead>

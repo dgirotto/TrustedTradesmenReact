@@ -182,16 +182,16 @@ class LeadsPage extends Component {
                       <b>ID</b>
                     </TableCell>
                     <TableCell>
-                      <b>SERVICE</b>
+                      <b>Service</b>
                     </TableCell>
                     <TableCell>
-                      <b>ADDRESS</b>
+                      <b>Address</b>
                     </TableCell>
                     <TableCell>
-                      <b>CITY</b>
+                      <b>City</b>
                     </TableCell>
                     <TableCell>
-                      <b>CREATED</b>
+                      <b>Created</b>
                     </TableCell>
                   </TableRow>
                 </TableHead>

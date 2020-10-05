@@ -2,8 +2,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  min-height: 500px;
-  top: 76px;
+  /* min-height: 500px; */
 }
 
 .login-form-title {
