@@ -39,7 +39,7 @@ function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
   const [completionDate, setDate] = React.useState(null);
-  const [contractor, setContractor] = React.useState(null);
+  const [contractor, setContractor] = React.useState(row.contractors && row.contractors.length > 0 ? row.contractors[0].contractorId : null);
   const [isLoading, setLoading] = React.useState(false);
 
   function claimJob() {
