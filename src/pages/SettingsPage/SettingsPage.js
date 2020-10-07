@@ -25,7 +25,7 @@ class SettingsPage extends Component {
     }
   ];
 
-  travelDistances = [
+  maxDistances = [
     {
       value: 30,
       label: "30 km"
@@ -202,7 +202,6 @@ class SettingsPage extends Component {
           <Auxil>
             <Title>SETTINGS</Title>
             <div className="textfield-container">
-              <h2 className="form-title">CONTACT DETAILS</h2>
               <div className="textfield-container-row">
                 <TextField
                   type="text"
@@ -233,7 +232,6 @@ class SettingsPage extends Component {
                   onChange={this.accountDetailsChange}
                 />
               </div>
-              <h2 className="form-title">ADDRESS DETAILS</h2>
               <div className="textfield-container-row">
                 <TextField
                   type="text"
@@ -282,12 +280,12 @@ class SettingsPage extends Component {
               </div>
               {this.state.userType === 1 && this.state.services !== null ? (
                 <Auxil>
-                  <h2 className="form-title">CONTRACTOR DETAILS</h2>
-                  <span className="field-desc">Check off any service that you're willing to provide.</span>
+                  <span className="field-desc">Which services are you capable of providing? Select all that apply.</span>
                   <FormControl component="fieldset">
-                    <FormGroup>
+                    <FormGroup style={{ flexDirection: "row" }}>
                       {this.state.services.map(service => (
                         <FormControlLabel
+                          style={{ width: "280px" }}
                           control={
                             <Checkbox
                               onChange={event => {
@@ -343,18 +341,10 @@ class SettingsPage extends Component {
                       ))}
                     </FormGroup>
                   </FormControl>
-                  <span className="field-desc">How far you are willing to travel to a customer.</span>
+                  <br />
+                  <br />
+                  <span className="field-desc">How far are you willing to travel to a customer for a job?</span>
                   <div className="textfield-container-row">
-                    {/* <TextField
-                      multiline
-                      rowsMax={6}
-                      type="text"
-                      name="maxDistance"
-                      label="max travel distance"
-                      value={this.state.accountDetails.maxDistance || ""}
-                      variant="outlined"
-                      onChange={this.accountDetailsChange}
-                    /> */}
                     <TextField
                       select
                       name="maxDistance"
@@ -363,13 +353,14 @@ class SettingsPage extends Component {
                       onChange={this.accountDetailsChange}
                       variant="outlined"
                     >
-                      {this.travelDistances.map(option => (
+                      {this.maxDistances.map(option => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </TextField>
                   </div>
+                  <span className="field-desc">How would you describe yourself? This will be displayed on your profile page.</span>
                   <div className="textfield-container-row">
                     <TextField
                       multiline
@@ -382,7 +373,7 @@ class SettingsPage extends Component {
                       onChange={this.accountDetailsChange}
                     />
                   </div>
-                  <span className="field-desc">Include links to each of your social media profiles (these links will be displayed on your dedicated page.</span>
+                  <span className="field-desc">Include links to each of your social media profiles. These links will be displayed on your profile page.</span>
                   <div className="textfield-container-row">
                     <TextField
                       type="text"

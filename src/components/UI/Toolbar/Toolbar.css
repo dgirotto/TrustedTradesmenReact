@@ -18,14 +18,14 @@
   margin-left: 0.7rem;
 }
 .logo-text {
-  margin-top: 3px;
+  margin-top: 4px;
 }
 .spacer {
-  flex: 1; /* takes all of the available empty space between logo and nav items */
+  flex: 1; 
 }
 .toolbar__navigation {
-  height: 100%; /* takes the parent height (56px) */
-  display: flex; /* default flex direction is left to right (horizontal) */
+  height: 100%; 
+  display: flex;
   align-items: center;
 }
 .toolbar__navigation-items a {

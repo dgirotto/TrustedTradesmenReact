@@ -269,44 +269,46 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <table className="job-details-table">
-                <tr>
-                  <td style={{ width: "175px" }}>Job ID</td>
-                  <td>{row.jobId}</td>
-                </tr>
-                <tr>
-                  <td>Service</td>
-                  <td>{row.serviceName}</td>
-                </tr>
-                <tr>
-                  <td>Creation Date</td>
-                  <td>{row.creationDate.split(" ")[0]}</td>
-                </tr>
-                {row.completionDate ? (
+                <tbody>
                   <tr>
-                    <td>Job Completion Date</td>
-                    <td>{row.completionDate.split(" ")[0]}</td>
+                    <td style={{ width: "175px" }}>Job ID</td>
+                    <td>{row.jobId}</td>
                   </tr>
-                ) : null}
-                {row.inspectionDate ? (
                   <tr>
-                    <td>Inspection Date</td>
-                    <td>{row.inspectionDate.split(" ")[0]}</td>
+                    <td>Service</td>
+                    <td>{row.serviceName}</td>
                   </tr>
-                ) : null}
-                <tr>
-                  <td>Location</td>
-                  <td>
-                    {row.address}, {row.city}, {row.province}, {row.postalCode}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Budget</td>
-                  <td>${row.budget}</td>
-                </tr>
-                <tr>
-                  <td>Description</td>
-                  <td>{row.description}</td>
-                </tr>
+                  <tr>
+                    <td>Creation Date</td>
+                    <td>{row.creationDate.split(" ")[0]}</td>
+                  </tr>
+                  {row.completionDate ? (
+                    <tr>
+                      <td>Job Completion Date</td>
+                      <td>{row.completionDate.split(" ")[0]}</td>
+                    </tr>
+                  ) : null}
+                  {row.inspectionDate ? (
+                    <tr>
+                      <td>Inspection Date</td>
+                      <td>{row.inspectionDate.split(" ")[0]}</td>
+                    </tr>
+                  ) : null}
+                  <tr>
+                    <td>Location</td>
+                    <td>
+                      {row.address}, {row.city}, {row.province}, {row.postalCode}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Budget</td>
+                    <td>${row.budget}</td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>{row.description}</td>
+                  </tr>
+                </tbody>
               </table>
               {getContent()}
             </Box>

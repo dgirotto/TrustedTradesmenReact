@@ -99,10 +99,10 @@ class ServiceDetailsPage extends Component {
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
         <h2 className="form-title">DESCRIPTION</h2>
         <p>{this.state.serviceDetails.description}</p>
-        <br />
-        <p style={{ fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
         {this.state.userType === 0 ? (
           <div className="textfield-container">
+            <br />
+            <p style={{ fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
             <div className="textfield-container-row">
               <TextField
                 type="text"

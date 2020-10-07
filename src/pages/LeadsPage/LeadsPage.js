@@ -85,32 +85,34 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <table className="job-details-table">
-                <tr>
-                  <td style={{ width: "175px" }}>Lead ID</td>
-                  <td>{row.leadId}</td>
-                </tr>
-                <tr>
-                  <td>Service</td>
-                  <td>{row.serviceName}</td>
-                </tr>
-                <tr>
-                  <td>Creation Date</td>
-                  <td>{row.creationDate.split(" ")[0]}</td>
-                </tr>
-                <tr>
-                  <td>Location</td>
-                  <td>
-                    {row.address}, {row.city}, {row.province}, {row.postalCode}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Budget</td>
-                  <td>${row.budget}</td>
-                </tr>
-                <tr>
-                  <td>Description</td>
-                  <td>{row.description}</td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td style={{ width: "175px" }}>Lead ID</td>
+                    <td>{row.leadId}</td>
+                  </tr>
+                  <tr>
+                    <td>Service</td>
+                    <td>{row.serviceName}</td>
+                  </tr>
+                  <tr>
+                    <td>Creation Date</td>
+                    <td>{row.creationDate.split(" ")[0]}</td>
+                  </tr>
+                  <tr>
+                    <td>Location</td>
+                    <td>
+                      {row.address}, {row.city}, {row.province}, {row.postalCode}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Budget</td>
+                    <td>${row.budget}</td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>{row.description}</td>
+                  </tr>
+                </tbody>
               </table>
               <div className="button-container">
                 <Button

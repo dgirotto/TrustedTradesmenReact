@@ -8,10 +8,10 @@
   margin: 25px 0;
   border-spacing: 0px;
 }
-.job-details-table > tr > td {
+.job-details-table > tbody > tr > td {
   padding: 10px;
 }
-.job-details-table > tr:nth-child(odd) {
+.job-details-table > tbody > tr:nth-child(odd) {
   background: rgb(250, 250, 250);
 }
 .status {
