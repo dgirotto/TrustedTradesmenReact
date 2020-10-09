@@ -11,13 +11,17 @@ function getAccountDetails() {
 
 function setAccountDetails(body) {
   const headers = getHeaders();
-  // TODO: What happens if you pass "headers" instead of "{ headers }"?
   return axios.post(`${commonEndpoint}/user/update.php`, body, { headers });
 }
 
 function changePassword(body) {
   const headers = getHeaders();
   return axios.post(`${commonEndpoint}/user/change_pwd.php`, body, { headers });
+}
+
+function getContractorDetails(contractorId) {
+  const headers = getHeaders();
+  return axios.get(`${commonEndpoint}/user/read_contractor.php?contractorId=${contractorId}`, { headers });
 }
 
 function getHeaders() {
@@ -32,5 +36,6 @@ function getHeaders() {
 export const AccountService = {
   getAccountDetails,
   setAccountDetails,
-  changePassword
+  changePassword,
+  getContractorDetails
 };
