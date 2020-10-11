@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
-import { FiLogOut, FiSettings } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { AiOutlineHome } from "react-icons/ai";
 import Auxil from "../../../helpers/Auxil";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";

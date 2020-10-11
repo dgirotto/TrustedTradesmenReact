@@ -102,25 +102,23 @@ function Row(props) {
               </Alert>
             )}
           <br />
-          <TextField
-            select
-            name="contractor"
-            value={contractor || row.contractors[0].contractorId}
-            onChange={event => {
-              setContractor(event.target.value);
-            }}
-            variant="outlined"
-            style={{
-              width: "250px",
-              marginRight: "20px"
-            }}
-          >
-            {row.contractors.map(option => (
-              <MenuItem key={option.contractorId} value={option.contractorId}>
-                {option.firstName} {option.lastName}
-              </MenuItem>
-            ))}
-          </TextField>
+          <div className="textfield-container-row">
+            <TextField
+              select
+              name="contractor"
+              value={contractor || row.contractors[0].contractorId}
+              onChange={event => {
+                setContractor(event.target.value);
+              }}
+              variant="outlined"
+            >
+              {row.contractors.map(option => (
+                <MenuItem key={option.contractorId} value={option.contractorId}>
+                  {option.firstName} {option.lastName}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
           <div className="button-container" style={{ marginBottom: "30px" }}>
             <Button
               onClick={() => window.open("/contractors/" + contractor)}

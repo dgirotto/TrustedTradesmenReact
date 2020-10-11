@@ -40,7 +40,7 @@
 
 .card-container {
   display: flex;
-  max-width: 920px;
+  max-width: 900px;
   margin: auto;
 }
 
@@ -49,16 +49,13 @@
   flex-direction: column;
   flex: 1;
   box-sizing: border-box;
-  min-height: 380px;
-  padding: 20px;
+  min-height: 350px;
+  padding: 15px;
   margin: 10px;
   text-align: center;
-  /* background: rgb(238, 178, 25); */
   background: rgb(236, 182, 44);
   background-image: linear-gradient(
     to bottom right,
-    /* rgb(218, 164, 30),
-    rgb(249, 218, 141) */
     rgb(236, 182, 44),
     rgb(249, 218, 141)
   );
@@ -99,9 +96,6 @@
     flex-direction: column;
     max-width: 375px;
   }
-}
-
-@media (max-width: 625px) {
   .intro-bottom {
     flex-direction: column;
   }
