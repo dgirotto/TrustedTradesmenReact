@@ -1,14 +1,6 @@
 .contractor-details-page-container {
     padding: 0 2rem 3rem;
-}
-
-.contractor-details-container {
-    /* display: flex; */
-}
-
-.profle-image-container {
-    display: flex;
-    flex-direction: column;
+    height: 100%;
 }
 
 .links-container {
@@ -28,7 +20,7 @@
 
 .links-container > a:hover {
     cursor: pointer;
-    background: rgb(255, 194, 82);
+    background: rgb(249, 218, 141);
 }
 
 .social-link > span {
@@ -40,10 +32,19 @@
 }
 
 .no-link:hover {
-    cursor: not-allowed;
+    cursor: default;
 }
 
-.profile-header {
+.contractor-details {
+    display: flex;
+}
+
+.contact-details-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-details {
     display: flex;
 }
 
