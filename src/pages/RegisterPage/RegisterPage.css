@@ -1,7 +1,9 @@
 .register-page-container {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  height: calc(100% - 48px);
   min-height: 500px;
 }
 

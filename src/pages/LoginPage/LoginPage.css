@@ -1,8 +1,10 @@
 .login-page-container {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  /* min-height: 500px; */
+  height: calc(100% - 48px);
+  min-height: 500px;
 }
 
 .login-form-title {
