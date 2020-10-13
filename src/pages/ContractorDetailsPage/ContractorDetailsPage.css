@@ -39,14 +39,16 @@
     display: flex;
 }
 
+.profile-image-container{
+    padding: 20px;
+}
+
 .contact-details-container {
     display: flex;
     flex-direction: column;
+    padding-left: 20px;
 }
 
-.contact-details {
-    display: flex;
-}
 
 @media (max-width: 768px) {
     .links-container {
