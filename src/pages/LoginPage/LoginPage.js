@@ -136,37 +136,37 @@ class LoginPage extends Component {
               ) : null}
             </form>
           ) : (
-            <form>
-              <h2 className="login-form-title">FORGOT PASSWORD</h2>
-              <span className="reset-password-msg">
-                Enter the email address associated with your account and we'll
-                email you a new password.
+              <form>
+                <h2 className="login-form-title">FORGOT PASSWORD?</h2>
+                <span className="reset-password-msg">
+                  Enter the email address associated with your account and we'll
+                  email you a new password.
               </span>
-              <TextField
-                type="text"
-                name="email"
-                label="email"
-                value={this.state.emailToReset || ""}
-                variant="outlined"
-                onChange={this.emailChange}
-              />
-              <Button
-                disabled={!this.state.emailToReset}
-                onClick={this.resetPassword}
-                variant="contained"
-                color="primary"
-              >
-                RESET PASSWORD
+                <TextField
+                  type="text"
+                  name="email"
+                  label="email"
+                  value={this.state.emailToReset || ""}
+                  variant="outlined"
+                  onChange={this.emailChange}
+                />
+                <Button
+                  disabled={!this.state.emailToReset}
+                  onClick={this.resetPassword}
+                  variant="contained"
+                  color="primary"
+                >
+                  RESET PASSWORD
               </Button>
-              <Button
-                onClick={this.toggleResetPassword}
-                variant="contained"
-                color="secondary"
-              >
-                BACK
+                <Button
+                  onClick={this.toggleResetPassword}
+                  variant="contained"
+                  color="secondary"
+                >
+                  BACK
               </Button>
-            </form>
-          )}
+              </form>
+            )}
           {this.state.isLoading ? <Backdrop /> : null}
         </div>
       </div>
