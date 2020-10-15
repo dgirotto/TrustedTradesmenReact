@@ -280,6 +280,16 @@ class SettingsPage extends Component {
               </div>
               {this.state.userType === 1 && this.state.services !== null ? (
                 <Auxil>
+                  <div className="textfield-container-row">
+                    <TextField
+                      type="text"
+                      name="companyName"
+                      label="company name"
+                      value={this.state.accountDetails.companyName || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
+                  </div>
                   <span className="field-desc">Which services are you capable of providing? Select all that apply.</span>
                   <FormControl component="fieldset">
                     <FormGroup style={{ flexDirection: "row" }}>
@@ -359,6 +369,17 @@ class SettingsPage extends Component {
                         </MenuItem>
                       ))}
                     </TextField>
+                  </div>
+                  <span className="field-desc">List any deals or specials you wish to be highlighted on your profile page.</span>
+                  <div className="textfield-container-row">
+                    <TextField
+                      type="text"
+                      name="specials"
+                      label="specials"
+                      value={this.state.accountDetails.specials || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
                   <span className="field-desc">How would you describe yourself? This will be displayed on your profile page.</span>
                   <div className="textfield-container-row">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { LeadsService } from "../../services/leads";
+import { AuthService } from "../../services/auth";
 import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
@@ -105,31 +106,37 @@ function Row(props) {
                     </td>
                   </tr>
                   <tr>
-                    <td>Budget</td>
-                    <td>${row.budget}</td>
-                  </tr>
-                  <tr>
                     <td>Description</td>
                     <td>{row.description}</td>
                   </tr>
+                  <tr>
+                    <td>Budget</td>
+                    <td>{row.budget}</td>
+                  </tr>
+                  <tr>
+                    <td>Time Frame</td>
+                    <td>{row.timeFrame} Month(s)</td>
+                  </tr>
                 </tbody>
               </table>
-              <div className="button-container">
-                <Button
-                  onClick={() => claimLead(true)}
-                  variant="contained"
-                  style={{ backgroundColor: "#3bb13b", color: "white" }}
-                >
-                  I'M INTERESTED
+              {(props.userType === 1) && (
+                <div className="button-container">
+                  <Button
+                    onClick={() => claimLead(true)}
+                    variant="contained"
+                    style={{ backgroundColor: "#3bb13b", color: "white" }}
+                  >
+                    I'M INTERESTED
                 </Button>
-                <Button
-                  onClick={() => dismissLead()}
-                  variant="contained"
-                  color="secondary"
-                >
-                  DISMISS
+                  <Button
+                    onClick={() => dismissLead()}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    DISMISS LEAD
                 </Button>
-              </div>
+                </div>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -140,13 +147,14 @@ function Row(props) {
 
 class LeadsPage extends Component {
   state = {
+    userType: null,
     leads: null,
-    isLoading: false,
+    isLoading: true,
     showSnackbar: false
   };
 
   componentDidMount() {
-    this.setState({ isLoading: true });
+    this.setState({ userType: AuthService.getRole() });
 
     LeadsService.getLeads()
       .then(res => {
@@ -199,7 +207,11 @@ class LeadsPage extends Component {
                 </TableHead>
                 <TableBody>
                   {this.state.leads.map(lead => (
-                    <Row key={lead.leadId} row={lead} />
+                    <Row
+                      key={lead.leadId}
+                      row={lead}
+                      userType={this.state.userType}
+                    />
                   ))}
                 </TableBody>
               </Table>

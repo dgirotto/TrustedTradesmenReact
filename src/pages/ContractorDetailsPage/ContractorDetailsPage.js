@@ -37,7 +37,7 @@ class ContractorDetailsPage extends Component {
     renderContent() {
         return (
             <div className="contractor-details-container">
-                <Title>{this.state.contractorDetails.firstName.toUpperCase()} {this.state.contractorDetails.lastName.toUpperCase()}</Title>
+                <Title>{this.state.contractorDetails.companyName.toUpperCase()}</Title>
                 <div className="links-container">
                     {this.state.contractorDetails.website ? (<a href={"https://" + this.state.contractorDetails.website} target="_blank" className="social-link"><FaLink size="25" /><span className="link-text">Website</span></a>) : (<span className="social-link no-link"><FaLink size="25" /><span className="link-text">Website</span></span>)}
                     {this.state.contractorDetails.instagram ? (<a href={"https://" + this.state.contractorDetails.instagram} target="_blank" className="social-link"><FaInstagram size="25" /><span className="link-text">Instagram</span></a>) : (<span className="social-link no-link"><FaInstagram size="25" /><span className="link-text">Instagram</span></span>)}
@@ -58,6 +58,7 @@ class ContractorDetailsPage extends Component {
                         <span>Services Offered</span>
                     </div>
                 </div>
+                <div className="contractor-headline"><p>{this.state.contractorDetails.specials}</p></div>
                 <div className="contractor-bio"><p>{this.state.contractorDetails.bio}</p></div>
             </div>
         );

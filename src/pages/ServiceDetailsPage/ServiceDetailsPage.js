@@ -13,6 +13,47 @@ import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
 
 class ServiceDetailsPage extends Component {
+  budgets = [
+    {
+      value: "Under $1,000"
+    },
+    {
+      value: "$1,000 - $2,000"
+    },
+    {
+      value: "$2,000 - $4,000"
+    },
+    {
+      value: "$4,000 - $10,000"
+    },
+    {
+      value: "Over $10,000"
+    }
+  ];
+
+  timeFrames = [
+    {
+      value: 1,
+      label: "1 Month"
+    },
+    {
+      value: 2,
+      label: "2 Months"
+    },
+    {
+      value: 3,
+      label: "3 Months"
+    },
+    {
+      value: 6,
+      label: "6 Months"
+    },
+    {
+      value: 12,
+      label: "1 Year"
+    }
+  ];
+
   provinces = [
     {
       value: "ON",
@@ -106,22 +147,44 @@ class ServiceDetailsPage extends Component {
             <div className="textfield-container-row">
               <TextField
                 type="text"
-                name="budget"
-                label="budget"
-                value={this.state.jobDetails.budget || ""}
-                variant="outlined"
-                onChange={this.jobDetailsChange}
-              />
-            </div>
-            <div className="textfield-container-row">
-              <TextField
-                type="text"
                 name="description"
                 label="description"
                 value={this.state.jobDetails.description || ""}
                 variant="outlined"
                 onChange={this.jobDetailsChange}
               />
+            </div>
+            <div className="textfield-container-row">
+              <TextField
+                select
+                name="budget"
+                label="budget"
+                value={this.state.jobDetails.budget || ""}
+                onChange={this.jobDetailsChange}
+                variant="outlined"
+              >
+                {this.budgets.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.value}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+            <div className="textfield-container-row">
+              <TextField
+                select
+                name="timeFrame"
+                label="time frame"
+                value={this.state.jobDetails.timeFrame || ""}
+                onChange={this.jobDetailsChange}
+                variant="outlined"
+              >
+                {this.timeFrames.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
             </div>
             <div className="textfield-container-row">
               <TextField

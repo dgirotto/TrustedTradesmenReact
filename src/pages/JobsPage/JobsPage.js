@@ -299,12 +299,16 @@ function Row(props) {
                     </td>
                   </tr>
                   <tr>
-                    <td>Budget</td>
-                    <td>${row.budget}</td>
-                  </tr>
-                  <tr>
                     <td>Description</td>
                     <td>{row.description}</td>
+                  </tr>
+                  <tr>
+                    <td>Budget</td>
+                    <td>{row.budget}</td>
+                  </tr>
+                  <tr>
+                    <td>Time Frame</td>
+                    <td>{row.timeFrame} Month(s)</td>
                   </tr>
                 </tbody>
               </table>
@@ -327,10 +331,9 @@ class JobsPage extends Component {
 
   componentDidMount() {
     this.setState({ userType: AuthService.getRole() });
-    this.getJobs();
-  }
 
-  getJobs = () => {
+    // this.getJobs();
+
     JobService.getJobs()
       .then(res => {
         this.setState({ jobs: res.data, isLoading: false });
@@ -340,6 +343,17 @@ class JobsPage extends Component {
         this.setState({ isLoading: false });
       });
   }
+
+  // getJobs = () => {
+  //   JobService.getJobs()
+  //     .then(res => {
+  //       this.setState({ jobs: res.data, isLoading: false });
+  //     })
+  //     .catch(err => {
+  //       console.error("Error while getting jobs" + err.response);
+  //       this.setState({ isLoading: false });
+  //     });
+  // }
 
   toggleSnackbar = () => {
     this.setState({ showSnackbar: !this.state.showSnackbar });
