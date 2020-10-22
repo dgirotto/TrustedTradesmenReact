@@ -222,12 +222,16 @@ function Row(props) {
       }
     } else if (props.userType === 1) {
       // CONTRACTOR
-      if (row.invoiceAccepted === null && row.invoicePrice === null) {
-        // Contractor enters invoice price
+      if ((row.invoiceAccepted === null && row.invoicePrice === null) || row.invoiceAccepted === "0") {
         content = (
           <Auxil>
+            {row.invoiceAccepted === "0" ? (
+              <Auxil>
+                <Alert severity="error" color="error">The customer rejected your invoice price of $<b>{row.invoicePrice}</b>. Please enter a new price.</Alert>
+                <br />
+              </Auxil>) : null}
             <div className="textfield-container-row">
-              <span className="field-desc">Enter cost of the job. This will have to be confirmed by the customer.</span>
+              <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
               <TextField
                 type="text"
                 name="invoicePrice"
@@ -251,9 +255,6 @@ function Row(props) {
             </div>
           </Auxil>
         );
-      }
-      else if (row.invoiceAccepted === 0) {
-        // Notify Contractor that invoice price was rejected, get new invoice price
       }
       else if (row.invoiceAccepted === 1 && row.completionDate === null) {
         content = (
@@ -301,7 +302,7 @@ function Row(props) {
           </Auxil>
         );
       }
-    } else if (props.userType == 2) {
+    } else if (props.userType === 2) {
       // INSPECTOR
       if (row.inspectorId === null) {
         content = (
@@ -497,7 +498,7 @@ function Row(props) {
               </table>
               {props.userType === 1 && row.invoicePrice && !row.invoiceAccepted ? (
                 <Auxil>
-                  <Alert severity="info" color="info">Waiting on the customer to confirm invoice price.</Alert>
+                  <Alert severity="info" color="info">Waiting for the customer to confirm invoice price.</Alert>
                   <br />
                 </Auxil>) : null}
               {!row.isAbandoned ? getUIContent() : null}
