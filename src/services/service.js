@@ -1,4 +1,4 @@
-import axios, { AxiosPromise } from "axios";
+import axios from "axios";
 import { CacheService } from "./caching";
 import { config } from "../config.js";
 

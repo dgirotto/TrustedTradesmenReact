@@ -2,11 +2,13 @@
   padding: 0 2rem 3rem;
   box-sizing: border-box;
 }
+
 @media (min-width: 769px) {
   .account-details-container {
     flex-direction: row;
   }
 }
+
 @media (max-width: 768px) {
   .account-details-container {
     flex-direction: column;

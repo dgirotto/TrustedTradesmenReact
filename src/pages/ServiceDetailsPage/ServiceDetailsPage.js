@@ -137,7 +137,7 @@ class ServiceDetailsPage extends Component {
   renderContent() {
     return (
       <Auxil>
-        <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
+        <Title>{this.state.serviceDetails.serviceName.toUpperCase()} SERVICES</Title>
         <h2 className="form-title">DESCRIPTION</h2>
         <p>{this.state.serviceDetails.description}</p>
         {this.state.userType === 0 ? (

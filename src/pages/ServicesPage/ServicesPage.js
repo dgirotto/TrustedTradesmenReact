@@ -52,10 +52,9 @@ class ServicesPage extends Component {
                   className="service"
                   variant="outlined"
                 >
-                  <h2 className="form-title service-title">
+                  <h2 className="service-title">
                     {service.serviceName.toUpperCase()}
                   </h2>
-                  <p>{service.description}</p>
                 </Card>
               ))}
             </div>
