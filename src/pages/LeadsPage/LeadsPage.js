@@ -75,22 +75,17 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>{row.leadId}</TableCell>
         <TableCell>{row.serviceName}</TableCell>
         <TableCell>{row.address}</TableCell>
         <TableCell>{row.city}</TableCell>
         <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <table className="job-details-table">
                 <tbody>
-                  <tr>
-                    <td style={{ width: "175px" }}>Lead ID</td>
-                    <td>{row.leadId}</td>
-                  </tr>
                   <tr>
                     <td>Service</td>
                     <td>{row.serviceName}</td>
@@ -187,9 +182,7 @@ class LeadsPage extends Component {
               <Table aria-label="collapsible table">
                 <TableHead>
                   <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
-                    <TableCell />
-                    <TableCell>
-                      <b>ID</b>
+                    <TableCell style={{ width: "10px" }} >
                     </TableCell>
                     <TableCell>
                       <b>Service</b>
