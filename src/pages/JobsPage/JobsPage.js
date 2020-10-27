@@ -156,7 +156,7 @@ function Row(props) {
                   <b>{row.contractors.length}</b> contractors have shown an interest in your job!
                 </Alert>
               )}
-            <div className="textfield-container-row">
+            <div className="textfield-container-row" style={{ marginTop: "15px" }}>
               <TextField
                 select
                 name="contractor"
@@ -402,12 +402,12 @@ function Row(props) {
     let status = null;
 
     if (row.isAbandoned) {
-      status = <Chip style={{ width: "185px" }} className="status cancelled" label="Job Cancelled" />;
+      status = <Chip className="status cancelled" label="Job Cancelled" />;
     }
     else if (row.contractorId === null) {
       if (row.contractors && row.contractors.length > 0) {
         status = (
-          <Chip style={{ width: "185px" }} style={{ width: "185px" }} className="status interested" label={row.contractors.length === 1 ?
+          <Chip className="status interested" label={row.contractors.length === 1 ?
             <span><b>1</b> Contractor Interested</span> :
             <span><b>{row.contractors.length}</b> Contractors Interested</span>
           } />
@@ -415,32 +415,33 @@ function Row(props) {
       }
       else {
         status = (
-          <Chip style={{ width: "185px" }} className="status required" label="Contractor Required" />
+          <Chip className="status required" label="Contractor Required" />
         );
       }
     }
     else if (row.invoicePrice === null || row.invoiceAccepted === "0") {
-      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Required" />;
+      status = <Chip className="status required" label="Invoice Required" />;
     }
     else if (row.invoiceAccepted === null) {
-      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Pending" />;
+      status = <Chip className="status required" label="Invoice Pending" />;
     }
     else if (props.userType === "1" && row.invoiceAccepted === "0") {
-      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Rejected" />;
+      status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
     else if (row.completionDate === null) {
-      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Job In Progress" />;
+      status = <Chip className="status in-progress" label="Job In Progress" />;
     }
     else if (row.inspectorId === null) {
-      status = <Chip style={{ width: "185px" }} className="status required" label="Inspector Required" />;
+      status = <Chip className="status required" label="Inspector Required" />;
     }
     else if (row.inspectionDate === null) {
-      status = (
-        <Chip style={{ width: "185px" }} className="status in-progress" label="Requires Inspection" />
-      );
+      status = <Chip className="status required" label="Requires Inspection" />;
+    }
+    else if (row.invoicePaid === null) {
+      status = <Chip className="status required" label="Payment Required" />;
     }
     else {
-      status = <Chip style={{ width: "185px" }} className="status completed" label="Completed" />;
+      status = <Chip className="status completed" label="Completed" />;
     }
 
     return status;
