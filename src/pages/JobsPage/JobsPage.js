@@ -36,7 +36,6 @@ function AlertPopup(props) {
 }
 
 function Row(props) {
-
   const row = props.row;
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = React.useState(null);
@@ -63,7 +62,7 @@ function Row(props) {
       });
   }
 
-  function abandonJob() {
+  function cancelJob() {
     setLoading(true);
     let body = { jobId: row.jobId, isAbandoned: true };
 
@@ -111,7 +110,8 @@ function Row(props) {
 
     if (props.userType === 1) {
       body = { jobId: row.jobId, contractorNotes: notes, completionDate: completionDate };
-    } else if (props.userType === 2) {
+    }
+    else if (props.userType === 2) {
       body = { jobId: row.jobId, inspectorNotes: notes, inspectionDate: completionDate };
     }
 
@@ -133,11 +133,11 @@ function Row(props) {
     }
   }
 
-  function abandonJobConfirm() {
+  function cancelJobConfirm() {
     if (
-      window.confirm("Are you sure you wish to abandon this job?")
+      window.confirm("Are you sure you wish to cancel this job? This action cannot be undone.")
     ) {
-      abandonJob();
+      cancelJob();
     }
   }
 
@@ -156,7 +156,6 @@ function Row(props) {
                   <b>{row.contractors.length}</b> contractors have shown an interest in your job!
                 </Alert>
               )}
-            <br />
             <div className="textfield-container-row">
               <TextField
                 select
@@ -196,11 +195,11 @@ function Row(props) {
               </div>
               <div style={{ margin: "15px 0" }}>
                 <Button
-                  onClick={() => abandonJobConfirm()}
+                  onClick={() => cancelJobConfirm()}
                   variant="contained"
                   color="secondary"
                 >
-                  ABANDON JOB
+                  CANCEL JOB
               </Button>
               </div>
             </div>
@@ -234,28 +233,40 @@ function Row(props) {
               </div>
               <div style={{ margin: "15px 0" }}>
                 <Button
-                  onClick={() => abandonJobConfirm()}
+                  onClick={() => cancelJobConfirm()}
                   variant="contained"
                   color="secondary"
                 >
-                  ABANDON JOB
-              </Button>
+                  CANCEL JOB
+                </Button>
               </div>
             </div>
           </Auxil>
         );
       }
-    } else if (props.userType === 1) {
+      else if (row.contractorId === null || row.invoicePrice === null || row.invoiceAccepted === "0") {
+        content = (
+          <div className="button-container">
+            <Button
+              onClick={() => cancelJobConfirm()}
+              variant="contained"
+              color="secondary"
+            >
+              CANCEL JOB
+            </Button>
+          </div>
+        );
+      }
+    }
+    else if (props.userType === 1) {
       // CONTRACTOR
       if ((row.invoiceAccepted === null && row.invoicePrice === null) || row.invoiceAccepted === "0") {
         content = (
           <Auxil>
             {row.invoiceAccepted === "0" ? (
-              <Auxil>
-                <Alert severity="error" color="error">The customer rejected your invoice of $<b>{row.invoicePrice}</b>. Please enter a new price.</Alert>
-                <br />
-              </Auxil>) : null}
-            <div className="textfield-container-row">
+              <Alert severity="error" color="error">The customer rejected your invoice of $<b>{row.invoicePrice}</b>. Please enter a new price.</Alert>
+            ) : null}
+            <div className="textfield-container-row" style={{ marginTop: "15px" }}>
               <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
               <TextField
                 type="text"
@@ -319,7 +330,8 @@ function Row(props) {
           </Auxil>
         );
       }
-    } else if (props.userType === 2) {
+    }
+    else if (props.userType === 2) {
       // INSPECTOR
       if (row.inspectorId === null) {
         content = (
@@ -336,7 +348,8 @@ function Row(props) {
             </Button>
           </div>
         );
-      } else if (row.inspectionDate === null) {
+      }
+      else if (row.inspectionDate === null) {
         content = (
           <Auxil>
             <span className="field-desc">Record any relevant notes to pass back to the contractor.</span>
@@ -365,7 +378,6 @@ function Row(props) {
                   marginRight: "20px"
                 }}
               />
-              <br />
               <Button
                 variant="contained"
                 onClick={() => completeJob()}
@@ -387,14 +399,14 @@ function Row(props) {
   }
 
   function getJobStatus(row) {
-    let content = null;
+    let status = null;
 
     if (row.isAbandoned) {
-      content = <Chip style={{ width: "185px" }} className="status abandoned" label="Job Abandoned" />;
+      status = <Chip style={{ width: "185px" }} className="status cancelled" label="Job Cancelled" />;
     }
     else if (row.contractorId === null) {
       if (row.contractors && row.contractors.length > 0) {
-        content = (
+        status = (
           <Chip style={{ width: "185px" }} style={{ width: "185px" }} className="status interested" label={row.contractors.length === 1 ?
             <span><b>1</b> Contractor Interested</span> :
             <span><b>{row.contractors.length}</b> Contractors Interested</span>
@@ -402,36 +414,36 @@ function Row(props) {
         );
       }
       else {
-        content = (
+        status = (
           <Chip style={{ width: "185px" }} className="status required" label="Contractor Required" />
         );
       }
     }
     else if (row.invoicePrice === null || row.invoiceAccepted === "0") {
-      content = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Required" />;
+      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Required" />;
     }
     else if (row.invoiceAccepted === null) {
-      content = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Pending" />;
+      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Pending" />;
     }
     else if (props.userType === "1" && row.invoiceAccepted === "0") {
-      content = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Rejected" />;
+      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Invoice Rejected" />;
     }
     else if (row.completionDate === null) {
-      content = <Chip style={{ width: "185px" }} className="status in-progress" label="Job In Progress" />;
+      status = <Chip style={{ width: "185px" }} className="status in-progress" label="Job In Progress" />;
     }
     else if (row.inspectorId === null) {
-      content = <Chip style={{ width: "185px" }} className="status required" label="Inspector Required" />;
+      status = <Chip style={{ width: "185px" }} className="status required" label="Inspector Required" />;
     }
     else if (row.inspectionDate === null) {
-      content = (
+      status = (
         <Chip style={{ width: "185px" }} className="status in-progress" label="Requires Inspection" />
       );
     }
     else {
-      content = <Chip style={{ width: "185px" }} className="status completed" label="Completed" />;
+      status = <Chip style={{ width: "185px" }} className="status completed" label="Completed" />;
     }
 
-    return content;
+    return status;
   }
 
   return (
@@ -525,16 +537,24 @@ function Row(props) {
                     </Auxil>) : null}
                 </tbody>
               </table>
-              {props.userType === 1 && row.invoicePrice && !row.invoiceAccepted ? (
-                <Auxil>
-                  <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>
-                  <br />
-                </Auxil>) : null}
-              {props.userType === 0 && row.contractorId && (row.invoicePrice === null || row.invoiceAccepted === "0") ? (
-                <Auxil>
-                  <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>
-                  <br />
-                </Auxil>) : null}
+
+              {/* TODO: Move the below to its own function */}
+              {props.userType === 0 && !row.isAbandoned && row.contractorId && (row.invoicePrice === null || row.invoiceAccepted === "0") ? (
+                <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>
+              ) : null}
+              {props.userType === 0 && row.completionDate && row.invoicePaid === null ? (
+                <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]}. Please send the invoice payment of <b>${row.invoicePrice}</b> to the contractor.</Alert>
+              ) : null}
+              {props.userType === 0 && row.completionDate && row.invoicePaid === "1" ? (
+                <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]} and the invoice payment has been processed.</Alert>
+              ) : null}
+              {props.userType === 1 && !row.isAbandoned && row.invoicePrice && !row.invoiceAccepted ? (
+                <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>
+              ) : null}
+              {row.isAbandoned ? (
+                <Alert severity="error" color="error">The job was cancelled by the customer on {row.lastUpdatedDate.split(" ")[0]}.</Alert>
+              ) : null}
+
               {!row.isAbandoned ? getUIContent() : null}
             </Box>
           </Collapse>

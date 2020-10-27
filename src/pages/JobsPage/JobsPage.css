@@ -23,8 +23,8 @@
   text-align: center;
 }
 
-.status.abandoned {
-  background-color: #535353;
+.status.cancelled {
+  background-color: #bfbfbf;
 }
 
 .status.interested {
