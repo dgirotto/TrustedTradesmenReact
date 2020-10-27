@@ -598,6 +598,8 @@ class JobsPage extends Component {
             <Title>JOBS</Title>
             <TableContainer
               style={{
+                maxWidth: "1000px",
+                margin: "auto",
                 border: "1px solid rgba(224, 224, 224, 1)",
                 borderRadius: "0",
                 boxShadow: "none"

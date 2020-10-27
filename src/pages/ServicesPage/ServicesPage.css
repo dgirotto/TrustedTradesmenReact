@@ -8,6 +8,8 @@
   display: grid;
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  max-width: 1000px;
+  margin: auto;
 }
 
 .service {
