@@ -6,6 +6,8 @@ import Title from "../../components/UI/Title/Title";
 import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
 
+import Alert from "@material-ui/lab/Alert";
+
 class ServicesPage extends Component {
   constructor(props) {
     super(props);
@@ -38,9 +40,7 @@ class ServicesPage extends Component {
           <Auxil>
             <Title>SERVICES</Title>
             {!this.props.isAuth ? (
-              <p>
-                <a href="/login">Login</a> and choose from our several services!
-              </p>
+              <Alert style={{ marginBottom: "20px" }} severity="info" color="info"><a href="/login">Login</a> and select from our several services!</Alert>
             ) : null}
             <div className="services">
               {this.state.services.map(service => (

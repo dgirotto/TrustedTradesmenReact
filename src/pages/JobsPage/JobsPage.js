@@ -661,7 +661,7 @@ class JobsPage extends Component {
         {!this.state.jobs && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
-            <p>You don't have any Jobs yet!</p>
+            <Alert severity="info" color="info">You don't have any jobs yet.</Alert>
           </Auxil>
         )}
 
