@@ -31,6 +31,28 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Alert from "@material-ui/lab/Alert";
 
+import { ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles';
+
+var tableTheme = createMuiTheme({
+  overrides: {
+    MuiTableContainer: {
+      root: {
+        maxWidth: "1000px",
+        margin: "auto",
+        border: "1px solid rgba(224, 224, 224, 1)",
+        borderRadius: "0",
+        boxShadow: "none"
+      }
+    },
+    MuiTableCell: {
+      root: {
+        padding: "10px"
+      }
+    }
+  }
+});
+
 function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -596,50 +618,43 @@ class JobsPage extends Component {
         {this.state.jobs && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
-            <TableContainer
-              style={{
-                maxWidth: "1000px",
-                margin: "auto",
-                border: "1px solid rgba(224, 224, 224, 1)",
-                borderRadius: "0",
-                boxShadow: "none"
-              }}
-              component={Paper}
-            >
-              <Table aria-label="collapsible table">
-                <TableHead>
-                  <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
-                    <TableCell style={{ width: "10px" }} >
-                    </TableCell>
-                    <TableCell>
-                      <b>Service</b>
-                    </TableCell>
-                    <TableCell>
-                      <b>Address</b>
-                    </TableCell>
-                    <TableCell>
-                      <b>City</b>
-                    </TableCell>
-                    <TableCell style={{ width: "130px" }}>
-                      <b>Last Updated</b>
-                    </TableCell>
-                    <TableCell style={{ width: "180px" }}>
-                      <b>Status</b>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.jobs.map(job => (
-                    <Row
-                      key={job.jobId}
-                      row={job}
-                      userType={this.state.userType}
-                      contractor={null}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <ThemeProvider theme={tableTheme}>
+              <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableHead>
+                    <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
+                      <TableCell style={{ width: "10px" }} >
+                      </TableCell>
+                      <TableCell>
+                        <b>Service</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Address</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>City</b>
+                      </TableCell>
+                      <TableCell style={{ width: "130px" }}>
+                        <b>Last Updated</b>
+                      </TableCell>
+                      <TableCell style={{ width: "180px" }}>
+                        <b>Status</b>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.jobs.map(job => (
+                      <Row
+                        key={job.jobId}
+                        row={job}
+                        userType={this.state.userType}
+                        contractor={null}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </ThemeProvider>
           </Auxil>
         )}
 
