@@ -3,6 +3,3 @@
   padding: 0 2rem 3rem;
   box-sizing: border-box;
 }
-.table-row:hover > * {
-  cursor: pointer;
-}

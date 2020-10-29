@@ -52,3 +52,33 @@
   display: flex;
   flex-direction: row;
 }
+
+.mobile-table {
+  width: 100%;
+  border-spacing: 0px;
+}
+
+.mobile-table > tbody > tr > td {
+  text-align: center;
+  padding: 5px; 
+}
+
+@media (min-width: 661px) {
+  .deskop-table {
+    display: table;
+  }
+  
+  .mobile-table {
+    display: none;
+  }
+}
+
+@media (max-width: 660px) {
+  .desktop-table {
+    display: none;
+  }  
+  
+  .mobile-table {
+    display: table;
+  }
+}

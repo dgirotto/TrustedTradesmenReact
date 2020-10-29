@@ -8,7 +8,6 @@ import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
 
 import "./LeadsPage.css";
-import "../JobsPage/JobsPage.css";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -90,18 +89,58 @@ function Row(props) {
       });
   }
 
+  function getRowContent() {
+    let content = null;
+
+    if (props.isMobile) {
+      content = (
+        <TableCell>
+          <table className="mobile-table">
+            <tbody>
+              <tr>
+                <td>{row.serviceName}</td>
+              </tr>
+              <tr>
+                <td>{row.address}, {row.city}</td>
+              </tr>
+              <tr>
+                <td>{row.creationDate.split(" ")[0]}</td>
+              </tr>
+              <tr>
+                <td style={{ paddingTop: "5px" }}>
+                  <IconButton aria-label="expand row" size="small">
+                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                  </IconButton>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </TableCell>
+      );
+    }
+    else {
+      content = (
+        <Auxil>
+          <TableCell>
+            <IconButton aria-label="expand row" size="small">
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell>{row.serviceName}</TableCell>
+          <TableCell>{row.address}</TableCell>
+          <TableCell>{row.city}</TableCell>
+          <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+        </Auxil>
+      );
+    }
+
+    return content;
+  }
+
   return (
     <Auxil>
       <TableRow onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small">
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>{row.serviceName}</TableCell>
-        <TableCell>{row.address}</TableCell>
-        <TableCell>{row.city}</TableCell>
-        <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+        {getRowContent()}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
@@ -195,7 +234,7 @@ class LeadsPage extends Component {
           <Auxil>
             <Title>LEADS</Title>
             <ThemeProvider theme={tableTheme}>
-              <TableContainer component={Paper}>
+              <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
                     <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
@@ -210,7 +249,7 @@ class LeadsPage extends Component {
                       <TableCell>
                         <b>City</b>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ width: "130px" }}>
                         <b>Created</b>
                       </TableCell>
                     </TableRow>
@@ -221,6 +260,22 @@ class LeadsPage extends Component {
                         key={lead.leadId}
                         row={lead}
                         userType={this.state.userType}
+                        isMobile={false}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <TableContainer className="mobile-table" component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableBody>
+                    {this.state.leads.map(lead => (
+                      <Row
+                        key={lead.leadId}
+                        row={lead}
+                        userType={this.state.userType}
+                        isMobile={true}
                       />
                     ))}
                   </TableBody>

@@ -420,7 +420,7 @@ function Row(props) {
     return content;
   }
 
-  function getJobStatus(row) {
+  function getJobStatus() {
     let status = null;
 
     if (row.isAbandoned) {
@@ -469,19 +469,62 @@ function Row(props) {
     return status;
   }
 
+  function getRowContent() {
+    let content = null;
+
+    if (props.isMobile) {
+      content = (
+        <TableCell>
+          <table className="mobile-table">
+            <tbody>
+              <tr>
+                <td>{row.serviceName}</td>
+              </tr>
+              <tr>
+                <td>{row.address}, {row.city}</td>
+              </tr>
+              <tr>
+                <td>{row.lastUpdatedDate.split(" ")[0]}</td>
+              </tr>
+              <tr>
+                <td>{getJobStatus()}</td>
+              </tr>
+              <tr>
+                <td style={{ paddingTop: "5px" }}>
+                  <IconButton aria-label="expand row" size="small">
+                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                  </IconButton>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </TableCell>
+      );
+    }
+    else {
+      content = (
+        <Auxil>
+          <TableCell>
+            <IconButton aria-label="expand row" size="small">
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell>{row.serviceName}</TableCell>
+          <TableCell>{row.address}</TableCell>
+          <TableCell>{row.city}</TableCell>
+          <TableCell>{row.lastUpdatedDate.split(" ")[0]}</TableCell>
+          <TableCell>{getJobStatus()}</TableCell>
+        </Auxil>
+      );
+    }
+
+    return content;
+  }
+
   return (
     <Auxil>
       <TableRow onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small">
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell>{row.serviceName}</TableCell>
-        <TableCell>{row.address}</TableCell>
-        <TableCell>{row.city}</TableCell>
-        <TableCell>{row.lastUpdatedDate.split(" ")[0]}</TableCell>
-        <TableCell>{getJobStatus(row)}</TableCell>
+        {getRowContent()}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -560,7 +603,6 @@ function Row(props) {
                     </Auxil>) : null}
                 </tbody>
               </table>
-
               {/* TODO: Move the below to its own function */}
               {props.userType === 0 && !row.isAbandoned && row.contractorId && (row.invoicePrice === null || row.invoiceAccepted === "0") ? (
                 <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>
@@ -584,7 +626,7 @@ function Row(props) {
         </TableCell>
       </TableRow>
     </Auxil >
-  );
+  );;
 }
 
 class JobsPage extends Component {
@@ -619,7 +661,7 @@ class JobsPage extends Component {
           <Auxil>
             <Title>JOBS</Title>
             <ThemeProvider theme={tableTheme}>
-              <TableContainer component={Paper}>
+              <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
                     <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
@@ -649,6 +691,23 @@ class JobsPage extends Component {
                         row={job}
                         userType={this.state.userType}
                         contractor={null}
+                        isMobile={false}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <TableContainer className="mobile-table" component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableBody>
+                    {this.state.jobs.map(job => (
+                      <Row
+                        key={job.jobId}
+                        row={job}
+                        userType={this.state.userType}
+                        contractor={null}
+                        isMobile={true}
                       />
                     ))}
                   </TableBody>
