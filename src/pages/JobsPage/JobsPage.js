@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
-import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
@@ -26,9 +25,6 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import Alert from "@material-ui/lab/Alert";
 
 import { ThemeProvider } from '@material-ui/core'
@@ -53,10 +49,6 @@ var tableTheme = createMuiTheme({
   }
 });
 
-function AlertPopup(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
@@ -64,10 +56,8 @@ function Row(props) {
   const [invoicePrice, setPrice] = React.useState(null);
   const [completionDate, setDate] = React.useState(null);
   const [contractor, setContractor] = React.useState(row.contractors && row.contractors.length > 0 ? row.contractors[0].contractorId : null);
-  const [isLoading, setLoading] = React.useState(false);
 
   function claimJob() {
-    setLoading(true);
     let body = { jobId: row.jobId };
 
     if (contractor !== null) {
@@ -76,58 +66,50 @@ function Row(props) {
 
     JobService.updateJob(body)
       .then(() => {
-        setLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         console.error("Error while claiming job" + err.response);
-        setLoading(false);
       });
   }
 
   function cancelJob() {
-    setLoading(true);
     let body = { jobId: row.jobId, isAbandoned: true };
 
     JobService.updateJob(body)
       .then(() => {
-        setLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         console.error("Error while abandoning job" + err.response);
-        setLoading(false);
       });
   }
 
   function acceptInvoice(isAccepted) {
-    setLoading(true);
     let body = { jobId: row.jobId, invoiceAccepted: isAccepted };
 
     JobService.updateJob(body)
       .then(() => {
-        setLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         console.error("Error while accepting job invoice" + err.response);
-        setLoading(false);
       });
   }
 
   function sendInvoice() {
-    setLoading(true);
     let body = { jobId: row.jobId, invoicePrice: invoicePrice };
 
     JobService.updateJob(body)
       .then(() => {
-        setLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         console.error("Error while updating job invoice" + err.response);
-        setLoading(false);
       });
   }
 
   function completeJob() {
-    setLoading(true);
     let body = null;
 
     if (props.userType === 1) {
@@ -139,11 +121,10 @@ function Row(props) {
 
     JobService.updateJob(body)
       .then(() => {
-        setLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         console.error("Error while updating job" + err.response);
-        setLoading(false);
       });
   }
 
@@ -423,7 +404,7 @@ function Row(props) {
   function getJobStatus() {
     let status = null;
 
-    if (row.isAbandoned) {
+    if (row.isAbandoned === "1") {
       status = <Chip className="status cancelled" label="Job Cancelled" />;
     }
     else if (row.contractorId === null) {
@@ -445,7 +426,7 @@ function Row(props) {
       status = <Chip className="status required" label="Invoice Required" />;
     }
     else if (row.invoiceAccepted === null) {
-      status = <Chip className="status required" label="Invoice Pending" />;
+      status = <Chip className="status required" label="Response Required" />;
     }
     else if (props.userType === "1" && row.invoiceAccepted === "0") {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
@@ -603,6 +584,7 @@ function Row(props) {
                     </Auxil>) : null}
                 </tbody>
               </table>
+
               {/* TODO: Move the below to its own function */}
               {props.userType === 0 && !row.isAbandoned && row.contractorId && (row.invoicePrice === null || row.invoiceAccepted === "0") ? (
                 <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>
@@ -633,8 +615,7 @@ class JobsPage extends Component {
   state = {
     userType: null,
     jobs: null,
-    isLoading: true,
-    showSnackbar: false
+    isLoading: true
   };
 
   componentDidMount() {
@@ -649,10 +630,6 @@ class JobsPage extends Component {
         this.setState({ isLoading: false });
       });
   }
-
-  toggleSnackbar = () => {
-    this.setState({ showSnackbar: !this.state.showSnackbar });
-  };
 
   render() {
     return (
@@ -720,21 +697,11 @@ class JobsPage extends Component {
         {!this.state.jobs && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
-            <Alert severity="info" color="info">You don't have any jobs yet.</Alert>
+            <Alert severity="info" color="info">You don't have any jobs at the moment.</Alert>
           </Auxil>
         )}
 
         {this.state.isLoading ? <Backdrop /> : null}
-
-        <Snackbar
-          open={this.state.showSnackbar}
-          autoHideDuration={6000}
-          onClose={this.toggleSnackbar}
-        >
-          <AlertPopup onClose={this.toggleSnackbar} severity="success">
-            This is a success message!
-          </AlertPopup>
-        </Snackbar>
       </div>
     );
   }

@@ -38,7 +38,7 @@ class LoginPage extends Component {
         const token = res.data.jwt;
         localStorage.setItem("jwt-token", token);
         CacheService.cacheToken(token);
-        window.location.href = "/services";
+        window.location.href = "/jobs";
       })
       .catch(error => {
         this.setState({ error: error.message, isLoading: false });

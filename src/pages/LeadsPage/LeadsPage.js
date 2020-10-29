@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { LeadsService } from "../../services/leads";
 import { AuthService } from "../../services/auth";
-import { isMobile } from "react-device-detect";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
@@ -23,9 +22,6 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import Alert from "@material-ui/lab/Alert";
 
 import { ThemeProvider } from '@material-ui/core'
@@ -50,15 +46,9 @@ var tableTheme = createMuiTheme({
   }
 });
 
-function AlertPopup(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
-  const [contractor, setContractor] = React.useState(null);
-  const [isLoading, setLoading] = React.useState(false);
 
   function dismissLead() {
     if (
@@ -69,7 +59,6 @@ function Row(props) {
   }
 
   function claimLead(isAccepted) {
-    setLoading(true);
     let body = { leadId: row.leadId };
 
     if (isAccepted) {
@@ -81,11 +70,10 @@ function Row(props) {
 
     LeadsService.updateLead(body)
       .then(() => {
-        setLoading(false);
+        window.location.reload();
       })
       .catch(err => {
         console.error("Error while updating lead" + err.response);
-        setLoading(false);
       });
   }
 
@@ -206,8 +194,7 @@ class LeadsPage extends Component {
   state = {
     userType: null,
     leads: null,
-    isLoading: true,
-    showSnackbar: false
+    isLoading: true
   };
 
   componentDidMount() {
@@ -222,10 +209,6 @@ class LeadsPage extends Component {
         this.setState({ isLoading: false });
       });
   }
-
-  toggleSnackbar = () => {
-    this.setState({ showSnackbar: !this.state.showSnackbar });
-  };
 
   render() {
     return (
@@ -288,21 +271,11 @@ class LeadsPage extends Component {
         {!this.state.leads && !this.state.isLoading && (
           <Auxil>
             <Title>LEADS</Title>
-            <Alert severity="info" color="info">You don't have any leads yet.</Alert>
+            <Alert severity="info" color="info">You don't have any leads at the moment.</Alert>
           </Auxil>
         )}
 
         {this.state.isLoading ? <Backdrop /> : null}
-
-        <Snackbar
-          open={this.state.showSnackbar}
-          autoHideDuration={6000}
-          onClose={this.toggleSnackbar}
-        >
-          <Alert onClose={this.toggleSnackbar} severity="success">
-            This is a success message!
-          </Alert>
-        </Snackbar>
       </div>
     );
   }
