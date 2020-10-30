@@ -125,6 +125,7 @@ class LoginPage extends Component {
                 onClick={this.login}
                 variant="contained"
                 color="primary"
+                style={{ width: "175px", margin: "auto" }}
               >
                 LOGIN
               </Button>
@@ -150,21 +151,25 @@ class LoginPage extends Component {
                   variant="outlined"
                   onChange={this.emailChange}
                 />
-                <Button
-                  disabled={!this.state.emailToReset}
-                  onClick={this.resetPassword}
-                  variant="contained"
-                  color="primary"
-                >
-                  RESET PASSWORD
-              </Button>
-                <Button
-                  onClick={this.toggleResetPassword}
-                  variant="contained"
-                  color="secondary"
-                >
-                  BACK
-              </Button>
+                <div className="reset-button-container">
+                  <Button
+                    disabled={!this.state.emailToReset}
+                    onClick={this.resetPassword}
+                    variant="contained"
+                    color="primary"
+                    style={{ width: "175px" }}
+                  >
+                    RESET PASSWORD
+                  </Button>
+                  <Button
+                    onClick={this.toggleResetPassword}
+                    variant="contained"
+                    color="secondary"
+                    style={{ width: "175px" }}
+                  >
+                    BACK
+                  </Button>
+                </div>
               </form>
             )}
           {this.state.isLoading ? <Backdrop /> : null}

@@ -46,7 +46,7 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-        <div className="home-container">
+        <div className="info-container">
           <Title>HOW IT WORKS</Title>
           <div className="card-container">
             <Card className="card" style={{ borderRadius: "0" }}>

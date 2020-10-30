@@ -1,7 +1,7 @@
 .jobs-page-container {
-  width: 100%;
-  padding: 0 2rem 3rem;
-  box-sizing: border-box;
+  max-width: 1250px;
+  margin: auto;
+  padding: 0 40px 20px;
 }
 
 .job-details-table {

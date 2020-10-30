@@ -52,7 +52,7 @@ var tableTheme = createMuiTheme({
 function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
-  const [notes, setNotes] = React.useState(null);
+  const [notes, setNotes] = React.useState("");
   const [invoicePrice, setPrice] = React.useState(null);
   const [completionDate, setDate] = React.useState(null);
   const [contractor, setContractor] = React.useState(row.contractors && row.contractors.length > 0 ? row.contractors[0].contractorId : null);

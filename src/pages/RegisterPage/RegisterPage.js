@@ -109,6 +109,7 @@ class RegisterPage extends Component {
               onClick={this.register}
               variant="contained"
               color="primary"
+              style={{ width: "175px", margin: "10px auto" }}
             >
               CREATE ACCOUNT
             </Button>

@@ -1,14 +1,13 @@
 .services-page-container {
-  width: 100%;
-  padding: 0 2rem 3rem;
-  box-sizing: border-box;
+  max-width: 1250px;
+  margin: auto;
+  padding: 0 40px 20px;
 }
 
 .services {
   display: grid;
   gap: 0.5rem;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  max-width: 1000px;
   margin: auto;
 }
 

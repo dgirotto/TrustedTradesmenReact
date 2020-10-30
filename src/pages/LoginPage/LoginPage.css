@@ -13,10 +13,15 @@
   color: #282828;
 }
 
+.reset-button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .reset-password {
   font-size: smaller;
   cursor: pointer;
-  padding: 5px 0;
+  padding: 0 0 10px;
 }
 
 .reset-password:hover {
