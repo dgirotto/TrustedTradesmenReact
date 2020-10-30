@@ -502,6 +502,34 @@ function Row(props) {
     return content;
   }
 
+  function getAlertContent() {
+    let content = null;
+
+    if (row.isAbandoned === "1") {
+      content = <Alert severity="error" color="error">The job was cancelled by the customer on {row.lastUpdatedDate.split(" ")[0]}.</Alert>;
+    }
+    else if (props.userType === 0) {
+      if (row.contractorId !== null && (row.invoicePrice === null || row.invoiceAccepted === "0")) {
+        content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
+      }
+      else if (row.completionDate !== null) {
+        if (row.invoicePaid === null) {
+          content = <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]}. Please send the invoice payment of <b>${row.invoicePrice}</b> to the contractor.</Alert>;
+        }
+        else if (row.invoicePaid === "1") {
+          content = <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]} and the invoice payment has been processed.</Alert>;
+        }
+      }
+    }
+    else if (props.userType === 1) {
+      if (row.invoicePrice !== null && row.invoiceAccepted === null) {
+        content = <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
+      }
+    }
+
+    return content;
+  }
+
   return (
     <Auxil>
       <TableRow onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
@@ -584,25 +612,8 @@ function Row(props) {
                     </Auxil>) : null}
                 </tbody>
               </table>
-
-              {/* TODO: Move the below to its own function */}
-              {props.userType === 0 && !row.isAbandoned && row.contractorId && (row.invoicePrice === null || row.invoiceAccepted === "0") ? (
-                <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>
-              ) : null}
-              {props.userType === 0 && row.completionDate && row.invoicePaid === null ? (
-                <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]}. Please send the invoice payment of <b>${row.invoicePrice}</b> to the contractor.</Alert>
-              ) : null}
-              {props.userType === 0 && row.completionDate && row.invoicePaid === "1" ? (
-                <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]} and the invoice payment has been processed.</Alert>
-              ) : null}
-              {props.userType === 1 && !row.isAbandoned && row.invoicePrice && !row.invoiceAccepted ? (
-                <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>
-              ) : null}
-              {row.isAbandoned ? (
-                <Alert severity="error" color="error">The job was cancelled by the customer on {row.lastUpdatedDate.split(" ")[0]}.</Alert>
-              ) : null}
-
-              {!row.isAbandoned ? getUIContent() : null}
+              {getAlertContent()}
+              {row.isAbandoned === null ? getUIContent() : null}
             </Box>
           </Collapse>
         </TableCell>

@@ -238,8 +238,9 @@ class ServiceDetailsPage extends Component {
               color="primary"
               disabled={
                 !(
-                  this.state.jobDetails.budget &&
                   this.state.jobDetails.description &&
+                  this.state.jobDetails.budget &&
+                  this.state.jobDetails.timeFrame &&
                   this.state.jobDetails.address &&
                   this.state.jobDetails.city &&
                   this.state.jobDetails.postalCode &&
