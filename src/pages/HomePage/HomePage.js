@@ -13,10 +13,6 @@ import {
 } from "react-icons/fa";
 
 class HomePage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Auxil>
@@ -27,7 +23,7 @@ class HomePage extends Component {
             </div>
             <div className="intro-bottom">
               <div className="intro-photo">
-                <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" />
+                <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
               </div>
               <div className="intro-desc">
                 Hello!

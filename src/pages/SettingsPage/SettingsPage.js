@@ -85,8 +85,8 @@ class SettingsPage extends Component {
 
     AccountService.getAccountDetails()
       .then(res => {
-        if (this.state.userType === 1 && res.data.services !== null) {
-          res.data.services = res.data.services.split(",");
+        if (this.state.userType === 1) {
+          res.data.services = res.data.services !== null ? res.data.services.split(",") : [];
         }
         this.setState({ accountDetails: res.data });
       })
@@ -299,14 +299,11 @@ class SettingsPage extends Component {
                           control={
                             <Checkbox
                               onChange={event => {
-                                if (
-                                  this.state.accountDetails.services === null
-                                ) {
-                                  this.state.accountDetails.services = [];
-                                }
+                                // if (this.state.accountDetails.services === null) {
+                                //   this.state.accountDetails.services = [];
+                                // }
 
-                                var accountDetailsCopy = this.state
-                                  .accountDetails;
+                                var accountDetailsCopy = this.state.accountDetails;
 
                                 if (event.target.checked) {
                                   accountDetailsCopy.services.push(
@@ -317,16 +314,14 @@ class SettingsPage extends Component {
                                     accountDetails: accountDetailsCopy,
                                     hasEditedDetails: true
                                   });
-                                } else {
+                                }
+                                else {
                                   const index = accountDetailsCopy.services.indexOf(
                                     event.target.value
                                   );
 
                                   if (index !== -1) {
-                                    accountDetailsCopy.services.splice(
-                                      index,
-                                      1
-                                    );
+                                    accountDetailsCopy.services.splice(index, 1);
 
                                     this.setState({
                                       accountDetails: accountDetailsCopy,

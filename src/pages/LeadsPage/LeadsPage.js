@@ -92,7 +92,10 @@ function Row(props) {
                 <td>{row.address}, {row.city}</td>
               </tr>
               <tr>
-                <td>{row.creationDate.split(" ")[0]}</td>
+                <td>Created: {row.creationDate.split(" ")[0]}</td>
+              </tr>
+              <tr>
+                <td>Time Frame: {row.timeFrame} Month(s)</td>
               </tr>
               <tr>
                 <td style={{ paddingTop: "5px" }}>
@@ -118,6 +121,7 @@ function Row(props) {
           <TableCell>{row.address}</TableCell>
           <TableCell>{row.city}</TableCell>
           <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+          <TableCell>{row.timeFrame} Month(s)</TableCell>
         </Auxil>
       );
     }
@@ -131,7 +135,7 @@ function Row(props) {
         {getRowContent()}
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <table className="job-details-table">
@@ -171,14 +175,14 @@ function Row(props) {
                     variant="contained"
                     style={{ backgroundColor: "#3bb13b", color: "white" }}
                   >
-                    I'M INTERESTED
+                    ACCEPT
                 </Button>
                   <Button
                     onClick={() => dismissLead()}
                     variant="contained"
                     color="secondary"
                   >
-                    DISMISS LEAD
+                    DISMISS
                 </Button>
                 </div>
               )}
@@ -220,7 +224,7 @@ class LeadsPage extends Component {
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
-                    <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
+                    <TableRow style={{ backgroundColor: "rgb(250 250 250)" }}>
                       <TableCell style={{ width: "10px" }} >
                       </TableCell>
                       <TableCell>
@@ -232,8 +236,11 @@ class LeadsPage extends Component {
                       <TableCell>
                         <b>City</b>
                       </TableCell>
-                      <TableCell style={{ width: "130px" }}>
+                      <TableCell>
                         <b>Created</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Time Frame</b>
                       </TableCell>
                     </TableRow>
                   </TableHead>

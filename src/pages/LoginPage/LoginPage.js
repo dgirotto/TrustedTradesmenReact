@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import "./LoginPage.css";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import Checkbox from "@material-ui/core/Checkbox";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { AuthService } from "../../services/auth";
 import { CacheService } from "../../services/caching";
 
@@ -106,17 +105,17 @@ class LoginPage extends Component {
                 onChange={this.change}
               />
               {/* <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={this.handleCheckboxChange}
-                  checked={this.state.remember}
-                />
-              }
-              label="Remember me"
-            /> */}
-              <a className="reset-password" onClick={this.toggleResetPassword}>
+                control={
+                  <Checkbox
+                    onChange={this.handleCheckboxChange}
+                    checked={this.state.remember}
+                  />
+                }
+                label="Remember me"
+              /> */}
+              <span className="reset-password" onClick={this.toggleResetPassword}>
                 Forgot Password?
-              </a>
+              </span>
               <Button
                 disabled={
                   !this.state.loginDetails.email ||

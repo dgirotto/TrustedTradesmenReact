@@ -18,6 +18,11 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
@@ -51,11 +56,27 @@ var tableTheme = createMuiTheme({
 
 function Row(props) {
   const row = props.row;
+  const userType = props.userType;
+
   const [open, setOpen] = React.useState(false);
-  const [notes, setNotes] = React.useState("");
+  const [notes, setNotes] = React.useState(getNotes());
   const [invoicePrice, setPrice] = React.useState(null);
-  const [completionDate, setDate] = React.useState(null);
+  const [completionDate, setDate] = React.useState("");
   const [contractor, setContractor] = React.useState(row.contractors && row.contractors.length > 0 ? row.contractors[0].contractorId : null);
+  const [inspectionPassed, setInspection] = React.useState(null);
+  const [reportSent, setReport] = React.useState(false);
+
+  function getNotes() {
+    if (userType === 1) {
+      return row.contractorNotes;
+    }
+    else if (userType === 2) {
+      return row.inspectorNotes
+    }
+    else {
+      return "";
+    }
+  }
 
   function claimJob() {
     let body = { jobId: row.jobId };
@@ -112,11 +133,24 @@ function Row(props) {
   function completeJob() {
     let body = null;
 
-    if (props.userType === 1) {
-      body = { jobId: row.jobId, contractorNotes: notes, completionDate: completionDate };
+    if (userType === 1) {
+      body = {
+        jobId: row.jobId,
+        contractorNotes: notes,
+        completionDate: completionDate
+      };
     }
-    else if (props.userType === 2) {
-      body = { jobId: row.jobId, inspectorNotes: notes, inspectionDate: completionDate };
+    else if (userType === 2) {
+
+      body = {
+        jobId: row.jobId,
+        inspectionPassed: inspectionPassed === "true" ? true : false,
+        inspectionDate: completionDate
+      };
+
+      if (inspectionPassed === "false") {
+        body.inspectorNotes = notes;
+      }
     }
 
     JobService.updateJob(body)
@@ -147,7 +181,7 @@ function Row(props) {
   function getUIContent() {
     let content = null;
 
-    if (props.userType === 0) {
+    if (userType === 0) {
       // CUSTOMER
       if (row.contractors && row.contractors.length > 0) {
         content = (
@@ -171,7 +205,7 @@ function Row(props) {
               >
                 {row.contractors.map(option => (
                   <MenuItem key={option.contractorId} value={option.contractorId}>
-                    {option.firstName} {option.lastName}
+                    {option.companyName}
                   </MenuItem>
                 ))}
               </TextField>
@@ -203,7 +237,7 @@ function Row(props) {
                   color="secondary"
                 >
                   CANCEL JOB
-              </Button>
+                </Button>
               </div>
             </div>
           </Auxil>
@@ -224,14 +258,14 @@ function Row(props) {
                     color: "white",
                   }}
                 >
-                  ACCEPT INVOICE
+                  ACCEPT
               </Button>
                 <Button
                   variant="contained"
                   onClick={() => acceptInvoice(false)}
                   color="secondary"
                 >
-                  DECLINE INVOICE
+                  DECLINE
               </Button>
               </div>
               <div style={{ margin: "15px 0" }}>
@@ -261,7 +295,7 @@ function Row(props) {
         );
       }
     }
-    else if (props.userType === 1) {
+    else if (userType === 1) {
       // CONTRACTOR
       if ((row.invoiceAccepted === null && row.invoicePrice === null) || row.invoiceAccepted === "0") {
         content = (
@@ -305,36 +339,39 @@ function Row(props) {
                 rowsMax={6}
                 type="text"
                 label="notes"
-                value={notes || null}
+                value={notes}
                 variant="outlined"
                 onChange={event => {
                   setNotes(event.target.value);
                 }}
               />
             </div>
-            <div className="button-container">
+            <span className="field-desc">Record the date when the job was completed.</span>
+            <div className="textfield-container-row">
               <TextField
                 type="date"
-                value={completionDate || null}
+                value={completionDate}
                 onChange={event => {
                   setDate(event.target.value);
                 }}
                 style={{ width: "175px", marginRight: "20px" }}
               />
+            </div>
+            <div className="button-container">
               <Button
                 variant="contained"
                 onClick={() => completeJob()}
-                disabled={completionDate === null}
+                disabled={completionDate === ""}
                 color="primary"
               >
-                COMPLETE JOB
+                SUBMIT
               </Button>
             </div>
           </Auxil>
         );
       }
     }
-    else if (props.userType === 2) {
+    else if (userType === 2) {
       // INSPECTOR
       if (row.inspectorId === null) {
         content = (
@@ -352,52 +389,93 @@ function Row(props) {
           </div>
         );
       }
-      else if (row.inspectionDate === null) {
+      else if (row.completionDate !== null && (row.inspectionDate === null || row.inspectionPassed === "0")) {
         content = (
-          <Auxil>
-            <span className="field-desc">Record any relevant notes to pass back to the contractor.</span>
-            <div className="textfield-container-row">
-              <TextField
-                multiline
-                rowsMax={6}
-                type="text"
-                label="notes"
-                value={notes || null}
-                variant="outlined"
-                onChange={event => {
-                  setNotes(event.target.value);
-                }}
-              />
-            </div>
-            <div className="button-container">
-              <TextField
-                type="date"
-                value={completionDate || null}
-                onChange={event => {
-                  setDate(event.target.value);
-                }}
-                style={{
-                  width: "175px",
-                  marginRight: "20px"
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={() => completeJob()}
-                disabled={completionDate === null}
-                style={{
-                  backgroundColor: "#3bb13b",
-                  color: "white"
-                }}
-              >
-                COMPLETE JOB
-            </Button>
-            </div>
-          </Auxil>
+          <RadioGroup
+            value={inspectionPassed}
+            onChange={event => {
+              setInspection(event.target.value);
+            }}
+          >
+            <span style={{ marginBottom: "5px" }}>Did the job pass inspection?</span>
+            <span style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+              <FormControlLabel value="true" control={<Radio />} label="Yes" />
+              <FormControlLabel value="false" control={<Radio />} label="No" />
+            </span>
+          </RadioGroup>
         );
+
+        if (inspectionPassed !== null) {
+          if (inspectionPassed === "false") {
+            content = (
+              <Auxil>
+                {content}
+                <span className="field-desc">Record any relevant notes to pass back to the contractor.</span>
+                <div className="textfield-container-row">
+                  <TextField
+                    multiline
+                    rowsMax={6}
+                    type="text"
+                    label="notes"
+                    value={notes}
+                    variant="outlined"
+                    onChange={event => {
+                      setNotes(event.target.value);
+                    }}
+                  />
+                </div>
+              </Auxil>
+            );
+          }
+
+          content = (
+            <Auxil>
+              {content}
+              <span className="field-desc">Record the date when the inspection was completed.</span>
+              <div className="textfield-container-row">
+                <TextField
+                  type="date"
+                  value={completionDate}
+                  onChange={event => {
+                    setDate(event.target.value);
+                  }}
+                  style={{
+                    width: "175px",
+                    marginRight: "20px"
+                  }}
+                />
+              </div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={event => {
+                      if (event.target.checked) {
+                        setReport(true);
+                      }
+                      else {
+                        setReport(false);
+                      }
+                    }}
+                    checked={reportSent}
+                  />
+                }
+                label="I have filled out an inspection report"
+              />
+              <div className="button-container">
+                <Button
+                  variant="contained"
+                  onClick={() => completeJob()}
+                  disabled={completionDate === "" || !reportSent}
+                  color="primary"
+                >
+                  SUBMIT
+                </Button>
+              </div>
+            </Auxil>
+          );
+        }
       }
     }
-
     return content;
   }
 
@@ -428,7 +506,7 @@ function Row(props) {
     else if (row.invoiceAccepted === null) {
       status = <Chip className="status required" label="Response Required" />;
     }
-    else if (props.userType === "1" && row.invoiceAccepted === "0") {
+    else if (userType === "1" && row.invoiceAccepted === "0") {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
     else if (row.completionDate === null) {
@@ -437,8 +515,11 @@ function Row(props) {
     else if (row.inspectorId === null) {
       status = <Chip className="status required" label="Inspector Required" />;
     }
-    else if (row.inspectionDate === null) {
+    else if (row.inspectionPassed === null) {
       status = <Chip className="status required" label="Requires Inspection" />;
+    }
+    else if (row.inspectionPassed === "0") {
+      status = <Chip className="status required" label="Requires Revisit" />;
     }
     else if (row.invoicePaid === null) {
       status = <Chip className="status required" label="Payment Required" />;
@@ -465,7 +546,7 @@ function Row(props) {
                 <td>{row.address}, {row.city}</td>
               </tr>
               <tr>
-                <td>{row.lastUpdatedDate.split(" ")[0]}</td>
+                <td>Last Updated: {row.lastUpdatedDate.split(" ")[0]}</td>
               </tr>
               <tr>
                 <td>{getJobStatus()}</td>
@@ -508,7 +589,7 @@ function Row(props) {
     if (row.isAbandoned === "1") {
       content = <Alert severity="error" color="error">The job was cancelled by the customer on {row.lastUpdatedDate.split(" ")[0]}.</Alert>;
     }
-    else if (props.userType === 0) {
+    else if (userType === 0) {
       if (row.contractorId !== null && (row.invoicePrice === null || row.invoiceAccepted === "0")) {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
@@ -521,7 +602,7 @@ function Row(props) {
         }
       }
     }
-    else if (props.userType === 1) {
+    else if (userType === 1) {
       if (row.invoicePrice !== null && row.invoiceAccepted === null) {
         content = <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
       }
@@ -559,7 +640,7 @@ function Row(props) {
                       <td>{row.completionDate.split(" ")[0]}</td>
                     </tr>
                   ) : null}
-                  {row.completionDate && props.userType !== 0 && row.contractorNotes ? (
+                  {userType !== 0 && row.contractorNotes ? (
                     <tr>
                       <td>Contractor Notes</td>
                       <td>{row.contractorNotes}</td>
@@ -571,7 +652,13 @@ function Row(props) {
                       <td>{row.inspectionDate.split(" ")[0]}</td>
                     </tr>
                   ) : null}
-                  {row.inspectionDate && props.userType !== 0 && row.inspectorNotes ? (
+                  {row.inspectionPassed !== null ? (
+                    <tr>
+                      <td>Inspection Passed</td>
+                      <td>{row.inspectionPassed === "1" ? "Yes" : "No"}</td>
+                    </tr>
+                  ) : null}
+                  {userType !== 0 && row.inspectorNotes ? (
                     <tr>
                       <td>Inspector Notes</td>
                       <td>{row.inspectorNotes}</td>
@@ -652,7 +739,7 @@ class JobsPage extends Component {
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
-                    <TableRow style={{ backgroundColor: "rgb(243 243 243)" }}>
+                    <TableRow style={{ backgroundColor: "rgb(250 250 250)" }}>
                       <TableCell style={{ width: "10px" }} >
                       </TableCell>
                       <TableCell>

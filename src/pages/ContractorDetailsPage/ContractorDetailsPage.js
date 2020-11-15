@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Auxil from "../../helpers/Auxil";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Title from "../../components/UI/Title/Title";
 import { FaLink, FaInstagram, FaLinkedin, FaFacebook, FaYoutube, FaPhone, FaAt, FaGlobeAmericas } from "react-icons/fa";
@@ -38,15 +37,15 @@ class ContractorDetailsPage extends Component {
             <div className="contractor-details-container">
                 <Title>{this.state.contractorDetails.companyName.toUpperCase()}</Title>
                 <div className="links-container">
-                    {this.state.contractorDetails.website ? (<a href={"https://" + this.state.contractorDetails.website} target="_blank" className="social-link"><FaLink size="22" /><span className="link-text">Website</span></a>) :
+                    {this.state.contractorDetails.website ? (<a href={"https://" + this.state.contractorDetails.website} target="_blank" rel="noopener noreferrer" className="social-link"><FaLink size="22" /><span className="link-text">Website</span></a>) :
                         (<span className="social-link no-link"><FaLink size="22" /><span className="link-text">Website</span></span>)}
-                    {this.state.contractorDetails.instagram ? (<a href={"https://" + this.state.contractorDetails.instagram} target="_blank" className="social-link"><FaInstagram size="24" /><span className="link-text">Instagram</span></a>) :
+                    {this.state.contractorDetails.instagram ? (<a href={"https://" + this.state.contractorDetails.instagram} target="_blank" rel="noopener noreferrer" className="social-link"><FaInstagram size="24" /><span className="link-text">Instagram</span></a>) :
                         (<span className="social-link no-link"><FaInstagram size="24" /><span className="link-text">Instagram</span></span>)}
-                    {this.state.contractorDetails.facebook ? (<a href={"https://" + this.state.contractorDetails.facebook} target="_blank" className="social-link"><FaFacebook size="24" /><span className="link-text">Facebook</span></a>) :
+                    {this.state.contractorDetails.facebook ? (<a href={"https://" + this.state.contractorDetails.facebook} target="_blank" rel="noopener noreferrer" className="social-link"><FaFacebook size="24" /><span className="link-text">Facebook</span></a>) :
                         (<span className="social-link no-link"><FaFacebook size="24" /><span className="link-text">Facebook</span></span>)}
-                    {this.state.contractorDetails.youtube ? (<a href={"https://" + this.state.contractorDetails.youtube} target="_blank" className="social-link"><FaYoutube size="24" color="#c4302b" /><span className="link-text">Youtube</span></a>) :
+                    {this.state.contractorDetails.youtube ? (<a href={"https://" + this.state.contractorDetails.youtube} target="_blank" rel="noopener noreferrer" className="social-link"><FaYoutube size="24" color="#c4302b" /><span className="link-text">Youtube</span></a>) :
                         (<span className="social-link no-link"><FaYoutube size="24" /><span className="link-text">Youtube</span></span>)}
-                    {this.state.contractorDetails.linkedin ? (<a href={"https://" + this.state.contractorDetails.linkedin} target="_blank" className="social-link"><FaLinkedin size="24" color="#0e76a8" /><span className="link-text">LinkedIn</span></a>) :
+                    {this.state.contractorDetails.linkedin ? (<a href={"https://" + this.state.contractorDetails.linkedin} target="_blank" rel="noopener noreferrer" className="social-link"><FaLinkedin size="24" color="#0e76a8" /><span className="link-text">LinkedIn</span></a>) :
                         (<span className="social-link no-link"><FaLinkedin size="24" /><span className="link-text">LinkedIn</span></span>)}
                 </div>
                 <div className="contractor-details">

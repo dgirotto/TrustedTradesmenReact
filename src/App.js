@@ -7,7 +7,7 @@ import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import HomePage from "./pages/HomePage/HomePage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import ServiceDetailsPage from "./pages/ServiceDetailsPage/ServiceDetailsPage";
-import ContractorsPage from "./pages/ContractorsPage/ContractorsPage";
+// import ContractorsPage from "./pages/ContractorsPage/ContractorsPage";
 import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
@@ -27,7 +27,7 @@ class App extends Component {
     sideDrawerOpen: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.authenticate();
   }
 
