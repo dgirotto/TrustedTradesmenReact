@@ -57,6 +57,7 @@ var tableTheme = createMuiTheme({
 function Row(props) {
   const row = props.row;
   const userType = props.userType;
+  const requiresInspection = parseInt(row.invoicePrice) >= 5000;
 
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = React.useState(getNotes());
@@ -119,7 +120,10 @@ function Row(props) {
   }
 
   function sendInvoice() {
-    let body = { jobId: row.jobId, invoicePrice: invoicePrice };
+    let body = {
+      jobId: row.jobId,
+      invoicePrice: invoicePrice
+    };
 
     JobService.updateJob(body)
       .then(() => {
@@ -127,6 +131,21 @@ function Row(props) {
       })
       .catch(err => {
         console.error("Error while updating job invoice" + err.response);
+      });
+  }
+
+  function invoicePaid() {
+    let body = {
+      jobId: row.jobId,
+      invoicePaid: 1
+    };
+
+    JobService.updateJob(body)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(err => {
+        console.error("Error while updating job invoice status" + err.response);
       });
   }
 
@@ -141,7 +160,6 @@ function Row(props) {
       };
     }
     else if (userType === 2) {
-
       body = {
         jobId: row.jobId,
         inspectionPassed: inspectionPassed === "true" ? true : false,
@@ -175,6 +193,14 @@ function Row(props) {
       window.confirm("Are you sure you wish to cancel this job? This action cannot be undone.")
     ) {
       cancelJob();
+    }
+  }
+
+  function invoicePaidConfirm() {
+    if (
+      window.confirm("Are you sure you've received payment for this job?")
+    ) {
+      invoicePaid();
     }
   }
 
@@ -332,20 +358,24 @@ function Row(props) {
       else if (row.invoiceAccepted === "1" && row.completionDate === null) {
         content = (
           <Auxil>
-            <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
-            <div className="textfield-container-row">
-              <TextField
-                multiline
-                rowsMax={6}
-                type="text"
-                label="notes"
-                value={notes}
-                variant="outlined"
-                onChange={event => {
-                  setNotes(event.target.value);
-                }}
-              />
-            </div>
+            {requiresInspection ? (
+              <Auxil>
+                <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
+                <div className="textfield-container-row">
+                  <TextField
+                    multiline
+                    rowsMax={6}
+                    type="text"
+                    label="notes"
+                    value={notes}
+                    variant="outlined"
+                    onChange={event => {
+                      setNotes(event.target.value);
+                    }}
+                  />
+                </div>
+              </Auxil>
+            ) : null}
             <span className="field-desc">Record the date when the job was completed.</span>
             <div className="textfield-container-row">
               <TextField
@@ -476,6 +506,26 @@ function Row(props) {
         }
       }
     }
+    else if (userType === 3) {
+      // ADMIN
+      if (row.invoiceAccepted === "1" && row.invoicePaid === null) {
+        content = (
+          <div className="button-container">
+            <Button
+              variant="contained"
+              onClick={() => invoicePaidConfirm()}
+              style={{
+                backgroundColor: "#3bb13b",
+                color: "white"
+              }}
+            >
+              INVOICE PAID
+            </Button>
+          </div>
+        );
+      }
+    }
+
     return content;
   }
 
@@ -512,14 +562,16 @@ function Row(props) {
     else if (row.completionDate === null) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
-    else if (row.inspectorId === null) {
-      status = <Chip className="status required" label="Inspector Required" />;
-    }
-    else if (row.inspectionPassed === null) {
-      status = <Chip className="status required" label="Requires Inspection" />;
-    }
-    else if (row.inspectionPassed === "0") {
-      status = <Chip className="status required" label="Requires Revisit" />;
+    else if (requiresInspection && (row.inspectorId === null || row.inspectionPassed === null || row.inspectionPassed === "0")) {
+      if (row.inspectorId === null) {
+        status = <Chip className="status required" label="Inspector Required" />;
+      }
+      else if (row.inspectionPassed === null) {
+        status = <Chip className="status required" label="Requires Inspection" />;
+      }
+      else {
+        status = <Chip className="status required" label="Requires Revisit" />;
+      }
     }
     else if (row.invoicePaid === null) {
       status = <Chip className="status required" label="Payment Required" />;
@@ -736,6 +788,7 @@ class JobsPage extends Component {
           <Auxil>
             <Title>JOBS</Title>
             <ThemeProvider theme={tableTheme}>
+
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
@@ -788,6 +841,7 @@ class JobsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
+
             </ThemeProvider>
           </Auxil>
         )}
