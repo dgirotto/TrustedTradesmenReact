@@ -51,22 +51,16 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
 
   function dismissLead() {
-    if (
-      window.confirm("Are you sure you wish to dismiss this lead?")
-    ) {
+    if (window.confirm("Are you sure you wish to dismiss this lead?")) {
       claimLead(false);
     }
   }
 
   function claimLead(isAccepted) {
-    let body = { leadId: row.leadId };
-
-    if (isAccepted) {
-      body.isAccepted = 1;
-    }
-    else {
-      body.isAccepted = 0;
-    }
+    let body = {
+      leadId: row.leadId,
+      isAccepted: isAccepted ? 1 : 0
+    };
 
     LeadsService.updateLead(body)
       .then(() => {
@@ -176,14 +170,14 @@ function Row(props) {
                     style={{ backgroundColor: "#3bb13b", color: "white" }}
                   >
                     ACCEPT
-                </Button>
+                  </Button>
                   <Button
                     onClick={() => dismissLead()}
                     variant="contained"
                     color="secondary"
                   >
                     DISMISS
-                </Button>
+                  </Button>
                 </div>
               )}
             </Box>

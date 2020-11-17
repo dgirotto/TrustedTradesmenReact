@@ -1,18 +1,12 @@
 .intro-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: rgb(232, 244, 253);
+  display: block;
+  padding: 0 0 50px;
 }
 
 .intro {
+  display: flex;
   max-width: 900px;
   margin: auto;
-  padding: 0 30px;
-}
-
-.intro-bottom {
-  display: flex;
 }
 
 .intro-photo {
@@ -25,15 +19,16 @@
 
 .intro-desc {
   font-family: "Source Sans Pro", sans-serif;
-  font-size: 17px;
+  font-size: 18px;
   padding-left: 20px;
   padding-bottom: 35px;
   text-align: justify;
 }
 
 .info-container {
-  padding: 0 2rem 3rem;
-  box-sizing: border-box;
+  display: block;
+  padding-bottom: 20px;
+  background: #2cecd6;
 }
 
 .card-container {
@@ -46,10 +41,11 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  box-sizing: border-box;
   min-height: 325px;
   padding: 15px;
   margin: 10px;
+  box-sizing: border-box;
+  border-radius: 0px !important;
   text-align: center;
   background: rgb(236, 182, 44);
   background-image: linear-gradient(
@@ -94,17 +90,18 @@
     flex-direction: column;
     max-width: 375px;
   }
-  .intro-bottom {
+
+  .intro {
     flex-direction: column;
+    padding: 0 10px;
   }
+
   .intro-photo {
     margin: auto;
     padding: 10px 0 0;
   }
+
   .intro-desc {
     padding: 20px 10px 20px;
-  }
-  .intro {
-    padding: 0 10px;
   }
 }
