@@ -276,7 +276,7 @@ class LeadsPage extends Component {
           </Auxil>
         )}
 
-        {this.state.isLoading ? <Backdrop /> : null}
+        {this.state.isLoading && <Backdrop />}
       </div>
     );
   }

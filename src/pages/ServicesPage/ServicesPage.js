@@ -36,12 +36,12 @@ class ServicesPage extends Component {
   render() {
     return (
       <div className="services-page-container">
-        {this.state.services && (
+        {!this.state.isLoading && this.state.services ? (
           <Auxil>
             <Title>SERVICES</Title>
-            {!this.props.isAuth ? (
+            {!this.props.isAuth && (
               <Alert style={{ marginBottom: "20px" }} severity="info" color="info"><a href="/login">Login</a> and select from our several services!</Alert>
-            ) : null}
+            )}
             <div className="services">
               {this.state.services.map(service => (
                 <Card
@@ -59,8 +59,7 @@ class ServicesPage extends Component {
               ))}
             </div>
           </Auxil>
-        )}
-        {this.state.isLoading ? <Backdrop /> : null}
+        ) : <Backdrop />}
       </div>
     );
   }

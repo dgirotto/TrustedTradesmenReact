@@ -131,9 +131,9 @@ class LoginPage extends Component {
               <div className="no-account-msg">
                 Don't have an account? Create one <a href="/register">here</a>.
               </div>
-              {this.state.error ? (
+              {this.state.error && (
                 <span className="Error">{this.state.error}</span>
-              ) : null}
+              )}
             </form>
           ) : (
               <form>
@@ -171,7 +171,7 @@ class LoginPage extends Component {
                 </div>
               </form>
             )}
-          {this.state.isLoading ? <Backdrop /> : null}
+          {this.state.isLoading && <Backdrop />}
         </div>
       </div>
     );

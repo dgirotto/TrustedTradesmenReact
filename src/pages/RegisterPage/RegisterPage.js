@@ -96,9 +96,9 @@ class RegisterPage extends Component {
               variant="outlined"
               onChange={this.change}
             />
-            {this.state.error ? (
+            {this.state.error && (
               <span className="Error">{this.state.error}</span>
-            ) : null}
+            )}
             <Button
               disabled={
                 !this.state.registerDetails.email ||
@@ -116,7 +116,7 @@ class RegisterPage extends Component {
               Already have an account? Login <a href="/login">here</a>.
             </div>
           </form>
-          {this.state.isLoading ? <Backdrop /> : null}
+          {this.state.isLoading && <Backdrop />}
         </div>
       </div>
     );

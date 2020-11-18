@@ -75,7 +75,7 @@ class ServiceDetailsPage extends Component {
         province: null
       },
       userType: AuthService.getRole(),
-      isLoading: false
+      isLoading: true
     };
   }
 
@@ -140,7 +140,7 @@ class ServiceDetailsPage extends Component {
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()} SERVICES</Title>
         <h2 className="form-title">DESCRIPTION</h2>
         <p>{this.state.serviceDetails.description}</p>
-        {this.state.userType === 0 ? (
+        {this.state.userType === 0 && (
           <div className="textfield-container">
             <br />
             <p style={{ fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
@@ -251,7 +251,7 @@ class ServiceDetailsPage extends Component {
               SUBMIT REQUEST
             </Button>
           </div>
-        ) : null}
+        )}
       </Auxil>
     );
   }
@@ -259,9 +259,7 @@ class ServiceDetailsPage extends Component {
   render() {
     return (
       <div className="service-details-page-container">
-        {this.state.serviceDetails &&
-          this.renderContent()}
-        {this.state.isLoading ? <Backdrop /> : null}
+        {!this.state.isLoading ? this.renderContent() : <Backdrop />}
       </div>
     );
   }
