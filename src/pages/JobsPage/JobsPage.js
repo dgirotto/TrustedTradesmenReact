@@ -326,9 +326,9 @@ function Row(props) {
       if ((row.invoiceAccepted === null && row.invoicePrice === null) || row.invoiceAccepted === "0") {
         content = (
           <Auxil>
-            {row.invoiceAccepted === "0" ? (
+            {row.invoiceAccepted === "0" && (
               <Alert severity="error" color="error">The customer rejected your invoice of $<b>{row.invoicePrice}</b>. Please enter a new price.</Alert>
-            ) : null}
+            )}
             <div className="textfield-container-row" style={{ marginTop: "15px" }}>
               <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
               <TextField
@@ -358,7 +358,7 @@ function Row(props) {
       else if (row.invoiceAccepted === "1" && row.completionDate === null) {
         content = (
           <Auxil>
-            {requiresInspection ? (
+            {requiresInspection && (
               <Auxil>
                 <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
                 <div className="textfield-container-row">
@@ -375,7 +375,7 @@ function Row(props) {
                   />
                 </div>
               </Auxil>
-            ) : null}
+            )}
             <span className="field-desc">Record the date when the job was completed.</span>
             <div className="textfield-container-row">
               <TextField
@@ -686,36 +686,36 @@ function Row(props) {
                     <td>Creation Date</td>
                     <td>{row.creationDate.split(" ")[0]}</td>
                   </tr>
-                  {row.completionDate ? (
+                  {row.completionDate && (
                     < tr >
                       <td>Job Completion Date</td>
                       <td>{row.completionDate.split(" ")[0]}</td>
                     </tr>
-                  ) : null}
-                  {userType !== 0 && row.contractorNotes ? (
+                  )}
+                  {userType !== 0 && row.contractorNotes && (
                     <tr>
                       <td>Contractor Notes</td>
                       <td>{row.contractorNotes}</td>
                     </tr>
-                  ) : null}
-                  {row.inspectionDate ? (
+                  )}
+                  {row.inspectionDate && (
                     <tr>
                       <td>Inspection Date</td>
                       <td>{row.inspectionDate.split(" ")[0]}</td>
                     </tr>
-                  ) : null}
-                  {row.inspectionPassed !== null ? (
+                  )}
+                  {row.inspectionPassed !== null && (
                     <tr>
                       <td>Inspection Passed</td>
                       <td>{row.inspectionPassed === "1" ? "Yes" : "No"}</td>
                     </tr>
-                  ) : null}
-                  {userType !== 0 && row.inspectorNotes ? (
+                  )}
+                  {userType !== 0 && row.inspectorNotes && (
                     <tr>
                       <td>Inspector Notes</td>
                       <td>{row.inspectorNotes}</td>
                     </tr>
-                  ) : null}
+                  )}
                   <tr>
                     <td>Location</td>
                     <td>
@@ -734,7 +734,7 @@ function Row(props) {
                     <td>Time Frame</td>
                     <td>{row.timeFrame} Month(s)</td>
                   </tr>
-                  {row.invoicePrice ? (
+                  {row.invoicePrice && (
                     <Auxil>
                       <tr>
                         <td>Invoice Price</td>
@@ -748,11 +748,11 @@ function Row(props) {
                         <td>Invoice Paid?</td>
                         <td>{row.invoicePaid ? "Yes" : <span>&ndash;</span>}</td>
                       </tr>
-                    </Auxil>) : null}
+                    </Auxil>)}
                 </tbody>
               </table>
               {getAlertContent()}
-              {row.isAbandoned === null ? getUIContent() : null}
+              {row.isAbandoned === null && getUIContent()}
             </Box>
           </Collapse>
         </TableCell>
@@ -854,7 +854,7 @@ class JobsPage extends Component {
           </Auxil>
         )}
 
-        {this.state.userType !== 2 && this.state.userType !== 3 && (
+        {!this.state.isLoading && this.state.userType !== 2 && this.state.userType !== 3 && (
           <h4 className="disclaimer-title">DISCLAIMER</h4>
         )}
 
@@ -892,7 +892,7 @@ class JobsPage extends Component {
           </div>
         )}
 
-        { this.state.isLoading ? <Backdrop /> : null}
+        { this.state.isLoading && <Backdrop />}
       </div >
     );
   }
