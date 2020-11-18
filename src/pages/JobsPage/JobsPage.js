@@ -843,6 +843,7 @@ class JobsPage extends Component {
               </TableContainer>
 
             </ThemeProvider>
+
           </Auxil>
         )}
 
@@ -853,8 +854,46 @@ class JobsPage extends Component {
           </Auxil>
         )}
 
-        {this.state.isLoading ? <Backdrop /> : null}
-      </div>
+        {this.state.userType !== 2 && this.state.userType !== 3 && (
+          <h4 className="disclaimer-title">DISCLAIMER</h4>
+        )}
+
+        {!this.state.isLoading && this.state.userType === 0 && (
+          <div className="disclaimer">
+            All contractors on Trusted Tradesmen will abide by the Trusted Tradesmen creed, “Great Job for a fair price”. All contractors will maintain honesty, integrity and quality of work.
+            Our contractors will have their work checked by a professional home inspector (certain jobs over $5000) to ensure everything was completed and nothing was missed. If the inspector finds problems, contractor will be notified as to what, ask why it was done and possible repairs to be done. The contractor will be given an opportunity to return to the job site and correct it. This will aid in helping larger (or smaller) contracting businesses to better manage their jobs to prevent mistakes and or missed items that could possibly cause damage to their property or reputation. Our inspectors are by no means out to create more work over and above what was quoted by contractors or to damage reputation. All of our Inspectors are veterans, understand construction very well, and understand the limitations contractors experience with materials and customers. Our inspectors are here to make you look better and improve your reputation and rating.
+            Trusted Tradesmen is not looking for the cheapest priced contractors, and are not looking for the most expensive, we want you to charge fair for what the job entails. Trusted Tradesmen wants all of our contractors to earn a good living and be paid what they deserve based on quality and type of work. Trusted Tradesmen wants this site to help contractors to easily obtain job leads that work within their area of coverage and that will fill voids in their schedule add nicely to their bottom line.
+            The contractor will only have to pay a consultation fee on jobs obtained and completed. There is no fee to be on the site or to possess an account. The jobs leads will be emailed to contractors with pertinent info of the job including client budget and will only be mailed out if it is within the agreed upon contractor coverage area. Contractors may decide to contact client and obtain more info or just decline job lead. Trusted Tradesmen will require the contractor to pay the consultation fee directly to Trusted Tradesmen on the lower priced jobs completed (see fee schedule below). Selected jobs over $5000 will be subjected to a 15% hold back and a check by a professional inspector within 2 weeks of job completion. Upon favourable check by inspector remaining funds will be released to contractor minus Trusted Tradesmens fee. This fee is to be deposited into a Trusted Tradesmen holding account by the client prior to contractor starting job. This may also protect the contractor in the case where the client doesn’t fully pay the contractor what is owed, Trusted Tradesmen will forgo there fee and release the entire amount to the contractor and client will never be able to use Trusted Tradesmen site again.
+            All Trusted Tradesmen contractors will obtain proper permits for jobs, abide by Ontario building codes and be respectable to all clients. Trusted Tradesmen wants there site to be recognized by the older community as one that can be trusted to obtain reliable and quality contractors at any time, a site you would trust your parents to pick a contractor from.
+          </div>
+        )}
+
+        {!this.state.isLoading && this.state.userType === 1 && (
+          <div className="disclaimer">
+            Contractors affiliated with Trusted Tradesmen will abide by our motto; "Quality Work for a Fair Price".
+            Our contractors are encouraged to maintain honesty, integrity, and quality of work.
+            Jobs over $5,000 will be validated by a professional home inspector to ensure they meet our quality standards.
+            In the event that a home inspector finds a job which doesn't meet our standards, the contractor will be notified and the issue will be remedied through a return visit.
+            Our inspectors are veterans; they understand the industry very well, and are aware of the limitations contractors experience with aspects such as materials and customers.
+            Our inspectors are here to validate your workmanship and add to your reputation.
+            Trusted Tradesmen is not looking for the cheapest contractors, and we're not looking for the most expensive; we want you to be honest with your estimates as to ensure the job is completed in a quality fashion.
+            Trusted Tradesmen wants all of our contractors to earn a good living and be paid what they deserve based on quality and workmanship.
+            The ultimate goal of this site is to help contractors to obtain relevant job leads and bolster their reputation, adding nicely to their bottom line.
+            The contractor will only have to pay a consultation fee on jobs obtained and completed.
+            There is no fee to be featured on our site or to possess a contractor account.
+            The jobs leads will be emailed to contractors with pertinent info of the job including client budget and will only be mailed out if it is within the agreed upon contractor coverage area.
+            Contractors may decide to contact client and obtain more info or just decline job lead.
+            Trusted Tradesmen will require the contractor to pay the consultation fee directly to Trusted Tradesmen on the lower priced jobs completed (see fee schedule below):
+            Selected jobs over $5,000 will be subjected to a 15% hold back and a check by a professional inspector within two weeks of job completion.
+            Upon favourable check by inspector, remaining funds will be released to contractor minus Trusted Tradesmens fee.This fee is to be deposited into a Trusted Tradesmen holding account by the client prior to contractor starting job.
+            This may also protect the contractor in the case where the client doesn’t fully pay the contractor what is owed, Trusted Tradesmen will forgo there fee and release the entire amount to the contractor and client will never be able to use Trusted Tradesmen site again.
+            All Trusted Tradesmen contractors will obtain proper permits for jobs, abide by Ontario building codes and be respectable to all clients.
+            Trusted Tradesmen wants their site to be recognized by the elderly community as one that can be trusted to obtain reliable and quality contractors at any time; a site you would trust your parents to pick a contractor from.
+          </div>
+        )}
+
+        { this.state.isLoading ? <Backdrop /> : null}
+      </div >
     );
   }
 }

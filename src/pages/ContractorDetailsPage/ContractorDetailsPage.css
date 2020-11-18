@@ -6,8 +6,6 @@
 
 .links-container {
     display: flex;
-    justify-content: space-between;
-    max-width: 550px;
     margin-top: 10px;
     font-size: 14px;
 }
@@ -15,6 +13,7 @@
 .social-link {
     display: flex;
     align-items: center;
+    margin-right: 15px;
     padding: 5px;
     text-decoration: none;
     color:  black;
@@ -26,15 +25,7 @@
 }
 
 .social-link > span {
-    padding-left: 8px;
-}
-
-.no-link {
-    color: #e0e0e0;
-}
-
-.no-link:hover {
-    cursor: default;
+    padding-left: 7px;
 }
 
 .contractor-details {
@@ -76,14 +67,4 @@
     padding: 10px 0;
     font-size: 18px;
     font-weight: 650;
-}
-
-@media (max-width: 768px) {
-    .links-container {
-        max-width: 200px;
-    }
-
-    .link-text {
-        display: none;
-    }
 }

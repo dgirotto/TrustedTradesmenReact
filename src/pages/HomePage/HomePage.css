@@ -28,7 +28,7 @@
 .info-container {
   display: block;
   padding-bottom: 20px;
-  background: #2cecd6;
+  background: #44fde7;
 }
 
 .card-container {
@@ -47,13 +47,8 @@
   box-sizing: border-box;
   border-radius: 0px !important;
   text-align: center;
-  background: rgb(236, 182, 44);
-  background-image: linear-gradient(
-    to bottom right,
-    rgb(236, 182, 44),
-    rgb(249, 218, 141)
-  );
   font-family: "Varela Round", sans-serif;
+  background-color: #fdc944 !important;
 }
 
 .card-title {
