@@ -860,11 +860,11 @@ class JobsPage extends Component {
 
         {!this.state.isLoading && this.state.userType === 0 && (
           <div className="disclaimer">
-            All contractors on Trusted Tradesmen will abide by the Trusted Tradesmen creed, “Great Job for a fair price”. All contractors will maintain honesty, integrity and quality of work.
-            Our contractors will have their work checked by a professional home inspector (certain jobs over $5000) to ensure everything was completed and nothing was missed. If the inspector finds problems, contractor will be notified as to what, ask why it was done and possible repairs to be done. The contractor will be given an opportunity to return to the job site and correct it. This will aid in helping larger (or smaller) contracting businesses to better manage their jobs to prevent mistakes and or missed items that could possibly cause damage to their property or reputation. Our inspectors are by no means out to create more work over and above what was quoted by contractors or to damage reputation. All of our Inspectors are veterans, understand construction very well, and understand the limitations contractors experience with materials and customers. Our inspectors are here to make you look better and improve your reputation and rating.
-            Trusted Tradesmen is not looking for the cheapest priced contractors, and are not looking for the most expensive, we want you to charge fair for what the job entails. Trusted Tradesmen wants all of our contractors to earn a good living and be paid what they deserve based on quality and type of work. Trusted Tradesmen wants this site to help contractors to easily obtain job leads that work within their area of coverage and that will fill voids in their schedule add nicely to their bottom line.
-            The contractor will only have to pay a consultation fee on jobs obtained and completed. There is no fee to be on the site or to possess an account. The jobs leads will be emailed to contractors with pertinent info of the job including client budget and will only be mailed out if it is within the agreed upon contractor coverage area. Contractors may decide to contact client and obtain more info or just decline job lead. Trusted Tradesmen will require the contractor to pay the consultation fee directly to Trusted Tradesmen on the lower priced jobs completed (see fee schedule below). Selected jobs over $5000 will be subjected to a 15% hold back and a check by a professional inspector within 2 weeks of job completion. Upon favourable check by inspector remaining funds will be released to contractor minus Trusted Tradesmens fee. This fee is to be deposited into a Trusted Tradesmen holding account by the client prior to contractor starting job. This may also protect the contractor in the case where the client doesn’t fully pay the contractor what is owed, Trusted Tradesmen will forgo there fee and release the entire amount to the contractor and client will never be able to use Trusted Tradesmen site again.
-            All Trusted Tradesmen contractors will obtain proper permits for jobs, abide by Ontario building codes and be respectable to all clients. Trusted Tradesmen wants there site to be recognized by the older community as one that can be trusted to obtain reliable and quality contractors at any time, a site you would trust your parents to pick a contractor from.
+            All persons using our site acknowledges that our contractors are only recommendations.
+            All contractors have been vetted by a qualified and licensed inspector and have demonstrated both quality workmanship and integrity.
+            We recommend all persons research their suggested contractors prior to making a selection.
+            We require all persons choosing a Trusted Tradesmen contractor, prior to the contractor Starting to deposit 15% + HST (see exclusions) of the total job cost into a holding account with Trusted Tradesmen. This will come of the final there final bill and will only be released to the contractor when inspector had checked and no problems were found. If problems are discovered Trusted Tradesmen gives contractor a chance to return to correct or if contractor fails to do so, money in trust is not released to contractor but instead is used to correct problems found. Contractor will now be removed from site NEVER to be allowed back on. Trusted Tradesmen has done our best to investigate all our contractors and only obtain ones with good morals, values and quality of work, no one will get ripped off. Depending on type of job and price, Trusted Tradesmen will send a professional inspector out within 2 weeks of job completion to inspect quality of work at contractors expense.
+            All contractors on Trusted Tradesmen will have duel ratings, one from customer and one from professional (inspector). Most sites only have one rating from customers who mostly no nothing about construction methods , Trusted Tradesmen will give customers a clearer picture of contractor performance. This is the site I want you, your parents or grand parents to use knowing they will get a great job done for a fair price and will never get ripped off.
           </div>
         )}
 
@@ -884,6 +884,40 @@ class JobsPage extends Component {
             The jobs leads will be emailed to contractors with pertinent info of the job including client budget and will only be mailed out if it is within the agreed upon contractor coverage area.
             Contractors may decide to contact client and obtain more info or just decline job lead.
             Trusted Tradesmen will require the contractor to pay the consultation fee directly to Trusted Tradesmen on the lower priced jobs completed (see fee schedule below):
+            <table className="fee-table">
+              <tr>
+                <th style={{ paddingRight: "15px" }}>Contract Cost (CC)</th>
+                <th>Fee</th>
+              </tr>
+              <tr>
+                <td>Less than $500</td>
+                <td>Free</td>
+              </tr>
+              <tr>
+                <td>$501 to $1,500</td>
+                <td>$50</td>
+              </tr>
+              <tr>
+                <td>$1,501 to $3,000</td>
+                <td>$150</td>
+              </tr>
+              <tr>
+                <td>$3,001 to $5,000</td>
+                <td>$250</td>
+              </tr>
+              <tr>
+                <td>$5,001 to $7,500</td>
+                <td>$375</td>
+              </tr>
+              <tr>
+                <td>$7,501 to $100k</td>
+                <td>5% of CC</td>
+              </tr>
+              <tr>
+                <td>Over $100k</td>
+                <td>5% of first $100k, 2.5% of remaining CC</td>
+              </tr>
+            </table>
             Selected jobs over $5,000 will be subjected to a 15% hold back and a check by a professional inspector within two weeks of job completion.
             Upon favourable check by inspector, remaining funds will be released to contractor minus Trusted Tradesmens fee.This fee is to be deposited into a Trusted Tradesmen holding account by the client prior to contractor starting job.
             This may also protect the contractor in the case where the client doesn’t fully pay the contractor what is owed, Trusted Tradesmen will forgo there fee and release the entire amount to the contractor and client will never be able to use Trusted Tradesmen site again.

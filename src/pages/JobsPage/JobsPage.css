@@ -64,11 +64,18 @@
 }
 
 .disclaimer-title {
+  margin-top: 40px;
   text-align: center;
 }
 
 .disclaimer {
+  text-align: justify;
+  font-size: smaller;
+}
 
+.fee-table {
+  border-spacing: 0px;
+  margin: 10px 0;
 }
 
 @media (min-width: 661px) {
