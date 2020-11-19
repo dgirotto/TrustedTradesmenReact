@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import "./HomePage.css";
 import Auxil from "../../helpers/Auxil";
-import Title from "../../components/UI/Title/Title";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import Divider from "@material-ui/core/Divider";
-import { FaCheck, FaUserCircle, FaToolbox, FaMoneyBillWave } from "react-icons/fa";
+import { FaCheck, FaUserPlus, FaFileContract, FaUsers } from "react-icons/fa";
 
 class HomePage extends Component {
   render() {
     return (
       <Auxil>
         <div className="intro-container">
-          <Title>OUR MISSION</Title>
+          <h1 className="home-title">OUR MISSION</h1>
           <div className="intro">
             <div className="intro-photo">
               <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
@@ -30,12 +28,10 @@ class HomePage extends Component {
           </div>
         </div>
         <div className="info-container">
-          <Title style={{ color: "red !important" }}>HOW IT WORKS</Title>
+          <h1 className="home-title">HOW IT WORKS</h1>
           <div className="card-container">
             <Card className="card">
-              <span className="card-title">1</span>
-              <Divider className="card-divider" variant="middle" />
-              <FaUserCircle className="card-icon" size="60" />
+              <FaUserPlus className="card-icon" size="60" />
               <p>Create an account and login</p>
               {!this.props.isAuth || this.props.userType !== 0 ? (
                 <Auxil>
@@ -62,9 +58,7 @@ class HomePage extends Component {
                 )}
             </Card>
             <Card className="card">
-              <span className="card-title">2</span>
-              <Divider className="card-divider" variant="middle" />
-              <FaToolbox className="card-icon" size="60" />
+              <FaFileContract className="card-icon" size="60" />
               <p>Select a service and submit a job request</p>
               <Button
                 className="home-button"
@@ -76,11 +70,13 @@ class HomePage extends Component {
               </Button>
             </Card>
             <Card className="card">
-              <span className="card-title">3</span>
-              <Divider className="card-divider" variant="middle" />
-              <FaMoneyBillWave className="card-icon" size="60" />
+              <FaUsers className="card-icon" size="60" />
               <p>Choose from one of our qualified tradesmen</p>
             </Card>
+          </div>
+        </div>
+        <div className="footer-container">
+          <div className="footer-content">
           </div>
         </div>
       </Auxil>

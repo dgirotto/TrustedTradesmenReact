@@ -1,6 +1,13 @@
+.home-title {
+  text-align: center;
+  font-size: 28px;
+  color: rgb(40, 40, 40);
+  margin: 0;
+  padding: 35px 0 20px;
+}
+
 .intro-container {
-  display: block;
-  padding: 0 0 50px;
+  padding-bottom: 50px;
 }
 
 .intro {
@@ -10,7 +17,7 @@
 }
 
 .intro-photo {
-  padding-right: 30px;
+  padding-right: 50px;
 }
 
 .intro-photo img {
@@ -18,23 +25,20 @@
 }
 
 .intro-desc {
+  text-align: justify;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
-  padding-left: 20px;
-  padding-bottom: 35px;
-  text-align: justify;
 }
 
 .info-container {
-  display: block;
-  padding-bottom: 20px;
-  background: #44fde7;
+  padding-bottom: 50px;
+  background: #84efe1;
 }
 
 .card-container {
   display: flex;   
   max-width: 900px;
-  margin: auto;
+  margin: 5px auto;
 }
 
 .card {
@@ -51,11 +55,6 @@
   background-color: #fdc944 !important;
 }
 
-.card-title {
-  font-size: 45px;
-  color: rgb(40, 40, 40);
-}
-
 .home-button {
   width: 150px;
   margin: 10px auto !important;
@@ -64,7 +63,7 @@
 
 .card-icon {
   margin: 0 auto;
-  padding: 10px;
+  padding: 15px;
   color: rgb(40, 40, 40);
 }
 
@@ -74,16 +73,23 @@
   color: rgb(13, 155, 13);
 }
 
-.card-divider {
-  margin-top: 5px !important;
-  margin-bottom: 10px !important;
-  padding: 0.5px;
+.footer-container {
+  background: #282828;
+  min-height: 200px;
+}
+
+.footer-content {
+  max-width: 1000px;
+  text-align: justify;
+  color: white;
+  margin: auto;
+  padding: 50px 20px;
 }
 
 @media (max-width: 768px) {
   .card-container {
     flex-direction: column;
-    max-width: 375px;
+    max-width: 320px;
   }
 
   .intro {
