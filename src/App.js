@@ -88,12 +88,7 @@ class App extends Component {
             <Route
               path="/"
               exact
-              render={() => (
-                <HomePage
-                  isAuth={this.state.isAuth}
-                  userType={this.state.userType}
-                />
-              )}
+              component={HomePage}
             />
             <Route
               path="/services"

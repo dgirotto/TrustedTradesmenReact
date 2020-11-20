@@ -3,7 +3,7 @@ import "./HomePage.css";
 import Auxil from "../../helpers/Auxil";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { FaCheck, FaUserPlus, FaFileContract, FaUsers } from "react-icons/fa";
+import { FaUserPlus, FaFileContract, FaUsers } from "react-icons/fa";
 
 class HomePage extends Component {
   render() {
@@ -33,29 +33,23 @@ class HomePage extends Component {
             <Card className="card">
               <FaUserPlus className="card-icon" size="60" />
               <p>Create an account and login</p>
-              {!this.props.isAuth || this.props.userType !== 0 ? (
-                <Auxil>
-                  <Button
-                    className="home-button"
-                    onClick={() => (window.location.href = "/register")}
-                    variant="contained"
-                    color="primary"
-                  >
-                    REGISTER
-                  </Button>
-                  <span>or</span>
-                  <Button
-                    className="home-button"
-                    onClick={() => (window.location.href = "/login")}
-                    variant="contained"
-                    color="primary"
-                  >
-                    LOGIN
-                  </Button>
-                </Auxil>
-              ) : (
-                  <FaCheck className="card-icon-check" size="45" />
-                )}
+              <Button
+                className="home-button"
+                onClick={() => (window.location.href = "/register")}
+                variant="contained"
+                color="primary"
+              >
+                REGISTER
+              </Button>
+              <span>or</span>
+              <Button
+                className="home-button"
+                onClick={() => (window.location.href = "/login")}
+                variant="contained"
+                color="primary"
+              >
+                LOGIN
+              </Button>
             </Card>
             <Card className="card">
               <FaFileContract className="card-icon" size="60" />
@@ -77,7 +71,38 @@ class HomePage extends Component {
         </div>
         <div className="footer-container">
           <div className="footer-content">
+            <div>
+              <span className="footer-title">SOCIALS</span>
+              <ul className="footer-list">
+                <li>Instagram</li>
+                <li>Facebook</li>
+                <li>Twitter</li>
+              </ul>
+            </div>
+            <div>
+              <span className="footer-title">DISCLAIMERS</span>
+              <ul className="footer-list">
+                <li>Customers</li>
+                <li>Contractors</li>
+              </ul>
+            </div>
+            <div>
+              <span className="footer-title">SITE LINKS</span>
+              <ul className="footer-list">
+                <li>Register</li>
+                <li>Login</li>
+                <li>Services</li>
+              </ul>
+            </div>
+            <div>
+              <ul className="footer-list">
+                <li>Contact us</li>
+                <li>About</li>
+                <li>FAQ</li>
+              </ul>
+            </div>
           </div>
+          <p className="copyright-msg">Copyright © 2020 Trusted Tradesmen. All rights reserved.</p>
         </div>
       </Auxil>
     );

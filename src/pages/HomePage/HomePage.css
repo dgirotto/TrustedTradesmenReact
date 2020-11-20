@@ -46,10 +46,10 @@
   flex-direction: column;
   flex: 1;
   min-height: 325px;
-  padding: 15px;
   margin: 10px;
+  padding: 15px;
   box-sizing: border-box;
-  border-radius: 0px !important;
+  border-radius: 0 !important;
   text-align: center;
   font-family: "Varela Round", sans-serif;
   background-color: #fdc944 !important;
@@ -75,23 +75,47 @@
 
 .footer-container {
   background: #282828;
-  min-height: 200px;
 }
 
 .footer-content {
-  max-width: 1000px;
-  text-align: justify;
-  color: white;
+  display: flex;
+  max-width: 900px;
   margin: auto;
-  padding: 50px 20px;
+  padding: 50px 20px 30px;
+  color: white;
+}
+
+.footer-content > div {
+  flex-grow: 1;
+  font-size: smaller;
+  padding: 5px 10px;
+}
+
+.footer-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list > li {
+  padding: 2px 0;
+}
+
+.footer-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: rgb(170, 170, 170);
+}
+
+.copyright-msg {
+  text-align: center;
+  margin: auto;
+  padding-bottom: 30px;
+  color: rgb(170, 170, 170);
+  font-size: smaller;
 }
 
 @media (max-width: 768px) {
-  .card-container {
-    flex-direction: column;
-    max-width: 320px;
-  }
-
   .intro {
     flex-direction: column;
     padding: 0 10px;
@@ -104,5 +128,19 @@
 
   .intro-desc {
     padding: 20px 10px 20px;
+  }
+
+  .card-container {
+    flex-direction: column;
+    max-width: 320px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    max-width: 320px;
+  }
+
+  .copyright-msg {
+    max-width: 320px;
   }
 }
