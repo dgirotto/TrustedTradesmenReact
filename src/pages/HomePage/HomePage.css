@@ -17,7 +17,7 @@
 }
 
 .intro-photo {
-  padding-right: 50px;
+  padding-right: 30px;
 }
 
 .intro-photo img {
@@ -38,17 +38,16 @@
 .card-container {
   display: flex;   
   max-width: 900px;
-  margin: 5px auto;
+  margin: auto;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 325px;
-  margin: 10px;
+  min-height: 300px;
+  margin: 15px;
   padding: 15px;
-  box-sizing: border-box;
   border-radius: 0 !important;
   text-align: center;
   font-family: "Varela Round", sans-serif;
@@ -67,13 +66,8 @@
   color: rgb(40, 40, 40);
 }
 
-.card-icon-check {
-  margin: 0 auto;
-  padding-top: 20px;
-  color: rgb(13, 155, 13);
-}
-
 .footer-container {
+  padding-bottom: 50px;
   background: #282828;
 }
 
@@ -87,8 +81,8 @@
 
 .footer-content > div {
   flex-grow: 1;
-  font-size: smaller;
-  padding: 5px 10px;
+  font-size: 15px;
+  padding: 8px 10px;
 }
 
 .footer-list {
@@ -101,18 +95,35 @@
   padding: 2px 0;
 }
 
+.social-icon {
+  padding-right: 6px;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.with-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
 .footer-title {
   font-weight: bold;
-  margin-bottom: 5px;
-  color: rgb(170, 170, 170);
+  padding-bottom: 4px;
 }
 
 .copyright-msg {
   text-align: center;
   margin: auto;
-  padding-bottom: 30px;
-  color: rgb(170, 170, 170);
-  font-size: smaller;
+  padding-top: 10px;
+  font-size: 15px;
+  color: white;
 }
 
 @media (max-width: 768px) {

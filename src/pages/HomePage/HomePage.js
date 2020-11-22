@@ -3,7 +3,7 @@ import "./HomePage.css";
 import Auxil from "../../helpers/Auxil";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { FaUserPlus, FaFileContract, FaUsers } from "react-icons/fa";
+import { FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 class HomePage extends Component {
   render() {
@@ -16,14 +16,9 @@ class HomePage extends Component {
               <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
             </div>
             <div className="intro-desc">
-              Hello!<br /><br />
-              My name is Chris Willick. I've been a professional home
-              inspector for over 20 years. I've seen my fair share of bad jobs
-              done over the years so I've developed a site which will solve
-              your issues with home inspections. This is the only site where
-              you'll see ratings by a contractor, and you'll also receive a
-              rating from a qualified inspector who's also seen the job.<br /><br />
-              Get started today!
+              Hello!<br /><br />My name is Chris Willick. I've been a professional home inspector for over 20 years. I've seen my fair share of bad jobs
+              done over the years so I've developed a site which will solve your issues with home inspections. This is the only site where you'll see ratings 
+              by a contractor, and you'll also receive a rating from a qualified inspector who's also seen the job.<br /><br />Get started today!
             </div>
           </div>
         </div>
@@ -40,8 +35,7 @@ class HomePage extends Component {
                 color="primary"
               >
                 REGISTER
-              </Button>
-              <span>or</span>
+              </Button>              
               <Button
                 className="home-button"
                 onClick={() => (window.location.href = "/login")}
@@ -65,40 +59,40 @@ class HomePage extends Component {
             </Card>
             <Card className="card">
               <FaUsers className="card-icon" size="60" />
-              <p>Choose from one of our qualified tradesmen</p>
+              <p>Choose from one of our many qualified tradesmen</p>
             </Card>
           </div>
         </div>
         <div className="footer-container">
           <div className="footer-content">
             <div>
-              <span className="footer-title">SOCIALS</span>
+              <div className="footer-title">SOCIALS</div>
               <ul className="footer-list">
-                <li>Instagram</li>
-                <li>Facebook</li>
-                <li>Twitter</li>
+                <li><a href="https://www.instagram.com" target="blank" className="footer-link with-icon"><FaInstagram className="social-icon" size="16" /><span>Instagram</span></a></li>
+                <li><a href="https://www.facebook.com" target="blank" className="footer-link with-icon"><FaFacebook className="social-icon" size="16" /><span>Facebook</span></a></li>
+                <li><a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter className="social-icon" size="16" /><span>Twitter</span></a></li>
+                <li><a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin className="social-icon" size="16" /><span>LinkedIn</span></a></li>
               </ul>
             </div>
             <div>
-              <span className="footer-title">DISCLAIMERS</span>
+              <div className="footer-title">DISCLAIMERS</div>
               <ul className="footer-list">
-                <li>Customers</li>
-                <li>Contractors</li>
-              </ul>
-            </div>
-            <div>
-              <span className="footer-title">SITE LINKS</span>
-              <ul className="footer-list">
-                <li>Register</li>
-                <li>Login</li>
-                <li>Services</li>
+                <li><a href="disclaimer-customer" className="footer-link">Customers</a></li>
+                <li><a href="disclaimer-contractor" className="footer-link">Contractors</a></li>
               </ul>
             </div>
             <div>
               <ul className="footer-list">
-                <li>Contact us</li>
-                <li>About</li>
-                <li>FAQ</li>
+                <li><a href="register" className="footer-link">Register</a></li>
+                <li><a href="login" className="footer-link">Login</a></li>
+                <li><a href="services" className="footer-link">Services</a></li>
+              </ul>
+            </div>
+            <div>
+              <ul className="footer-list">
+                <li><a href="support" className="footer-link">Support</a></li>
+                <li><a href="about" className="footer-link">About</a></li>
+                <li><a href="faq" className="footer-link">FAQ</a></li>
               </ul>
             </div>
           </div>
