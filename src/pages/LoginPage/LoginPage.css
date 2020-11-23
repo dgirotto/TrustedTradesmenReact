@@ -7,30 +7,40 @@
   min-height: 500px;
 }
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+  padding: 20px;
+}
+
 .login-form-title {
-  font-size: 30px;
-  padding-bottom: 20px;
+  font-size: 28px;
+  margin: 0px;
+  padding-bottom: 25px;
   color: #282828;
 }
 
 .reset-button-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
-.reset-password {
-  font-size: smaller;
+.forgot-password {
   cursor: pointer;
-  padding: 0 0 10px;
+  padding-bottom: 15px;
 }
 
-.reset-password:hover {
+.forgot-password:hover {
   text-decoration: underline;
   color: #f50057;
 }
 
 .reset-password-msg {
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 }
 
 .no-account-msg {

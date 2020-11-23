@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import "./LoginPage.css";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
+import Auxil from "../../helpers/Auxil";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 // import Checkbox from "@material-ui/core/Checkbox";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 import { AuthService } from "../../services/auth";
 import { CacheService } from "../../services/caching";
 
@@ -32,6 +35,7 @@ class LoginPage extends Component {
 
   login = () => {
     this.setState({ isLoading: true });
+    
     AuthService.login(this.state.loginDetails)
       .then(res => {
         const token = res.data.jwt;
@@ -46,6 +50,7 @@ class LoginPage extends Component {
 
   resetPassword = () => {
     this.setState({ isLoading: true });
+
     AuthService.resetPassword({ email: this.state.emailToReset })
       .then(res => {
         // TODO: Emit message "Check your email for your new password"
@@ -70,6 +75,7 @@ class LoginPage extends Component {
     const newLoginDetails = Object.assign(this.state.loginDetails, {
       [event.target.name]: event.target.value
     });
+    
     this.setState({
       loginDetails: newLoginDetails
     });
@@ -86,62 +92,63 @@ class LoginPage extends Component {
       <div className="login-page-container">
         <div className="login-form">
           {!this.state.showResetForm ? (
-            <form>
-              <h2 className="login-form-title">LOGIN</h2>
-              <TextField
-                type="text"
-                name="email"
-                label="email"
-                value={this.state.loginDetails.email || ""}
-                variant="outlined"
-                onChange={this.change}
-              />
-              <TextField
-                type="password"
-                name="password"
-                label="password"
-                value={this.state.loginDetails.password || ""}
-                variant="outlined"
-                onChange={this.change}
-              />
-              {/* <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={this.handleCheckboxChange}
-                    checked={this.state.remember}
+            <Auxil>
+              <h1 className="login-form-title">LOGIN</h1>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="text"
+                    name="email"
+                    label="email"
+                    value={this.state.loginDetails.email || ""}
+                    variant="outlined"
+                    onChange={this.change}
                   />
-                }
-                label="Remember me"
-              /> */}
-              <span className="reset-password" onClick={this.toggleResetPassword}>
-                Forgot Password?
-              </span>
-              <Button
-                disabled={
-                  !this.state.loginDetails.email ||
-                  !this.state.loginDetails.password
-                }
-                onClick={this.login}
-                variant="contained"
-                color="primary"
-                style={{ width: "175px", margin: "auto" }}
-              >
-                LOGIN
-              </Button>
-              <div className="no-account-msg">
-                Don't have an account? Create one <a href="/register">here</a>.
-              </div>
-              {this.state.error && (
-                <span className="Error">{this.state.error}</span>
-              )}
-            </form>
+                </div>
+                <div className="textfield-container-row">
+                  <TextField
+                    type="password"
+                    name="password"
+                    label="password"
+                    value={this.state.loginDetails.password || ""}
+                    variant="outlined"
+                    onChange={this.change}
+                  />
+                </div>
+                {/* <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={this.handleCheckboxChange}
+                      checked={this.state.remember}
+                    />
+                  }
+                  label="Remember me"
+                /> */}
+                <div className="forgot-password" onClick={this.toggleResetPassword}>
+                  Forgot Password?
+                </div>
+                <Button
+                  disabled={
+                    !this.state.loginDetails.email ||
+                    !this.state.loginDetails.password
+                  }
+                  onClick={this.login}
+                  variant="contained"
+                  color="primary"
+                  style={{ width: "175px" }}
+                >
+                  LOGIN
+                </Button>
+                <div className="no-account-msg">
+                  Don't have an account? Create one <a href="/register">here</a>.
+                </div>
+            </Auxil>
           ) : (
-              <form>
-                <h2 className="login-form-title">FORGOT PASSWORD?</h2>
+            <Auxil>
+                <h1 className="login-form-title">FORGOT PASSWORD</h1>
                 <span className="reset-password-msg">
                   Enter the email address associated with your account and we'll
-                  email you a new password.
-              </span>
+                  email you a link to reset your password.
+                </span>
                 <TextField
                   type="text"
                   name="email"
@@ -156,7 +163,7 @@ class LoginPage extends Component {
                     onClick={this.resetPassword}
                     variant="contained"
                     color="primary"
-                    style={{ width: "175px" }}
+                    style={{ width: "175px", marginTop: "15px" }}
                   >
                     RESET PASSWORD
                   </Button>
@@ -164,12 +171,12 @@ class LoginPage extends Component {
                     onClick={this.toggleResetPassword}
                     variant="contained"
                     color="secondary"
-                    style={{ width: "175px" }}
+                    style={{ width: "175px", marginTop: "15px" }}
                   >
                     BACK
                   </Button>
                 </div>
-              </form>
+              </Auxil>
             )}
           {this.state.isLoading && <Backdrop />}
         </div>

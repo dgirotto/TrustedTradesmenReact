@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import "./RegisterPage.css";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
 import { AuthService } from "../../services/auth";
 
 class RegisterPage extends Component {
@@ -68,10 +70,10 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <div class="register-page-container">
+      <div className="register-page-container">
         <div className="login-form">
-          <form>
-            <h2 className="login-form-title">REGISTER</h2>
+          <h1 className="login-form-title">REGISTER</h1>
+          <div className="textfield-container-row">
             <TextField
               type="text"
               name="email"
@@ -80,6 +82,8 @@ class RegisterPage extends Component {
               variant="outlined"
               onChange={this.change}
             />
+          </div>
+          <div className="textfield-container-row">
             <TextField
               type="password"
               name="password"
@@ -88,6 +92,8 @@ class RegisterPage extends Component {
               variant="outlined"
               onChange={this.change}
             />
+          </div>
+          <div className="textfield-container-row">
             <TextField
               type="password"
               name="confirmPassword"
@@ -96,26 +102,23 @@ class RegisterPage extends Component {
               variant="outlined"
               onChange={this.change}
             />
-            {this.state.error && (
-              <span className="Error">{this.state.error}</span>
-            )}
-            <Button
-              disabled={
-                !this.state.registerDetails.email ||
-                !this.state.registerDetails.password ||
-                !this.state.registerDetails.confirmPassword
-              }
-              onClick={this.register}
-              variant="contained"
-              color="primary"
-              style={{ width: "175px", margin: "10px auto" }}
-            >
-              CREATE ACCOUNT
-            </Button>
-            <div className="have-account-msg">
-              Already have an account? Login <a href="/login">here</a>.
-            </div>
-          </form>
+          </div>
+          <Button
+            disabled={
+              !this.state.registerDetails.email ||
+              !this.state.registerDetails.password ||
+              !this.state.registerDetails.confirmPassword
+            }
+            onClick={this.register}
+            variant="contained"
+            color="primary"
+            style={{ width: "175px" }}
+          >
+            CREATE ACCOUNT
+          </Button>
+          <div className="have-account-msg">
+            Already have an account? Login <a href="/login">here</a>.
+          </div>
           {this.state.isLoading && <Backdrop />}
         </div>
       </div>
