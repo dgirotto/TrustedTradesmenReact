@@ -77,8 +77,8 @@ class HomePage extends Component {
             <div>
               <div className="footer-title">DISCLAIMERS</div>
               <ul className="footer-list">
-                <li><a href="disclaimer-customer" className="footer-link">Customers</a></li>
-                <li><a href="disclaimer-contractor" className="footer-link">Contractors</a></li>
+                <li><a href="disclaimers" className="footer-link">Customers</a></li>
+                <li><a href="disclaimers" className="footer-link">Contractors</a></li>
               </ul>
             </div>
             <div>

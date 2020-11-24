@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+
 import Toolbar from "./components/UI/Toolbar/Toolbar";
 import SideDrawer from "./components/UI/SideDrawer/SideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
@@ -15,6 +16,11 @@ import JobsPage from "./pages/JobsPage/JobsPage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import AboutPage from "./pages/AboutPage/AboutPage";
+import DisclaimersPage from "./pages/DisclaimersPage/DisclaimersPage";
+import FaqPage from "./pages/FaqPage/FaqPage";
+import SupportPage from "./pages/SupportPage/SupportPage";
+
 import { PrivateRoute } from "./components/PrivatedRoute";
 import { AuthService } from "./services/auth";
 
@@ -85,17 +91,19 @@ class App extends Component {
           ) : null}
 
           <Switch>
-            <Route
-              path="/"
-              exact
+            <Route 
+              path="/" 
+              exact 
               component={HomePage}
             />
-            <Route
-              path="/services"
-              exact
+            <Route path="/services" 
+              exact 
               render={() => <ServicesPage isAuth={this.state.isAuth} />}
             />
-            <PrivateRoute path="/services/:id" component={ServiceDetailsPage} />
+            <PrivateRoute 
+              path="/services/:id" 
+              component={ServiceDetailsPage} 
+            />
             <Route
               path="/register"
               render={() => <RegisterPage isAuth={this.state.isAuth} />}
@@ -109,7 +117,10 @@ class App extends Component {
                 />
               )}
             />
-            {/* <PrivateRoute path="/contractors" component={ContractorsPage} /> */}
+            {/* <PrivateRoute 
+              path="/contractors" 
+              component={ContractorsPage} 
+            /> */}
             <PrivateRoute
               path="/contractors/:id"
               component={ContractorDetailsPage}
@@ -128,9 +139,27 @@ class App extends Component {
             <PrivateRoute
               path="/settings"
               component={SettingsPage}
-            // userType={this.state.userType}
             />
-            <PrivateRoute path="/logout" component={LoginPage} />
+            <PrivateRoute 
+              path="/logout" 
+              component={LoginPage} 
+            />
+            <Route 
+              path="/about" 
+              component={AboutPage} 
+            />
+            <Route 
+              path="/disclaimers" 
+              component={DisclaimersPage} 
+            />
+            <Route 
+              path="/faq" 
+              component={FaqPage} 
+            />
+            <Route 
+              path="/support" 
+              component={SupportPage} 
+            />
             <Route component={PageNotFound} />
           </Switch>
         </div>
