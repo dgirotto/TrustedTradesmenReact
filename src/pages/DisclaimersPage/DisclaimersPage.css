@@ -3,3 +3,12 @@
     margin: auto;
     padding: 0 40px 20px;
 }
+
+.disclaimer {
+    text-align: justify;
+    font-size: smaller;
+}
+
+.fee-table > tbody > tr > * {
+    padding: 2px 0;
+}

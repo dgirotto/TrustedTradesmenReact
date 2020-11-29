@@ -63,16 +63,6 @@
   padding: 5px; 
 }
 
-.disclaimer-title {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.disclaimer {
-  text-align: justify;
-  font-size: smaller;
-}
-
 .fee-table {
   border-spacing: 0px;
   margin: 10px 0;
@@ -95,5 +85,13 @@
   
   .mobile-table {
     display: table;
+  }
+
+  .multi-button {
+    flex-direction: column;
+  }
+
+  .multi-button > button {
+    margin: 0 0 10px !important;
   }
 }

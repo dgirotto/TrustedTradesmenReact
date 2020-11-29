@@ -39,7 +39,7 @@ var tableTheme = createMuiTheme({
   overrides: {
     MuiTableContainer: {
       root: {
-        maxWidth: "1000px",
+        maxWidth: "100%",
         margin: "auto",
         border: "1px solid rgba(224, 224, 224, 1)",
         borderRadius: "0",
@@ -57,11 +57,16 @@ var tableTheme = createMuiTheme({
 function Row(props) {
   const row = props.row;
   const userType = props.userType;
-  const requiresInspection = parseInt(row.invoicePrice) >= 5000;
+
+  const invoiceThreshold = 5000;
+  const requiresInspection = parseInt(row.invoicePrice) >= invoiceThreshold;
+  const holdingFee = row.invoicePrice * 0.15;
+  const holdingFeeHst = (row.invoicePrice * 0.15) * 1.16;
+  const invoicePriceHst = row.invoicePrice * 1.16;
 
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = React.useState(getNotes());
-  const [invoicePrice, setPrice] = React.useState(null);
+  const [invoicePrice, setPrice] = React.useState(0);
   const [completionDate, setDate] = React.useState("");
   const [contractor, setContractor] = React.useState(row.contractors && row.contractors.length > 0 ? row.contractors[0].contractorId : null);
   const [inspectionPassed, setInspection] = React.useState(null);
@@ -134,11 +139,17 @@ function Row(props) {
       });
   }
 
-  function invoicePaid() {
+  function paymentReceived() {
     let body = {
       jobId: row.jobId,
-      invoicePaid: 1
     };
+    
+    if (userType === 1) {
+      body.invoicePaid = 1;
+    }
+    else {
+      body.holdingFeePaid = 1;
+    }
 
     JobService.updateJob(body)
       .then(() => {
@@ -181,26 +192,22 @@ function Row(props) {
   }
 
   function claimJobConfirm() {
-    if (
-      window.confirm("Are you sure you wish to hire the selected contractor?")
-    ) {
+    if (window.confirm("Are you sure you wish to hire the selected contractor?")) {
       claimJob();
     }
   }
 
   function cancelJobConfirm() {
-    if (
-      window.confirm("Are you sure you wish to cancel this job? This action cannot be undone.")
-    ) {
+    if (window.confirm("Are you sure you wish to cancel this job? This action cannot be undone.")) {
       cancelJob();
     }
   }
 
-  function invoicePaidConfirm() {
-    if (
-      window.confirm("Are you sure you've received payment for this job?")
-    ) {
-      invoicePaid();
+  function paymentReceivedConfirm() {
+    let verbiage = userType === 1 ? "holding fee" : "payment";
+
+    if (window.confirm(`Are you sure you've received the ${verbiage} for this job?`)) {
+      paymentReceived();
     }
   }
 
@@ -236,35 +243,31 @@ function Row(props) {
                 ))}
               </TextField>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div className="button-container">
-                <Button
-                  onClick={() => window.open("/contractors/" + contractor)}
-                  variant="contained"
-                  color="primary"
-                >
-                  VIEW PROFILE
+            <div className="button-container multi-button">
+              <Button
+                onClick={() => window.open("/contractors/" + contractor)}
+                variant="contained"
+                color="primary"
+              >
+                VIEW PROFILE
               </Button>
-                <Button
-                  onClick={() => claimJobConfirm()}
-                  variant="contained"
-                  style={{
-                    backgroundColor: "#3bb13b",
-                    color: "white"
-                  }}
-                >
-                  HIRE CONTRACTOR
+              <Button
+                onClick={() => claimJobConfirm()}
+                variant="contained"
+                style={{
+                  backgroundColor: "#3bb13b",
+                  color: "white"
+                }}
+              >
+                HIRE CONTRACTOR
               </Button>
-              </div>
-              <div style={{ margin: "15px 0" }}>
-                <Button
-                  onClick={() => cancelJobConfirm()}
-                  variant="contained"
-                  color="secondary"
-                >
-                  CANCEL JOB
-                </Button>
-              </div>
+              <Button
+                onClick={() => cancelJobConfirm()}
+                variant="contained"
+                color="secondary"
+              >
+                CANCEL JOB
+              </Button>
             </div>
           </Auxil>
         );
@@ -272,7 +275,7 @@ function Row(props) {
       else if (row.invoicePrice && row.invoiceAccepted === null) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${row.invoicePrice}</b>.</Alert>
+            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${(row.invoicePrice * 1.00).toFixed(2)}</b> (HST not included).</Alert>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div className="button-container">
                 <Button
@@ -285,14 +288,14 @@ function Row(props) {
                   }}
                 >
                   ACCEPT
-              </Button>
+                </Button>
                 <Button
                   variant="contained"
                   onClick={() => acceptInvoice(false)}
                   color="secondary"
                 >
                   DECLINE
-              </Button>
+                </Button>
               </div>
               <div style={{ margin: "15px 0" }}>
                 <Button
@@ -323,7 +326,7 @@ function Row(props) {
     }
     else if (userType === 1) {
       // CONTRACTOR
-      if ((row.invoiceAccepted === null && row.invoicePrice === null) || row.invoiceAccepted === "0") {
+      if (row.invoicePrice === null || row.invoiceAccepted === "0") {
         content = (
           <Auxil>
             {row.invoiceAccepted === "0" && (
@@ -335,7 +338,7 @@ function Row(props) {
                 type="text"
                 name="invoicePrice"
                 label="invoice price"
-                value={invoicePrice || null}
+                value={invoicePrice}
                 variant="outlined"
                 onChange={event => {
                   setPrice(event.target.value);
@@ -346,7 +349,7 @@ function Row(props) {
               <Button
                 variant="contained"
                 onClick={() => sendInvoice()}
-                disabled={invoicePrice === null}
+                disabled={invoicePrice === 0 || !invoicePrice }
                 color="primary"
               >
                 SEND INVOICE
@@ -355,7 +358,7 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.invoiceAccepted === "1" && row.completionDate === null) {
+      else if (row.invoiceAccepted === "1" && row.holdingFeePaid && row.completionDate === null) {
         content = (
           <Auxil>
             {requiresInspection && (
@@ -395,6 +398,25 @@ function Row(props) {
                 color="primary"
               >
                 SUBMIT
+              </Button>
+            </div>
+          </Auxil>
+        );
+      }
+      else if (row.completionDate !== null && row.invoicePaid === null) {
+        content = (
+          <Auxil>
+            <Alert severity="info" color="info">The remainder of the invoice <b>${(invoicePriceHst - holdingFeeHst).toFixed(2)}</b> (${(row.invoicePrice - holdingFee).toFixed(2)} + HST) is owed by the customer.</Alert>
+            <div className="button-container">
+              <Button
+                variant="contained"
+                onClick={() => paymentReceivedConfirm()}
+                style={{
+                  backgroundColor: "#3bb13b",
+                  color: "white"
+                }}
+              >
+                PAYMENT RECEIVED
               </Button>
             </div>
           </Auxil>
@@ -508,20 +530,23 @@ function Row(props) {
     }
     else if (userType === 3) {
       // ADMIN
-      if (row.invoiceAccepted === "1" && row.invoicePaid === null) {
+      if (row.invoiceAccepted === "1" && row.holdingFeePaid === null) {
         content = (
-          <div className="button-container">
-            <Button
-              variant="contained"
-              onClick={() => invoicePaidConfirm()}
-              style={{
-                backgroundColor: "#3bb13b",
-                color: "white"
-              }}
-            >
-              INVOICE PAID
-            </Button>
-          </div>
+          <Auxil>      
+            <Alert severity="info" color="info">A holding fee of <b>${holdingFeeHst.toFixed(2)}</b> is owed by the customer.</Alert>
+            <div className="button-container">
+              <Button
+                variant="contained"
+                onClick={() => paymentReceivedConfirm()}
+                style={{
+                  backgroundColor: "#3bb13b",
+                  color: "white"
+                }}
+              >
+                PAYMENT RECEIVED
+              </Button>
+            </div>
+          </Auxil>
         );
       }
     }
@@ -559,7 +584,7 @@ function Row(props) {
     else if (userType === "1" && row.invoiceAccepted === "0") {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (row.completionDate === null) {
+    else if (row.holdingFeePaid === "1" && row.completionDate === null) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
     else if (requiresInspection && (row.inspectorId === null || row.inspectionPassed === null || row.inspectionPassed === "0")) {
@@ -573,7 +598,7 @@ function Row(props) {
         status = <Chip className="status required" label="Requires Revisit" />;
       }
     }
-    else if (row.invoicePaid === null) {
+    else if (row.holdingFeePaid === null || row.invoicePaid === null) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
@@ -598,7 +623,7 @@ function Row(props) {
                 <td>{row.address}, {row.city}</td>
               </tr>
               <tr>
-                <td>Last Updated: {row.lastUpdatedDate.split(" ")[0]}</td>
+                <td>Creation Date: {row.creationDate.split(" ")[0]}</td>
               </tr>
               <tr>
                 <td>{getJobStatus()}</td>
@@ -626,7 +651,7 @@ function Row(props) {
           <TableCell>{row.serviceName}</TableCell>
           <TableCell>{row.address}</TableCell>
           <TableCell>{row.city}</TableCell>
-          <TableCell>{row.lastUpdatedDate.split(" ")[0]}</TableCell>
+          <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
           <TableCell>{getJobStatus()}</TableCell>
         </Auxil>
       );
@@ -645,9 +670,12 @@ function Row(props) {
       if (row.contractorId !== null && (row.invoicePrice === null || row.invoiceAccepted === "0")) {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
+      else if (row.holdingFeePaid === null && row.invoiceAccepted === "1") {
+        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${holdingFeeHst.toFixed(2)}</b> (${holdingFee.toFixed(2)} + HST) to HOLDING_ACCOUNT_HERE.</Alert>;
+      }
       else if (row.completionDate !== null) {
         if (row.invoicePaid === null) {
-          content = <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]}. Please send the invoice payment of <b>${row.invoicePrice}</b> to the contractor.</Alert>;
+          content = <Alert severity="info" color="info">The job was completed on {row.completionDate.split(" ")[0]}. Please send the remaining invoice payment of <b>${(invoicePriceHst - holdingFeeHst).toFixed(2)}</b> (${row.invoicePrice} - Holding Fee + HST) to the contractor.</Alert>;
         }
         else if (row.invoicePaid === "1") {
           content = <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]} and the invoice payment has been processed.</Alert>;
@@ -657,6 +685,9 @@ function Row(props) {
     else if (userType === 1) {
       if (row.invoicePrice !== null && row.invoiceAccepted === null) {
         content = <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
+      }
+      else if (row.invoiceAccepted === "1" && row.holdingFeePaid === null) {
+        content = <Alert severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
       }
     }
 
@@ -686,6 +717,48 @@ function Row(props) {
                     <td>Creation Date</td>
                     <td>{row.creationDate.split(" ")[0]}</td>
                   </tr>
+                  <tr>
+                    <td>Location</td>
+                    <td>
+                      {row.address}, {row.city}, {row.province}, {row.postalCode}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>{row.description}</td>
+                  </tr>
+                  <tr>
+                    <td>Budget</td>
+                    <td>{row.budget}</td>
+                  </tr>
+                  <tr>
+                    <td>Time Frame</td>
+                    <td>{row.timeFrame} Month(s)</td>
+                  </tr>
+                  {row.invoicePrice && (
+                    <Auxil>
+                      <tr>
+                        <td>Invoice Price</td>
+                        <td>${(row.invoicePrice * 1.00).toFixed(2)} + HST (${invoicePriceHst.toFixed(2)})</td>
+                      </tr>
+                      <tr>
+                        <td>Invoice Accepted?</td>
+                        <td>{row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}</td>
+                      </tr>
+                    </Auxil>
+                  )}
+                  {row.invoiceAccepted === "1" && (
+                    <Auxil>
+                      <tr>
+                        <td>Holding Fee</td>
+                        <td>${holdingFee.toFixed(2)} + HST (${holdingFeeHst.toFixed(2)})</td>            
+                      </tr>
+                      <tr>
+                        <td>Holding Fee Paid?</td>
+                        <td>{row.holdingFeePaid ? "Yes" : <span>&ndash;</span>}</td>
+                      </tr>
+                    </Auxil>
+                  )}
                   {row.completionDate && (
                     < tr >
                       <td>Job Completion Date</td>
@@ -716,39 +789,12 @@ function Row(props) {
                       <td>{row.inspectorNotes}</td>
                     </tr>
                   )}
-                  <tr>
-                    <td>Location</td>
-                    <td>
-                      {row.address}, {row.city}, {row.province}, {row.postalCode}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Description</td>
-                    <td>{row.description}</td>
-                  </tr>
-                  <tr>
-                    <td>Budget</td>
-                    <td>{row.budget}</td>
-                  </tr>
-                  <tr>
-                    <td>Time Frame</td>
-                    <td>{row.timeFrame} Month(s)</td>
-                  </tr>
-                  {row.invoicePrice && (
-                    <Auxil>
-                      <tr>
-                        <td>Invoice Price</td>
-                        <td>${row.invoicePrice}</td>
-                      </tr>
-                      <tr>
-                        <td>Invoice Accepted?</td>
-                        <td>{row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}</td>
-                      </tr>
-                      <tr>
-                        <td>Invoice Paid?</td>
-                        <td>{row.invoicePaid ? "Yes" : <span>&ndash;</span>}</td>
-                      </tr>
-                    </Auxil>)}
+                  {row.completionDate !== null && (
+                    <tr>
+                      <td>Invoice Paid?</td>
+                      <td>{row.invoicePaid ? "Yes" : <span>&ndash;</span>}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
               {getAlertContent()}
@@ -758,7 +804,7 @@ function Row(props) {
         </TableCell>
       </TableRow>
     </Auxil >
-  );;
+  );
 }
 
 class JobsPage extends Component {
@@ -804,10 +850,10 @@ class JobsPage extends Component {
                       <TableCell>
                         <b>City</b>
                       </TableCell>
-                      <TableCell style={{ width: "130px" }}>
-                        <b>Last Updated</b>
+                      <TableCell>
+                        <b>Creation Date</b>
                       </TableCell>
-                      <TableCell style={{ width: "180px" }}>
+                      <TableCell style={{ width: "190px" }}>
                         <b>Status</b>
                       </TableCell>
                     </TableRow>
@@ -852,78 +898,6 @@ class JobsPage extends Component {
             <Title>JOBS</Title>
             <Alert severity="info" color="info">You don't have any jobs at the moment.</Alert>
           </Auxil>
-        )}
-
-        {!this.state.isLoading && this.state.userType !== 2 && this.state.userType !== 3 && (
-          <h4 className="disclaimer-title">DISCLAIMER</h4>
-        )}
-
-        {!this.state.isLoading && this.state.userType === 0 && (
-          <div className="disclaimer">
-            All persons using our site acknowledges that our contractors are only recommendations.
-            All contractors have been vetted by a qualified and licensed inspector and have demonstrated both quality workmanship and integrity.
-            We recommend all persons research their suggested contractors prior to making a selection.
-            We require all persons choosing a Trusted Tradesmen contractor, prior to the contractor Starting to deposit 15% + HST (see exclusions) of the total job cost into a holding account with Trusted Tradesmen. This will come of the final there final bill and will only be released to the contractor when inspector had checked and no problems were found. If problems are discovered Trusted Tradesmen gives contractor a chance to return to correct or if contractor fails to do so, money in trust is not released to contractor but instead is used to correct problems found. Contractor will now be removed from site NEVER to be allowed back on. Trusted Tradesmen has done our best to investigate all our contractors and only obtain ones with good morals, values and quality of work, no one will get ripped off. Depending on type of job and price, Trusted Tradesmen will send a professional inspector out within 2 weeks of job completion to inspect quality of work at contractors expense.
-            All contractors on Trusted Tradesmen will have duel ratings, one from customer and one from professional (inspector). Most sites only have one rating from customers who mostly no nothing about construction methods , Trusted Tradesmen will give customers a clearer picture of contractor performance. This is the site I want you, your parents or grand parents to use knowing they will get a great job done for a fair price and will never get ripped off.
-          </div>
-        )}
-
-        {!this.state.isLoading && this.state.userType === 1 && (
-          <div className="disclaimer">
-            Contractors affiliated with Trusted Tradesmen will abide by our motto; "Quality Work for a Fair Price".
-            Our contractors are encouraged to maintain honesty, integrity, and quality of work.
-            Jobs over $5,000 will be validated by a professional home inspector to ensure they meet our quality standards.
-            In the event that a home inspector finds a job which doesn't meet our standards, the contractor will be notified and the issue will be remedied through a return visit.
-            Our inspectors are veterans; they understand the industry very well, and are aware of the limitations contractors experience with aspects such as materials and customers.
-            Our inspectors are here to validate your workmanship and add to your reputation.
-            Trusted Tradesmen is not looking for the cheapest contractors, and we're not looking for the most expensive; we want you to be honest with your estimates as to ensure the job is completed in a quality fashion.
-            Trusted Tradesmen wants all of our contractors to earn a good living and be paid what they deserve based on quality and workmanship.
-            The ultimate goal of this site is to help contractors to obtain relevant job leads and bolster their reputation, adding nicely to their bottom line.
-            The contractor will only have to pay a consultation fee on jobs obtained and completed.
-            There is no fee to be featured on our site or to possess a contractor account.
-            The jobs leads will be emailed to contractors with pertinent info of the job including client budget and will only be mailed out if it is within the agreed upon contractor coverage area.
-            Contractors may decide to contact client and obtain more info or just decline job lead.
-            Trusted Tradesmen will require the contractor to pay the consultation fee directly to Trusted Tradesmen on the lower priced jobs completed (see fee schedule below):
-            <table className="fee-table">
-              <tr>
-                <th style={{ paddingRight: "15px" }}>Contract Cost (CC)</th>
-                <th>Fee</th>
-              </tr>
-              <tr>
-                <td>Less than $500</td>
-                <td>Free</td>
-              </tr>
-              <tr>
-                <td>$501 to $1,500</td>
-                <td>$50</td>
-              </tr>
-              <tr>
-                <td>$1,501 to $3,000</td>
-                <td>$150</td>
-              </tr>
-              <tr>
-                <td>$3,001 to $5,000</td>
-                <td>$250</td>
-              </tr>
-              <tr>
-                <td>$5,001 to $7,500</td>
-                <td>$375</td>
-              </tr>
-              <tr>
-                <td>$7,501 to $100k</td>
-                <td>5% of CC</td>
-              </tr>
-              <tr>
-                <td>Over $100k</td>
-                <td>5% of first $100k, 2.5% of remaining CC</td>
-              </tr>
-            </table>
-            Selected jobs over $5,000 will be subjected to a 15% hold back and a check by a professional inspector within two weeks of job completion.
-            Upon favourable check by inspector, remaining funds will be released to contractor minus Trusted Tradesmens fee.This fee is to be deposited into a Trusted Tradesmen holding account by the client prior to contractor starting job.
-            This may also protect the contractor in the case where the client doesn’t fully pay the contractor what is owed, Trusted Tradesmen will forgo there fee and release the entire amount to the contractor and client will never be able to use Trusted Tradesmen site again.
-            All Trusted Tradesmen contractors will obtain proper permits for jobs, abide by Ontario building codes and be respectable to all clients.
-            Trusted Tradesmen wants their site to be recognized by the elderly community as one that can be trusted to obtain reliable and quality contractors at any time; a site you would trust your parents to pick a contractor from.
-          </div>
         )}
 
         { this.state.isLoading && <Backdrop />}

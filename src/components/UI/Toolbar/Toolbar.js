@@ -17,7 +17,7 @@ const ToolBar = props => {
         </div>
         <div className="toolbar__logo">
           <Link to="/">
-            <FaRegHandshake size="35" />
+            <FaRegHandshake className="logo-icon" size="35" />
             <span className="logo-text">TRUSTED TRADESMEN</span>
           </Link>
         </div>

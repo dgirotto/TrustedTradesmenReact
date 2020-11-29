@@ -31,7 +31,7 @@ var tableTheme = createMuiTheme({
   overrides: {
     MuiTableContainer: {
       root: {
-        maxWidth: "1000px",
+        maxWidth: "100%",
         margin: "auto",
         border: "1px solid rgba(224, 224, 224, 1)",
         borderRadius: "0",
