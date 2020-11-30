@@ -8,8 +8,16 @@ import Button from "@material-ui/core/Button";
 // import Checkbox from "@material-ui/core/Checkbox";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
+
 import { AuthService } from "../../services/auth";
 import { CacheService } from "../../services/caching";
+
+function AlertPopup(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class LoginPage extends Component {
   constructor(props) {
@@ -23,7 +31,9 @@ class LoginPage extends Component {
       showResetForm: false,
       remember: false,
       isLoading: false,
-      error: null
+      showSnackbar: false,
+      isError: false,
+      message: ""
     };
   }
 
@@ -35,7 +45,6 @@ class LoginPage extends Component {
 
   login = () => {
     this.setState({ isLoading: true });
-    
     AuthService.login(this.state.loginDetails)
       .then(res => {
         const token = res.data.jwt;
@@ -44,20 +53,37 @@ class LoginPage extends Component {
         window.location.href = "/jobs";
       })
       .catch(error => {
-        this.setState({ error: error.message, isLoading: false });
+        var loginDetailsNew = { ...this.state.loginDetails };
+        loginDetailsNew.password = "";
+
+        this.setState({
+          loginDetails: loginDetailsNew,
+          isLoading: false,
+          showSnackbar: true,
+          isError: true,
+          message: error.response.data.message
+        });
       });
   };
 
   resetPassword = () => {
     this.setState({ isLoading: true });
-
     AuthService.resetPassword({ email: this.state.emailToReset })
       .then(res => {
-        // TODO: Emit message "Check your email for your new password"
-        this.setState({ isLoading: false });
+        this.setState({
+          isLoading: false,
+          showSnackbar: true,
+          isError: false,
+          message: "Password successfully reset. Please check your email for further instructions."
+        });
       })
       .catch(error => {
-        this.setState({ error: error.message, isLoading: false });
+        this.setState({
+          isLoading: false,
+          showSnackbar: true,
+          isError: true,
+          message: error.response.data.message
+        });
       });
   };
 
@@ -68,14 +94,17 @@ class LoginPage extends Component {
   };
 
   toggleResetPassword = () => {
-    this.setState({ showResetForm: !this.state.showResetForm });
+    this.setState({
+      showResetForm: !this.state.showResetForm,
+      emailToReset: ""
+    });
   };
 
   change = event => {
     const newLoginDetails = Object.assign(this.state.loginDetails, {
       [event.target.name]: event.target.value
     });
-    
+
     this.setState({
       loginDetails: newLoginDetails
     });
@@ -87,6 +116,10 @@ class LoginPage extends Component {
     });
   };
 
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
+  };
+
   render() {
     return (
       <div className="login-page-container">
@@ -94,27 +127,27 @@ class LoginPage extends Component {
           {!this.state.showResetForm ? (
             <Auxil>
               <h1 className="login-form-title">LOGIN</h1>
-                <div className="textfield-container-row">
-                  <TextField
-                    type="text"
-                    name="email"
-                    label="email"
-                    value={this.state.loginDetails.email || ""}
-                    variant="outlined"
-                    onChange={this.change}
-                  />
-                </div>
-                <div className="textfield-container-row">
-                  <TextField
-                    type="password"
-                    name="password"
-                    label="password"
-                    value={this.state.loginDetails.password || ""}
-                    variant="outlined"
-                    onChange={this.change}
-                  />
-                </div>
-                {/* <FormControlLabel
+              <div className="textfield-container-row">
+                <TextField
+                  type="text"
+                  name="email"
+                  label="email"
+                  value={this.state.loginDetails.email || ""}
+                  variant="outlined"
+                  onChange={this.change}
+                />
+              </div>
+              <div className="textfield-container-row">
+                <TextField
+                  type="password"
+                  name="password"
+                  label="password"
+                  value={this.state.loginDetails.password || ""}
+                  variant="outlined"
+                  onChange={this.change}
+                />
+              </div>
+              {/* <FormControlLabel
                   control={
                     <Checkbox
                       onChange={this.handleCheckboxChange}
@@ -123,27 +156,27 @@ class LoginPage extends Component {
                   }
                   label="Remember me"
                 /> */}
-                <div className="forgot-password" onClick={this.toggleResetPassword}>
-                  Forgot Password?
-                </div>
-                <Button
-                  disabled={
-                    !this.state.loginDetails.email ||
-                    !this.state.loginDetails.password
-                  }
-                  onClick={this.login}
-                  variant="contained"
-                  color="primary"
-                  style={{ width: "175px" }}
-                >
-                  LOGIN
+              <div className="forgot-password" onClick={this.toggleResetPassword}>
+                Forgot Password?
+              </div>
+              <Button
+                disabled={
+                  !this.state.loginDetails.email ||
+                  !this.state.loginDetails.password
+                }
+                onClick={this.login}
+                variant="contained"
+                color="primary"
+                style={{ width: "175px" }}
+              >
+                LOGIN
                 </Button>
-                <div className="no-account-msg">
-                  Don't have an account? Create one <a href="/register">here</a>.
+              <div className="no-account-msg">
+                Don't have an account? Create one <a href="/register">here</a>.
                 </div>
             </Auxil>
           ) : (
-            <Auxil>
+              <Auxil>
                 <h1 className="login-form-title">FORGOT PASSWORD</h1>
                 <span className="reset-password-msg">
                   Enter the email address associated with your account and we'll
@@ -178,7 +211,18 @@ class LoginPage extends Component {
                 </div>
               </Auxil>
             )}
+
           {this.state.isLoading && <Backdrop />}
+
+          <Snackbar
+            open={this.state.showSnackbar}
+            onClose={this.toggleSnackbar}
+            autoHideDuration={5000}
+          >
+            <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+              {this.state.message}
+            </AlertPopup>
+          </Snackbar>
         </div>
       </div>
     );
