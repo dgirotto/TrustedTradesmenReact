@@ -4,8 +4,14 @@ import Backdrop from "../../components/UI/Backdrop/Backdrop";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import { AuthService } from "../../services/auth";
+
+function AlertPopup(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -17,7 +23,9 @@ class RegisterPage extends Component {
         confirmPassword: ""
       },
       isLoading: false,
-      error: null
+      showSnackbar: false,
+      isError: false,
+      message: ""
     };
   }
 
@@ -28,34 +36,42 @@ class RegisterPage extends Component {
   }
 
   register = () => {
-    if (
-      this.state.registerDetails.password !==
-      this.state.registerDetails.confirmPassword
-    ) {
+    if (this.state.registerDetails.password !== this.state.registerDetails.confirmPassword) {
       this.setState({
-        error: "Passwords do not match!"
+        showSnackbar: true,
+        isError: true,
+        message: "Passwords do not match."
       });
       return;
     }
+
     this.setState({ isLoading: true });
+
     AuthService.register({
       email: this.state.registerDetails.email,
       password: this.state.registerDetails.password,
       accountType: 0
     })
       .then(res => {
-        // TODO: Emit message "Account Created"
         this.setState({
           registerDetails: {
             email: "",
             password: "",
             confirmPassword: ""
           },
-          isLoading: false
+          isLoading: false,
+          showSnackbar: true,
+          isError: false,
+          message: res.data.message
         });
       })
       .catch(error => {
-        this.setState({ error: error.message, isLoading: false });
+        this.setState({
+          isLoading: false,
+          showSnackbar: true,
+          isError: true,
+          message: error.response.data.message
+        });
       });
   };
 
@@ -66,6 +82,10 @@ class RegisterPage extends Component {
     this.setState({
       registerDetails: newRegisterDetails
     });
+  };
+
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
   };
 
   render() {
@@ -118,9 +138,20 @@ class RegisterPage extends Component {
           </Button>
           <div className="have-account-msg">
             Already have an account? Login <a href="/login">here</a>.
-          </div>
-          {this.state.isLoading && <Backdrop />}
+          </div>          
         </div>
+
+        {this.state.isLoading && <Backdrop />}
+
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={5000}
+          onClose={this.toggleSnackbar}            
+        >
+          <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+            {this.state.message}
+          </AlertPopup>
+        </Snackbar>
       </div>
     );
   }

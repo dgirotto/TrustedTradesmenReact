@@ -3,14 +3,12 @@ import "./LoginPage.css";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
 
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 // import Checkbox from "@material-ui/core/Checkbox";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
-
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import Alert from "@material-ui/lab/Alert";
 
 import { AuthService } from "../../services/auth";
 import { CacheService } from "../../services/caching";
@@ -45,6 +43,7 @@ class LoginPage extends Component {
 
   login = () => {
     this.setState({ isLoading: true });
+
     AuthService.login(this.state.loginDetails)
       .then(res => {
         const token = res.data.jwt;
@@ -211,19 +210,19 @@ class LoginPage extends Component {
                 </div>
               </Auxil>
             )}
-
-          {this.state.isLoading && <Backdrop />}
-
-          <Snackbar
-            open={this.state.showSnackbar}
-            onClose={this.toggleSnackbar}
-            autoHideDuration={5000}
-          >
-            <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
-              {this.state.message}
-            </AlertPopup>
-          </Snackbar>
         </div>
+        
+        {this.state.isLoading && <Backdrop />}
+
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={5000}
+          onClose={this.toggleSnackbar}            
+        >
+          <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+            {this.state.message}
+          </AlertPopup>
+        </Snackbar>
       </div>
     );
   }

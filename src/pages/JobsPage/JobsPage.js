@@ -755,7 +755,7 @@ function Row(props) {
                       </tr>
                       <tr>
                         <td>Holding Fee Paid?</td>
-                        <td>{row.holdingFeePaid ? "Yes" : <span>&ndash;</span>}</td>
+                        <td>{row.holdingFeePaid ? "Yes" : "No"}</td>
                       </tr>
                     </Auxil>
                   )}
@@ -792,7 +792,7 @@ function Row(props) {
                   {row.completionDate !== null && (
                     <tr>
                       <td>Invoice Paid?</td>
-                      <td>{row.invoicePaid ? "Yes" : <span>&ndash;</span>}</td>
+                      <td>{row.invoicePaid ? "Yes" : "No"}</td>
                     </tr>
                   )}
                 </tbody>
