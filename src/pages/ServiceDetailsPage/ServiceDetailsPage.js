@@ -258,7 +258,7 @@ class ServiceDetailsPage extends Component {
 
   render() {
     return (
-      <div className="service-details-page-container">
+      <div className="page-container">
         {!this.state.isLoading ? this.renderContent() : <Backdrop />}
       </div>
     );

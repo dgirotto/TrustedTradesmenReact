@@ -5,7 +5,7 @@ import Title from "../../components/UI/Title/Title";
 class DisclaimersPage extends Component {
   render() {
     return (
-    <div className="disclaimers-page-container">
+    <div className="page-container">
         <Title>DISCLAIMERS</Title>
         <h4>CUSTOMERS</h4>
         <div className="disclaimer">

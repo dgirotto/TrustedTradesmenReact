@@ -197,7 +197,7 @@ class SettingsPage extends Component {
 
   render() {
     return (
-      <div className="account-details-container">
+      <div className="page-container">
         {this.state.accountDetails.email && (
           <Auxil>
             <Title>SETTINGS</Title>

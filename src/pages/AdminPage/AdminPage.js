@@ -201,7 +201,7 @@ class AdminPage extends Component {
 
   render() {
     return (
-      <div className="admin-page-container">
+      <div className="page-container">
         {this.state.services && (
           <Auxil>
             <Title>ADMIN PANEL</Title>

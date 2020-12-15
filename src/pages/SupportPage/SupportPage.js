@@ -5,7 +5,7 @@ import Title from "../../components/UI/Title/Title";
 class SupportPage extends Component {
   render() {
     return (
-    <div className="support-page-container">
+    <div className="page-container">
         <Title>SUPPORT</Title>
         TESTING
     </div>

@@ -35,7 +35,7 @@ class ServicesPage extends Component {
 
   render() {
     return (
-      <div className="services-page-container">
+      <div className="page-container">
         {!this.state.isLoading && this.state.services ? (
           <Auxil>
             <Title>SERVICES</Title>

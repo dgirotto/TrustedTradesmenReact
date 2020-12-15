@@ -5,7 +5,7 @@ import Title from "../../components/UI/Title/Title";
 class FaqPage extends Component {
   render() {
     return (
-    <div className="faq-page-container">
+    <div className="page-container">
         <Title>FAQ</Title>
         TESTING
     </div>

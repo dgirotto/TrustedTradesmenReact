@@ -829,7 +829,7 @@ class JobsPage extends Component {
 
   render() {
     return (
-      <div className="jobs-page-container">
+      <div className="page-container">
         {this.state.jobs && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>

@@ -34,7 +34,7 @@ class ContractorDetailsPage extends Component {
 
     renderContent() {
         return (
-            <div className="contractor-details-container">
+            <div className="page-container">
                 <Title>{this.state.contractorDetails.companyName.toUpperCase()}</Title>
                 <span className="details-title">LINKS</span>
                 <div className="links-container">
@@ -75,7 +75,7 @@ class ContractorDetailsPage extends Component {
 
     render() {
         return (
-            <div className="contractor-details-page-container">
+            <div className="page-container">
                 {this.state.contractorDetails && this.renderContent()}
                 {this.state.isLoading && <Backdrop />}
             </div>

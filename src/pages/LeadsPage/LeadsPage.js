@@ -210,7 +210,7 @@ class LeadsPage extends Component {
 
   render() {
     return (
-      <div className="leads-page-container">
+      <div className="page-container">
         {this.state.leads && !this.state.isLoading && (
           <Auxil>
             <Title>LEADS</Title>
