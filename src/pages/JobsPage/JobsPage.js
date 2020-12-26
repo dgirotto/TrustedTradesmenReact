@@ -143,7 +143,7 @@ function Row(props) {
     let body = {
       jobId: row.jobId,
     };
-    
+
     if (userType === 1) {
       body.invoicePaid = 1;
     }
@@ -349,7 +349,7 @@ function Row(props) {
               <Button
                 variant="contained"
                 onClick={() => sendInvoice()}
-                disabled={invoicePrice === 0 || !invoicePrice }
+                disabled={invoicePrice === 0 || !invoicePrice}
                 color="primary"
               >
                 SEND INVOICE
@@ -532,7 +532,7 @@ function Row(props) {
       // ADMIN
       if (row.invoiceAccepted === "1" && row.holdingFeePaid === null) {
         content = (
-          <Auxil>      
+          <Auxil>
             <Alert severity="info" color="info">A holding fee of <b>${holdingFeeHst.toFixed(2)}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
@@ -703,100 +703,72 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <table className="job-details-table">
-                <tbody>
-                  <tr>
-                    <td>Job ID</td>
-                    <td>{row.jobId}</td>
-                  </tr>
-                  <tr>
-                    <td>Service</td>
-                    <td>{row.serviceName}</td>
-                  </tr>
-                  <tr>
-                    <td>Creation Date</td>
-                    <td>{row.creationDate.split(" ")[0]}</td>
-                  </tr>
-                  <tr>
-                    <td>Location</td>
-                    <td>
-                      {row.address}, {row.city}, {row.province}, {row.postalCode}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Description</td>
-                    <td>{row.description}</td>
-                  </tr>
-                  <tr>
-                    <td>Budget</td>
-                    <td>{row.budget}</td>
-                  </tr>
-                  <tr>
-                    <td>Time Frame</td>
-                    <td>{row.timeFrame} Month(s)</td>
-                  </tr>
-                  {row.invoicePrice && (
-                    <Auxil>
-                      <tr>
-                        <td>Invoice Price</td>
-                        <td>${(row.invoicePrice * 1.00).toFixed(2)} + HST (${invoicePriceHst.toFixed(2)})</td>
-                      </tr>
-                      <tr>
-                        <td>Invoice Accepted?</td>
-                        <td>{row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}</td>
-                      </tr>
-                    </Auxil>
-                  )}
-                  {row.invoiceAccepted === "1" && (
-                    <Auxil>
-                      <tr>
-                        <td>Holding Fee</td>
-                        <td>${holdingFee.toFixed(2)} + HST (${holdingFeeHst.toFixed(2)})</td>            
-                      </tr>
-                      <tr>
-                        <td>Holding Fee Paid?</td>
-                        <td>{row.holdingFeePaid ? "Yes" : "No"}</td>
-                      </tr>
-                    </Auxil>
-                  )}
-                  {row.completionDate && (
-                    < tr >
-                      <td>Job Completion Date</td>
-                      <td>{row.completionDate.split(" ")[0]}</td>
-                    </tr>
-                  )}
-                  {userType !== 0 && row.contractorNotes && (
-                    <tr>
-                      <td>Contractor Notes</td>
-                      <td>{row.contractorNotes}</td>
-                    </tr>
-                  )}
-                  {row.inspectionDate && (
-                    <tr>
-                      <td>Inspection Date</td>
-                      <td>{row.inspectionDate.split(" ")[0]}</td>
-                    </tr>
-                  )}
-                  {row.inspectionPassed !== null && (
-                    <tr>
-                      <td>Inspection Passed</td>
-                      <td>{row.inspectionPassed === "1" ? "Yes" : "No"}</td>
-                    </tr>
-                  )}
-                  {userType !== 0 && row.inspectorNotes && (
-                    <tr>
-                      <td>Inspector Notes</td>
-                      <td>{row.inspectorNotes}</td>
-                    </tr>
-                  )}
-                  {row.completionDate !== null && (
-                    <tr>
-                      <td>Invoice Paid?</td>
-                      <td>{row.invoicePaid ? "Yes" : "No"}</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+              <p className="item-title">Job ID</p>
+              {row.jobId}
+              <p className="item-title">Service</p>
+              {row.serviceName}
+              <p className="item-title">Creation Date</p>
+              {row.creationDate.split(" ")[0]}
+              <p className="item-title">Location</p>
+              {row.address}, {row.city}, {row.province}, {row.postalCode}
+              <p className="item-title">Description</p>
+              {row.description}
+              <p className="item-title">Budget</p>
+              {row.budget}
+              <p className="item-title">Time Frame</p>
+              {row.timeFrame} Month(s)
+              {row.invoicePrice && (
+                <Auxil>
+                  <p className="item-title">Invoice Price</p>
+                  ${(row.invoicePrice * 1.00).toFixed(2)} + HST (${invoicePriceHst.toFixed(2)})
+                  <p className="item-title">Invoice Accepted?</p>
+                  {row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}
+                </Auxil>
+              )}
+              {row.invoiceAccepted === "1" && (
+                <Auxil>
+                  <p className="item-title">Holding Fee</p>
+                  ${holdingFee.toFixed(2)} + HST (${holdingFeeHst.toFixed(2)})
+                  <p className="item-title">Holding Fee Paid</p>
+                  {row.holdingFeePaid ? "Yes" : "No"}
+                </Auxil>
+              )}
+              {row.completionDate && (
+                <Auxil>
+                  <p className="item-title">Job Completion Date</p>
+                  {row.completionDate.split(" ")[0]}
+                </Auxil>
+              )}
+              {userType !== 0 && row.contractorNotes && (
+                <Auxil>
+                  <p className="item-title">Contractor Notes</p>
+                  {row.contractorNotes}
+                </Auxil>
+              )}
+              {row.inspectionDate && (
+                <Auxil>
+                  <p className="item-title">Inspection Date</p>
+                  {row.inspectionDate.split(" ")[0]}
+                </Auxil>
+              )}
+              {row.inspectionPassed !== null && (
+                <Auxil>
+                  <p className="item-title">Inspection Passed</p>
+                  {row.inspectionPassed === "1" ? "Yes" : "No"}
+                </Auxil>
+              )}
+              {userType !== 0 && row.inspectorNotes && (
+                <Auxil>
+                  <p className="item-title">Inspector Notes</p>
+                  {row.inspectorNotes}
+                </Auxil>
+              )}
+              {row.completionDate !== null && (
+                <Auxil>
+                  <p className="item-title">Invoice Paid?</p>
+                  {row.invoicePaid ? "Yes" : "No"}
+                </Auxil>
+              )}
               {getAlertContent()}
               {row.isAbandoned === null && getUIContent()}
             </Box>
@@ -900,7 +872,7 @@ class JobsPage extends Component {
           </Auxil>
         )}
 
-        { this.state.isLoading && <Backdrop />}
+        {this.state.isLoading && <Backdrop />}
       </div >
     );
   }

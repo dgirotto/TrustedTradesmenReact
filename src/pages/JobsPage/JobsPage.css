@@ -1,15 +1,6 @@
-.job-details-table {
-  width: 100%;
-  margin: 25px 0;
-  border-spacing: 0px;
-}
-
-.job-details-table > tbody > tr > td {
-  padding: 10px;
-}
-
-.job-details-table > tbody > tr:nth-child(odd) {
-  background: rgb(250, 250, 250);
+.item-title {
+  margin: 8px 0 0;
+  font-weight: bold;
 }
 
 .status {
