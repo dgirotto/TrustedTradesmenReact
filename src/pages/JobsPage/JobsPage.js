@@ -5,7 +5,7 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
-import { FaFileAlt, FaFileInvoiceDollar, FaRegClock, FaGlobeAmericas, FaAt, FaPhone, FaUser, FaCalendarAlt, FaRegCalendarAlt, FaRegBuilding } from "react-icons/fa";
+import { FaFileAlt, FaFileInvoiceDollar, FaRegClock, FaGlobeAmericas, FaAt, FaPhone, FaUser, FaCalendarAlt, FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt } from "react-icons/fa";
 
 import "./JobsPage.css";
 
@@ -725,7 +725,7 @@ function Row(props) {
               {userType !== 1 && row.contractorId && (
                 <Auxil>
                   <p className="item-title">Contractor Details</p>
-                  <FaRegBuilding size={12} /> <a href={"/contractors/" + row.contractorId} target="_blank">{row.contractorCompany}</a><br />
+                  <FaRegBuilding size={12} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={12} /></a><br />
                   <FaUser size={12} /> {row.contractorName}<br />
                   <FaPhone size={12} /> {row.contractorPhone}<br />
                   <FaAt size={12} /> {row.contractorEmail}
@@ -734,7 +734,7 @@ function Row(props) {
               {row.invoicePrice && (
                 <Auxil>
                   <p className="item-title">Invoice Price</p>
-                  <FaFileInvoiceDollar size={12} /> ${(row.invoicePrice * 1.00).toFixed(2)} + HST (${invoicePriceHst.toFixed(2)})
+                  <FaFileInvoiceDollar size={12} /> ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span>
                   <p className="item-title">Invoice Accepted?</p>
                   {row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}
                 </Auxil>
@@ -742,7 +742,7 @@ function Row(props) {
               {row.invoiceAccepted === "1" && (
                 <Auxil>
                   <p className="item-title">Holding Fee</p>
-                  <FaFileInvoiceDollar size={12} /> ${holdingFee.toFixed(2)} + HST (${holdingFeeHst.toFixed(2)})
+                  <FaFileInvoiceDollar size={12} /> ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span>
                   <p className="item-title">Holding Fee Paid</p>
                   {row.holdingFeePaid ? "Yes" : "No"}
                 </Auxil>
