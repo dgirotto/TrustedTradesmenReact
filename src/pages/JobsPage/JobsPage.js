@@ -5,6 +5,7 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
+import { FaFileAlt, FaFileInvoiceDollar, FaRegClock, FaGlobeAmericas, FaAt, FaPhone, FaUser, FaCalendarAlt, FaRegCalendarAlt, FaRegBuilding } from "react-icons/fa";
 
 import "./JobsPage.css";
 
@@ -704,36 +705,36 @@ function Row(props) {
               <p className="item-title">Service</p>
               {row.serviceName}
               <p className="item-title">Creation Date</p>
-              {row.creationDate.split(" ")[0]}
+              <FaRegCalendarAlt size={12} /> {row.creationDate.split(" ")[0]}
               {userType !== 0 && (
                 <Auxil>
                   <p className="item-title">Customer Details</p>
-                  {row.customerName}<br />
-                  {row.customerPhone}<br />
-                  {row.customerEmail}
+                  <FaUser size={12} /> {row.customerName}<br />
+                  <FaPhone size={12} /> {row.customerPhone}<br />
+                  <FaAt size={12} /> {row.customerEmail}
                 </Auxil>
               )}
               <p className="item-title">Location</p>
-              {row.address}, {row.city}, {row.province}, {row.postalCode}
+              <FaGlobeAmericas size={12} /> {row.address}, {row.city}, {row.province}, {row.postalCode}
               <p className="item-title">Description</p>
               {row.description}
               <p className="item-title">Budget</p>
-              {row.budget}
+              <FaFileInvoiceDollar size={12} /> {row.budget}
               <p className="item-title">Time Frame</p>
-              {row.timeFrame} Month(s)
+              <FaRegClock size={12} /> {row.timeFrame} Month(s)
               {userType !== 1 && row.contractorId && (
                 <Auxil>
                   <p className="item-title">Contractor Details</p>
-                  <a href={"/contractors/" + row.contractorId} target="_blank">{row.contractorCompany}</a><br />
-                  {row.contractorName}<br />
-                  {row.contractorPhone}<br />
-                  {row.contractorEmail}
+                  <FaRegBuilding size={12} /> <a href={"/contractors/" + row.contractorId} target="_blank">{row.contractorCompany}</a><br />
+                  <FaUser size={12} /> {row.contractorName}<br />
+                  <FaPhone size={12} /> {row.contractorPhone}<br />
+                  <FaAt size={12} /> {row.contractorEmail}
                 </Auxil>
               )}
               {row.invoicePrice && (
                 <Auxil>
                   <p className="item-title">Invoice Price</p>
-                  ${(row.invoicePrice * 1.00).toFixed(2)} + HST (${invoicePriceHst.toFixed(2)})
+                  <FaFileInvoiceDollar size={12} /> ${(row.invoicePrice * 1.00).toFixed(2)} + HST (${invoicePriceHst.toFixed(2)})
                   <p className="item-title">Invoice Accepted?</p>
                   {row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}
                 </Auxil>
@@ -741,7 +742,7 @@ function Row(props) {
               {row.invoiceAccepted === "1" && (
                 <Auxil>
                   <p className="item-title">Holding Fee</p>
-                  ${holdingFee.toFixed(2)} + HST (${holdingFeeHst.toFixed(2)})
+                  <FaFileInvoiceDollar size={12} /> ${holdingFee.toFixed(2)} + HST (${holdingFeeHst.toFixed(2)})
                   <p className="item-title">Holding Fee Paid</p>
                   {row.holdingFeePaid ? "Yes" : "No"}
                 </Auxil>
@@ -749,27 +750,27 @@ function Row(props) {
               {row.completionDate && (
                 <Auxil>
                   <p className="item-title">Job Completion Date</p>
-                  {row.completionDate.split(" ")[0]}
+                  <FaRegCalendarAlt size={12} /> {row.completionDate.split(" ")[0]}
                 </Auxil>
               )}
               {userType !== 0 && row.contractorNotes && (
                 <Auxil>
                   <p className="item-title">Contractor Notes</p>
-                  {row.contractorNotes}
+                  <FaFileAlt size={12} /> {row.contractorNotes}
                 </Auxil>
               )}
               {userType !== 2 && row.inspectorId && (
                 <Auxil>
                   <p className="item-title">Inspector Details</p>
-                  {row.inspectorName}<br />
-                  {row.inspectorPhone}<br />
-                  {row.inspectorEmail}
+                  <FaUser size={12} /> {row.inspectorName}<br />
+                  <FaPhone size={12} /> {row.inspectorPhone}<br />
+                  <FaAt size={12} /> {row.inspectorEmail}
                 </Auxil>
               )}
               {row.inspectionDate && (
                 <Auxil>
                   <p className="item-title">Inspection Date</p>
-                  {row.inspectionDate.split(" ")[0]}
+                  <FaCalendarAlt size={12} /> {row.inspectionDate.split(" ")[0]}
                 </Auxil>
               )}
               {row.inspectionPassed !== null && (
@@ -781,7 +782,7 @@ function Row(props) {
               {userType !== 0 && row.inspectorNotes && (
                 <Auxil>
                   <p className="item-title">Inspector Notes</p>
-                  {row.inspectorNotes}
+                  <FaFileAlt size={12} /> {row.inspectorNotes}
                 </Auxil>
               )}
               {row.completionDate !== null && (
