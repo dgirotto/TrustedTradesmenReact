@@ -550,7 +550,6 @@ function Row(props) {
         );
       }
     }
-
     return content;
   }
 
@@ -604,7 +603,6 @@ function Row(props) {
     else {
       status = <Chip className="status completed" label="Completed" />;
     }
-
     return status;
   }
 
@@ -656,7 +654,6 @@ function Row(props) {
         </Auxil>
       );
     }
-
     return content;
   }
 
@@ -690,7 +687,6 @@ function Row(props) {
         content = <Alert severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
       }
     }
-
     return content;
   }
 
@@ -709,6 +705,14 @@ function Row(props) {
               {row.serviceName}
               <p className="item-title">Creation Date</p>
               {row.creationDate.split(" ")[0]}
+              {userType !== 0 && (
+                <Auxil>
+                  <p className="item-title">Customer Details</p>
+                  {row.customerName}<br />
+                  {row.customerPhone}<br />
+                  {row.customerEmail}
+                </Auxil>
+              )}
               <p className="item-title">Location</p>
               {row.address}, {row.city}, {row.province}, {row.postalCode}
               <p className="item-title">Description</p>
@@ -717,6 +721,15 @@ function Row(props) {
               {row.budget}
               <p className="item-title">Time Frame</p>
               {row.timeFrame} Month(s)
+              {userType !== 1 && row.contractorId && (
+                <Auxil>
+                  <p className="item-title">Contractor Details</p>
+                  <a href={"/contractors/" + row.contractorId} target="_blank">{row.contractorCompany}</a><br />
+                  {row.contractorName}<br />
+                  {row.contractorPhone}<br />
+                  {row.contractorEmail}
+                </Auxil>
+              )}
               {row.invoicePrice && (
                 <Auxil>
                   <p className="item-title">Invoice Price</p>
@@ -743,6 +756,14 @@ function Row(props) {
                 <Auxil>
                   <p className="item-title">Contractor Notes</p>
                   {row.contractorNotes}
+                </Auxil>
+              )}
+              {userType !== 2 && row.inspectorId && (
+                <Auxil>
+                  <p className="item-title">Inspector Details</p>
+                  {row.inspectorName}<br />
+                  {row.inspectorPhone}<br />
+                  {row.inspectorEmail}
                 </Auxil>
               )}
               {row.inspectionDate && (
