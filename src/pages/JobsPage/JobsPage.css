@@ -30,6 +30,11 @@
   font-family: 'Yantramanav', sans-serif;
 }
 
+.item-with-icon {
+  display: flex;
+  align-Items: center;
+}
+
 .status {
   width: 185px;
   text-align: center;
