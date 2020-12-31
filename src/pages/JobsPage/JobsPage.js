@@ -5,7 +5,10 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
-import { FaFileAlt, FaFileInvoiceDollar, FaRegClock, FaGlobeAmericas, FaAt, FaPhone, FaUser, FaCalendarAlt, FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt } from "react-icons/fa";
+import { 
+  FaFileAlt, FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaCalendarAlt, 
+  FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle 
+} from "react-icons/fa";
 
 import "./JobsPage.css";
 
@@ -699,98 +702,108 @@ function Row(props) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box className="job-details" margin={1}>
-              <p className="item-title">Job ID</p>
-              {row.jobId}
-              <p className="item-title">Service</p>
-              {row.serviceName}
-              <p className="item-title">Creation Date</p>
-              <FaRegCalendarAlt size={14} /> {row.creationDate.split(" ")[0]}
-              {userType !== 0 && (
-                <Auxil>
-                  <p className="item-title">Customer Details</p>
-                  <FaUser size={14} /> {row.customerName}<br />
-                  <FaPhone size={14} /> {row.customerPhone}<br />
-                  <FaAt size={14} /> {row.customerEmail}
-                </Auxil>
-              )}
-              <p className="item-title">Location</p>
-              <FaGlobeAmericas size={14} /> {row.address}, {row.city}, {row.province}, {row.postalCode}
-              <p className="item-title">Description</p>
-              {row.description}
-              <p className="item-title">Budget</p>
-              <FaFileInvoiceDollar size={14} /> {row.budget}
-              <p className="item-title">Time Frame</p>
-              <FaRegClock size={14} /> {row.timeFrame} Month(s)
-              {userType !== 1 && row.contractorId && (
-                <Auxil>
-                  <p className="item-title">Contractor Details</p>
-                  <FaRegBuilding size={14} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={14} /></a><br />
-                  <FaUser size={14} /> {row.contractorName}<br />
-                  <FaPhone size={14} /> {row.contractorPhone}<br />
-                  <FaAt size={14} /> {row.contractorEmail}
-                </Auxil>
-              )}
-              {row.invoicePrice && (
-                <Auxil>
-                  <p className="item-title">Invoice Price</p>
-                  <FaFileInvoiceDollar size={14} /> ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span>
-                  <p className="item-title">Invoice Accepted?</p>
-                  {row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}
-                </Auxil>
-              )}
-              {row.invoiceAccepted === "1" && (
-                <Auxil>
-                  <p className="item-title">Holding Fee</p>
-                  <FaFileInvoiceDollar size={14} /> ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span>
-                  <p className="item-title">Holding Fee Paid</p>
-                  {row.holdingFeePaid ? "Yes" : "No"}
-                </Auxil>
-              )}
-              {row.completionDate && (
-                <Auxil>
-                  <p className="item-title">Job Completion Date</p>
-                  <FaRegCalendarAlt size={14} /> {row.completionDate.split(" ")[0]}
-                </Auxil>
-              )}
-              {userType !== 0 && row.contractorNotes && (
-                <Auxil>
-                  <p className="item-title">Contractor Notes</p>
-                  <FaFileAlt size={14} /> {row.contractorNotes}
-                </Auxil>
-              )}
-              {userType !== 2 && row.inspectorId && (
-                <Auxil>
-                  <p className="item-title">Inspector Details</p>
-                  <FaUser size={14} /> {row.inspectorName}<br />
-                  <FaPhone size={14} /> {row.inspectorPhone}<br />
-                  <FaAt size={14} /> {row.inspectorEmail}
-                </Auxil>
-              )}
-              {row.inspectionDate && (
-                <Auxil>
-                  <p className="item-title">Inspection Date</p>
-                  <FaCalendarAlt size={14} /> {row.inspectionDate.split(" ")[0]}
-                </Auxil>
-              )}
-              {row.inspectionPassed !== null && (
-                <Auxil>
-                  <p className="item-title">Inspection Passed</p>
-                  {row.inspectionPassed === "1" ? "Yes" : "No"}
-                </Auxil>
-              )}
-              {userType !== 0 && row.inspectorNotes && (
-                <Auxil>
-                  <p className="item-title">Inspector Notes</p>
-                  <FaFileAlt size={14} /> {row.inspectorNotes}
-                </Auxil>
-              )}
-              {row.completionDate !== null && (
-                <Auxil>
-                  <p className="item-title">Invoice Paid?</p>
-                  {row.invoicePaid ? "Yes" : "No"}
-                </Auxil>
-              )}
+            <Box margin={1}>
+              <div className="job-details">
+                <div className="job-details-column">
+                  <p className="item-title">Job ID</p>
+                  {row.jobId}
+                  <p className="item-title">Service</p>
+                  {row.serviceName}
+                  <p className="item-title">Creation Date</p>
+                  <FaRegCalendarAlt size={15} /> {row.creationDate.split(" ")[0]}
+                  <p className="item-title">Location</p>
+                  {row.address}, {row.city}, {row.province}, {row.postalCode}
+                  <p className="item-title">Description</p>
+                  {row.description}
+                  <p className="item-title">Budget</p>
+                  <FaFileInvoiceDollar size={15} /> {row.budget}
+                  <p className="item-title">Time Frame</p>
+                  <FaRegClock size={15} /> {row.timeFrame} Month(s)
+                  {row.invoicePrice && (
+                    <Auxil>
+                      <p className="item-title">Invoice Details</p>
+                      <FaFileInvoiceDollar size={15} /> Total Price: ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span><br/>
+                      {row.invoiceAccepted === null ? 
+                        <span style={{ color: "grey" }}><FaMinusCircle size={15} /> Pending Response</span> : 
+                        row.invoiceAccepted === "1" ? 
+                          <span style={{ color: "green" }}><FaCheckCircle size={15} /> Accepted</span> : 
+                          <span style={{ color: "red" }}><FaTimesCircle size={15} /> Not Accepted</span>
+                      }<br/>
+                      {row.invoicePaid ? 
+                        <span style={{ color: "green" }}><FaCheckCircle size={15} /> Paid</span> : 
+                        <span style={{ color: "red" }}><FaTimesCircle size={15} /> Not Paid</span>
+                      }
+                    </Auxil>
+                  )}
+                  {row.invoiceAccepted === "1" && (
+                    <Auxil>
+                      <p className="item-title">Holding Fee Details</p>
+                      <FaFileInvoiceDollar size={15} /> Fee: ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span><br/>
+                      {row.holdingFeePaid ? 
+                        <span style={{ color: "green" }}><FaCheckCircle size={15} /> Paid</span> : 
+                        <span style={{ color: "red" }}><FaTimesCircle size={15} /> Not Paid</span>
+                      }
+                    </Auxil>
+                  )}
+                  {row.completionDate && (
+                    <Auxil>
+                      <p className="item-title">Job Completion Date</p>
+                      <FaRegCalendarAlt size={15} /> {row.completionDate.split(" ")[0]}
+                    </Auxil>
+                  )}
+                  {userType !== 0 && row.contractorNotes && (
+                    <Auxil>
+                      <p className="item-title">Contractor Notes</p>
+                      <FaFileAlt size={15} /> {row.contractorNotes}
+                    </Auxil>
+                  )}
+                  {row.inspectionDate && (
+                    <Auxil>
+                      <p className="item-title">Inspection Date</p>
+                      <FaCalendarAlt size={15} /> {row.inspectionDate.split(" ")[0]}
+                    </Auxil>
+                  )}
+                  {row.inspectionPassed !== null && (
+                    <Auxil>
+                      <p className="item-title">Inspection Passed</p>
+                      {row.inspectionPassed === "1" ? "Yes" : "No"}
+                    </Auxil>
+                  )}
+                  {userType !== 0 && row.inspectorNotes && (
+                    <Auxil>
+                      <p className="item-title">Inspector Notes</p>
+                      <FaFileAlt size={15} /> {row.inspectorNotes}
+                    </Auxil>
+                  )}
+                </div>
+                <div className="job-details-column">
+                  {userType !== 0 && (
+                    <Auxil>
+                      <p className="item-title">Customer Details</p>
+                      <FaUser size={15} /> {row.customerName}<br />
+                      <FaPhone size={15} /> {row.customerPhone}<br />
+                      <FaAt size={15} /> {row.customerEmail}
+                    </Auxil>
+                  )}
+                  {userType !== 1 && row.contractorId && (
+                    <Auxil>
+                      <p className="item-title">Contractor Details</p>
+                      <FaRegBuilding size={15} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={15} /></a><br />
+                      <FaUser size={15} /> {row.contractorName}<br />
+                      <FaPhone size={15} /> {row.contractorPhone}<br />
+                      <FaAt size={15} /> {row.contractorEmail}
+                    </Auxil>
+                  )}
+                  {userType !== 2 && row.inspectorId && (
+                    <Auxil>
+                      <p className="item-title">Inspector Details</p>
+                      <FaUser size={15} /> {row.inspectorName}<br />
+                      <FaPhone size={15} /> {row.inspectorPhone}<br />
+                      <FaAt size={15} /> {row.inspectorEmail}
+                    </Auxil>
+                  )}
+                </div>
+              </div>
               {getAlertContent()}
               {row.isAbandoned === null && getUIContent()}
             </Box>

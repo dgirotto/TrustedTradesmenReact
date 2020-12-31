@@ -1,9 +1,16 @@
 .job-details {
+  display: flex;
+  flex-wrap: wrap;
   font-size: 15px;
+  padding-bottom: 15px;
+}
+
+.job-details-column {
+  flex: 50%;
 }
 
 .item-title {
-  margin: 10px 0 2px;
+  margin: 10px 0 3px;
   font-weight: bold;
 }
 
@@ -68,6 +75,14 @@
 }
 
 @media (max-width: 660px) {
+  .job-details {
+    flex-direction: column;
+  }
+
+  .job-details-column {
+    flex: 100%;
+  }
+
   .desktop-table {
     display: none;
   }  
