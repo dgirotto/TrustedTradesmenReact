@@ -6,8 +6,8 @@ import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
 import { 
-  FaFileAlt, FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaCalendarAlt, 
-  FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle 
+  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt, 
+  FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle 
 } from "react-icons/fa";
 
 import "./JobsPage.css";
@@ -21,6 +21,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+import Card from "@material-ui/core/Card";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -700,107 +701,108 @@ function Row(props) {
         {getRowContent()}
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ padding: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <div className="job-details">
-                <div className="job-details-column">
-                  <p className="item-title">Job ID</p>
-                  {row.jobId}
-                  <p className="item-title">Service</p>
-                  {row.serviceName}
-                  <p className="item-title">Creation Date</p>
-                  <FaRegCalendarAlt size={15} /> {row.creationDate.split(" ")[0]}
-                  <p className="item-title">Location</p>
-                  {row.address}, {row.city}, {row.province}, {row.postalCode}
-                  <p className="item-title">Description</p>
-                  {row.description}
-                  <p className="item-title">Budget</p>
-                  <FaFileInvoiceDollar size={15} /> {row.budget}
-                  <p className="item-title">Time Frame</p>
-                  <FaRegClock size={15} /> {row.timeFrame} Month(s)
+                <div className="job-details-column job-details-column-1">
+                  <Card className="job-details-card">
+                    <p className="item-title">JOB ID</p>
+                    {row.jobId}
+                    <p className="item-title">SERVICE</p>
+                    {row.serviceName}
+                    <p className="item-title">CREATION DATE</p>
+                    <FaRegCalendarAlt size={16} /> {row.creationDate.split(" ")[0]}
+                    <p className="item-title">LOCATION</p>
+                    {row.address}, {row.city}, {row.province}, {row.postalCode}
+                    <p className="item-title">DESCRIPTION</p>
+                    {row.description}
+                    <p className="item-title">BUDGET</p>
+                    <FaFileInvoiceDollar size={16} /> {row.budget}
+                    <p className="item-title">TIME FRAME</p>
+                    <FaRegClock size={16} /> {row.timeFrame} Month(s)
+                  </Card>                  
                   {row.invoicePrice && (
-                    <Auxil>
-                      <p className="item-title">Invoice Details</p>
-                      <FaFileInvoiceDollar size={15} /> Total Price: ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span><br/>
+                    <Card className="job-details-card">
+                      <p className="item-title">INVOICE DETAILS</p>
+                      <FaFileInvoiceDollar size={16} /> Total Price: ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span><br/>
                       {row.invoiceAccepted === null ? 
-                        <span style={{ color: "grey" }}><FaMinusCircle size={15} /> Pending Response</span> : 
+                        <span style={{ color: "grey" }}><FaMinusCircle size={16} /> Pending Response</span> : 
                         row.invoiceAccepted === "1" ? 
-                          <span style={{ color: "green" }}><FaCheckCircle size={15} /> Accepted</span> : 
-                          <span style={{ color: "red" }}><FaTimesCircle size={15} /> Not Accepted</span>
+                          <span style={{ color: "green" }}><FaCheckCircle size={16} /> Accepted</span> : 
+                          <span style={{ color: "red" }}><FaTimesCircle size={16} /> Not Accepted</span>
                       }<br/>
                       {row.invoicePaid ? 
-                        <span style={{ color: "green" }}><FaCheckCircle size={15} /> Paid</span> : 
-                        <span style={{ color: "red" }}><FaTimesCircle size={15} /> Not Paid</span>
+                        <span style={{ color: "green" }}><FaCheckCircle size={16} /> Paid</span> : 
+                        <span style={{ color: "red" }}><FaTimesCircle size={16} /> Not Paid</span>
                       }
-                    </Auxil>
+                      {row.invoiceAccepted === "1" && (                      
+                        <Auxil>
+                          <p className="item-title">HOLDING FEE DETAILS</p>
+                          <FaFileInvoiceDollar size={16} /> Fee: ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span><br/>
+                          {row.holdingFeePaid ? 
+                            <span style={{ color: "green" }}><FaCheckCircle size={16} /> Paid</span> : 
+                            <span style={{ color: "red" }}><FaTimesCircle size={16} /> Not Paid</span>
+                          }
+                        </Auxil>
+                      )}
+                    </Card>         
                   )}
-                  {row.invoiceAccepted === "1" && (
-                    <Auxil>
-                      <p className="item-title">Holding Fee Details</p>
-                      <FaFileInvoiceDollar size={15} /> Fee: ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span><br/>
-                      {row.holdingFeePaid ? 
-                        <span style={{ color: "green" }}><FaCheckCircle size={15} /> Paid</span> : 
-                        <span style={{ color: "red" }}><FaTimesCircle size={15} /> Not Paid</span>
-                      }
-                    </Auxil>
-                  )}
+                  {/* TODO: Contractor notes disappear when job fails inspection (since row.completionDate is set to NULL) - need to rethink this part */}
                   {row.completionDate && (
-                    <Auxil>
-                      <p className="item-title">Job Completion Date</p>
-                      <FaRegCalendarAlt size={15} /> {row.completionDate.split(" ")[0]}
-                    </Auxil>
-                  )}
-                  {userType !== 0 && row.contractorNotes && (
-                    <Auxil>
-                      <p className="item-title">Contractor Notes</p>
-                      <FaFileAlt size={15} /> {row.contractorNotes}
-                    </Auxil>
+                    <Card className="job-details-card">
+                      <p className="item-title">JOB COMPLETION DATE</p>
+                      <FaRegCalendarAlt size={16} /> {row.completionDate.split(" ")[0]}                   
+                      {userType !== 0 && row.contractorNotes && (
+                        <Auxil>
+                          <p className="item-title">CONTRACTOR NOTES</p>
+                          {row.contractorNotes}
+                        </Auxil>
+                      )}
+                    </Card>
                   )}
                   {row.inspectionDate && (
-                    <Auxil>
-                      <p className="item-title">Inspection Date</p>
-                      <FaCalendarAlt size={15} /> {row.inspectionDate.split(" ")[0]}
-                    </Auxil>
-                  )}
-                  {row.inspectionPassed !== null && (
-                    <Auxil>
-                      <p className="item-title">Inspection Passed</p>
-                      {row.inspectionPassed === "1" ? "Yes" : "No"}
-                    </Auxil>
-                  )}
-                  {userType !== 0 && row.inspectorNotes && (
-                    <Auxil>
-                      <p className="item-title">Inspector Notes</p>
-                      <FaFileAlt size={15} /> {row.inspectorNotes}
-                    </Auxil>
+                    <Card className="job-details-card">
+                      <p className="item-title">INSPECTION DATE</p>
+                      <FaRegCalendarAlt size={16} /> {row.inspectionDate.split(" ")[0]}<br/>
+                      {row.inspectionPassed === "1" ? 
+                        <span style={{ color: "green" }}><FaCheckCircle size={16} /> Inspection Passed</span> : 
+                        <span style={{ color: "red" }}><FaTimesCircle size={16} /> Job Failed Inspection</span>
+                      }
+                      {userType !== 0 && row.inspectorNotes && (
+                        <Auxil>
+                          <p className="item-title">INSPECTOR NOTES</p>
+                          {row.inspectorNotes}
+                        </Auxil>
+                      )}
+                    </Card>
                   )}
                 </div>
-                <div className="job-details-column">
+                <div className="job-details-column job-details-column-2">
                   {userType !== 0 && (
-                    <Auxil>
-                      <p className="item-title">Customer Details</p>
-                      <FaUser size={15} /> {row.customerName}<br />
-                      <FaPhone size={15} /> {row.customerPhone}<br />
-                      <FaAt size={15} /> {row.customerEmail}
-                    </Auxil>
+                    <Card className="job-details-card">
+                      <p className="item-title">CUSTOMER DETAILS</p>
+                      <FaUser size={16} /> {row.customerName}<br />
+                      <FaPhone size={16} /> {row.customerPhone}<br />
+                      <FaAt size={16} /> {row.customerEmail}
+                    </Card>
                   )}
                   {userType !== 1 && row.contractorId && (
-                    <Auxil>
-                      <p className="item-title">Contractor Details</p>
-                      <FaRegBuilding size={15} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={15} /></a><br />
-                      <FaUser size={15} /> {row.contractorName}<br />
-                      <FaPhone size={15} /> {row.contractorPhone}<br />
-                      <FaAt size={15} /> {row.contractorEmail}
-                    </Auxil>
+                    <Card className="job-details-card">
+                      <p className="item-title">CONTRACTOR DETAILS</p>
+                      <FaRegBuilding size={16} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={16} /></a><br />
+                      <FaUser size={16} /> {row.contractorName}<br />
+                      <FaPhone size={16} /> {row.contractorPhone}<br />
+                      <FaAt size={16} /> {row.contractorEmail}
+                    </Card>
                   )}
                   {userType !== 2 && row.inspectorId && (
-                    <Auxil>
-                      <p className="item-title">Inspector Details</p>
-                      <FaUser size={15} /> {row.inspectorName}<br />
-                      <FaPhone size={15} /> {row.inspectorPhone}<br />
-                      <FaAt size={15} /> {row.inspectorEmail}
-                    </Auxil>
+                    <Card className="job-details-card">
+                      <p className="item-title">INSPECTOR DETAILS</p>
+                      <FaUser size={16} /> {row.inspectorName}<br />
+                      <FaPhone size={16} /> {row.inspectorPhone}<br />
+                      <FaAt size={16} /> {row.inspectorEmail}
+                    </Card>
                   )}
                 </div>
               </div>

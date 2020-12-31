@@ -2,16 +2,32 @@
   display: flex;
   flex-wrap: wrap;
   font-size: 15px;
-  padding-bottom: 15px;
 }
 
 .job-details-column {
-  flex: 50%;
+  box-sizing: border-box;
+}
+
+.job-details-column-1 {
+  flex: 65%;
+  padding: 0 5px 0 0;
+}
+
+.job-details-column-2 {
+  flex: 35%;
+  padding: 0 0 0 5px;
+}
+
+.job-details-card {
+  border-radius: 0px !important;
+  padding: 0 10px 10px;
+  margin-bottom: 10px;
 }
 
 .item-title {
   margin: 10px 0 3px;
   font-weight: bold;
+  font-family: 'Yantramanav', sans-serif;
 }
 
 .status {
@@ -74,15 +90,18 @@
   }
 }
 
-@media (max-width: 660px) {
+@media (max-width: 900px) {
   .job-details {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .job-details-column {
     flex: 100%;
+    padding: 0px;
   }
+}
 
+@media (max-width: 660px) {
   .desktop-table {
     display: none;
   }  
