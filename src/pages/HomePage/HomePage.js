@@ -12,11 +12,11 @@ class HomePage extends Component {
         <div className="intro-container">
           <h1 className="home-title">OUR MISSION</h1>
           <div className="intro">
-            <div className="intro-photo">
+            {/* <div className="intro-photo">
               <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
-            </div>
+            </div> */}
             <div className="intro-desc">
-              Hello!<br /><br />My name is Chris Willick. I've been a professional home inspector for over 20 years. I've seen my fair share of bad jobs
+              Hello,<br /><br />My name is Chris Willick. I've been a professional home inspector for over 20 years. I've seen my fair share of bad jobs
               done over the years so I've developed a site which will solve your issues with home inspections. This is the only site where you'll see ratings 
               by a contractor, and you'll also receive a rating from a qualified inspector who's also seen the job.<br /><br />Get started today!
             </div>

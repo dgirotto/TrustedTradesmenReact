@@ -699,42 +699,42 @@ function Row(props) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
+            <Box className="job-details" margin={1}>
               <p className="item-title">Job ID</p>
               {row.jobId}
               <p className="item-title">Service</p>
               {row.serviceName}
               <p className="item-title">Creation Date</p>
-              <FaRegCalendarAlt size={12} /> {row.creationDate.split(" ")[0]}
+              <FaRegCalendarAlt size={14} /> {row.creationDate.split(" ")[0]}
               {userType !== 0 && (
                 <Auxil>
                   <p className="item-title">Customer Details</p>
-                  <FaUser size={12} /> {row.customerName}<br />
-                  <FaPhone size={12} /> {row.customerPhone}<br />
-                  <FaAt size={12} /> {row.customerEmail}
+                  <FaUser size={14} /> {row.customerName}<br />
+                  <FaPhone size={14} /> {row.customerPhone}<br />
+                  <FaAt size={14} /> {row.customerEmail}
                 </Auxil>
               )}
               <p className="item-title">Location</p>
-              <FaGlobeAmericas size={12} /> {row.address}, {row.city}, {row.province}, {row.postalCode}
+              <FaGlobeAmericas size={14} /> {row.address}, {row.city}, {row.province}, {row.postalCode}
               <p className="item-title">Description</p>
               {row.description}
               <p className="item-title">Budget</p>
-              <FaFileInvoiceDollar size={12} /> {row.budget}
+              <FaFileInvoiceDollar size={14} /> {row.budget}
               <p className="item-title">Time Frame</p>
-              <FaRegClock size={12} /> {row.timeFrame} Month(s)
+              <FaRegClock size={14} /> {row.timeFrame} Month(s)
               {userType !== 1 && row.contractorId && (
                 <Auxil>
                   <p className="item-title">Contractor Details</p>
-                  <FaRegBuilding size={12} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={12} /></a><br />
-                  <FaUser size={12} /> {row.contractorName}<br />
-                  <FaPhone size={12} /> {row.contractorPhone}<br />
-                  <FaAt size={12} /> {row.contractorEmail}
+                  <FaRegBuilding size={14} /> {row.contractorCompany} <a href={"/contractors/" + row.contractorId} target="_blank"><FaExternalLinkAlt size={14} /></a><br />
+                  <FaUser size={14} /> {row.contractorName}<br />
+                  <FaPhone size={14} /> {row.contractorPhone}<br />
+                  <FaAt size={14} /> {row.contractorEmail}
                 </Auxil>
               )}
               {row.invoicePrice && (
                 <Auxil>
                   <p className="item-title">Invoice Price</p>
-                  <FaFileInvoiceDollar size={12} /> ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span>
+                  <FaFileInvoiceDollar size={14} /> ${invoicePriceHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${(row.invoicePrice * 1.00).toFixed(2)} + HST)</span>
                   <p className="item-title">Invoice Accepted?</p>
                   {row.invoiceAccepted === null ? <span>&ndash;</span> : row.invoiceAccepted === "1" ? "Yes" : "No"}
                 </Auxil>
@@ -742,7 +742,7 @@ function Row(props) {
               {row.invoiceAccepted === "1" && (
                 <Auxil>
                   <p className="item-title">Holding Fee</p>
-                  <FaFileInvoiceDollar size={12} /> ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span>
+                  <FaFileInvoiceDollar size={14} /> ${holdingFeeHst.toFixed(2)} <span style={{ fontStyle: "italic", color: "grey" }}>(${holdingFee.toFixed(2)} + HST)</span>
                   <p className="item-title">Holding Fee Paid</p>
                   {row.holdingFeePaid ? "Yes" : "No"}
                 </Auxil>
@@ -750,27 +750,27 @@ function Row(props) {
               {row.completionDate && (
                 <Auxil>
                   <p className="item-title">Job Completion Date</p>
-                  <FaRegCalendarAlt size={12} /> {row.completionDate.split(" ")[0]}
+                  <FaRegCalendarAlt size={14} /> {row.completionDate.split(" ")[0]}
                 </Auxil>
               )}
               {userType !== 0 && row.contractorNotes && (
                 <Auxil>
                   <p className="item-title">Contractor Notes</p>
-                  <FaFileAlt size={12} /> {row.contractorNotes}
+                  <FaFileAlt size={14} /> {row.contractorNotes}
                 </Auxil>
               )}
               {userType !== 2 && row.inspectorId && (
                 <Auxil>
                   <p className="item-title">Inspector Details</p>
-                  <FaUser size={12} /> {row.inspectorName}<br />
-                  <FaPhone size={12} /> {row.inspectorPhone}<br />
-                  <FaAt size={12} /> {row.inspectorEmail}
+                  <FaUser size={14} /> {row.inspectorName}<br />
+                  <FaPhone size={14} /> {row.inspectorPhone}<br />
+                  <FaAt size={14} /> {row.inspectorEmail}
                 </Auxil>
               )}
               {row.inspectionDate && (
                 <Auxil>
                   <p className="item-title">Inspection Date</p>
-                  <FaCalendarAlt size={12} /> {row.inspectionDate.split(" ")[0]}
+                  <FaCalendarAlt size={14} /> {row.inspectionDate.split(" ")[0]}
                 </Auxil>
               )}
               {row.inspectionPassed !== null && (
@@ -782,7 +782,7 @@ function Row(props) {
               {userType !== 0 && row.inspectorNotes && (
                 <Auxil>
                   <p className="item-title">Inspector Notes</p>
-                  <FaFileAlt size={12} /> {row.inspectorNotes}
+                  <FaFileAlt size={14} /> {row.inspectorNotes}
                 </Auxil>
               )}
               {row.completionDate !== null && (
