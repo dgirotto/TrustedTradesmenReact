@@ -5,6 +5,7 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
+import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt } from "react-icons/fa";
 
 import "./LeadsPage.css";
 
@@ -15,6 +16,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
 
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
@@ -129,39 +131,34 @@ function Row(props) {
         {getRowContent()}
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ padding: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <table className="job-details-table">
-                <tbody>
-                  <tr>
-                    <td>Service</td>
-                    <td>{row.serviceName}</td>
-                  </tr>
-                  <tr>
-                    <td>Creation Date</td>
-                    <td>{row.creationDate.split(" ")[0]}</td>
-                  </tr>
-                  <tr>
-                    <td>Location</td>
-                    <td>
-                      {row.address}, {row.city}, {row.province}, {row.postalCode}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Description</td>
-                    <td>{row.description}</td>
-                  </tr>
-                  <tr>
-                    <td>Budget</td>
-                    <td>{row.budget}</td>
-                  </tr>
-                  <tr>
-                    <td>Time Frame</td>
-                    <td>{row.timeFrame} Month(s)</td>
-                  </tr>
-                </tbody>
-              </table>
+              <Card className="job-details-card">
+                <p className="item-title">LEAD ID</p>
+                {row.leadId}
+                <p className="item-title">SERVICE</p>
+                {row.serviceName}
+                <p className="item-title">CREATION DATE</p>
+                <span className="item-with-icon">
+                  <FaRegCalendarAlt size={16} />&nbsp;
+                  {row.creationDate.split(" ")[0]}
+                </span>
+                <p className="item-title">LOCATION</p>
+                {row.address}, {row.city}, {row.province}, {row.postalCode}
+                <p className="item-title">DESCRIPTION</p>
+                {row.description}
+                <p className="item-title">BUDGET</p>
+                <span className="item-with-icon">
+                  <FaFileInvoiceDollar size={16} />&nbsp;
+                  {row.budget}
+                </span>
+                <p className="item-title">TIME FRAME</p>
+                <span className="item-with-icon">
+                  <FaRegClock size={16} />&nbsp;
+                  {row.timeFrame} Month(s)
+                </span>
+              </Card>              
               {(props.userType === 1) && (
                 <div className="button-container">
                   <Button
