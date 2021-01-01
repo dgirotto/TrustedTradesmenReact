@@ -738,7 +738,7 @@ function Row(props) {
                       <p className="item-title">INVOICE DETAILS</p>
                       <span className="item-with-icon">
                         <FaFileInvoiceDollar className="item-icon" size={16} />
-                        Total Price:&nbsp;<span style={{ fontWeight: "bold", color: "red" }}>${formatNumber(invoicePriceHst.toFixed(2))}</span>
+                        Total Price:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(invoicePriceHst.toFixed(2))}</span>
                       </span>
                       <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
                         ${formatNumber((row.invoicePrice * 1.00).toFixed(2))} + HST ({hstValue}%)
@@ -768,7 +768,7 @@ function Row(props) {
                           <p className="item-title">HOLDING FEE DETAILS</p>
                           <span className="item-with-icon">
                             <FaFileInvoiceDollar className="item-icon" size={16} />
-                            Fee:&nbsp;<span style={{ fontWeight: "bold", color: "red" }}>${formatNumber(holdingFeeHst.toFixed(2))}</span>
+                            Fee:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(holdingFeeHst.toFixed(2))}</span>
                           </span>
                           <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
                             ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%)
