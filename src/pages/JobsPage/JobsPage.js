@@ -5,12 +5,13 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
-import { 
-  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt, 
-  FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle 
+import {
+  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt,
+  FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle
 } from "react-icons/fa";
 
 import "./JobsPage.css";
+import { formatPhoneNumber, formatDate, formatNumber } from '../../helpers/Utils';
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -63,11 +64,12 @@ function Row(props) {
   const row = props.row;
   const userType = props.userType;
 
+  const hstValue = 0.13;
   const invoiceThreshold = 5000;
   const requiresInspection = parseInt(row.invoicePrice) >= invoiceThreshold;
   const holdingFee = row.invoicePrice * 0.15;
-  const holdingFeeHst = (row.invoicePrice * 0.15) * 1.16;
-  const invoicePriceHst = row.invoicePrice * 1.16;
+  const holdingFeeHst = (row.invoicePrice * 0.15) * (1 + hstValue);
+  const invoicePriceHst = row.invoicePrice * (1 + hstValue);
 
   const [open, setOpen] = React.useState(false);
   const [notes, setNotes] = React.useState(getNotes());
@@ -280,7 +282,7 @@ function Row(props) {
       else if (row.invoicePrice && row.invoiceAccepted === null) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${(row.invoicePrice * 1.00).toFixed(2)}</b> (HST not included).</Alert>
+            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div className="button-container">
                 <Button
@@ -411,7 +413,7 @@ function Row(props) {
       else if (row.completionDate !== null && row.invoicePaid === null) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The remainder of the invoice <b>${(invoicePriceHst - holdingFeeHst).toFixed(2)}</b> (${(row.invoicePrice - holdingFee).toFixed(2)} + HST) is owed by the customer.</Alert>
+            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${formatNumber((row.invoicePrice - holdingFee).toFixed(2))} + HST ({hstValue}) is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
@@ -538,7 +540,7 @@ function Row(props) {
       if (row.invoiceAccepted === "1" && row.holdingFeePaid === null) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">A holding fee of <b>${holdingFeeHst.toFixed(2)}</b> is owed by the customer.</Alert>
+            <Alert severity="info" color="info">A holding fee of <b>${formatNumber(holdingFeeHst.toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
@@ -626,7 +628,7 @@ function Row(props) {
                 <td>{row.address}, {row.city}</td>
               </tr>
               <tr>
-                <td>Created: {row.creationDate.split(" ")[0]}</td>
+                <td>Created: {formatDate(row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>{getJobStatus()}</td>
@@ -654,7 +656,7 @@ function Row(props) {
           <TableCell>{row.serviceName}</TableCell>
           <TableCell>{row.address}</TableCell>
           <TableCell>{row.city}</TableCell>
-          <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+          <TableCell>{formatDate(row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{getJobStatus()}</TableCell>
         </Auxil>
       );
@@ -666,21 +668,21 @@ function Row(props) {
     let content = null;
 
     if (row.isAbandoned === "1") {
-      content = <Alert severity="error" color="error">The job was cancelled by the customer on {row.lastUpdatedDate.split(" ")[0]}.</Alert>;
+      content = <Alert severity="error" color="error">The job was cancelled by the customer on {formatDate(row.lastUpdatedDate.split(" ")[0])}.</Alert>;
     }
     else if (userType === 0) {
       if (row.contractorId !== null && (row.invoicePrice === null || row.invoiceAccepted === "0")) {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
       else if (row.holdingFeePaid === null && row.invoiceAccepted === "1") {
-        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${holdingFeeHst.toFixed(2)}</b> (${holdingFee.toFixed(2)} + HST) to HOLDING_ACCOUNT_HERE.</Alert>;
+        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(holdingFeeHst.toFixed(2))}</b> ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%) to HOLDING_ACCOUNT_HERE.</Alert>;
       }
       else if (row.completionDate !== null) {
         if (row.invoicePaid === null) {
-          content = <Alert severity="info" color="info">The job was completed on {row.completionDate.split(" ")[0]}. Please send the remaining invoice payment of <b>${(invoicePriceHst - holdingFeeHst).toFixed(2)}</b> (${row.invoicePrice} - Holding Fee + HST) to the contractor.</Alert>;
+          content = <Alert severity="info" color="info">The job was completed on {formatDate(row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${row.invoicePrice} - Holding Fee + HST ({hstValue}%) to the contractor.</Alert>;
         }
         else if (row.invoicePaid === "1") {
-          content = <Alert severity="success" color="success">The job was completed on {row.completionDate.split(" ")[0]} and the invoice payment has been processed.</Alert>;
+          content = <Alert severity="success" color="success">The job was completed on {formatDate(row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
         }
       }
     }
@@ -713,8 +715,8 @@ function Row(props) {
                     {row.serviceName}
                     <p className="item-title">CREATION DATE</p>
                     <span className="item-with-icon">
-                      <FaRegCalendarAlt size={16} />&nbsp;
-                      {row.creationDate.split(" ")[0]}
+                      <FaRegCalendarAlt className="item-icon" size={16} />
+                      {formatDate(row.creationDate.split(" ")[0])}
                     </span>
                     <p className="item-title">LOCATION</p>
                     {row.address}, {row.city}, {row.province}, {row.postalCode}
@@ -722,74 +724,74 @@ function Row(props) {
                     {row.description}
                     <p className="item-title">BUDGET</p>
                     <span className="item-with-icon">
-                      <FaFileInvoiceDollar size={16} />&nbsp;
+                      <FaFileInvoiceDollar className="item-icon" size={16} />
                       {row.budget}
                     </span>
                     <p className="item-title">TIME FRAME</p>
                     <span className="item-with-icon">
-                      <FaRegClock size={16} />&nbsp;
+                      <FaRegClock className="item-icon" size={16} />
                       {row.timeFrame} Month(s)
                     </span>
-                  </Card>                  
+                  </Card>
                   {row.invoicePrice && (
                     <Card className="job-details-card">
                       <p className="item-title">INVOICE DETAILS</p>
                       <span className="item-with-icon">
-                        <FaFileInvoiceDollar size={16} />
-                        &nbsp;Total Price:&nbsp;<b>${invoicePriceHst.toFixed(2)}</b>
+                        <FaFileInvoiceDollar className="item-icon" size={16} />
+                        Total Price:&nbsp;<span style={{ fontWeight: "bold", color: "red" }}>${formatNumber(invoicePriceHst.toFixed(2))}</span>
                       </span>
                       <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
-                        (${(row.invoicePrice * 1.00).toFixed(2)} + HST)
+                        ${formatNumber((row.invoicePrice * 1.00).toFixed(2))} + HST ({hstValue}%)
                       </span>
-                      {row.invoiceAccepted === null ? 
+                      {row.invoiceAccepted === null ?
                         <span className="item-with-icon" style={{ color: "grey" }}>
-                          <FaMinusCircle size={16} />&nbsp;Pending Response
-                        </span> : 
-                        row.invoiceAccepted === "1" ? 
+                          <FaMinusCircle className="item-icon" size={16} />Pending Response
+                        </span> :
+                        row.invoiceAccepted === "1" ?
                           <span className="item-with-icon" style={{ color: "green" }}>
-                            <FaCheckCircle size={16} />&nbsp;Accepted
-                          </span> : 
+                            <FaCheckCircle className="item-icon" size={16} />Accepted
+                          </span> :
                           <span className="item-with-icon" style={{ color: "red" }}>
-                            <FaTimesCircle size={16} />&nbsp;Not Accepted
+                            <FaTimesCircle className="item-icon" size={16} />Not Accepted
                           </span>
                       }
-                      {row.invoicePaid ? 
+                      {row.invoicePaid ?
                         <span className="item-with-icon" style={{ color: "green" }}>
-                          <FaCheckCircle size={16} />&nbsp;Paid
-                        </span> : 
+                          <FaCheckCircle className="item-icon" size={16} />Paid
+                        </span> :
                         <span className="item-with-icon" style={{ color: "red" }}>
-                          <FaTimesCircle size={16} />&nbsp;Not Paid
+                          <FaTimesCircle className="item-icon" size={16} />Not Paid
                         </span>
                       }
-                      {row.invoiceAccepted === "1" && (                      
+                      {row.invoiceAccepted === "1" && (
                         <Auxil>
                           <p className="item-title">HOLDING FEE DETAILS</p>
                           <span className="item-with-icon">
-                            <FaFileInvoiceDollar size={16} />
-                            &nbsp;Fee:&nbsp;<b>${holdingFeeHst.toFixed(2)}</b>
+                            <FaFileInvoiceDollar className="item-icon" size={16} />
+                            Fee:&nbsp;<span style={{ fontWeight: "bold", color: "red" }}>${formatNumber(holdingFeeHst.toFixed(2))}</span>
                           </span>
                           <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
-                            (${holdingFee.toFixed(2)} + HST)
+                            ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%)
                           </span>
-                          {row.holdingFeePaid ? 
+                          {row.holdingFeePaid ?
                             <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle size={16} />&nbsp;Paid
-                            </span> : 
+                              <FaCheckCircle className="item-icon" size={16} />Paid
+                            </span> :
                             <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle size={16} />&nbsp;Not Paid
+                              <FaTimesCircle className="item-icon" size={16} />Not Paid
                             </span>
                           }
                         </Auxil>
                       )}
-                    </Card>         
+                    </Card>
                   )}
                   {/* TODO: Contractor notes disappear when job fails inspection (since row.completionDate is set to NULL) - need to rethink this part */}
                   {row.completionDate && (
                     <Card className="job-details-card">
                       <p className="item-title">JOB COMPLETION DATE</p>
                       <span className="item-with-icon">
-                        <FaRegCalendarAlt size={16} />&nbsp;
-                        {row.completionDate.split(" ")[0]}
+                        <FaRegCalendarAlt className="item-icon" size={16} />
+                        {formatDate(row.completionDate.split(" ")[0])}
                       </span>
                       {userType !== 0 && row.contractorNotes && (
                         <Auxil>
@@ -803,15 +805,15 @@ function Row(props) {
                     <Card className="job-details-card">
                       <p className="item-title">INSPECTION DATE</p>
                       <span className="item-with-icon">
-                        <FaRegCalendarAlt size={16} />&nbsp;
-                        {row.inspectionDate.split(" ")[0]}
+                        <FaRegCalendarAlt className="item-icon" size={16} />
+                        {formatDate(row.inspectionDate.split(" ")[0])}
                       </span>
-                      {row.inspectionPassed === "1" ? 
+                      {row.inspectionPassed === "1" ?
                         <span className="item-with-icon" style={{ color: "green" }}>
-                          <FaCheckCircle size={16} />&nbsp;Inspection Passed
+                          <FaCheckCircle className="item-icon" size={16} />Inspection Passed
                         </span> :
                         <span className="item-with-icon" style={{ color: "red" }}>
-                          <FaTimesCircle size={16} />&nbsp;Job Failed Inspection
+                          <FaTimesCircle className="item-icon" size={16} />Job Failed Inspection
                         </span>
                       }
                       {userType !== 0 && row.inspectorNotes && (
@@ -828,15 +830,15 @@ function Row(props) {
                     <Card className="job-details-card">
                       <p className="item-title">CUSTOMER DETAILS</p>
                       <span className="item-with-icon">
-                        <FaUser size={16} />&nbsp;
+                        <FaUser className="item-icon" size={16} />
                         {row.customerName}
                       </span>
                       <span className="item-with-icon">
-                        <FaPhone size={16} />&nbsp;
-                        {row.customerPhone}
+                        <FaPhone className="item-icon" size={16} />
+                        {formatPhoneNumber(row.customerPhone)}
                       </span>
                       <span className="item-with-icon">
-                        <FaAt size={16} />&nbsp;
+                        <FaAt className="item-icon" size={16} />
                         <a href={"mailto:" + row.customerEmail}>{row.customerEmail}</a>
                       </span>
                     </Card>
@@ -845,22 +847,22 @@ function Row(props) {
                     <Card className="job-details-card">
                       <p className="item-title">CONTRACTOR DETAILS</p>
                       <span className="item-with-icon">
-                        <FaRegBuilding size={16} />&nbsp;
+                        <FaRegBuilding className="item-icon" size={16} />
                         {row.contractorCompany}&nbsp;
                         <a className="item-with-icon" href={"/contractors/" + row.contractorId} rel="noopener noreferrer" target="_blank">
                           <FaExternalLinkAlt size={14} />
                         </a>
                       </span>
                       <span className="item-with-icon">
-                        <FaUser size={16} />&nbsp;
+                        <FaUser className="item-icon" size={16} />
                         {row.contractorName}
                       </span>
                       <span className="item-with-icon">
-                        <FaPhone size={16} />&nbsp;
-                        {row.contractorPhone}
+                        <FaPhone className="item-icon" size={16} />
+                        {formatPhoneNumber(row.contractorPhone)}
                       </span>
                       <span className="item-with-icon">
-                        <FaAt size={16} />&nbsp;
+                        <FaAt className="item-icon" size={16} />
                         <a href={"mailto:" + row.contractorEmail}>{row.contractorEmail}</a>
                       </span>
                     </Card>
@@ -869,15 +871,15 @@ function Row(props) {
                     <Card className="job-details-card">
                       <p className="item-title">INSPECTOR DETAILS</p>
                       <span className="item-with-icon">
-                        <FaUser size={16} />&nbsp;
+                        <FaUser className="item-icon" size={16} />
                         {row.inspectorName}
                       </span>
                       <span className="item-with-icon">
-                        <FaPhone size={16} />&nbsp;
-                        {row.inspectorPhone}
+                        <FaPhone className="item-icon" size={16} />
+                        {formatPhoneNumber(row.inspectorPhone)}
                       </span>
                       <span className="item-with-icon">
-                        <FaAt size={16} />&nbsp;
+                        <FaAt className="item-icon" size={16} />
                         <a href={"mailto:" + row.inspectorEmail}>{row.inspectorEmail}</a>
                       </span>
                     </Card>

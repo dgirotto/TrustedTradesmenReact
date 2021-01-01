@@ -35,6 +35,10 @@
   align-Items: center;
 }
 
+.item-icon {
+  padding-right: 5px;
+}
+
 .status {
   width: 185px;
   text-align: center;
