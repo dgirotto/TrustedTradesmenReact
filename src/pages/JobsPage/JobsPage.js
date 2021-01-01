@@ -626,7 +626,7 @@ function Row(props) {
                 <td>{row.address}, {row.city}</td>
               </tr>
               <tr>
-                <td>Creation Date: {row.creationDate.split(" ")[0]}</td>
+                <td>Created: {row.creationDate.split(" ")[0]}</td>
               </tr>
               <tr>
                 <td>{getJobStatus()}</td>
@@ -735,11 +735,11 @@ function Row(props) {
                     <Card className="job-details-card">
                       <p className="item-title">INVOICE DETAILS</p>
                       <span className="item-with-icon">
-                        <FaFileInvoiceDollar size={16} />&nbsp;Total Price: $
-                        {invoicePriceHst.toFixed(2)}
-                        <span style={{ fontStyle: "italic", color: "grey" }}>
-                          &nbsp;(${(row.invoicePrice * 1.00).toFixed(2)} + HST)
-                        </span>
+                        <FaFileInvoiceDollar size={16} />
+                        &nbsp;Total Price:&nbsp;<b>${invoicePriceHst.toFixed(2)}</b>
+                      </span>
+                      <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
+                        (${(row.invoicePrice * 1.00).toFixed(2)} + HST)
                       </span>
                       {row.invoiceAccepted === null ? 
                         <span className="item-with-icon" style={{ color: "grey" }}>
@@ -765,11 +765,11 @@ function Row(props) {
                         <Auxil>
                           <p className="item-title">HOLDING FEE DETAILS</p>
                           <span className="item-with-icon">
-                            <FaFileInvoiceDollar size={16} />&nbsp;Fee: $
-                            {holdingFeeHst.toFixed(2)} 
-                            <span style={{ fontStyle: "italic", color: "grey" }}>
-                              &nbsp;(${holdingFee.toFixed(2)} + HST)
-                            </span>
+                            <FaFileInvoiceDollar size={16} />
+                            &nbsp;Fee:&nbsp;<b>${holdingFeeHst.toFixed(2)}</b>
+                          </span>
+                          <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
+                            (${holdingFee.toFixed(2)} + HST)
                           </span>
                           {row.holdingFeePaid ? 
                             <span className="item-with-icon" style={{ color: "green" }}>
