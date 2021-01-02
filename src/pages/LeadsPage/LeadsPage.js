@@ -8,6 +8,7 @@ import Auxil from "../../helpers/Auxil";
 import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt } from "react-icons/fa";
 
 import "./LeadsPage.css";
+import { formatDate } from '../../helpers/Utils';
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -88,7 +89,7 @@ function Row(props) {
                 <td>{row.address}, {row.city}</td>
               </tr>
               <tr>
-                <td>Created: {row.creationDate.split(" ")[0]}</td>
+                <td>Submitted: {formatDate(row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>Time Frame: {row.timeFrame} Month(s)</td>
@@ -116,7 +117,7 @@ function Row(props) {
           <TableCell>{row.serviceName}</TableCell>
           <TableCell>{row.address}</TableCell>
           <TableCell>{row.city}</TableCell>
-          <TableCell>{row.creationDate.split(" ")[0]}</TableCell>
+          <TableCell>{formatDate(row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{row.timeFrame} Month(s)</TableCell>
         </Auxil>
       );
@@ -139,10 +140,10 @@ function Row(props) {
                 {row.leadId}
                 <p className="item-title">SERVICE</p>
                 {row.serviceName}
-                <p className="item-title">CREATION DATE</p>
+                <p className="item-title">SUBMISSION DATE</p>
                 <span className="item-with-icon">
                   <FaRegCalendarAlt size={16} />&nbsp;
-                  {row.creationDate.split(" ")[0]}
+                  {formatDate(row.creationDate.split(" ")[0])}
                 </span>
                 <p className="item-title">LOCATION</p>
                 {row.address}, {row.city}, {row.province}, {row.postalCode}
@@ -158,7 +159,7 @@ function Row(props) {
                   <FaRegClock size={16} />&nbsp;
                   {row.timeFrame} Month(s)
                 </span>
-              </Card>              
+              </Card>
               {(props.userType === 1) && (
                 <div className="button-container">
                   <Button
@@ -228,7 +229,7 @@ class LeadsPage extends Component {
                         <b>City</b>
                       </TableCell>
                       <TableCell>
-                        <b>Created</b>
+                        <b>Submitted</b>
                       </TableCell>
                       <TableCell>
                         <b>Time Frame</b>

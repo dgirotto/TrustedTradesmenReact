@@ -144,7 +144,7 @@ class ServiceDetailsPage extends Component {
           <div className="textfield-container">
             <br />
             <p style={{ fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 type="text"
                 name="description"
@@ -154,7 +154,7 @@ class ServiceDetailsPage extends Component {
                 onChange={this.jobDetailsChange}
               />
             </div>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 select
                 name="budget"
@@ -170,7 +170,7 @@ class ServiceDetailsPage extends Component {
                 ))}
               </TextField>
             </div>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 select
                 name="timeFrame"
@@ -186,7 +186,7 @@ class ServiceDetailsPage extends Component {
                 ))}
               </TextField>
             </div>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 type="text"
                 name="address"
@@ -196,7 +196,7 @@ class ServiceDetailsPage extends Component {
                 onChange={this.jobDetailsChange}
               />
             </div>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 type="text"
                 name="city"
@@ -206,7 +206,7 @@ class ServiceDetailsPage extends Component {
                 onChange={this.jobDetailsChange}
               />
             </div>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 type="text"
                 name="postalCode"
@@ -216,7 +216,7 @@ class ServiceDetailsPage extends Component {
                 onChange={this.jobDetailsChange}
               />
             </div>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 select
                 name="province"

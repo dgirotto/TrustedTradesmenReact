@@ -126,7 +126,7 @@ class LoginPage extends Component {
           {!this.state.showResetForm ? (
             <Auxil>
               <h1 className="login-form-title">LOGIN</h1>
-              <div className="textfield-container-row">
+              <div className="textfield-container-col">
                 <TextField
                   type="text"
                   name="email"
@@ -136,7 +136,7 @@ class LoginPage extends Component {
                   onChange={this.change}
                 />
               </div>
-              <div className="textfield-container-row">
+              <div className="textfield-container-col">
                 <TextField
                   type="password"
                   name="password"
@@ -211,13 +211,13 @@ class LoginPage extends Component {
               </Auxil>
             )}
         </div>
-        
+
         {this.state.isLoading && <Backdrop />}
 
         <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}
-          onClose={this.toggleSnackbar}            
+          onClose={this.toggleSnackbar}
         >
           <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
             {this.state.message}

@@ -233,7 +233,7 @@ function Row(props) {
                   <b>{row.contractors.length}</b> contractors have shown an interest in your job!
                 </Alert>
               )}
-            <div className="textfield-container-row" style={{ marginTop: "15px" }}>
+            <div className="textfield-container-col" style={{ marginTop: "15px" }}>
               <TextField
                 select
                 name="contractor"
@@ -339,7 +339,7 @@ function Row(props) {
             {row.invoiceAccepted === "0" && (
               <Alert severity="error" color="error">The customer rejected your invoice of $<b>{row.invoicePrice}</b>. Please enter a new price.</Alert>
             )}
-            <div className="textfield-container-row" style={{ marginTop: "15px" }}>
+            <div className="textfield-container-col" style={{ marginTop: "15px" }}>
               <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
               <TextField
                 type="text"
@@ -371,7 +371,7 @@ function Row(props) {
             {requiresInspection && (
               <Auxil>
                 <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
-                <div className="textfield-container-row">
+                <div className="textfield-container-col">
                   <TextField
                     multiline
                     rowsMax={6}
@@ -387,7 +387,7 @@ function Row(props) {
               </Auxil>
             )}
             <span className="field-desc">Record the date when the job was completed.</span>
-            <div className="textfield-container-row">
+            <div className="textfield-container-col">
               <TextField
                 type="date"
                 value={completionDate}
@@ -470,7 +470,7 @@ function Row(props) {
               <Auxil>
                 {content}
                 <span className="field-desc">Record any relevant notes to pass back to the contractor.</span>
-                <div className="textfield-container-row">
+                <div className="textfield-container-col">
                   <TextField
                     multiline
                     rowsMax={6}
@@ -491,7 +491,7 @@ function Row(props) {
             <Auxil>
               {content}
               <span className="field-desc">Record the date when the inspection was completed.</span>
-              <div className="textfield-container-row">
+              <div className="textfield-container-col">
                 <TextField
                   type="date"
                   value={completionDate}

@@ -20,9 +20,32 @@
 
 .textfield-container-row {
   display: flex;
-  flex: 1;
+  justify-content: space-between;
+}
+
+.textfield-container-col {
+  display: flex;
   flex-direction: column;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
+  flex: 1;
+}
+
+.textfield-container-col:first-child {
+  padding-right: 5px;
+}
+
+.textfield-container-col:last-child {
+  padding-left: 5px;
+}
+
+.textfield-container-col:not(:first-child):not(:last-child) {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+:not(.textfield-container-row) > .textfield-container-col {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .button-container {
@@ -43,5 +66,13 @@
   .page-container {
     padding: 0 20px 20px;
   }
-  
+
+  .textfield-container-row {
+    flex-direction: column;
+  }
+
+  .textfield-container-col {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
 }

@@ -93,7 +93,7 @@ class RegisterPage extends Component {
       <div className="register-page-container">
         <div className="login-form">
           <h1 className="login-form-title">REGISTER</h1>
-          <div className="textfield-container-row">
+          <div className="textfield-container-col">
             <TextField
               type="text"
               name="email"
@@ -103,7 +103,7 @@ class RegisterPage extends Component {
               onChange={this.change}
             />
           </div>
-          <div className="textfield-container-row">
+          <div className="textfield-container-col">
             <TextField
               type="password"
               name="password"
@@ -113,7 +113,7 @@ class RegisterPage extends Component {
               onChange={this.change}
             />
           </div>
-          <div className="textfield-container-row">
+          <div className="textfield-container-col">
             <TextField
               type="password"
               name="confirmPassword"
@@ -138,7 +138,7 @@ class RegisterPage extends Component {
           </Button>
           <div className="have-account-msg">
             Already have an account? Login <a href="/login">here</a>.
-          </div>          
+          </div>
         </div>
 
         {this.state.isLoading && <Backdrop />}
@@ -146,7 +146,7 @@ class RegisterPage extends Component {
         <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}
-          onClose={this.toggleSnackbar}            
+          onClose={this.toggleSnackbar}
         >
           <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
             {this.state.message}
