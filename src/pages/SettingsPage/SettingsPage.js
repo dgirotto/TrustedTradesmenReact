@@ -234,7 +234,6 @@ class SettingsPage extends Component {
                   />
                 </div>
               </div>
-
               <div className="textfield-container-col">
                 <TextField
                   type="text"
@@ -245,7 +244,6 @@ class SettingsPage extends Component {
                   onChange={this.accountDetailsChange}
                 />
               </div>
-
               <div className="textfield-container-row">
                 <div className="textfield-container-col">
                   <TextField

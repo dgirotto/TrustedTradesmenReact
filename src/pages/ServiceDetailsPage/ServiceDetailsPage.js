@@ -65,15 +65,20 @@ class ServiceDetailsPage extends Component {
     super(props);
     this.state = {
       serviceDetails: null,
+      accountDetails: null,
       jobDetails: {
         serviceId: this.props.match.params.id,
         budget: null,
         description: null,
+        firstName: null,
+        lastName: null,
+        phone: null,
         address: null,
         city: null,
         postalCode: null,
         province: null
       },
+      updateContactDetails: false,
       userType: AuthService.getRole(),
       isLoading: true
     };
@@ -90,13 +95,24 @@ class ServiceDetailsPage extends Component {
           .then(res => {
             var jobDetailsCopy = this.state.jobDetails;
 
+            jobDetailsCopy.firstName = res.data.firstName;
+            jobDetailsCopy.lastName = res.data.lastName;
+            jobDetailsCopy.phone = res.data.phone;
             jobDetailsCopy.address = res.data.address;
             jobDetailsCopy.city = res.data.city;
             jobDetailsCopy.province = res.data.province;
             jobDetailsCopy.postalCode = res.data.postalCode;
 
+            var accountDetails = {
+              firstName: res.data.firstName,
+              lastName: res.data.lastName,
+              phone: res.data.phone
+            };
+
             this.setState({
               jobDetails: jobDetailsCopy,
+              accountDetails: accountDetails,
+              updateContactDetails: !(res.data.firstName && res.data.lastName && res.data.phone),
               isLoading: false
             });
           })
@@ -124,8 +140,23 @@ class ServiceDetailsPage extends Component {
   submitJobClickHandler = () => {
     this.setState({ isLoading: true });
 
+    if (this.state.updateContactDetails) {
+      AccountService.setAccountDetails(
+        {
+          firstName: this.state.jobDetails.firstName,
+          lastName: this.state.jobDetails.lastName,
+          phone: this.state.jobDetails.phone
+        }
+      )
+        .catch(error => {
+          this.displayMessage("Error while updating account details: " + error.response + "; Job not submitted.", false);
+          this.setState({ isLoading: false });
+          return;
+        });
+    }
+
     JobService.addJob(this.state.jobDetails)
-      .then(res => {
+      .then(() => {
         this.setState({ isLoading: false });
       })
       .catch(error => {
@@ -187,6 +218,41 @@ class ServiceDetailsPage extends Component {
                 </TextField>
               </div>
             </div>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="firstName"
+                  label="First Name"
+                  value={this.state.jobDetails.firstName || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                  disabled={this.state.accountDetails.firstName}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  value={this.state.jobDetails.lastName || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                  disabled={this.state.accountDetails.lastName}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="phone"
+                  label="Phone"
+                  value={this.state.jobDetails.phone || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                  disabled={this.state.accountDetails.phone}
+                />
+              </div>
+            </div>
             <div className="textfield-container-col">
               <TextField
                 type="text"
@@ -244,6 +310,9 @@ class ServiceDetailsPage extends Component {
                   this.state.jobDetails.description &&
                   this.state.jobDetails.budget &&
                   this.state.jobDetails.timeFrame &&
+                  this.state.jobDetails.firstName &&
+                  this.state.jobDetails.lastName &&
+                  this.state.jobDetails.phone &&
                   this.state.jobDetails.address &&
                   this.state.jobDetails.city &&
                   this.state.jobDetails.postalCode &&

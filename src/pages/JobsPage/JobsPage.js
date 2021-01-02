@@ -344,7 +344,7 @@ function Row(props) {
               <TextField
                 type="text"
                 name="invoicePrice"
-                label="invoice price"
+                label="Invoice Price"
                 value={invoicePrice}
                 variant="outlined"
                 onChange={event => {
@@ -376,7 +376,7 @@ function Row(props) {
                     multiline
                     rowsMax={6}
                     type="text"
-                    label="notes"
+                    label="Notes"
                     value={notes}
                     variant="outlined"
                     onChange={event => {
@@ -475,7 +475,7 @@ function Row(props) {
                     multiline
                     rowsMax={6}
                     type="text"
-                    label="notes"
+                    label="Notes"
                     value={notes}
                     variant="outlined"
                     onChange={event => {
@@ -590,7 +590,7 @@ function Row(props) {
     else if (userType === "1" && row.invoiceAccepted === "0") {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (row.holdingFeePaid === "1" && row.completionDate === null) {
+    else if (row.holdingFeePaid === "1" && (row.completionDate === null || row.inspectionPassed === "0")) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
     else if (requiresInspection && (row.inspectorId === null || row.inspectionPassed === null || row.inspectionPassed === "0")) {
@@ -677,7 +677,7 @@ function Row(props) {
       else if (row.holdingFeePaid === null && row.invoiceAccepted === "1") {
         content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(holdingFeeHst.toFixed(2))}</b> ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%) to HOLDING_ACCOUNT_HERE.</Alert>;
       }
-      else if (row.completionDate !== null) {
+      else if (row.completionDate !== null && (!requiresInspection || (requiresInspection && row.inspectionPassed === "1"))) {
         if (row.invoicePaid === null) {
           content = <Alert severity="info" color="info">The job was completed on {formatDate(row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${row.invoicePrice} - Holding Fee + HST ({hstValue}%) to the contractor.</Alert>;
         }
@@ -785,7 +785,6 @@ function Row(props) {
                       )}
                     </Card>
                   )}
-                  {/* TODO: Contractor notes disappear when job fails inspection (since row.completionDate is set to NULL) - need to rethink this part */}
                   {row.completionDate && (
                     <Card className="job-details-card">
                       <p className="item-title">JOB COMPLETION DATE</p>
