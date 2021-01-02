@@ -459,35 +459,37 @@ class SettingsPage extends Component {
               <br />
               <br />
               <h2 className="form-title">CHANGE PASSWORD</h2>
-              <div className="textfield-container-col">
-                <TextField
-                  type="password"
-                  name="password"
-                  label="Old Password"
-                  value={this.state.passwordDetails.password || ""}
-                  variant="outlined"
-                  onChange={this.passwordChange}
-                />
-              </div>
-              <div className="textfield-container-col">
-                <TextField
-                  type="password"
-                  name="newPassword"
-                  label="New Password"
-                  value={this.state.passwordDetails.newPassword || ""}
-                  variant="outlined"
-                  onChange={this.passwordChange}
-                />
-              </div>
-              <div className="textfield-container-col">
-                <TextField
-                  type="password"
-                  name="confirmNewPassword"
-                  label="Confirm New Password"
-                  value={this.state.passwordDetails.confirmNewPassword || ""}
-                  variant="outlined"
-                  onChange={this.passwordChange}
-                />
+              <div className="textfield-container-row">
+                <div className="textfield-container-col">
+                  <TextField
+                    type="password"
+                    name="password"
+                    label="Old Password"
+                    value={this.state.passwordDetails.password || ""}
+                    variant="outlined"
+                    onChange={this.passwordChange}
+                  />
+                </div>
+                <div className="textfield-container-col">
+                  <TextField
+                    type="password"
+                    name="newPassword"
+                    label="New Password"
+                    value={this.state.passwordDetails.newPassword || ""}
+                    variant="outlined"
+                    onChange={this.passwordChange}
+                  />
+                </div>
+                <div className="textfield-container-col">
+                  <TextField
+                    type="password"
+                    name="confirmNewPassword"
+                    label="Confirm New Password"
+                    value={this.state.passwordDetails.confirmNewPassword || ""}
+                    variant="outlined"
+                    onChange={this.passwordChange}
+                  />
+                </div>
               </div>
               <Button
                 onClick={this.changePasswordClickHandler}

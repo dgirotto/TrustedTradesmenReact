@@ -142,95 +142,98 @@ class ServiceDetailsPage extends Component {
         <p>{this.state.serviceDetails.description}</p>
         {this.state.userType === 0 && (
           <div className="textfield-container">
-            <br />
-            <p style={{ fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
+            <p style={{ marginTop: "50px", fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
             <div className="textfield-container-col">
               <TextField
                 type="text"
                 name="description"
-                label="description"
+                label="Description"
                 value={this.state.jobDetails.description || ""}
                 variant="outlined"
                 onChange={this.jobDetailsChange}
               />
             </div>
-            <div className="textfield-container-col">
-              <TextField
-                select
-                name="budget"
-                label="budget"
-                value={this.state.jobDetails.budget || ""}
-                onChange={this.jobDetailsChange}
-                variant="outlined"
-              >
-                {this.budgets.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.value}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
-            <div className="textfield-container-col">
-              <TextField
-                select
-                name="timeFrame"
-                label="time frame"
-                value={this.state.jobDetails.timeFrame || ""}
-                onChange={this.jobDetailsChange}
-                variant="outlined"
-              >
-                {this.timeFrames.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="budget"
+                  label="Budget"
+                  value={this.state.jobDetails.budget || ""}
+                  onChange={this.jobDetailsChange}
+                  variant="outlined"
+                >
+                  {this.budgets.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="timeFrame"
+                  label="Time Frame"
+                  value={this.state.jobDetails.timeFrame || ""}
+                  onChange={this.jobDetailsChange}
+                  variant="outlined"
+                >
+                  {this.timeFrames.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
             </div>
             <div className="textfield-container-col">
               <TextField
                 type="text"
                 name="address"
-                label="address"
+                label="Address"
                 value={this.state.jobDetails.address || ""}
                 variant="outlined"
                 onChange={this.jobDetailsChange}
               />
             </div>
-            <div className="textfield-container-col">
-              <TextField
-                type="text"
-                name="city"
-                label="city"
-                value={this.state.jobDetails.city || ""}
-                variant="outlined"
-                onChange={this.jobDetailsChange}
-              />
-            </div>
-            <div className="textfield-container-col">
-              <TextField
-                type="text"
-                name="postalCode"
-                label="postal code"
-                value={this.state.jobDetails.postalCode || ""}
-                variant="outlined"
-                onChange={this.jobDetailsChange}
-              />
-            </div>
-            <div className="textfield-container-col">
-              <TextField
-                select
-                name="province"
-                label="province"
-                value={this.state.jobDetails.province || ""}
-                onChange={this.jobDetailsChange}
-                variant="outlined"
-              >
-                {this.provinces.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="city"
+                  label="City"
+                  value={this.state.jobDetails.city || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="Postal Code"
+                  value={this.state.jobDetails.postalCode || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="province"
+                  label="Province"
+                  value={this.state.jobDetails.province || ""}
+                  onChange={this.jobDetailsChange}
+                  variant="outlined"
+                >
+                  {this.provinces.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
             </div>
             <Button
               onClick={this.submitJobClickHandler}
