@@ -365,7 +365,7 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.invoiceAccepted === "1" && row.holdingFeePaid && row.completionDate === null) {
+      else if (row.invoiceAccepted === "1" && row.holdingFeePaid && (row.completionDate === null || row.inspectionPassed === "0")) {
         content = (
           <Auxil>
             {requiresInspection && (
@@ -410,10 +410,10 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.completionDate !== null && row.invoicePaid === null) {
+      else if (row.invoicePaid === null && ((row.completionDate !== null && !requiresInspection) || row.inspectionPassed)) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${formatNumber((row.invoicePrice - holdingFee).toFixed(2))} + HST ({hstValue}) is owed by the customer.</Alert>
+            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${formatNumber((row.invoicePrice - holdingFee).toFixed(2))} + HST ({hstValue}%) is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
@@ -448,7 +448,7 @@ function Row(props) {
           </div>
         );
       }
-      else if (row.completionDate !== null && (row.inspectionDate === null || row.inspectionPassed === "0")) {
+      else if (row.completionDate !== null && row.inspectionPassed === null) {
         content = (
           <RadioGroup
             value={inspectionPassed}
@@ -671,15 +671,18 @@ function Row(props) {
       content = <Alert severity="error" color="error">The job was cancelled by the customer on {formatDate(row.lastUpdatedDate.split(" ")[0])}.</Alert>;
     }
     else if (userType === 0) {
-      if (row.contractorId !== null && (row.invoicePrice === null || row.invoiceAccepted === "0")) {
+      if (row.contractorId !== null && row.invoicePrice === null) {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
+      }
+      if (row.contractorId !== null && row.invoiceAccepted === "0") {
+        content = <Alert severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
       }
       else if (row.holdingFeePaid === null && row.invoiceAccepted === "1") {
         content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(holdingFeeHst.toFixed(2))}</b> ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%) to HOLDING_ACCOUNT_HERE.</Alert>;
       }
       else if (row.completionDate !== null && (!requiresInspection || (requiresInspection && row.inspectionPassed === "1"))) {
         if (row.invoicePaid === null) {
-          content = <Alert severity="info" color="info">The job was completed on {formatDate(row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${row.invoicePrice} - Holding Fee + HST ({hstValue}%) to the contractor.</Alert>;
+          content = <Alert severity="info" color="info">The job was completed on {formatDate(row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> (${row.invoicePrice} - Holding Fee + HST ({hstValue}%)) to the contractor.</Alert>;
         }
         else if (row.invoicePaid === "1") {
           content = <Alert severity="success" color="success">The job was completed on {formatDate(row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
@@ -745,14 +748,14 @@ function Row(props) {
                       </span>
                       {row.invoiceAccepted === null ?
                         <span className="item-with-icon" style={{ color: "grey" }}>
-                          <FaMinusCircle className="item-icon" size={16} />Pending Response
+                          <FaMinusCircle className="item-icon" size={16} />Pending Approval
                         </span> :
                         row.invoiceAccepted === "1" ?
                           <span className="item-with-icon" style={{ color: "green" }}>
                             <FaCheckCircle className="item-icon" size={16} />Accepted
                           </span> :
                           <span className="item-with-icon" style={{ color: "red" }}>
-                            <FaTimesCircle className="item-icon" size={16} />Not Accepted
+                            <FaTimesCircle className="item-icon" size={16} />Declined
                           </span>
                       }
                       {row.invoicePaid ?
