@@ -140,9 +140,7 @@ class RegisterPage extends Component {
             Already have an account? Login <a href="/login">here</a>.
           </div>
         </div>
-
         {this.state.isLoading && <Backdrop />}
-
         <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}

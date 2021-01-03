@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
 import Auxil from "../../helpers/Auxil";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Title from "../../components/UI/Title/Title";
@@ -11,6 +14,10 @@ import { ServicesService } from "../../services/service";
 import { AccountService } from "../../services/account";
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
+
+function AlertPopup(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class ServiceDetailsPage extends Component {
   budgets = [
@@ -67,20 +74,14 @@ class ServiceDetailsPage extends Component {
       serviceDetails: null,
       accountDetails: null,
       jobDetails: {
-        serviceId: this.props.match.params.id,
-        budget: null,
-        description: null,
-        firstName: null,
-        lastName: null,
-        phone: null,
-        address: null,
-        city: null,
-        postalCode: null,
-        province: null
+        serviceId: this.props.match.params.id
       },
       updateContactDetails: false,
       userType: AuthService.getRole(),
-      isLoading: true
+      isLoading: true,
+      showSnackbar: false,
+      isError: false,
+      message: ""
     };
   }
 
@@ -156,13 +157,33 @@ class ServiceDetailsPage extends Component {
     }
 
     JobService.addJob(this.state.jobDetails)
-      .then(() => {
-        this.setState({ isLoading: false });
+      .then(res => {
+        var cleanJobDetails = this.state.jobDetails;
+        cleanJobDetails.description = null;
+        cleanJobDetails.budget = null;
+        cleanJobDetails.timeFrame = null;
+
+        this.setState({
+          jobDetails: cleanJobDetails,
+          isLoading: false,
+          showSnackbar: true,
+          isError: false,
+          message: res.data.message
+        });
       })
       .catch(error => {
         this.displayMessage("Error while adding job: " + error.response, false);
-        this.setState({ isLoading: false });
+        this.setState({
+          isLoading: false,
+          showSnackbar: true,
+          isError: true,
+          message: error.response.data.message
+        });
       });
+  };
+
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
   };
 
   renderContent() {
@@ -331,7 +352,17 @@ class ServiceDetailsPage extends Component {
   render() {
     return (
       <div className="page-container">
-        {!this.state.isLoading ? this.renderContent() : <Backdrop />}
+        {this.state.isLoading ? <Backdrop /> : this.renderContent()}
+
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={5000}
+          onClose={this.toggleSnackbar}
+        >
+          <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+            {this.state.message}
+          </AlertPopup>
+        </Snackbar>
       </div>
     );
   }
