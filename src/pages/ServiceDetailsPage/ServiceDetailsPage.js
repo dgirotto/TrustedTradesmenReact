@@ -163,7 +163,14 @@ class ServiceDetailsPage extends Component {
         cleanJobDetails.budget = null;
         cleanJobDetails.timeFrame = null;
 
+        var updatedAccountDetails = {
+          firstName: this.state.jobDetails.firstName,
+          lastName: this.state.jobDetails.lastName,
+          phone: this.state.jobDetails.phone
+        };
+
         this.setState({
+          accountDetails: updatedAccountDetails,
           jobDetails: cleanJobDetails,
           isLoading: false,
           showSnackbar: true,
