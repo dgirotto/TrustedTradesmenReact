@@ -19,6 +19,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TablePagination from '@material-ui/core/TablePagination';
+
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -904,16 +906,14 @@ class JobsPage extends Component {
   state = {
     userType: null,
     jobs: null,
-    itemsPerPage: 10,
-    pageNumber: 1,
     jobCount: null,
+    pageNumber: 0,
+    itemsPerPage: 10,
     isLoading: true
   };
 
-  componentDidMount() {
-    this.setState({ userType: AuthService.getRole() });
-
-    JobService.getJobs(this.state.pageNumber, this.state.itemsPerPage)
+  getJobs = () => {
+    JobService.getJobs(this.state.pageNumber + 1, this.state.itemsPerPage)
       .then(res => {
         this.setState({
           jobs: res.data.jobs,
@@ -925,6 +925,30 @@ class JobsPage extends Component {
         console.error("Error while getting jobs" + err.response);
         this.setState({ isLoading: false });
       });
+  }
+
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      pageNumber: newPage
+    }, () => {
+      this.getJobs();
+    });
+  }
+
+  handleChangeItemsPerPage = (event) => {
+    this.setState({
+      itemsPerPage: event.target.value
+    }, () => {
+      this.getJobs();
+    });
+  }
+
+  componentDidMount() {
+    this.setState({
+      userType: AuthService.getRole()
+    }, () => {
+      this.getJobs();
+    });
   }
 
   render() {
@@ -987,6 +1011,16 @@ class JobsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
+
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={this.state.jobCount}
+                rowsPerPage={this.state.itemsPerPage}
+                page={this.state.pageNumber}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeItemsPerPage}
+              />
 
             </ThemeProvider>
 
