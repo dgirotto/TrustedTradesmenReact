@@ -827,66 +827,68 @@ function Row(props) {
                     </Card>
                   )}
                 </div>
-                <div className="job-details-column job-details-column-2">
-                  {userType !== 0 && (
-                    <Card className="job-details-card">
-                      <p className="item-title">CUSTOMER DETAILS</p>
-                      <span className="item-with-icon">
-                        <FaUser className="item-icon" size={16} />
-                        {row.customerName}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaPhone className="item-icon" size={16} />
-                        {formatPhoneNumber(row.customerPhone)}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaAt className="item-icon" size={16} />
-                        <a href={"mailto:" + row.customerEmail}>{row.customerEmail}</a>
-                      </span>
-                    </Card>
-                  )}
-                  {userType !== 1 && row.contractorId && (
-                    <Card className="job-details-card">
-                      <p className="item-title">CONTRACTOR DETAILS</p>
-                      <span className="item-with-icon">
-                        <FaRegBuilding className="item-icon" size={16} />
-                        {row.contractorCompany}&nbsp;
+                {!(userType === 0 && row.contractorId === null) && (
+                  <div className="job-details-column job-details-column-2">
+                    {userType !== 0 && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CUSTOMER DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {row.customerName}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {formatPhoneNumber(row.customerPhone)}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + row.customerEmail}>{row.customerEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                    {userType !== 1 && row.contractorId && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaRegBuilding className="item-icon" size={16} />
+                          {row.contractorCompany}&nbsp;
                         <a className="item-with-icon" href={"/contractors/" + row.contractorId} rel="noopener noreferrer" target="_blank">
-                          <FaExternalLinkAlt size={14} />
-                        </a>
-                      </span>
-                      <span className="item-with-icon">
-                        <FaUser className="item-icon" size={16} />
-                        {row.contractorName}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaPhone className="item-icon" size={16} />
-                        {formatPhoneNumber(row.contractorPhone)}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaAt className="item-icon" size={16} />
-                        <a href={"mailto:" + row.contractorEmail}>{row.contractorEmail}</a>
-                      </span>
-                    </Card>
-                  )}
-                  {userType !== 2 && row.inspectorId && (
-                    <Card className="job-details-card">
-                      <p className="item-title">INSPECTOR DETAILS</p>
-                      <span className="item-with-icon">
-                        <FaUser className="item-icon" size={16} />
-                        {row.inspectorName}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaPhone className="item-icon" size={16} />
-                        {formatPhoneNumber(row.inspectorPhone)}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaAt className="item-icon" size={16} />
-                        <a href={"mailto:" + row.inspectorEmail}>{row.inspectorEmail}</a>
-                      </span>
-                    </Card>
-                  )}
-                </div>
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        </span>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {row.contractorName}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {formatPhoneNumber(row.contractorPhone)}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + row.contractorEmail}>{row.contractorEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                    {userType !== 2 && row.inspectorId && (
+                      <Card className="job-details-card">
+                        <p className="item-title">INSPECTOR DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {row.inspectorName}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {formatPhoneNumber(row.inspectorPhone)}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + row.inspectorEmail}>{row.inspectorEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                  </div>
+                )}
               </div>
               {getAlertContent()}
               {row.isAbandoned === null && getUIContent()}
@@ -902,15 +904,22 @@ class JobsPage extends Component {
   state = {
     userType: null,
     jobs: null,
+    itemsPerPage: 10,
+    pageNumber: 1,
+    jobCount: null,
     isLoading: true
   };
 
   componentDidMount() {
     this.setState({ userType: AuthService.getRole() });
 
-    JobService.getJobs()
+    JobService.getJobs(this.state.pageNumber, this.state.itemsPerPage)
       .then(res => {
-        this.setState({ jobs: res.data, isLoading: false });
+        this.setState({
+          jobs: res.data.jobs,
+          jobCount: res.data.job_count,
+          isLoading: false
+        });
       })
       .catch(err => {
         console.error("Error while getting jobs" + err.response);

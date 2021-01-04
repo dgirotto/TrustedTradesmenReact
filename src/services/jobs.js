@@ -4,19 +4,29 @@ import { config } from "../config.js";
 
 const commonEndpoint = config.dev.apiUrl;
 
-function getJobs() {
+function getJobs(pageNumber, itemsPerPage) {
   const headers = getHeaders();
-  return axios.get(`${commonEndpoint}/job/read.php`, { headers });
+  return axios.get(
+    `${commonEndpoint}/job/read.php?pageNumber=${pageNumber}&itemsPerPage=${itemsPerPage}`,
+    { headers }
+  );
 }
 
 function addJob(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/job/add.php`, body, { headers });
+  return axios.post(
+    `${commonEndpoint}/job/add.php`,
+    body,
+    { headers }
+  );
 }
 
 function updateJob(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/job/update.php`, body, { headers });
+  return axios.post(`${commonEndpoint}/job/update.php`,
+    body,
+    { headers }
+  );
 }
 
 function getHeaders() {

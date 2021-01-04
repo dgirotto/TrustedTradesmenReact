@@ -10,12 +10,21 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Card from "@material-ui/core/Card";
 
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
 import { ServicesService } from "../../services/service";
 
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
+
+const muiCardStyleOverride = {
+  border: "1px solid rgba(224, 224, 224, 1)",
+  boxShadow: "none",
+  borderRadius: "0px",
+  padding: "20px",
+  marginTop: "10px"
+};
 
 class SettingsPage extends Component {
   provinces = [
@@ -201,7 +210,7 @@ class SettingsPage extends Component {
         {this.state.accountDetails.email && (
           <Auxil>
             <Title>SETTINGS</Title>
-            <div className="textfield-container">
+            <Card style={muiCardStyleOverride}>
               <div className="textfield-container-row">
                 <div className="textfield-container-col">
                   <TextField
@@ -454,9 +463,9 @@ class SettingsPage extends Component {
               >
                 SAVE DETAILS
               </Button>
-              <br />
-              <br />
-              <h2 className="form-title">CHANGE PASSWORD</h2>
+            </Card>
+            <Card style={muiCardStyleOverride}>
+              <h2 className="form-title" style={{ marginTop: "0px" }}>CHANGE PASSWORD</h2>
               <div className="textfield-container-row">
                 <div className="textfield-container-col">
                   <TextField
@@ -503,11 +512,12 @@ class SettingsPage extends Component {
               >
                 CHANGE PASSWORD
               </Button>
-            </div>
+            </Card>
           </Auxil>
-        )}
-        {this.state.isLoading ? <Backdrop /> : null}
-      </div>
+        )
+        }
+        { this.state.isLoading ? <Backdrop /> : null}
+      </div >
     );
   }
 }
