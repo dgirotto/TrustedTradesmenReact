@@ -16,6 +16,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TablePagination from '@material-ui/core/TablePagination';
+
 import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
 
@@ -190,20 +192,50 @@ class LeadsPage extends Component {
   state = {
     userType: null,
     leads: null,
+    leadCount: null,
+    pageNumber: 0,
+    itemsPerPage: 10,
     isLoading: true
   };
 
-  componentDidMount() {
-    this.setState({ userType: AuthService.getRole() });
-
-    LeadsService.getLeads()
+  getLeads = () => {
+    LeadsService.getLeads(this.state.pageNumber + 1, this.state.itemsPerPage)
       .then(res => {
-        this.setState({ leads: res.data, isLoading: false });
+        this.setState({
+          leads: res.data.leads,
+          leadCount: res.data.lead_count,
+          isLoading: false
+        });
       })
       .catch(err => {
-        console.error("Error while getting leads: " + err.response);
+        console.error("Error while getting leads" + err.response);
         this.setState({ isLoading: false });
       });
+  }
+
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      pageNumber: newPage
+    }, () => {
+      this.getLeads();
+    });
+  }
+
+  handleChangeItemsPerPage = (event) => {
+    this.setState({
+      pageNumber: 0,
+      itemsPerPage: event.target.value
+    }, () => {
+      this.getLeads();
+    });
+  }
+
+  componentDidMount() {
+    this.setState({
+      userType: AuthService.getRole()
+    }, () => {
+      this.getLeads();
+    });
   }
 
   render() {
@@ -263,6 +295,17 @@ class LeadsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
+
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                component="div"
+                count={this.state.leadCount}
+                rowsPerPage={this.state.itemsPerPage}
+                page={this.state.pageNumber}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeItemsPerPage}
+              />
+
             </ThemeProvider>
           </Auxil>
         )}

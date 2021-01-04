@@ -6,22 +6,36 @@ const commonEndpoint = config.dev.apiUrl;
 
 function getAccountDetails() {
   const headers = getHeaders();
-  return axios.get(`${commonEndpoint}/user/read_one.php`, { headers });
+  return axios.get(
+    `${commonEndpoint}/user/read_one.php`,
+    { headers }
+  );
 }
 
 function setAccountDetails(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/user/update.php`, body, { headers });
+  return axios.post(
+    `${commonEndpoint}/user/update.php`,
+    body,
+    { headers }
+  );
 }
 
 function changePassword(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/user/change_pwd.php`, body, { headers });
+  return axios.post(
+    `${commonEndpoint}/user/change_pwd.php`,
+    body,
+    { headers }
+  );
 }
 
 function getContractorDetails(contractorId) {
   const headers = getHeaders();
-  return axios.get(`${commonEndpoint}/user/read_contractor.php?contractorId=${contractorId}`, { headers });
+  return axios.get(
+    `${commonEndpoint}/user/read_contractor.php?contractorId=${contractorId}`,
+    { headers }
+  );
 }
 
 function getHeaders() {

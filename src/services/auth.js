@@ -5,7 +5,10 @@ import { config } from "../config.js";
 const commonEndpoint = config.dev.apiUrl;
 
 function login(body) {
-  return axios.post(`${commonEndpoint}/user/login.php`, body);
+  return axios.post(
+    `${commonEndpoint}/user/login.php`,
+    body
+  );
 }
 
 function logout() {
@@ -15,13 +18,24 @@ function logout() {
 function register(body, setHeader = false) {
   if (setHeader) {
     const headers = getHeaders();
-    return axios.post(`${commonEndpoint}/user/register.php`, body, { headers });
+    return axios.post(
+      `${commonEndpoint}/user/register.php`,
+      body,
+      { headers }
+    );
   }
-  return axios.post(`${commonEndpoint}/user/register.php`, body);
+
+  return axios.post(
+    `${commonEndpoint}/user/register.php`,
+    body
+  );
 }
 
 function resetPassword(body) {
-  return axios.post(`${commonEndpoint}/user/reset_pwd.php`, body);
+  return axios.post(
+    `${commonEndpoint}/user/reset_pwd.php`,
+    body
+  );
 }
 
 function getRole() {

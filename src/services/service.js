@@ -20,12 +20,15 @@ function getServices(readAll) {
 
 function addService(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/service/add.php`, body, { headers });
+  return axios.post(
+    `${commonEndpoint}/service/add.php`,
+    body,
+    { headers }
+  );
 }
 
 function getHeaders() {
   const token = CacheService.getCachedToken();
-
   return {
     "Content-Type": "application/json",
     Authorization: "Bearer " + token
