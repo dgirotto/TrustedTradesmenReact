@@ -937,6 +937,7 @@ class JobsPage extends Component {
 
   handleChangeItemsPerPage = (event) => {
     this.setState({
+      pageNumber: 0,
       itemsPerPage: event.target.value
     }, () => {
       this.getJobs();
@@ -1013,7 +1014,7 @@ class JobsPage extends Component {
               </TableContainer>
 
               <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
+                rowsPerPageOptions={[10, 25, 50]}
                 component="div"
                 count={this.state.jobCount}
                 rowsPerPage={this.state.itemsPerPage}
