@@ -83,6 +83,21 @@ export class Row extends Component {
     reportSent: false
   };
 
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      isAbandoned: newProps.row.isAbandoned,
+      row: newProps.row,
+      userType: newProps.userType,
+      open: false,
+      notes: this.getNotes,
+      invoicePrice: 0,
+      completionDate: "",
+      contractor: newProps.row.contractors && newProps.row.contractors.length > 0 ? newProps.row.contractors[0].contractorId : null,
+      inspectionPassed: null,
+      reportSent: false
+    });
+  }
+
   getNotes = () => {
     if (this.state.userType === 1) {
       return this.state.row.contractorNotes;
