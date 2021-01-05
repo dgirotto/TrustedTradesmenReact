@@ -63,7 +63,6 @@ var tableTheme = createMuiTheme({
 });
 
 export class Row extends Component {
-
   hstValue = 0.13;
   invoiceThreshold = 5000;
   requiresInspection = parseInt(this.props.row.invoicePrice) >= this.invoiceThreshold;
@@ -84,8 +83,12 @@ export class Row extends Component {
   };
 
   componentWillReceiveProps(newProps) {
+    this.requiresInspection = parseInt(newProps.row.invoicePrice) >= this.invoiceThreshold;
+    this.holdingFee = newProps.row.invoicePrice * 0.15;
+    this.holdingFeeHst = (newProps.row.invoicePrice * 0.15) * (1 + this.hstValue);
+    this.invoicePriceHst = newProps.row.invoicePrice * (1 + this.hstValue);
+
     this.setState({
-      isAbandoned: newProps.row.isAbandoned,
       row: newProps.row,
       userType: newProps.userType,
       open: false,
@@ -588,12 +591,12 @@ export class Row extends Component {
     let status = null;
 
     if (this.state.row.isAbandoned === "1") {
-      status = <Chip className="status cancelled" label="Job Cancelled" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status cancelled" label="Job Cancelled" />;
     }
     else if (this.state.row.contractorId === null) {
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         status = (
-          <Chip className="status interested" label={this.state.row.contractors.length === 1 ?
+          <Chip style={{ borderRadius: "5px" }} className="status interested" label={this.state.row.contractors.length === 1 ?
             <span><b>1</b> Contractor Interested</span> :
             <span><b>{this.state.row.contractors.length}</b> Contractors Interested</span>
           } />
@@ -601,38 +604,38 @@ export class Row extends Component {
       }
       else {
         status = (
-          <Chip className="status required" label="Contractor Required" />
+          <Chip style={{ borderRadius: "5px" }} className="status required" label="Contractor Required" />
         );
       }
     }
     else if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
-      status = <Chip className="status required" label="Invoice Required" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Invoice Required" />;
     }
     else if (this.state.row.invoiceAccepted === null) {
-      status = <Chip className="status required" label="Response Required" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Response Required" />;
     }
     else if (this.state.userType === "1" && this.state.row.invoiceAccepted === "0") {
-      status = <Chip className="status in-progress" label="Invoice Rejected" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Invoice Rejected" />;
     }
     else if (this.state.row.holdingFeePaid === "1" && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
-      status = <Chip className="status in-progress" label="Job In Progress" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Job In Progress" />;
     }
     else if (this.requiresInspection && (this.state.row.inspectorId === null || this.state.row.inspectionPassed === null || this.state.row.inspectionPassed === "0")) {
       if (this.state.row.inspectorId === null) {
-        status = <Chip className="status required" label="Inspector Required" />;
+        status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Inspector Required" />;
       }
       else if (this.state.row.inspectionPassed === null) {
-        status = <Chip className="status required" label="Requires Inspection" />;
+        status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Requires Inspection" />;
       }
       else {
-        status = <Chip className="status required" label="Requires Revisit" />;
+        status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Requires Revisit" />;
       }
     }
     else if (this.state.row.holdingFeePaid === null || this.state.row.invoicePaid === null) {
-      status = <Chip className="status required" label="Payment Required" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Payment Required" />;
     }
     else {
-      status = <Chip className="status completed" label="Completed" />;
+      status = <Chip style={{ borderRadius: "5px" }} className="status completed" label="Completed" />;
     }
     return status;
   }
@@ -1025,15 +1028,16 @@ class JobsPage extends Component {
               <TableContainer className="mobile-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableBody>
-                    {/* {this.state.jobs.map(job => (
+                    {this.state.jobs.map(job => (
                       <Row
                         key={job.jobId}
                         row={job}
                         userType={this.state.userType}
                         contractor={null}
                         isMobile={true}
+                        getJobs={this.getJobs}
                       />
-                    ))} */}
+                    ))}
                   </TableBody>
                 </Table>
               </TableContainer>
