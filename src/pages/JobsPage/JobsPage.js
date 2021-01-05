@@ -122,7 +122,7 @@ export class Row extends Component {
 
     JobService.updateJob(body)
       .then(() => {
-        this.props.getJobs();
+        this.props.getJobs(true);
       })
       .catch(err => {
         console.error("Error while claiming job" + err.response);
@@ -134,7 +134,7 @@ export class Row extends Component {
 
     JobService.updateJob(body)
       .then(() => {
-        this.props.getJobs();
+        this.props.getJobs(true);
       })
       .catch(err => {
         console.error("Error while abandoning job" + err.response);
@@ -146,7 +146,7 @@ export class Row extends Component {
 
     JobService.updateJob(body)
       .then(() => {
-        this.props.getJobs();
+        this.props.getJobs(true);
       })
       .catch(err => {
         console.error("Error while accepting job invoice" + err.response);
@@ -161,7 +161,7 @@ export class Row extends Component {
 
     JobService.updateJob(body)
       .then(() => {
-        this.props.getJobs();
+        this.props.getJobs(true);
       })
       .catch(err => {
         console.error("Error while updating job invoice" + err.response);
@@ -182,7 +182,7 @@ export class Row extends Component {
 
     JobService.updateJob(body)
       .then(() => {
-        this.props.getJobs();
+        this.props.getJobs(true);
       })
       .catch(err => {
         console.error("Error while updating job invoice status" + err.response);
@@ -213,7 +213,7 @@ export class Row extends Component {
 
     JobService.updateJob(body)
       .then(() => {
-        this.props.getJobs();
+        this.props.getJobs(true);
       })
       .catch(err => {
         console.error("Error while updating job" + err.response);
@@ -939,12 +939,15 @@ class JobsPage extends Component {
     isLoading: true
   };
 
-  getJobs = () => {
-    JobService.getJobs(this.state.pageNumber + 1, this.state.itemsPerPage)
+  getJobs = (loadFirstPage = false) => {
+    var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
+
+    JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage)
       .then(res => {
         this.setState({
           jobs: res.data.jobs,
           jobCount: res.data.job_count,
+          pageNumber: pageNumberToLoad,
           isLoading: false
         });
       })
