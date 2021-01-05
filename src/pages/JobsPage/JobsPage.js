@@ -62,98 +62,100 @@ var tableTheme = createMuiTheme({
   }
 });
 
-function Row(props) {
-  const row = props.row;
-  const userType = props.userType;
+export class Row extends Component {
 
-  const hstValue = 0.13;
-  const invoiceThreshold = 5000;
-  const requiresInspection = parseInt(row.invoicePrice) >= invoiceThreshold;
-  const holdingFee = row.invoicePrice * 0.15;
-  const holdingFeeHst = (row.invoicePrice * 0.15) * (1 + hstValue);
-  const invoicePriceHst = row.invoicePrice * (1 + hstValue);
+  hstValue = 0.13;
+  invoiceThreshold = 5000;
+  requiresInspection = parseInt(this.props.row.invoicePrice) >= this.invoiceThreshold;
+  holdingFee = this.props.row.invoicePrice * 0.15;
+  holdingFeeHst = (this.props.row.invoicePrice * 0.15) * (1 + this.hstValue);
+  invoicePriceHst = this.props.row.invoicePrice * (1 + this.hstValue);
 
-  const [open, setOpen] = React.useState(false);
-  const [notes, setNotes] = React.useState(getNotes());
-  const [invoicePrice, setPrice] = React.useState(0);
-  const [completionDate, setDate] = React.useState("");
-  const [contractor, setContractor] = React.useState(row.contractors && row.contractors.length > 0 ? row.contractors[0].contractorId : null);
-  const [inspectionPassed, setInspection] = React.useState(null);
-  const [reportSent, setReport] = React.useState(false);
+  state = {
+    row: this.props.row,
+    userType: this.props.userType,
+    open: false,
+    notes: this.getNotes,
+    invoicePrice: 0,
+    completionDate: "",
+    contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
+    inspectionPassed: null,
+    reportSent: false
+  };
 
-  function getNotes() {
-    if (userType === 1) {
-      return row.contractorNotes;
+  getNotes = () => {
+    if (this.state.userType === 1) {
+      return this.state.row.contractorNotes;
     }
-    else if (userType === 2) {
-      return row.inspectorNotes
+    else if (this.state.userType === 2) {
+      return this.state.row.inspectorNotes
     }
     else {
       return "";
     }
   }
 
-  function claimJob() {
-    let body = { jobId: row.jobId };
+  claimJob = () => {
+    let body = { jobId: this.props.row.jobId };
 
-    if (contractor !== null) {
-      body.contractorId = contractor;
+    if (this.state.contractor !== null) {
+      body.contractorId = this.state.contractor;
     }
 
     JobService.updateJob(body)
       .then(() => {
-        window.location.reload();
+        this.props.getJobs();
       })
       .catch(err => {
         console.error("Error while claiming job" + err.response);
       });
   }
 
-  function cancelJob() {
-    let body = { jobId: row.jobId, isAbandoned: true };
+  cancelJob = () => {
+    let body = { jobId: this.state.row.jobId, isAbandoned: true };
 
     JobService.updateJob(body)
       .then(() => {
-        window.location.reload();
+        this.props.getJobs();
       })
       .catch(err => {
         console.error("Error while abandoning job" + err.response);
       });
   }
 
-  function acceptInvoice(isAccepted) {
-    let body = { jobId: row.jobId, invoiceAccepted: isAccepted };
+  acceptInvoice = (isAccepted) => {
+    let body = { jobId: this.state.row.jobId, invoiceAccepted: isAccepted };
 
     JobService.updateJob(body)
       .then(() => {
-        window.location.reload();
+        this.props.getJobs();
       })
       .catch(err => {
         console.error("Error while accepting job invoice" + err.response);
       });
   }
 
-  function sendInvoice() {
+  sendInvoice = () => {
     let body = {
-      jobId: row.jobId,
-      invoicePrice: invoicePrice
+      jobId: this.state.row.jobId,
+      invoicePrice: this.state.invoicePrice
     };
 
     JobService.updateJob(body)
       .then(() => {
-        window.location.reload();
+        this.props.getJobs();
       })
       .catch(err => {
         console.error("Error while updating job invoice" + err.response);
       });
   }
 
-  function paymentReceived() {
+  paymentReceived = () => {
     let body = {
-      jobId: row.jobId,
+      jobId: this.state.row.jobId,
     };
 
-    if (userType === 1) {
+    if (this.state.userType === 1) {
       body.invoicePaid = 1;
     }
     else {
@@ -162,90 +164,90 @@ function Row(props) {
 
     JobService.updateJob(body)
       .then(() => {
-        window.location.reload();
+        this.props.getJobs();
       })
       .catch(err => {
         console.error("Error while updating job invoice status" + err.response);
       });
   }
 
-  function completeJob() {
+  completeJob = () => {
     let body = null;
 
-    if (userType === 1) {
+    if (this.state.userType === 1) {
       body = {
-        jobId: row.jobId,
-        contractorNotes: notes,
-        completionDate: completionDate
+        jobId: this.state.row.jobId,
+        contractorNotes: this.state.notes,
+        completionDate: this.state.completionDate
       };
     }
-    else if (userType === 2) {
+    else if (this.state.userType === 2) {
       body = {
-        jobId: row.jobId,
-        inspectionPassed: inspectionPassed === "true" ? true : false,
-        inspectionDate: completionDate
+        jobId: this.state.row.jobId,
+        inspectionPassed: this.state.inspectionPassed === "true" ? true : false,
+        inspectionDate: this.state.completionDate
       };
 
-      if (inspectionPassed === "false") {
-        body.inspectorNotes = notes;
+      if (this.state.inspectionPassed === "false") {
+        body.inspectorNotes = this.state.notes;
       }
     }
 
     JobService.updateJob(body)
       .then(() => {
-        window.location.reload();
+        this.props.getJobs();
       })
       .catch(err => {
         console.error("Error while updating job" + err.response);
       });
   }
 
-  function claimJobConfirm() {
+  claimJobConfirm = () => {
     if (window.confirm("Are you sure you wish to hire the selected contractor?")) {
-      claimJob();
+      this.claimJob();
     }
   }
 
-  function cancelJobConfirm() {
+  cancelJobConfirm = () => {
     if (window.confirm("Are you sure you wish to cancel this job? This action cannot be undone.")) {
-      cancelJob();
+      this.cancelJob();
     }
   }
 
-  function paymentReceivedConfirm() {
-    let verbiage = userType === 1 ? "holding fee" : "payment";
+  paymentReceivedConfirm = () => {
+    let verbiage = this.state.userType === 1 ? "holding fee" : "payment";
 
     if (window.confirm(`Are you sure you've received the ${verbiage} for this job?`)) {
-      paymentReceived();
+      this.paymentReceived();
     }
   }
 
-  function getUIContent() {
+  getUIContent = () => {
     let content = null;
 
-    if (userType === 0) {
+    if (this.state.userType === 0) {
       // CUSTOMER
-      if (row.contractors && row.contractors.length > 0) {
+      if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         content = (
           <Auxil>
-            {row.contractors.length === 1 ? (
+            {this.state.row.contractors.length === 1 ? (
               <Alert severity="info" color="info">A contractor has shown an interest in your job!</Alert>
             ) : (
                 <Alert severity="info">
-                  <b>{row.contractors.length}</b> contractors have shown an interest in your job!
+                  <b>{this.state.row.contractors.length}</b> contractors have shown an interest in your job!
                 </Alert>
               )}
             <div className="textfield-container-col" style={{ marginTop: "15px" }}>
               <TextField
                 select
                 name="contractor"
-                value={contractor || row.contractors[0].contractorId}
+                value={this.state.contractor || this.state.row.contractors[0].contractorId}
                 onChange={event => {
-                  setContractor(event.target.value);
+                  this.setState({ contractor: event.target.value })
                 }}
                 variant="outlined"
               >
-                {row.contractors.map(option => (
+                {this.state.row.contractors.map(option => (
                   <MenuItem key={option.contractorId} value={option.contractorId}>
                     {option.companyName}
                   </MenuItem>
@@ -254,14 +256,14 @@ function Row(props) {
             </div>
             <div className="button-container multi-button">
               <Button
-                onClick={() => window.open("/contractors/" + contractor)}
+                onClick={() => window.open("/contractors/" + this.state.contractor)}
                 variant="contained"
                 color="primary"
               >
                 VIEW PROFILE
               </Button>
               <Button
-                onClick={() => claimJobConfirm()}
+                onClick={() => this.claimJobConfirm()}
                 variant="contained"
                 style={{
                   backgroundColor: "#3bb13b",
@@ -271,7 +273,7 @@ function Row(props) {
                 HIRE CONTRACTOR
               </Button>
               <Button
-                onClick={() => cancelJobConfirm()}
+                onClick={() => this.cancelJobConfirm()}
                 variant="contained"
                 color="secondary"
               >
@@ -281,15 +283,15 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.invoicePrice && row.invoiceAccepted === null) {
+      else if (this.state.row.invoicePrice && this.state.row.invoiceAccepted === null) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
+            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div className="button-container">
                 <Button
                   variant="contained"
-                  onClick={() => acceptInvoice(true)}
+                  onClick={() => this.acceptInvoice(true)}
                   color="primary"
                   style={{
                     backgroundColor: "#3bb13b",
@@ -300,7 +302,7 @@ function Row(props) {
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={() => acceptInvoice(false)}
+                  onClick={() => this.acceptInvoice(false)}
                   color="secondary"
                 >
                   DECLINE
@@ -308,7 +310,7 @@ function Row(props) {
               </div>
               <div style={{ margin: "15px 0" }}>
                 <Button
-                  onClick={() => cancelJobConfirm()}
+                  onClick={() => this.cancelJobConfirm()}
                   variant="contained"
                   color="secondary"
                 >
@@ -319,11 +321,11 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.contractorId === null || row.invoicePrice === null || row.invoiceAccepted === "0") {
+      else if (this.state.row.contractorId === null || this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
         content = (
           <div className="button-container">
             <Button
-              onClick={() => cancelJobConfirm()}
+              onClick={() => this.cancelJobConfirm()}
               variant="contained"
               color="secondary"
             >
@@ -333,13 +335,13 @@ function Row(props) {
         );
       }
     }
-    else if (userType === 1) {
+    else if (this.state.userType === 1) {
       // CONTRACTOR
-      if (row.invoicePrice === null || row.invoiceAccepted === "0") {
+      if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
         content = (
           <Auxil>
-            {row.invoiceAccepted === "0" && (
-              <Alert severity="error" color="error">The customer rejected your invoice of $<b>{row.invoicePrice}</b>. Please enter a new price.</Alert>
+            {this.state.row.invoiceAccepted === "0" && (
+              <Alert severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
             )}
             <div className="textfield-container-col" style={{ marginTop: "15px" }}>
               <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
@@ -347,18 +349,20 @@ function Row(props) {
                 type="text"
                 name="invoicePrice"
                 label="Invoice Price"
-                value={invoicePrice}
+                value={this.state.invoicePrice}
                 variant="outlined"
                 onChange={event => {
-                  setPrice(event.target.value);
+                  this.setState(
+                    { invoicePrice: event.target.value }
+                  );
                 }}
               />
             </div>
             <div className="button-container">
               <Button
                 variant="contained"
-                onClick={() => sendInvoice()}
-                disabled={invoicePrice === 0 || !invoicePrice}
+                onClick={() => this.sendInvoice()}
+                disabled={this.state.invoicePrice === 0 || !this.state.invoicePrice}
                 color="primary"
               >
                 SEND INVOICE
@@ -367,10 +371,12 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.invoiceAccepted === "1" && row.holdingFeePaid && (row.completionDate === null || row.inspectionPassed === "0")) {
+      else if (this.state.row.invoiceAccepted === "1"
+        && this.state.row.holdingFeePaid
+        && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
         content = (
           <Auxil>
-            {requiresInspection && (
+            {this.requiresInspection && (
               <Auxil>
                 <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
                 <div className="textfield-container-col">
@@ -379,10 +385,10 @@ function Row(props) {
                     rowsMax={6}
                     type="text"
                     label="Notes"
-                    value={notes}
+                    value={this.state.notes}
                     variant="outlined"
                     onChange={event => {
-                      setNotes(event.target.value);
+                      this.setState({ notes: event.target.value });
                     }}
                   />
                 </div>
@@ -392,9 +398,9 @@ function Row(props) {
             <div className="textfield-container-col">
               <TextField
                 type="date"
-                value={completionDate}
+                value={this.state.completionDate}
                 onChange={event => {
-                  setDate(event.target.value);
+                  this.setState({ completionDate: event.target.value });
                 }}
                 style={{ width: "175px", marginRight: "20px" }}
               />
@@ -402,8 +408,8 @@ function Row(props) {
             <div className="button-container">
               <Button
                 variant="contained"
-                onClick={() => completeJob()}
-                disabled={completionDate === ""}
+                onClick={() => this.completeJob()}
+                disabled={this.state.completionDate === ""}
                 color="primary"
               >
                 SUBMIT
@@ -412,14 +418,15 @@ function Row(props) {
           </Auxil>
         );
       }
-      else if (row.invoicePaid === null && ((row.completionDate !== null && !requiresInspection) || row.inspectionPassed)) {
+      else if (this.state.row.invoicePaid === null
+        && ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> ${formatNumber((row.invoicePrice - holdingFee).toFixed(2))} + HST ({hstValue}%) is owed by the customer.</Alert>
+            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceHst - this.holdingFeeHst).toFixed(2))}</b> ${formatNumber((this.state.row.invoicePrice - this.holdingFee).toFixed(2))} + HST ({this.hstValue}%) is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
-                onClick={() => paymentReceivedConfirm()}
+                onClick={() => this.paymentReceivedConfirm()}
                 style={{
                   backgroundColor: "#3bb13b",
                   color: "white"
@@ -432,14 +439,14 @@ function Row(props) {
         );
       }
     }
-    else if (userType === 2) {
+    else if (this.state.userType === 2) {
       // INSPECTOR
-      if (row.inspectorId === null) {
+      if (this.state.row.inspectorId === null) {
         content = (
           <div className="button-container">
             <Button
               variant="contained"
-              onClick={() => claimJob()}
+              onClick={() => this.claimJob()}
               style={{
                 backgroundColor: "#3bb13b",
                 color: "white"
@@ -450,12 +457,12 @@ function Row(props) {
           </div>
         );
       }
-      else if (row.completionDate !== null && row.inspectionPassed === null) {
+      else if (this.state.row.completionDate !== null && this.state.row.inspectionPassed === null) {
         content = (
           <RadioGroup
-            value={inspectionPassed}
+            value={this.state.inspectionPassed}
             onChange={event => {
-              setInspection(event.target.value);
+              this.setState({ inspectionPassed: event.target.value });
             }}
           >
             <span style={{ marginBottom: "5px" }}>Did the job pass inspection?</span>
@@ -466,8 +473,8 @@ function Row(props) {
           </RadioGroup>
         );
 
-        if (inspectionPassed !== null) {
-          if (inspectionPassed === "false") {
+        if (this.state.inspectionPassed !== null) {
+          if (this.inspectionPassed === "false") {
             content = (
               <Auxil>
                 {content}
@@ -478,10 +485,10 @@ function Row(props) {
                     rowsMax={6}
                     type="text"
                     label="Notes"
-                    value={notes}
+                    value={this.state.notes}
                     variant="outlined"
                     onChange={event => {
-                      setNotes(event.target.value);
+                      this.setState({ notes: event.target.value });
                     }}
                   />
                 </div>
@@ -496,9 +503,9 @@ function Row(props) {
               <div className="textfield-container-col">
                 <TextField
                   type="date"
-                  value={completionDate}
+                  value={this.state.completionDate}
                   onChange={event => {
-                    setDate(event.target.value);
+                    this.setState({ completionDate: event.target.value });
                   }}
                   style={{
                     width: "175px",
@@ -511,13 +518,13 @@ function Row(props) {
                   <Checkbox
                     onChange={event => {
                       if (event.target.checked) {
-                        setReport(true);
+                        this.setState({ reportSent: true });
                       }
                       else {
-                        setReport(false);
+                        this.setState({ reportSent: false });
                       }
                     }}
-                    checked={reportSent}
+                    checked={this.state.reportSent}
                   />
                 }
                 label="I have filled out an inspection report"
@@ -525,8 +532,8 @@ function Row(props) {
               <div className="button-container">
                 <Button
                   variant="contained"
-                  onClick={() => completeJob()}
-                  disabled={completionDate === "" || !reportSent}
+                  onClick={() => this.completeJob()}
+                  disabled={this.state.completionDate === "" || !this.state.reportSent}
                   color="primary"
                 >
                   SUBMIT
@@ -537,16 +544,16 @@ function Row(props) {
         }
       }
     }
-    else if (userType === 3) {
+    else if (this.state.userType === 3) {
       // ADMIN
-      if (row.invoiceAccepted === "1" && row.holdingFeePaid === null) {
+      if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">A holding fee of <b>${formatNumber(holdingFeeHst.toFixed(2))}</b> is owed by the customer.</Alert>
+            <Alert severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeHst.toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
-                onClick={() => paymentReceivedConfirm()}
+                onClick={() => this.paymentReceivedConfirm()}
                 style={{
                   backgroundColor: "#3bb13b",
                   color: "white"
@@ -562,18 +569,18 @@ function Row(props) {
     return content;
   }
 
-  function getJobStatus() {
+  getJobStatus = () => {
     let status = null;
 
-    if (row.isAbandoned === "1") {
+    if (this.state.row.isAbandoned === "1") {
       status = <Chip className="status cancelled" label="Job Cancelled" />;
     }
-    else if (row.contractorId === null) {
-      if (row.contractors && row.contractors.length > 0) {
+    else if (this.state.row.contractorId === null) {
+      if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         status = (
-          <Chip className="status interested" label={row.contractors.length === 1 ?
+          <Chip className="status interested" label={this.state.row.contractors.length === 1 ?
             <span><b>1</b> Contractor Interested</span> :
-            <span><b>{row.contractors.length}</b> Contractors Interested</span>
+            <span><b>{this.state.row.contractors.length}</b> Contractors Interested</span>
           } />
         );
       }
@@ -583,30 +590,30 @@ function Row(props) {
         );
       }
     }
-    else if (row.invoicePrice === null || row.invoiceAccepted === "0") {
+    else if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
       status = <Chip className="status required" label="Invoice Required" />;
     }
-    else if (row.invoiceAccepted === null) {
+    else if (this.state.row.invoiceAccepted === null) {
       status = <Chip className="status required" label="Response Required" />;
     }
-    else if (userType === "1" && row.invoiceAccepted === "0") {
+    else if (this.state.userType === "1" && this.state.row.invoiceAccepted === "0") {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (row.holdingFeePaid === "1" && (row.completionDate === null || row.inspectionPassed === "0")) {
+    else if (this.state.row.holdingFeePaid === "1" && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
-    else if (requiresInspection && (row.inspectorId === null || row.inspectionPassed === null || row.inspectionPassed === "0")) {
-      if (row.inspectorId === null) {
+    else if (this.requiresInspection && (this.state.row.inspectorId === null || this.state.row.inspectionPassed === null || this.state.row.inspectionPassed === "0")) {
+      if (this.state.row.inspectorId === null) {
         status = <Chip className="status required" label="Inspector Required" />;
       }
-      else if (row.inspectionPassed === null) {
+      else if (this.state.row.inspectionPassed === null) {
         status = <Chip className="status required" label="Requires Inspection" />;
       }
       else {
         status = <Chip className="status required" label="Requires Revisit" />;
       }
     }
-    else if (row.holdingFeePaid === null || row.invoicePaid === null) {
+    else if (this.state.row.holdingFeePaid === null || this.state.row.invoicePaid === null) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
@@ -615,30 +622,30 @@ function Row(props) {
     return status;
   }
 
-  function getRowContent() {
+  getRowContent = () => {
     let content = null;
 
-    if (props.isMobile) {
+    if (this.props.isMobile) {
       content = (
         <TableCell>
           <table className="mobile-table">
             <tbody>
               <tr>
-                <td>{row.serviceName}</td>
+                <td>{this.state.row.serviceName}</td>
               </tr>
               <tr>
-                <td>{row.address}, {row.city}</td>
+                <td>{this.state.row.address}, {this.state.row.city}</td>
               </tr>
               <tr>
-                <td>Created: {formatDate(row.creationDate.split(" ")[0])}</td>
+                <td>Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
-                <td>{getJobStatus()}</td>
+                <td>{this.getJobStatus()}</td>
               </tr>
               <tr>
                 <td style={{ paddingTop: "5px" }}>
                   <IconButton aria-label="expand row" size="small">
-                    {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    {this.state.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                   </IconButton>
                 </td>
               </tr>
@@ -652,254 +659,256 @@ function Row(props) {
         <Auxil>
           <TableCell>
             <IconButton aria-label="expand row" size="small">
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              {this.state.reportSent ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
-          <TableCell>{row.serviceName}</TableCell>
-          <TableCell>{row.address}</TableCell>
-          <TableCell>{row.city}</TableCell>
-          <TableCell>{formatDate(row.creationDate.split(" ")[0])}</TableCell>
-          <TableCell>{getJobStatus()}</TableCell>
+          <TableCell>{this.state.row.serviceName}</TableCell>
+          <TableCell>{this.state.row.address}</TableCell>
+          <TableCell>{this.state.row.city}</TableCell>
+          <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
+          <TableCell>{this.getJobStatus()}</TableCell>
         </Auxil>
       );
     }
     return content;
   }
 
-  function getAlertContent() {
+  getAlertContent = () => {
     let content = null;
 
-    if (row.isAbandoned === "1") {
-      content = <Alert severity="error" color="error">The job was cancelled by the customer on {formatDate(row.lastUpdatedDate.split(" ")[0])}.</Alert>;
+    if (this.state.row.isAbandoned === "1") {
+      content = <Alert severity="error" color="error">The job was cancelled by the customer on {formatDate(this.state.row.lastUpdatedDate.split(" ")[0])}.</Alert>;
     }
-    else if (userType === 0) {
-      if (row.contractorId !== null && row.invoicePrice === null) {
+    else if (this.state.userType === 0) {
+      if (this.state.row.contractorId !== null && this.state.row.invoicePrice === null) {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
-      if (row.contractorId !== null && row.invoiceAccepted === "0") {
+      if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === "0") {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
       }
-      else if (row.holdingFeePaid === null && row.invoiceAccepted === "1") {
-        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(holdingFeeHst.toFixed(2))}</b> ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%) to HOLDING_ACCOUNT_HERE.</Alert>;
+      else if (this.state.row.holdingFeePaid === null && this.state.row.invoiceAccepted === "1") {
+        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeHst.toFixed(2))}</b> ${formatNumber(this.holdingFee.toFixed(2))} + HST ({this.hstValue}%) to HOLDING_ACCOUNT_HERE.</Alert>;
       }
-      else if (row.completionDate !== null && (!requiresInspection || (requiresInspection && row.inspectionPassed === "1"))) {
-        if (row.invoicePaid === null) {
-          content = <Alert severity="info" color="info">The job was completed on {formatDate(row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((invoicePriceHst - holdingFeeHst).toFixed(2))}</b> (${row.invoicePrice} - Holding Fee + HST ({hstValue}%)) to the contractor.</Alert>;
+      else if (this.state.row.completionDate !== null && (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed === "1"))) {
+        if (this.state.row.invoicePaid === null) {
+          content = <Alert severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceHst - this.holdingFeeHst).toFixed(2))}</b> (${this.state.row.invoicePrice} - Holding Fee + HST ({this.hstValue}%)) to the contractor.</Alert>;
         }
-        else if (row.invoicePaid === "1") {
-          content = <Alert severity="success" color="success">The job was completed on {formatDate(row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
+        else if (this.state.row.invoicePaid === "1") {
+          content = <Alert severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
         }
       }
     }
-    else if (userType === 1) {
-      if (row.invoicePrice !== null && row.invoiceAccepted === null) {
+    else if (this.state.userType === 1) {
+      if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
         content = <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
       }
-      else if (row.invoiceAccepted === "1" && row.holdingFeePaid === null) {
+      else if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
         content = <Alert severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
       }
     }
     return content;
   }
 
-  return (
-    <Auxil>
-      <TableRow onClick={() => setOpen(!open)} style={{ cursor: "pointer" }}>
-        {getRowContent()}
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ padding: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <div className="job-details">
-                <div className="job-details-column job-details-column-1">
-                  <Card className="job-details-card">
-                    <p className="item-title">JOB ID</p>
-                    {row.jobId}
-                    <p className="item-title">SERVICE</p>
-                    {row.serviceName}
-                    <p className="item-title">CREATION DATE</p>
-                    <span className="item-with-icon">
-                      <FaRegCalendarAlt className="item-icon" size={16} />
-                      {formatDate(row.creationDate.split(" ")[0])}
-                    </span>
-                    <p className="item-title">LOCATION</p>
-                    {row.address}, {row.city}, {row.province}, {row.postalCode}
-                    <p className="item-title">DESCRIPTION</p>
-                    {row.description}
-                    <p className="item-title">BUDGET</p>
-                    <span className="item-with-icon">
-                      <FaFileInvoiceDollar className="item-icon" size={16} />
-                      {row.budget}
-                    </span>
-                    <p className="item-title">TIME FRAME</p>
-                    <span className="item-with-icon">
-                      <FaRegClock className="item-icon" size={16} />
-                      {row.timeFrame} Month(s)
-                    </span>
-                  </Card>
-                  {row.invoicePrice && (
+  render() {
+    return (
+      <Auxil>
+        <TableRow onClick={() => this.setState({ open: !this.state.open })} style={{ cursor: "pointer" }}>
+          {this.getRowContent()}
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ padding: 0 }} colSpan={6}>
+            <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+              <Box margin={1}>
+                <div className="job-details">
+                  <div className="job-details-column job-details-column-1">
                     <Card className="job-details-card">
-                      <p className="item-title">INVOICE DETAILS</p>
+                      <p className="item-title">JOB ID</p>
+                      {this.state.row.jobId}
+                      <p className="item-title">SERVICE</p>
+                      {this.state.row.serviceName}
+                      <p className="item-title">CREATION DATE</p>
+                      <span className="item-with-icon">
+                        <FaRegCalendarAlt className="item-icon" size={16} />
+                        {formatDate(this.state.row.creationDate.split(" ")[0])}
+                      </span>
+                      <p className="item-title">LOCATION</p>
+                      {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
+                      <p className="item-title">DESCRIPTION</p>
+                      {this.state.row.description}
+                      <p className="item-title">BUDGET</p>
                       <span className="item-with-icon">
                         <FaFileInvoiceDollar className="item-icon" size={16} />
-                        Total Price:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(invoicePriceHst.toFixed(2))}</span>
+                        {this.state.row.budget}
                       </span>
-                      <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
-                        ${formatNumber((row.invoicePrice * 1.00).toFixed(2))} + HST ({hstValue}%)
-                      </span>
-                      {row.invoiceAccepted === null ?
-                        <span className="item-with-icon" style={{ color: "grey" }}>
-                          <FaMinusCircle className="item-icon" size={16} />Pending Approval
-                        </span> :
-                        row.invoiceAccepted === "1" ?
-                          <span className="item-with-icon" style={{ color: "green" }}>
-                            <FaCheckCircle className="item-icon" size={16} />Accepted
-                          </span> :
-                          <span className="item-with-icon" style={{ color: "red" }}>
-                            <FaTimesCircle className="item-icon" size={16} />Declined
-                          </span>
-                      }
-                      {row.invoicePaid ?
-                        <span className="item-with-icon" style={{ color: "green" }}>
-                          <FaCheckCircle className="item-icon" size={16} />Paid
-                        </span> :
-                        <span className="item-with-icon" style={{ color: "red" }}>
-                          <FaTimesCircle className="item-icon" size={16} />Not Paid
+                      <p className="item-title">TIME FRAME</p>
+                      <span className="item-with-icon">
+                        <FaRegClock className="item-icon" size={16} />
+                        {this.state.row.timeFrame} Month(s)
+                    </span>
+                    </Card>
+                    {this.state.row.invoicePrice && (
+                      <Card className="job-details-card">
+                        <p className="item-title">INVOICE DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaFileInvoiceDollar className="item-icon" size={16} />
+                        Total Price:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(this.invoicePriceHst.toFixed(2))}</span>
                         </span>
-                      }
-                      {row.invoiceAccepted === "1" && (
-                        <Auxil>
-                          <p className="item-title">HOLDING FEE DETAILS</p>
-                          <span className="item-with-icon">
-                            <FaFileInvoiceDollar className="item-icon" size={16} />
-                            Fee:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(holdingFeeHst.toFixed(2))}</span>
-                          </span>
-                          <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
-                            ${formatNumber(holdingFee.toFixed(2))} + HST ({hstValue}%)
-                          </span>
-                          {row.holdingFeePaid ?
+                        <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
+                          ${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))} + HST ({this.hstValue}%)
+                      </span>
+                        {this.state.row.invoiceAccepted === null ?
+                          <span className="item-with-icon" style={{ color: "grey" }}>
+                            <FaMinusCircle className="item-icon" size={16} />Pending Approval
+                        </span> :
+                          this.state.row.invoiceAccepted === "1" ?
                             <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" size={16} />Paid
-                            </span> :
+                              <FaCheckCircle className="item-icon" size={16} />Accepted
+                          </span> :
                             <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" size={16} />Not Paid
-                            </span>
-                          }
-                        </Auxil>
-                      )}
-                    </Card>
-                  )}
-                  {row.completionDate && (
-                    <Card className="job-details-card">
-                      <p className="item-title">JOB COMPLETION DATE</p>
-                      <span className="item-with-icon">
-                        <FaRegCalendarAlt className="item-icon" size={16} />
-                        {formatDate(row.completionDate.split(" ")[0])}
-                      </span>
-                      {userType !== 0 && row.contractorNotes && (
-                        <Auxil>
-                          <p className="item-title">CONTRACTOR NOTES</p>
-                          {row.contractorNotes}
-                        </Auxil>
-                      )}
-                    </Card>
-                  )}
-                  {row.inspectionDate && (
-                    <Card className="job-details-card">
-                      <p className="item-title">INSPECTION DATE</p>
-                      <span className="item-with-icon">
-                        <FaRegCalendarAlt className="item-icon" size={16} />
-                        {formatDate(row.inspectionDate.split(" ")[0])}
-                      </span>
-                      {row.inspectionPassed === "1" ?
-                        <span className="item-with-icon" style={{ color: "green" }}>
-                          <FaCheckCircle className="item-icon" size={16} />Inspection Passed
+                              <FaTimesCircle className="item-icon" size={16} />Declined
+                          </span>
+                        }
+                        {this.state.row.invoicePaid ?
+                          <span className="item-with-icon" style={{ color: "green" }}>
+                            <FaCheckCircle className="item-icon" size={16} />Paid
                         </span> :
-                        <span className="item-with-icon" style={{ color: "red" }}>
-                          <FaTimesCircle className="item-icon" size={16} />Job Failed Inspection
+                          <span className="item-with-icon" style={{ color: "red" }}>
+                            <FaTimesCircle className="item-icon" size={16} />Not Paid
                         </span>
-                      }
-                      {userType !== 0 && row.inspectorNotes && (
-                        <Auxil>
-                          <p className="item-title">INSPECTOR NOTES</p>
-                          {row.inspectorNotes}
-                        </Auxil>
-                      )}
-                    </Card>
-                  )}
-                </div>
-                {!(userType === 0 && row.contractorId === null) && (
-                  <div className="job-details-column job-details-column-2">
-                    {userType !== 0 && (
-                      <Card className="job-details-card">
-                        <p className="item-title">CUSTOMER DETAILS</p>
-                        <span className="item-with-icon">
-                          <FaUser className="item-icon" size={16} />
-                          {row.customerName}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaPhone className="item-icon" size={16} />
-                          {formatPhoneNumber(row.customerPhone)}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaAt className="item-icon" size={16} />
-                          <a href={"mailto:" + row.customerEmail}>{row.customerEmail}</a>
-                        </span>
+                        }
+                        {this.state.row.invoiceAccepted === "1" && (
+                          <Auxil>
+                            <p className="item-title">HOLDING FEE DETAILS</p>
+                            <span className="item-with-icon">
+                              <FaFileInvoiceDollar className="item-icon" size={16} />
+                            Fee:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(this.holdingFeeHst.toFixed(2))}</span>
+                            </span>
+                            <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
+                              ${formatNumber(this.holdingFee.toFixed(2))} + HST ({this.hstValue}%)
+                          </span>
+                            {this.state.row.holdingFeePaid ?
+                              <span className="item-with-icon" style={{ color: "green" }}>
+                                <FaCheckCircle className="item-icon" size={16} />Paid
+                            </span> :
+                              <span className="item-with-icon" style={{ color: "red" }}>
+                                <FaTimesCircle className="item-icon" size={16} />Not Paid
+                            </span>
+                            }
+                          </Auxil>
+                        )}
                       </Card>
                     )}
-                    {userType !== 1 && row.contractorId && (
+                    {this.state.row.completionDate && (
                       <Card className="job-details-card">
-                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <p className="item-title">JOB COMPLETION DATE</p>
                         <span className="item-with-icon">
-                          <FaRegBuilding className="item-icon" size={16} />
-                          {row.contractorCompany}&nbsp;
-                        <a className="item-with-icon" href={"/contractors/" + row.contractorId} rel="noopener noreferrer" target="_blank">
-                            <FaExternalLinkAlt size={14} />
-                          </a>
+                          <FaRegCalendarAlt className="item-icon" size={16} />
+                          {formatDate(this.state.row.completionDate.split(" ")[0])}
                         </span>
-                        <span className="item-with-icon">
-                          <FaUser className="item-icon" size={16} />
-                          {row.contractorName}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaPhone className="item-icon" size={16} />
-                          {formatPhoneNumber(row.contractorPhone)}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaAt className="item-icon" size={16} />
-                          <a href={"mailto:" + row.contractorEmail}>{row.contractorEmail}</a>
-                        </span>
+                        {this.state.userType !== 0 && this.state.row.contractorNotes && (
+                          <Auxil>
+                            <p className="item-title">CONTRACTOR NOTES</p>
+                            {this.state.row.contractorNotes}
+                          </Auxil>
+                        )}
                       </Card>
                     )}
-                    {userType !== 2 && row.inspectorId && (
+                    {this.state.row.inspectionDate && (
                       <Card className="job-details-card">
-                        <p className="item-title">INSPECTOR DETAILS</p>
+                        <p className="item-title">INSPECTION DATE</p>
                         <span className="item-with-icon">
-                          <FaUser className="item-icon" size={16} />
-                          {row.inspectorName}
+                          <FaRegCalendarAlt className="item-icon" size={16} />
+                          {formatDate(this.state.row.inspectionDate.split(" ")[0])}
                         </span>
-                        <span className="item-with-icon">
-                          <FaPhone className="item-icon" size={16} />
-                          {formatPhoneNumber(row.inspectorPhone)}
+                        {this.state.row.inspectionPassed === "1" ?
+                          <span className="item-with-icon" style={{ color: "green" }}>
+                            <FaCheckCircle className="item-icon" size={16} />Inspection Passed
+                        </span> :
+                          <span className="item-with-icon" style={{ color: "red" }}>
+                            <FaTimesCircle className="item-icon" size={16} />Job Failed Inspection
                         </span>
-                        <span className="item-with-icon">
-                          <FaAt className="item-icon" size={16} />
-                          <a href={"mailto:" + row.inspectorEmail}>{row.inspectorEmail}</a>
-                        </span>
+                        }
+                        {this.state.userType !== 0 && this.state.row.inspectorNotes && (
+                          <Auxil>
+                            <p className="item-title">INSPECTOR NOTES</p>
+                            {this.state.row.inspectorNotes}
+                          </Auxil>
+                        )}
                       </Card>
                     )}
                   </div>
-                )}
-              </div>
-              {getAlertContent()}
-              {row.isAbandoned === null && getUIContent()}
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </Auxil >
-  );
+                  {!(this.state.userType === 0 && this.state.row.contractorId === null) && (
+                    <div className="job-details-column job-details-column-2">
+                      {this.state.userType !== 0 && (
+                        <Card className="job-details-card">
+                          <p className="item-title">CUSTOMER DETAILS</p>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            {this.state.row.customerName}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaPhone className="item-icon" size={16} />
+                            {formatPhoneNumber(this.state.row.customerPhone)}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
+                          </span>
+                        </Card>
+                      )}
+                      {this.state.userType !== 1 && this.state.row.contractorId && (
+                        <Card className="job-details-card">
+                          <p className="item-title">CONTRACTOR DETAILS</p>
+                          <span className="item-with-icon">
+                            <FaRegBuilding className="item-icon" size={16} />
+                            {this.state.row.contractorCompany}&nbsp;
+                        <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
+                              <FaExternalLinkAlt size={14} />
+                            </a>
+                          </span>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            {this.state.row.contractorName}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaPhone className="item-icon" size={16} />
+                            {formatPhoneNumber(this.state.row.contractorPhone)}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
+                          </span>
+                        </Card>
+                      )}
+                      {this.state.userType !== 2 && this.state.row.inspectorId && (
+                        <Card className="job-details-card">
+                          <p className="item-title">INSPECTOR DETAILS</p>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            {this.state.row.inspectorName}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaPhone className="item-icon" size={16} />
+                            {formatPhoneNumber(this.state.row.inspectorPhone)}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href={"mailto:" + this.state.row.inspectorEmail}>{this.state.row.inspectorEmail}</a>
+                          </span>
+                        </Card>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {this.getAlertContent()}
+                {this.state.row.isAbandoned === null && this.getUIContent()}
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </Auxil >
+    );
+  }
 }
 
 class JobsPage extends Component {
@@ -991,6 +1000,7 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         contractor={null}
                         isMobile={false}
+                        getJobs={this.getJobs}
                       />
                     ))}
                   </TableBody>
@@ -1000,7 +1010,7 @@ class JobsPage extends Component {
               <TableContainer className="mobile-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableBody>
-                    {this.state.jobs.map(job => (
+                    {/* {this.state.jobs.map(job => (
                       <Row
                         key={job.jobId}
                         row={job}
@@ -1008,7 +1018,7 @@ class JobsPage extends Component {
                         contractor={null}
                         isMobile={true}
                       />
-                    ))}
+                    ))} */}
                   </TableBody>
                 </Table>
               </TableContainer>
