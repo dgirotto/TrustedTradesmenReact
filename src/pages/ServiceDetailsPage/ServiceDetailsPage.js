@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import Card from "@material-ui/core/Card";
 
 import Auxil from "../../helpers/Auxil";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
@@ -19,14 +18,6 @@ import { AuthService } from "../../services/auth";
 function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
-const muiCardStyleOverride = {
-  border: "1px solid rgba(224, 224, 224, 1)",
-  boxShadow: "none",
-  borderRadius: "0px",
-  padding: "20px",
-  marginTop: "10px"
-};
 
 class ServiceDetailsPage extends Component {
   budgets = [
@@ -211,156 +202,154 @@ class ServiceDetailsPage extends Component {
         {this.state.userType === 0 && (
           <Auxil>
             <p style={{ marginTop: "50px", fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
-            <Card style={muiCardStyleOverride}>
+            <div className="textfield-container-col">
+              <TextField
+                type="text"
+                name="description"
+                label="Description"
+                value={this.state.jobDetails.description || ""}
+                variant="outlined"
+                onChange={this.jobDetailsChange}
+              />
+            </div>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="budget"
+                  label="Budget"
+                  value={this.state.jobDetails.budget || ""}
+                  onChange={this.jobDetailsChange}
+                  variant="outlined"
+                >
+                  {this.budgets.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.value}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="timeFrame"
+                  label="Time Frame"
+                  value={this.state.jobDetails.timeFrame || ""}
+                  onChange={this.jobDetailsChange}
+                  variant="outlined"
+                >
+                  {this.timeFrames.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+            <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
                   type="text"
-                  name="description"
-                  label="Description"
-                  value={this.state.jobDetails.description || ""}
+                  name="firstName"
+                  label="First Name"
+                  value={this.state.jobDetails.firstName || ""}
                   variant="outlined"
                   onChange={this.jobDetailsChange}
+                  disabled={this.state.accountDetails.firstName}
                 />
-              </div>
-              <div className="textfield-container-row">
-                <div className="textfield-container-col">
-                  <TextField
-                    select
-                    name="budget"
-                    label="Budget"
-                    value={this.state.jobDetails.budget || ""}
-                    onChange={this.jobDetailsChange}
-                    variant="outlined"
-                  >
-                    {this.budgets.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.value}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    select
-                    name="timeFrame"
-                    label="Time Frame"
-                    value={this.state.jobDetails.timeFrame || ""}
-                    onChange={this.jobDetailsChange}
-                    variant="outlined"
-                  >
-                    {this.timeFrames.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="textfield-container-row">
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="firstName"
-                    label="First Name"
-                    value={this.state.jobDetails.firstName || ""}
-                    variant="outlined"
-                    onChange={this.jobDetailsChange}
-                    disabled={this.state.accountDetails.firstName}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="lastName"
-                    label="Last Name"
-                    value={this.state.jobDetails.lastName || ""}
-                    variant="outlined"
-                    onChange={this.jobDetailsChange}
-                    disabled={this.state.accountDetails.lastName}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="phone"
-                    label="Phone"
-                    value={this.state.jobDetails.phone || ""}
-                    variant="outlined"
-                    onChange={this.jobDetailsChange}
-                    disabled={this.state.accountDetails.phone}
-                  />
-                </div>
               </div>
               <div className="textfield-container-col">
                 <TextField
                   type="text"
-                  name="address"
-                  label="Address"
-                  value={this.state.jobDetails.address || ""}
+                  name="lastName"
+                  label="Last Name"
+                  value={this.state.jobDetails.lastName || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                  disabled={this.state.accountDetails.lastName}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="phone"
+                  label="Phone"
+                  value={this.state.jobDetails.phone || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                  disabled={this.state.accountDetails.phone}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-col">
+              <TextField
+                type="text"
+                name="address"
+                label="Address"
+                value={this.state.jobDetails.address || ""}
+                variant="outlined"
+                onChange={this.jobDetailsChange}
+              />
+            </div>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="city"
+                  label="City"
+                  value={this.state.jobDetails.city || ""}
                   variant="outlined"
                   onChange={this.jobDetailsChange}
                 />
               </div>
-              <div className="textfield-container-row">
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="city"
-                    label="City"
-                    value={this.state.jobDetails.city || ""}
-                    variant="outlined"
-                    onChange={this.jobDetailsChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="postalCode"
-                    label="Postal Code"
-                    value={this.state.jobDetails.postalCode || ""}
-                    variant="outlined"
-                    onChange={this.jobDetailsChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    select
-                    name="province"
-                    label="Province"
-                    value={this.state.jobDetails.province || ""}
-                    onChange={this.jobDetailsChange}
-                    variant="outlined"
-                  >
-                    {this.provinces.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="Postal Code"
+                  value={this.state.jobDetails.postalCode || ""}
+                  variant="outlined"
+                  onChange={this.jobDetailsChange}
+                />
               </div>
-              <Button
-                onClick={this.submitJobClickHandler}
-                variant="contained"
-                color="primary"
-                disabled={
-                  !(
-                    this.state.jobDetails.description &&
-                    this.state.jobDetails.budget &&
-                    this.state.jobDetails.timeFrame &&
-                    this.state.jobDetails.firstName &&
-                    this.state.jobDetails.lastName &&
-                    this.state.jobDetails.phone &&
-                    this.state.jobDetails.address &&
-                    this.state.jobDetails.city &&
-                    this.state.jobDetails.postalCode &&
-                    this.state.jobDetails.province
-                  )
-                }
-              >
-                SUBMIT REQUEST
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="province"
+                  label="Province"
+                  value={this.state.jobDetails.province || ""}
+                  onChange={this.jobDetailsChange}
+                  variant="outlined"
+                >
+                  {this.provinces.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+            <Button
+              onClick={this.submitJobClickHandler}
+              variant="contained"
+              color="primary"
+              disabled={
+                !(
+                  this.state.jobDetails.description &&
+                  this.state.jobDetails.budget &&
+                  this.state.jobDetails.timeFrame &&
+                  this.state.jobDetails.firstName &&
+                  this.state.jobDetails.lastName &&
+                  this.state.jobDetails.phone &&
+                  this.state.jobDetails.address &&
+                  this.state.jobDetails.city &&
+                  this.state.jobDetails.postalCode &&
+                  this.state.jobDetails.province
+                )
+              }
+            >
+              SUBMIT REQUEST
             </Button>
-            </Card>
             <span style={{ display: "block", padding: "10px 0", fontStyle: "italic", color: "red" }}>
               All fields are required. Account details can be updated <a href="/settings" target="_blank">here</a>.
             </span>

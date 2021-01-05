@@ -10,21 +10,12 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Card from "@material-ui/core/Card";
 
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
 import { ServicesService } from "../../services/service";
 
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
-
-const muiCardStyleOverride = {
-  border: "1px solid rgba(224, 224, 224, 1)",
-  boxShadow: "none",
-  borderRadius: "0px",
-  padding: "20px",
-  marginTop: "10px"
-};
 
 class SettingsPage extends Component {
   provinces = [
@@ -210,309 +201,305 @@ class SettingsPage extends Component {
         {this.state.accountDetails.email && (
           <Auxil>
             <Title>SETTINGS</Title>
-            <Card style={muiCardStyleOverride}>
-              <div className="textfield-container-row">
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="firstName"
-                    label="First Name"
-                    value={this.state.accountDetails.firstName || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="lastName"
-                    label="Last Name"
-                    value={this.state.accountDetails.lastName || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="phone"
-                    label="Phone"
-                    value={this.state.accountDetails.phone || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
-              </div>
+            <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
                   type="text"
-                  name="address"
-                  label="Address"
-                  value={this.state.accountDetails.address || ""}
+                  name="firstName"
+                  label="First Name"
+                  value={this.state.accountDetails.firstName || ""}
                   variant="outlined"
                   onChange={this.accountDetailsChange}
                 />
               </div>
-              <div className="textfield-container-row">
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="city"
-                    label="City"
-                    value={this.state.accountDetails.city || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="text"
-                    name="postalCode"
-                    label="Postal Code"
-                    value={this.state.accountDetails.postalCode || ""}
-                    variant="outlined"
-                    onChange={this.accountDetailsChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    select
-                    name="province"
-                    label="Province"
-                    value={this.state.accountDetails.province || ""}
-                    onChange={this.accountDetailsChange}
-                    variant="outlined"
-                  >
-                    {this.provinces.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="lastName"
+                  label="Last Name"
+                  value={this.state.accountDetails.lastName || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
-              {this.state.userType === 1 && this.state.services !== null ? (
-                <Auxil>
-                  <div className="textfield-container-col">
-                    <TextField
-                      type="text"
-                      name="companyName"
-                      label="Company Name"
-                      value={this.state.accountDetails.companyName || ""}
-                      variant="outlined"
-                      onChange={this.accountDetailsChange}
-                    />
-                  </div>
-                  <span className="field-desc">Which services are you capable of providing? Select all that apply.</span>
-                  <FormControl component="fieldset">
-                    <FormGroup style={{ flexDirection: "row" }}>
-                      {this.state.services.map(service => (
-                        <FormControlLabel
-                          style={{ width: "280px" }}
-                          control={
-                            <Checkbox
-                              onChange={event => {
-                                var accountDetailsCopy = this.state.accountDetails;
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="phone"
+                  label="Phone"
+                  value={this.state.accountDetails.phone || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+            </div>
+            <div className="textfield-container-col">
+              <TextField
+                type="text"
+                name="address"
+                label="Address"
+                value={this.state.accountDetails.address || ""}
+                variant="outlined"
+                onChange={this.accountDetailsChange}
+              />
+            </div>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="city"
+                  label="City"
+                  value={this.state.accountDetails.city || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="Postal Code"
+                  value={this.state.accountDetails.postalCode || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  select
+                  name="province"
+                  label="Province"
+                  value={this.state.accountDetails.province || ""}
+                  onChange={this.accountDetailsChange}
+                  variant="outlined"
+                >
+                  {this.provinces.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
+            {this.state.userType === 1 && this.state.services !== null ? (
+              <Auxil>
+                <div className="textfield-container-col">
+                  <TextField
+                    type="text"
+                    name="companyName"
+                    label="Company Name"
+                    value={this.state.accountDetails.companyName || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <span className="field-desc">Which services are you capable of providing? Select all that apply.</span>
+                <FormControl component="fieldset">
+                  <FormGroup style={{ flexDirection: "row" }}>
+                    {this.state.services.map(service => (
+                      <FormControlLabel
+                        style={{ width: "280px" }}
+                        control={
+                          <Checkbox
+                            onChange={event => {
+                              var accountDetailsCopy = this.state.accountDetails;
 
-                                if (event.target.checked) {
-                                  accountDetailsCopy.services.push(
-                                    event.target.value
-                                  );
+                              if (event.target.checked) {
+                                accountDetailsCopy.services.push(
+                                  event.target.value
+                                );
+
+                                this.setState({
+                                  accountDetails: accountDetailsCopy,
+                                  hasEditedDetails: true
+                                });
+                              }
+                              else {
+                                const index = accountDetailsCopy.services.indexOf(
+                                  event.target.value
+                                );
+
+                                if (index !== -1) {
+                                  accountDetailsCopy.services.splice(index, 1);
 
                                   this.setState({
                                     accountDetails: accountDetailsCopy,
                                     hasEditedDetails: true
                                   });
                                 }
-                                else {
-                                  const index = accountDetailsCopy.services.indexOf(
-                                    event.target.value
-                                  );
-
-                                  if (index !== -1) {
-                                    accountDetailsCopy.services.splice(index, 1);
-
-                                    this.setState({
-                                      accountDetails: accountDetailsCopy,
-                                      hasEditedDetails: true
-                                    });
-                                  }
-                                }
-                              }}
-                              value={service.serviceId}
-                              name={service.serviceName}
-                              checked={
-                                this.state.accountDetails.services &&
-                                this.state.accountDetails.services.includes(
-                                  service.serviceId
-                                )
                               }
-                            />
-                          }
-                          label={service.serviceName}
-                          key={service.serviceId}
-                        />
-                      ))}
-                    </FormGroup>
-                  </FormControl>
-                  <br />
-                  <br />
-                  <span className="field-desc">How far are you willing to travel to a customer for a job?</span>
-                  <div className="textfield-container-col">
-                    <TextField
-                      select
-                      name="maxDistance"
-                      label="Max Travel Distance"
-                      value={this.state.accountDetails.maxDistance || ""}
-                      onChange={this.accountDetailsChange}
-                      variant="outlined"
-                    >
-                      {this.maxDistances.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </div>
-                  <span className="field-desc">List any deals or specials you wish to be highlighted on your profile page.</span>
+                            }}
+                            value={service.serviceId}
+                            name={service.serviceName}
+                            checked={
+                              this.state.accountDetails.services &&
+                              this.state.accountDetails.services.includes(
+                                service.serviceId
+                              )
+                            }
+                          />
+                        }
+                        label={service.serviceName}
+                        key={service.serviceId}
+                      />
+                    ))}
+                  </FormGroup>
+                </FormControl>
+                <br />
+                <br />
+                <span className="field-desc">How far are you willing to travel to a customer for a job?</span>
+                <div className="textfield-container-col">
+                  <TextField
+                    select
+                    name="maxDistance"
+                    label="Max Travel Distance"
+                    value={this.state.accountDetails.maxDistance || ""}
+                    onChange={this.accountDetailsChange}
+                    variant="outlined"
+                  >
+                    {this.maxDistances.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <span className="field-desc">List any deals or specials you wish to be highlighted on your profile page.</span>
+                <div className="textfield-container-col">
+                  <TextField
+                    type="text"
+                    name="specials"
+                    label="Specials"
+                    value={this.state.accountDetails.specials || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <span className="field-desc">How would you describe yourself? This will be displayed on your profile page.</span>
+                <div className="textfield-container-col">
+                  <TextField
+                    multiline
+                    rowsMax={6}
+                    type="text"
+                    name="bio"
+                    label="Bio"
+                    value={this.state.accountDetails.bio || ""}
+                    variant="outlined"
+                    onChange={this.accountDetailsChange}
+                  />
+                </div>
+                <span className="field-desc">Include links to each of your social media profiles. These links will be displayed on your profile page.</span>
+                <div className="textfield-container-row">
                   <div className="textfield-container-col">
                     <TextField
                       type="text"
-                      name="specials"
-                      label="Specials"
-                      value={this.state.accountDetails.specials || ""}
+                      name="linkedin"
+                      label="LinkedIn"
+                      value={this.state.accountDetails.linkedin || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
                     />
                   </div>
-                  <span className="field-desc">How would you describe yourself? This will be displayed on your profile page.</span>
                   <div className="textfield-container-col">
                     <TextField
-                      multiline
-                      rowsMax={6}
                       type="text"
-                      name="bio"
-                      label="Bio"
-                      value={this.state.accountDetails.bio || ""}
+                      name="facebook"
+                      label="Facebook"
+                      value={this.state.accountDetails.facebook || ""}
                       variant="outlined"
                       onChange={this.accountDetailsChange}
                     />
                   </div>
-                  <span className="field-desc">Include links to each of your social media profiles. These links will be displayed on your profile page.</span>
-                  <div className="textfield-container-row">
-                    <div className="textfield-container-col">
-                      <TextField
-                        type="text"
-                        name="linkedin"
-                        label="LinkedIn"
-                        value={this.state.accountDetails.linkedin || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
-                    <div className="textfield-container-col">
-                      <TextField
-                        type="text"
-                        name="facebook"
-                        label="Facebook"
-                        value={this.state.accountDetails.facebook || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
-                    <div className="textfield-container-col">
-                      <TextField
-                        type="text"
-                        name="youtube"
-                        label="YouTube"
-                        value={this.state.accountDetails.youtube || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                  <div className="textfield-container-col">
+                    <TextField
+                      type="text"
+                      name="youtube"
+                      label="YouTube"
+                      value={this.state.accountDetails.youtube || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
-                  <div className="textfield-container-row">
-                    <div className="textfield-container-col">
-                      <TextField
-                        type="text"
-                        name="instagram"
-                        label="Instagram"
-                        value={this.state.accountDetails.instagram || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
-                    <div className="textfield-container-col">
-                      <TextField
-                        type="text"
-                        name="website"
-                        label="Website"
-                        value={this.state.accountDetails.website || ""}
-                        variant="outlined"
-                        onChange={this.accountDetailsChange}
-                      />
-                    </div>
+                </div>
+                <div className="textfield-container-row">
+                  <div className="textfield-container-col">
+                    <TextField
+                      type="text"
+                      name="instagram"
+                      label="Instagram"
+                      value={this.state.accountDetails.instagram || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
                   </div>
-                </Auxil>
-              ) : null}
-              <Button
-                onClick={this.saveChangesClickHandler}
-                variant="contained"
-                color="secondary"
-                disabled={!this.state.hasEditedDetails}
-              >
-                SAVE DETAILS
+                  <div className="textfield-container-col">
+                    <TextField
+                      type="text"
+                      name="website"
+                      label="Website"
+                      value={this.state.accountDetails.website || ""}
+                      variant="outlined"
+                      onChange={this.accountDetailsChange}
+                    />
+                  </div>
+                </div>
+              </Auxil>
+            ) : null}
+            <Button
+              onClick={this.saveChangesClickHandler}
+              variant="contained"
+              color="secondary"
+              disabled={!this.state.hasEditedDetails}
+            >
+              SAVE DETAILS
               </Button>
-            </Card>
-            <Card style={muiCardStyleOverride}>
-              <h2 className="form-title" style={{ marginTop: "0px" }}>CHANGE PASSWORD</h2>
-              <div className="textfield-container-row">
-                <div className="textfield-container-col">
-                  <TextField
-                    type="password"
-                    name="password"
-                    label="Old Password"
-                    value={this.state.passwordDetails.password || ""}
-                    variant="outlined"
-                    onChange={this.passwordChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="password"
-                    name="newPassword"
-                    label="New Password"
-                    value={this.state.passwordDetails.newPassword || ""}
-                    variant="outlined"
-                    onChange={this.passwordChange}
-                  />
-                </div>
-                <div className="textfield-container-col">
-                  <TextField
-                    type="password"
-                    name="confirmNewPassword"
-                    label="Confirm New Password"
-                    value={this.state.passwordDetails.confirmNewPassword || ""}
-                    variant="outlined"
-                    onChange={this.passwordChange}
-                  />
-                </div>
+            <h2 className="form-title" style={{ marginTop: "0px" }}>CHANGE PASSWORD</h2>
+            <div className="textfield-container-row">
+              <div className="textfield-container-col">
+                <TextField
+                  type="password"
+                  name="password"
+                  label="Old Password"
+                  value={this.state.passwordDetails.password || ""}
+                  variant="outlined"
+                  onChange={this.passwordChange}
+                />
               </div>
-              <Button
-                onClick={this.changePasswordClickHandler}
-                variant="contained"
-                color="secondary"
-                disabled={
-                  !(
-                    this.state.passwordDetails.password &&
-                    this.state.passwordDetails.newPassword &&
-                    this.state.passwordDetails.confirmNewPassword
-                  )
-                }
-              >
-                CHANGE PASSWORD
+              <div className="textfield-container-col">
+                <TextField
+                  type="password"
+                  name="newPassword"
+                  label="New Password"
+                  value={this.state.passwordDetails.newPassword || ""}
+                  variant="outlined"
+                  onChange={this.passwordChange}
+                />
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="password"
+                  name="confirmNewPassword"
+                  label="Confirm New Password"
+                  value={this.state.passwordDetails.confirmNewPassword || ""}
+                  variant="outlined"
+                  onChange={this.passwordChange}
+                />
+              </div>
+            </div>
+            <Button
+              onClick={this.changePasswordClickHandler}
+              variant="contained"
+              color="secondary"
+              disabled={
+                !(
+                  this.state.passwordDetails.password &&
+                  this.state.passwordDetails.newPassword &&
+                  this.state.passwordDetails.confirmNewPassword
+                )
+              }
+            >
+              CHANGE PASSWORD
               </Button>
-            </Card>
           </Auxil>
         )
         }
