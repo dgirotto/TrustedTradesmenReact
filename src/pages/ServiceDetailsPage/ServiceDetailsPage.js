@@ -201,7 +201,7 @@ class ServiceDetailsPage extends Component {
         <p>{this.state.serviceDetails.description}</p>
         {this.state.userType === 0 && (
           <Auxil>
-            <p style={{ marginTop: "50px", fontStyle: "italic" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
+            <p style={{ marginTop: "50px" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
             <div className="textfield-container-col">
               <TextField
                 type="text"
@@ -329,6 +329,9 @@ class ServiceDetailsPage extends Component {
                 </TextField>
               </div>
             </div>
+            <span style={{ display: "block", padding: "0 0 15px", fontStyle: "italic", color: "red" }}>
+              All fields are required. Account details can be updated <a href="/settings" target="_blank">here</a>.
+            </span>
             <Button
               onClick={this.submitJobClickHandler}
               variant="contained"
@@ -350,9 +353,6 @@ class ServiceDetailsPage extends Component {
             >
               SUBMIT REQUEST
             </Button>
-            <span style={{ display: "block", padding: "10px 0", fontStyle: "italic", color: "red" }}>
-              All fields are required. Account details can be updated <a href="/settings" target="_blank">here</a>.
-            </span>
           </Auxil>
         )}
       </Auxil>

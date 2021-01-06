@@ -201,6 +201,7 @@ class SettingsPage extends Component {
         {this.state.accountDetails.email && (
           <Auxil>
             <Title>SETTINGS</Title>
+            <h2 className="form-title" style={{ marginTop: "0" }}>ACCOUNT DETAILS</h2>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
@@ -453,7 +454,7 @@ class SettingsPage extends Component {
             >
               SAVE DETAILS
               </Button>
-            <h2 className="form-title" style={{ marginTop: "0px" }}>CHANGE PASSWORD</h2>
+            <h2 className="form-title" style={{ marginTop: "25px" }}>CHANGE PASSWORD</h2>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField

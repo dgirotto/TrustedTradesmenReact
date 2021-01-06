@@ -114,7 +114,7 @@ export class Row extends Component {
   }
 
   claimJob = () => {
-    let body = { jobId: this.props.row.jobId };
+    let body = { jobId: this.state.row.jobId };
 
     if (this.state.contractor !== null) {
       body.contractorId = this.state.contractor;
