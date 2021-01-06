@@ -54,7 +54,6 @@ var tableTheme = createMuiTheme({
 export class Row extends Component {
   state = {
     row: this.props.row,
-    userType: this.props.userType,
     open: false
   };
 
@@ -174,7 +173,7 @@ export class Row extends Component {
                     {this.state.row.timeFrame} Month(s)
                   </span>
                 </Card>
-                {(this.state.userType === 1) && (
+                {(this.props.userType === 1) && (
                   <div className="button-container">
                     <Button
                       onClick={() => this.claimLead(true)}

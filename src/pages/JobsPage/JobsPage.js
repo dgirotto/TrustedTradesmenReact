@@ -72,7 +72,6 @@ export class Row extends Component {
 
   state = {
     row: this.props.row,
-    userType: this.props.userType,
     open: false,
     notes: this.getNotes,
     invoicePrice: 0,
@@ -102,10 +101,10 @@ export class Row extends Component {
   }
 
   getNotes = () => {
-    if (this.state.userType === 1) {
+    if (this.props.userType === 1) {
       return this.state.row.contractorNotes;
     }
-    else if (this.state.userType === 2) {
+    else if (this.props.userType === 2) {
       return this.state.row.inspectorNotes
     }
     else {
@@ -173,7 +172,7 @@ export class Row extends Component {
       jobId: this.state.row.jobId,
     };
 
-    if (this.state.userType === 1) {
+    if (this.props.userType === 1) {
       body.invoicePaid = 1;
     }
     else {
@@ -192,14 +191,14 @@ export class Row extends Component {
   completeJob = () => {
     let body = null;
 
-    if (this.state.userType === 1) {
+    if (this.props.userType === 1) {
       body = {
         jobId: this.state.row.jobId,
         contractorNotes: this.state.notes,
         completionDate: this.state.completionDate
       };
     }
-    else if (this.state.userType === 2) {
+    else if (this.props.userType === 2) {
       body = {
         jobId: this.state.row.jobId,
         inspectionPassed: this.state.inspectionPassed === "true" ? true : false,
@@ -233,7 +232,7 @@ export class Row extends Component {
   }
 
   paymentReceivedConfirm = () => {
-    let verbiage = this.state.userType === 1 ? "holding fee" : "payment";
+    let verbiage = this.props.userType === 1 ? "holding fee" : "payment";
 
     if (window.confirm(`Are you sure you've received the ${verbiage} for this job?`)) {
       this.paymentReceived();
@@ -243,7 +242,7 @@ export class Row extends Component {
   getUIContent = () => {
     let content = null;
 
-    if (this.state.userType === 0) {
+    if (this.props.userType === 0) {
       // CUSTOMER
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         content = (
@@ -353,7 +352,7 @@ export class Row extends Component {
         );
       }
     }
-    else if (this.state.userType === 1) {
+    else if (this.props.userType === 1) {
       // CONTRACTOR
       if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
         content = (
@@ -457,7 +456,7 @@ export class Row extends Component {
         );
       }
     }
-    else if (this.state.userType === 2) {
+    else if (this.props.userType === 2) {
       // INSPECTOR
       if (this.state.row.inspectorId === null) {
         content = (
@@ -562,7 +561,7 @@ export class Row extends Component {
         }
       }
     }
-    else if (this.state.userType === 3) {
+    else if (this.props.userType === 3) {
       // ADMIN
       if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
         content = (
@@ -614,7 +613,7 @@ export class Row extends Component {
     else if (this.state.row.invoiceAccepted === null) {
       status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Response Required" />;
     }
-    else if (this.state.userType === "1" && this.state.row.invoiceAccepted === "0") {
+    else if (this.props.userType === "1" && this.state.row.invoiceAccepted === "0") {
       status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Invoice Rejected" />;
     }
     else if (this.state.row.holdingFeePaid === "1" && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
@@ -697,7 +696,7 @@ export class Row extends Component {
     if (this.state.row.isAbandoned === "1") {
       content = <Alert severity="error" color="error">The job was cancelled by the customer on {formatDate(this.state.row.lastUpdatedDate.split(" ")[0])}.</Alert>;
     }
-    else if (this.state.userType === 0) {
+    else if (this.props.userType === 0) {
       if (this.state.row.contractorId !== null && this.state.row.invoicePrice === null) {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
@@ -716,7 +715,7 @@ export class Row extends Component {
         }
       }
     }
-    else if (this.state.userType === 1) {
+    else if (this.props.userType === 1) {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
         content = <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
       }
@@ -823,7 +822,7 @@ export class Row extends Component {
                           <FaRegCalendarAlt className="item-icon" size={16} />
                           {formatDate(this.state.row.completionDate.split(" ")[0])}
                         </span>
-                        {this.state.userType !== 0 && this.state.row.contractorNotes && (
+                        {this.props.userType !== 0 && this.state.row.contractorNotes && (
                           <Auxil>
                             <p className="item-title">CONTRACTOR NOTES</p>
                             {this.state.row.contractorNotes}
@@ -846,7 +845,7 @@ export class Row extends Component {
                             <FaTimesCircle className="item-icon" size={16} />Job Failed Inspection
                         </span>
                         }
-                        {this.state.userType !== 0 && this.state.row.inspectorNotes && (
+                        {this.props.userType !== 0 && this.state.row.inspectorNotes && (
                           <Auxil>
                             <p className="item-title">INSPECTOR NOTES</p>
                             {this.state.row.inspectorNotes}
@@ -855,9 +854,9 @@ export class Row extends Component {
                       </Card>
                     )}
                   </div>
-                  {!(this.state.userType === 0 && this.state.row.contractorId === null) && (
+                  {!(this.props.userType === 0 && this.state.row.contractorId === null) && (
                     <div className="job-details-column job-details-column-2">
-                      {this.state.userType !== 0 && (
+                      {this.props.userType !== 0 && (
                         <Card className="job-details-card">
                           <p className="item-title">CUSTOMER DETAILS</p>
                           <span className="item-with-icon">
@@ -874,7 +873,7 @@ export class Row extends Component {
                           </span>
                         </Card>
                       )}
-                      {this.state.userType !== 1 && this.state.row.contractorId && (
+                      {this.props.userType !== 1 && this.state.row.contractorId && (
                         <Card className="job-details-card">
                           <p className="item-title">CONTRACTOR DETAILS</p>
                           <span className="item-with-icon">
@@ -898,7 +897,7 @@ export class Row extends Component {
                           </span>
                         </Card>
                       )}
-                      {this.state.userType !== 2 && this.state.row.inspectorId && (
+                      {this.props.userType !== 2 && this.state.row.inspectorId && (
                         <Card className="job-details-card">
                           <p className="item-title">INSPECTOR DETAILS</p>
                           <span className="item-with-icon">
@@ -1019,7 +1018,6 @@ class JobsPage extends Component {
                         key={job.jobId}
                         row={job}
                         userType={this.state.userType}
-                        contractor={null}
                         isMobile={false}
                         getJobs={this.getJobs}
                       />
@@ -1036,7 +1034,6 @@ class JobsPage extends Component {
                         key={job.jobId}
                         row={job}
                         userType={this.state.userType}
-                        contractor={null}
                         isMobile={true}
                         getJobs={this.getJobs}
                       />
