@@ -25,6 +25,8 @@ import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Card from "@material-ui/core/Card";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -61,6 +63,10 @@ var tableTheme = createMuiTheme({
     }
   }
 });
+
+function AlertPopup(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export class Row extends Component {
   hstValue = 0.13;
@@ -122,9 +128,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
+        this.props.setMessage(false, "Contractor successfully hired");
       })
       .catch(err => {
-        console.error("Error while claiming job" + err.response);
+        this.props.setMessage(true, "Unable to hire Contractor");
       });
   }
 
@@ -134,9 +141,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
+        this.props.setMessage(false, "Job successfully abandoned");
       })
       .catch(err => {
-        console.error("Error while abandoning job" + err.response);
+        this.props.setMessage(true, "Unable to abandon Job");
       });
   }
 
@@ -146,9 +154,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
+        this.props.setMessage(false, "Invoice successfully accepted");
       })
       .catch(err => {
-        console.error("Error while accepting job invoice" + err.response);
+        this.props.setMessage(false, "Unable to accept invoice");
       });
   }
 
@@ -161,9 +170,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
+        this.props.setMessage(false, "Invoice successfully sent");
       })
       .catch(err => {
-        console.error("Error while updating job invoice" + err.response);
+        this.props.setMessage(false, "Unable to send invoice");
       });
   }
 
@@ -182,9 +192,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
+        this.props.setMessage(false, "Successfully updated invoice status");
       })
       .catch(err => {
-        console.error("Error while updating job invoice status" + err.response);
+        this.props.setMessage(false, "Unable to update invoice status");
       });
   }
 
@@ -213,9 +224,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
+        this.props.setMessage(false, "Successfully completed job");
       })
       .catch(err => {
-        console.error("Error while updating job" + err.response);
+        this.props.setMessage(false, "Unable to complete job");
       });
   }
 
@@ -935,8 +947,19 @@ class JobsPage extends Component {
     jobCount: null,
     pageNumber: 0,
     itemsPerPage: 10,
-    isLoading: true
+    isLoading: true,
+    showSnackbar: false,
+    isError: false,
+    message: ""
   };
+
+  componentDidMount() {
+    this.setState({
+      userType: AuthService.getRole()
+    }, () => {
+      this.getJobs();
+    });
+  }
 
   getJobs = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
@@ -973,13 +996,17 @@ class JobsPage extends Component {
     });
   }
 
-  componentDidMount() {
+  setMessage = (isError, message) => {
     this.setState({
-      userType: AuthService.getRole()
-    }, () => {
-      this.getJobs();
+      showSnackbar: true,
+      isError: isError,
+      message: message
     });
   }
+
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
+  };
 
   render() {
     return (
@@ -1020,6 +1047,7 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         isMobile={false}
                         getJobs={this.getJobs}
+                        setMessage={this.setMessage}
                       />
                     ))}
                   </TableBody>
@@ -1036,6 +1064,7 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         isMobile={true}
                         getJobs={this.getJobs}
+                        setMessage={this.setMessage}
                       />
                     ))}
                   </TableBody>
@@ -1065,6 +1094,16 @@ class JobsPage extends Component {
         )}
 
         {this.state.isLoading && <Backdrop />}
+
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={5000}
+          onClose={this.toggleSnackbar}
+        >
+          <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+            {this.state.message}
+          </AlertPopup>
+        </Snackbar>
       </div >
     );
   }
