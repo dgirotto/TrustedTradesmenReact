@@ -1,17 +1,21 @@
 import React, { Component } from "react";
+
+import "./JobsPage.css";
+
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
+import { formatPhoneNumber, formatDate, formatNumber } from '../../helpers/Utils';
+
+import { ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles';
 import {
   FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt,
   FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle
 } from "react-icons/fa";
-
-import "./JobsPage.css";
-import { formatPhoneNumber, formatDate, formatNumber } from '../../helpers/Utils';
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,30 +24,25 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from '@material-ui/core/TablePagination';
-
-import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Card from "@material-ui/core/Card";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
+
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
-
-import { ThemeProvider } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles';
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -141,10 +140,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Job successfully abandoned");
+        this.props.setMessage(false, "Job successfully cancelled");
       })
       .catch(err => {
-        this.props.setMessage(true, "Unable to abandon Job");
+        this.props.setMessage(true, "Unable to cancel Job");
       });
   }
 
@@ -231,6 +230,7 @@ export class Row extends Component {
       });
   }
 
+  // TODO: Use https://material-ui.com/components/dialogs/ instead of window.confirm()
   claimJobConfirm = () => {
     if (window.confirm("Are you sure you wish to hire the selected contractor?")) {
       this.claimJob();
@@ -873,11 +873,11 @@ export class Row extends Component {
                           <p className="item-title">CUSTOMER DETAILS</p>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
-                            {this.state.row.customerName}
+                            {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {formatPhoneNumber(this.state.row.customerPhone)}
+                            {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaAt className="item-icon" size={16} />
@@ -897,11 +897,11 @@ export class Row extends Component {
                           </span>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
-                            {this.state.row.contractorName}
+                            {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {formatPhoneNumber(this.state.row.contractorPhone)}
+                            {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaAt className="item-icon" size={16} />
@@ -914,11 +914,11 @@ export class Row extends Component {
                           <p className="item-title">INSPECTOR DETAILS</p>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
-                            {this.state.row.inspectorName}
+                            {this.state.row.inspectorName ? this.state.row.inspectorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {formatPhoneNumber(this.state.row.inspectorPhone)}
+                            {this.state.inspectorPhone ? formatPhoneNumber(this.state.row.inspectorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaAt className="item-icon" size={16} />
@@ -973,8 +973,8 @@ class JobsPage extends Component {
           isLoading: false
         });
       })
-      .catch(err => {
-        console.error("Error while getting jobs" + err.response);
+      .catch(() => {
+        this.setMessage(true, "Unable to retrieve jobs");
         this.setState({ isLoading: false });
       });
   }

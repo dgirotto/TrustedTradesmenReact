@@ -5,10 +5,13 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
-import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt } from "react-icons/fa";
+import { formatDate } from '../../helpers/Utils';
 
 import "./LeadsPage.css";
-import { formatDate } from '../../helpers/Utils';
+
+import { ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles';
+import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt } from "react-icons/fa";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -17,20 +20,18 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TablePagination from '@material-ui/core/TablePagination';
-
-import Paper from "@material-ui/core/Paper";
-import Card from "@material-ui/core/Card";
-
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
+import Card from "@material-ui/core/Card";
+
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
-
-import { ThemeProvider } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles';
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -50,6 +51,10 @@ var tableTheme = createMuiTheme({
     }
   }
 });
+
+function AlertPopup(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export class Row extends Component {
   state = {
@@ -79,10 +84,11 @@ export class Row extends Component {
 
     LeadsService.updateLead(body)
       .then(() => {
-        this.props.getLeads(true)
+        this.props.getLeads(true);
+        this.props.setMessage(false, "Lead successfully updated");
       })
-      .catch(err => {
-        console.error("Error while updating lead" + err.response);
+      .catch(() => {
+        this.props.setMessage(true, "Unable to update lead");
       });
   }
 
@@ -207,8 +213,19 @@ class LeadsPage extends Component {
     leadCount: null,
     pageNumber: 0,
     itemsPerPage: 10,
-    isLoading: true
+    isLoading: true,
+    showSnackbar: false,
+    isError: false,
+    message: ""
   };
+
+  componentDidMount() {
+    this.setState({
+      userType: AuthService.getRole()
+    }, () => {
+      this.getLeads();
+    });
+  }
 
   getLeads = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
@@ -222,8 +239,8 @@ class LeadsPage extends Component {
           isLoading: false
         });
       })
-      .catch(err => {
-        console.error("Error while getting leads" + err.response);
+      .catch(() => {
+        this.setMessage(true, "Unable to retrieve leads");
         this.setState({ isLoading: false });
       });
   }
@@ -245,13 +262,17 @@ class LeadsPage extends Component {
     });
   }
 
-  componentDidMount() {
+  setMessage = (isError, message) => {
     this.setState({
-      userType: AuthService.getRole()
-    }, () => {
-      this.getLeads();
+      showSnackbar: true,
+      isError: isError,
+      message: message
     });
   }
+
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
+  };
 
   render() {
     return (
@@ -292,6 +313,7 @@ class LeadsPage extends Component {
                         userType={this.state.userType}
                         isMobile={false}
                         getLeads={this.getLeads}
+                        setMessage={this.setMessage}
                       />
                     ))}
                   </TableBody>
@@ -308,6 +330,7 @@ class LeadsPage extends Component {
                         userType={this.state.userType}
                         isMobile={true}
                         getLeads={this.getLeads}
+                        setMessage={this.setMessage}
                       />
                     ))}
                   </TableBody>
@@ -336,6 +359,16 @@ class LeadsPage extends Component {
         )}
 
         {this.state.isLoading && <Backdrop />}
+
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={5000}
+          onClose={this.toggleSnackbar}
+        >
+          <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+            {this.state.message}
+          </AlertPopup>
+        </Snackbar>
       </div>
     );
   }

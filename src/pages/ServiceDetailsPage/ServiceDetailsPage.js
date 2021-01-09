@@ -157,7 +157,7 @@ class ServiceDetailsPage extends Component {
     }
 
     JobService.addJob(this.state.jobDetails)
-      .then(res => {
+      .then(() => {
         var cleanJobDetails = this.state.jobDetails;
         cleanJobDetails.description = null;
         cleanJobDetails.budget = null;
@@ -175,16 +175,15 @@ class ServiceDetailsPage extends Component {
           isLoading: false,
           showSnackbar: true,
           isError: false,
-          message: res.data.message
+          message: "Job request submitted successfully"
         });
       })
-      .catch(error => {
-        this.displayMessage("Error while adding job: " + error.response, false);
+      .catch(() => {
         this.setState({
           isLoading: false,
           showSnackbar: true,
           isError: true,
-          message: error.response.data.message
+          message: "Could not submit job request"
         });
       });
   };

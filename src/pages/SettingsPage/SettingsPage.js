@@ -1,8 +1,17 @@
 import React, { Component } from "react";
+
 import "./SettingsPage.css";
+
+import { AuthService } from "../../services/auth";
+import { AccountService } from "../../services/account";
+import { ServicesService } from "../../services/service";
+
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
+
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -11,11 +20,11 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-import { AuthService } from "../../services/auth";
-import { AccountService } from "../../services/account";
-import { ServicesService } from "../../services/service";
-
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
+
+function AlertPopup(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class SettingsPage extends Component {
   provinces = [
@@ -77,7 +86,10 @@ class SettingsPage extends Component {
     },
     services: null,
     hasEditedDetails: false,
-    isLoading: false
+    isLoading: false,
+    showSnackbar: false,
+    isError: false,
+    message: ""
   };
 
   componentDidMount() {
@@ -91,10 +103,7 @@ class SettingsPage extends Component {
         this.setState({ accountDetails: res.data });
       })
       .catch(error => {
-        this.displayMessage(
-          "Error while getting account details: " + error.response,
-          false
-        );
+        this.setMessage(true, "Unable to obtain account details");
       })
       .then(() => {
         if (this.state.userType === 1) {
@@ -102,11 +111,8 @@ class SettingsPage extends Component {
             .then(res => {
               this.setState({ services: res.data, isLoading: false });
             })
-            .catch(error => {
-              this.displayMessage(
-                "Error while getting service list: " + error.response,
-                false
-              );
+            .catch(() => {
+              this.setMessage(true, "Unable to get service list");
             });
         } else {
           this.setState({ isLoading: false });
@@ -114,32 +120,20 @@ class SettingsPage extends Component {
       });
   }
 
-  // Displays feedback to user
-  displayMessage(message, success) {
-    if (success) {
-      alert("Success: " + message);
-    } else {
-      alert("Failure: " + message);
-    }
-  }
-
   saveChangesClickHandler = () => {
     this.setState({ isLoading: true });
 
     AccountService.setAccountDetails(this.state.accountDetails)
-      .then(res => {
-        this.setState({ isLoading: false });
+      .then(() => {
+        this.setMessage(false, "Account details successfully updated");
       })
-      .catch(error => {
-        this.displayMessage(
-          "Error while updating account details: " + error.response,
-          false
-        );
-        this.setState({ isLoading: false });
+      .catch(() => {
+        this.setMessage(true, "Could not update account details");
       });
 
     this.setState({
-      hasEditedDetails: false
+      hasEditedDetails: false,
+      isLoading: false
     });
   };
 
@@ -148,16 +142,18 @@ class SettingsPage extends Component {
       this.state.passwordDetails.newPassword !==
       this.state.passwordDetails.confirmNewPassword
     ) {
-      this.displayMessage("New passwords don't match!", false);
+      this.setMessage(true, "New passwords don't match");
       return;
     }
+
     this.setState({ isLoading: true });
 
     AccountService.changePassword({
       password: this.state.passwordDetails.password,
       newPassword: this.state.passwordDetails.newPassword
     })
-      .then(res => {
+      .then(() => {
+        this.setMessage(false, "Successfully updated password");
         this.setState({
           isLoading: false,
           passwordDetails: {
@@ -167,11 +163,8 @@ class SettingsPage extends Component {
           }
         });
       })
-      .catch(error => {
-        this.displayMessage(
-          "Error when trying to change password: " + error.response,
-          false
-        );
+      .catch(() => {
+        this.setMessage(true, "Old password is incorrect");
         this.setState({ isLoading: false });
       });
   };
@@ -193,6 +186,18 @@ class SettingsPage extends Component {
     this.setState({
       passwordDetails: newPasswordDetails
     });
+  };
+
+  setMessage = (isError, message) => {
+    this.setState({
+      showSnackbar: true,
+      isError: isError,
+      message: message
+    });
+  }
+
+  toggleSnackbar = () => {
+    this.setState({ showSnackbar: !this.state.showSnackbar });
   };
 
   render() {
@@ -504,7 +509,18 @@ class SettingsPage extends Component {
           </Auxil>
         )
         }
+
         { this.state.isLoading ? <Backdrop /> : null}
+
+        <Snackbar
+          open={this.state.showSnackbar}
+          autoHideDuration={5000}
+          onClose={this.toggleSnackbar}
+        >
+          <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
+            {this.state.message}
+          </AlertPopup>
+        </Snackbar>
       </div >
     );
   }
