@@ -254,7 +254,7 @@ class ServiceDetailsPage extends Component {
                   value={this.state.jobDetails.firstName || ""}
                   variant="outlined"
                   onChange={this.jobDetailsChange}
-                  disabled={this.state.accountDetails.firstName}
+                  disabled={this.state.accountDetails.firstName !== null}
                 />
               </div>
               <div className="textfield-container-col">
@@ -265,7 +265,7 @@ class ServiceDetailsPage extends Component {
                   value={this.state.jobDetails.lastName || ""}
                   variant="outlined"
                   onChange={this.jobDetailsChange}
-                  disabled={this.state.accountDetails.lastName}
+                  disabled={this.state.accountDetails.lastName !== null}
                 />
               </div>
               <div className="textfield-container-col">
@@ -276,7 +276,7 @@ class ServiceDetailsPage extends Component {
                   value={this.state.jobDetails.phone || ""}
                   variant="outlined"
                   onChange={this.jobDetailsChange}
-                  disabled={this.state.accountDetails.phone}
+                  disabled={this.state.accountDetails.phone !== null}
                 />
               </div>
             </div>
