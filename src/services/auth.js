@@ -31,6 +31,13 @@ function register(body, setHeader = false) {
   );
 }
 
+function generateToken(body) {
+  return axios.post(
+    `${commonEndpoint}/user/generate_token.php`,
+    body
+  );
+}
+
 function resetPassword(body) {
   return axios.post(
     `${commonEndpoint}/user/reset_pwd.php`,
@@ -64,6 +71,7 @@ export const AuthService = {
   login,
   logout,
   register,
+  generateToken,
   resetPassword,
   getRole,
   isAuthenticated,

@@ -65,15 +65,19 @@ class LoginPage extends Component {
       });
   };
 
-  resetPassword = () => {
+  generateToken = () => {
     this.setState({ isLoading: true });
-    AuthService.resetPassword({ email: this.state.emailToReset })
-      .then(res => {
+
+    AuthService.generateToken({
+      email: this.state.emailToReset
+    })
+      .then(() => {
         this.setState({
+          emailToReset: "",
           isLoading: false,
           showSnackbar: true,
           isError: false,
-          message: "Password successfully reset. Please check your email for further instructions."
+          message: "A password reset token has been sent to your email address."
         });
       })
       .catch(error => {
@@ -192,7 +196,7 @@ class LoginPage extends Component {
                 <div className="reset-button-container">
                   <Button
                     disabled={!this.state.emailToReset}
-                    onClick={this.resetPassword}
+                    onClick={this.generateToken}
                     variant="contained"
                     color="primary"
                     style={{ width: "175px", marginTop: "15px" }}

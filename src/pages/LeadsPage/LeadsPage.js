@@ -11,7 +11,7 @@ import "./LeadsPage.css";
 
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
-import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt } from "react-icons/fa";
+import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute } from "react-icons/fa";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -92,6 +92,15 @@ export class Row extends Component {
       });
   }
 
+  formatDistance = (distance) => {
+    let content = "N/A";
+
+    if (distance !== null) {
+      content = `${distance} km`;
+    }
+    return content;
+  }
+
   getRowContent = () => {
     let content = null;
 
@@ -104,13 +113,17 @@ export class Row extends Component {
                 <td>{this.state.row.serviceName}</td>
               </tr>
               <tr>
-                <td>{this.state.row.address}, {this.state.row.city}</td>
+                <td>City: {this.state.row.city}</td>
               </tr>
               <tr>
-                <td>Submitted: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
+                <td>Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>Time Frame: {this.state.row.timeFrame} Month(s)</td>
+              </tr>
+              <tr>
+                <td>Distance: {this.formatDistance(this.state.row.travelDistance)}
+                </td>
               </tr>
               <tr>
                 <td style={{ paddingTop: "5px" }}>
@@ -133,10 +146,10 @@ export class Row extends Component {
             </IconButton>
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
-          <TableCell>{this.state.row.address}</TableCell>
           <TableCell>{this.state.row.city}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.state.row.timeFrame} Month(s)</TableCell>
+          <TableCell>{this.formatDistance(this.state.row.travelDistance)}</TableCell>
         </Auxil>
       );
     }
@@ -177,6 +190,11 @@ export class Row extends Component {
                   <span className="item-with-icon">
                     <FaRegClock size={16} />&nbsp;
                     {this.state.row.timeFrame} Month(s)
+                  </span>
+                  <p className="item-title">TRAVEL DISTANCE</p>
+                  <span className="item-with-icon">
+                    <FaRoute size={16} />&nbsp;
+                    {this.formatDistance(this.state.row.travelDistance)}
                   </span>
                 </Card>
                 {(this.props.userType === 1) && (
@@ -292,16 +310,16 @@ class LeadsPage extends Component {
                         <b>Service</b>
                       </TableCell>
                       <TableCell>
-                        <b>Address</b>
-                      </TableCell>
-                      <TableCell>
                         <b>City</b>
                       </TableCell>
                       <TableCell>
-                        <b>Submitted</b>
+                        <b>Created</b>
                       </TableCell>
                       <TableCell>
                         <b>Time Frame</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Distance</b>
                       </TableCell>
                     </TableRow>
                   </TableHead>

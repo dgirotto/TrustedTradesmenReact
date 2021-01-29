@@ -1,25 +1,25 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Toolbar from "./components/UI/Toolbar/Toolbar";
 import SideDrawer from "./components/UI/SideDrawer/SideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
-import PageNotFound from "./pages/PageNotFound/PageNotFound";
+
 import HomePage from "./pages/HomePage/HomePage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import ServiceDetailsPage from "./pages/ServiceDetailsPage/ServiceDetailsPage";
-// import ContractorsPage from "./pages/ContractorsPage/ContractorsPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import ResetPage from "./pages/ResetPage/ResetPage";
 import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
-// import AdminPage from "./pages/AdminPage/AdminPage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
 import AboutPage from "./pages/AboutPage/AboutPage";
 import DisclaimersPage from "./pages/DisclaimersPage/DisclaimersPage";
 import FaqPage from "./pages/FaqPage/FaqPage";
 import SupportPage from "./pages/SupportPage/SupportPage";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 import { PrivateRoute } from "./components/PrivatedRoute";
 import { AuthService } from "./services/auth";
@@ -91,18 +91,18 @@ class App extends Component {
           ) : null}
 
           <Switch>
-            <Route 
-              path="/" 
-              exact 
+            <Route
+              path="/"
+              exact
               component={HomePage}
             />
-            <Route path="/services" 
-              exact 
+            <Route path="/services"
+              exact
               render={() => <ServicesPage isAuth={this.state.isAuth} />}
             />
-            <PrivateRoute 
-              path="/services/:id" 
-              component={ServiceDetailsPage} 
+            <PrivateRoute
+              path="/services/:id"
+              component={ServiceDetailsPage}
             />
             <Route
               path="/register"
@@ -117,10 +117,14 @@ class App extends Component {
                 />
               )}
             />
-            {/* <PrivateRoute 
-              path="/contractors" 
-              component={ContractorsPage} 
-            /> */}
+            <PrivateRoute
+              path="/logout"
+              component={LoginPage}
+            />
+            <Route
+              path="/reset"
+              render={() => <ResetPage />}
+            />
             <PrivateRoute
               path="/contractors/:id"
               component={ContractorDetailsPage}
@@ -130,35 +134,28 @@ class App extends Component {
               component={LeadsPage}
               notAllowed={[0, 2]}
             />
-            <PrivateRoute path="/jobs" component={JobsPage} />
-            {/* <PrivateRoute
-              path="/admin"
-              component={AdminPage}
-              notAllowed={[0, 1, 2]}
-            /> */}
+            <PrivateRoute
+              path="/jobs"
+              component={JobsPage} />
             <PrivateRoute
               path="/settings"
               component={SettingsPage}
             />
-            <PrivateRoute 
-              path="/logout" 
-              component={LoginPage} 
+            <Route
+              path="/about"
+              component={AboutPage}
             />
-            <Route 
-              path="/about" 
-              component={AboutPage} 
+            <Route
+              path="/disclaimers"
+              component={DisclaimersPage}
             />
-            <Route 
-              path="/disclaimers" 
-              component={DisclaimersPage} 
+            <Route
+              path="/faq"
+              component={FaqPage}
             />
-            <Route 
-              path="/faq" 
-              component={FaqPage} 
-            />
-            <Route 
-              path="/support" 
-              component={SupportPage} 
+            <Route
+              path="/support"
+              component={SupportPage}
             />
             <Route component={PageNotFound} />
           </Switch>
