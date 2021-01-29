@@ -17,7 +17,7 @@ class HomePage extends Component {
             </div> */}
             <div className="intro-desc">
               Hello,<br /><br />My name is Chris Willick. I've been a professional home inspector for over 20 years. I've seen my fair share of bad jobs
-              done over the years so I've developed a site which will solve your issues with home inspections. This is the only site where you'll see ratings 
+              done over the years so I've developed a site which will solve your issues with home inspections. This is the only site where you'll see ratings
               by a contractor, and you'll also receive a rating from a qualified inspector who's also seen the job.<br /><br />Get started today!
             </div>
           </div>
@@ -35,7 +35,7 @@ class HomePage extends Component {
                 color="primary"
               >
                 REGISTER
-              </Button>              
+              </Button>
               <Button
                 className="home-button"
                 onClick={() => (window.location.href = "/login")}
@@ -66,7 +66,7 @@ class HomePage extends Component {
         <div className="footer-container">
           <div className="footer-content">
             <div>
-              <div className="footer-title">SOCIALS</div>
+              {/* <div className="footer-title">SOCIALS</div> */}
               <ul className="footer-list">
                 <li><a href="https://www.instagram.com" target="blank" className="footer-link with-icon"><FaInstagram className="social-icon" size="16" /><span>Instagram</span></a></li>
                 <li><a href="https://www.facebook.com" target="blank" className="footer-link with-icon"><FaFacebook className="social-icon" size="16" /><span>Facebook</span></a></li>
@@ -75,10 +75,10 @@ class HomePage extends Component {
               </ul>
             </div>
             <div>
-              <div className="footer-title">DISCLAIMERS</div>
+              {/* <div className="footer-title">DISCLAIMERS</div> */}
               <ul className="footer-list">
-                <li><a href="disclaimers" className="footer-link">Customers</a></li>
-                <li><a href="disclaimers" className="footer-link">Contractors</a></li>
+                <li><a href="disclaimers" className="footer-link">Customer Disclaimer</a></li>
+                <li><a href="disclaimers" className="footer-link">Contractor Disclaimer</a></li>
               </ul>
             </div>
             <div>

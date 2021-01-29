@@ -3,11 +3,12 @@
   font-size: 28px;
   color: rgb(40, 40, 40);
   margin: 0;
-  padding: 35px 0 20px;
+  padding-bottom: 35px;
 }
 
-.intro-container {
-  padding-bottom: 50px;
+.intro-container, .info-container, .footer-container {
+  /* padding: 75px 0 100px 0; */
+  padding: 30px 0;
 }
 
 .intro {
@@ -31,7 +32,6 @@
 }
 
 .info-container {
-  padding-bottom: 50px;
   background: #84efe1;
 }
 
@@ -67,7 +67,6 @@
 }
 
 .footer-container {
-  padding-bottom: 50px;
   background: #282828;
 }
 
@@ -75,13 +74,12 @@
   display: flex;
   max-width: 900px;
   margin: auto;
-  padding: 50px 20px 30px;
   color: white;
 }
 
 .footer-content > div {
   flex-grow: 1;
-  font-size: 15px;
+  font-size: 16px;
   padding: 8px 10px;
 }
 
@@ -120,8 +118,8 @@
 
 .copyright-msg {
   text-align: center;
-  margin: auto;
-  padding-top: 10px;
+  padding: 50px 30px 0;
+  margin: 0px;
   font-size: 15px;
   color: white;
 }

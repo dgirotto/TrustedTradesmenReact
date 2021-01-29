@@ -1,6 +1,6 @@
 .services {
   display: grid;
-  gap: 0.5rem;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   margin: auto;
 }
@@ -14,15 +14,17 @@
   padding: 10px;
   cursor: pointer;
   text-align: center;
+  background: #5c5c5c !important;
+}
+
+.service:hover {
+  /* box-shadow: 0 0 15px grey; */
+  transform: scale(1.05);
 }
 
 .service-title {
   text-align: center;
-  font-size: 18px;
-  font-weight: 400;
-  color: #000000;
-}
-
-.service:hover {
-  background: rgb(249, 218, 141) !important;
+  font-size: 20px;
+  font-weight: bold;
+  color:white;
 }
