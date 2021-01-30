@@ -65,40 +65,25 @@ class HomePage extends Component {
         </div>
         <div className="footer-container">
           <div className="footer-content">
-            <div>
-              {/* <div className="footer-title">SOCIALS</div> */}
-              <ul className="footer-list">
-                <li><a href="https://www.instagram.com" target="blank" className="footer-link with-icon"><FaInstagram className="social-icon" size="16" /><span>Instagram</span></a></li>
-                <li><a href="https://www.facebook.com" target="blank" className="footer-link with-icon"><FaFacebook className="social-icon" size="16" /><span>Facebook</span></a></li>
-                <li><a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter className="social-icon" size="16" /><span>Twitter</span></a></li>
-                <li><a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin className="social-icon" size="16" /><span>LinkedIn</span></a></li>
-              </ul>
-            </div>
-            <div>
-              {/* <div className="footer-title">DISCLAIMERS</div> */}
-              <ul className="footer-list">
-                <li><a href="disclaimers" className="footer-link">Customer Disclaimer</a></li>
-                <li><a href="disclaimers" className="footer-link">Contractor Disclaimer</a></li>
-              </ul>
-            </div>
-            <div>
-              <ul className="footer-list">
-                <li><a href="register" className="footer-link">Register</a></li>
-                <li><a href="login" className="footer-link">Login</a></li>
-                <li><a href="services" className="footer-link">Services</a></li>
-              </ul>
-            </div>
-            <div>
-              <ul className="footer-list">
-                <li><a href="support" className="footer-link">Support</a></li>
-                <li><a href="about" className="footer-link">About</a></li>
-                <li><a href="faq" className="footer-link">FAQ</a></li>
-              </ul>
-            </div>
+            <a href="register" className="footer-link">Register</a>
+            <a href="login" className="footer-link">Login</a>
+            <a href="services" className="footer-link">Services</a>
           </div>
-          <p className="copyright-msg">Copyright © 2020 Trusted Tradesmen. All rights reserved.</p>
+          <div className="footer-content">
+            <a href="disclaimers" className="footer-link">Disclaimers</a>
+            <a href="support" className="footer-link">Support</a>
+            <a href="about" className="footer-link">About</a>
+            <a href="faq" className="footer-link">FAQ</a>
+          </div>
+          <div style={{ paddingTop: "40px", textAlign: "center", color: "white" }}>
+            <a href="https://www.instagram.com" target="blank" className="footer-link with-icon"><FaInstagram size="25" /></a>
+            <a href="https://www.facebook.com" target="blank" className="footer-link with-icon"><FaFacebook size="25" /></a>
+            <a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter size="25" /></a>
+            <a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin size="25" /></a>
+          </div>
+          <p className="copyright-msg">Copyright © 2021 Trusted Tradesmen. All rights reserved.</p>
         </div>
-      </Auxil>
+      </Auxil >
     );
   }
 }
