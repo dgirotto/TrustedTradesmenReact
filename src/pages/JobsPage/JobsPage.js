@@ -1011,7 +1011,7 @@ class JobsPage extends Component {
   render() {
     return (
       <div className="page-container">
-        {this.state.jobs && !this.state.isLoading && (
+        {this.state.jobCount > 0 && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
             <ThemeProvider theme={tableTheme}>
@@ -1086,7 +1086,7 @@ class JobsPage extends Component {
           </Auxil>
         )}
 
-        {!this.state.jobs && !this.state.isLoading && (
+        {this.state.jobCount === 0 && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
             <Alert severity="info" color="info">You don't have any jobs at the moment.</Alert>

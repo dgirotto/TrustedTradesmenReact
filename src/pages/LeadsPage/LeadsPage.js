@@ -295,7 +295,7 @@ class LeadsPage extends Component {
   render() {
     return (
       <div className="page-container">
-        {this.state.leads && !this.state.isLoading && (
+        {this.state.leadCount > 0 && !this.state.isLoading && (
           <Auxil>
             <Title>LEADS</Title>
             <ThemeProvider theme={tableTheme}>
@@ -369,7 +369,7 @@ class LeadsPage extends Component {
           </Auxil>
         )}
 
-        {!this.state.leads && !this.state.isLoading && (
+        {this.state.leadCount === 0 && !this.state.isLoading && (
           <Auxil>
             <Title>LEADS</Title>
             <Alert severity="info" color="info">You don't have any leads at the moment.</Alert>
