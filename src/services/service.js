@@ -10,11 +10,8 @@ function getServiceDetails(serviceId) {
   );
 }
 
-function getServices(readAll) {
+function getServices() {
   var url = `${commonEndpoint}/service/read.php`;
-  if (readAll) {
-    url += "?all=1";
-  }
   return axios.get(url);
 }
 

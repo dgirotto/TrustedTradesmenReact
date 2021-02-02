@@ -107,7 +107,7 @@ class SettingsPage extends Component {
       })
       .then(() => {
         if (this.state.userType === 1) {
-          ServicesService.getServices(true)
+          ServicesService.getServices()
             .then(res => {
               this.setState({ services: res.data, isLoading: false });
             })

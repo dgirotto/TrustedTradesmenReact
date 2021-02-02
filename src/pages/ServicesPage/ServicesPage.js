@@ -25,7 +25,7 @@ class ServicesPage extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    ServicesService.getServices(false)
+    ServicesService.getServices()
       .then(res => {
         this.setState({ services: res.data, isLoading: false });
       })
