@@ -353,14 +353,16 @@ export class Row extends Component {
       else if (this.state.row.contractorId === null || this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
         content = (
           <div className="button-container">
+            <div className="spacer" />
             <Button
               onClick={() => this.cancelJobConfirm()}
               variant="contained"
               color="secondary"
+              style={{ margin: "0" }}
             >
               CANCEL JOB
             </Button>
-          </div>
+          </div >
         );
       }
     }
@@ -773,7 +775,7 @@ export class Row extends Component {
                       <span className="item-with-icon">
                         <FaRegClock className="item-icon" size={16} />
                         {this.state.row.timeFrame} Month(s)
-                    </span>
+                     </span>
                     </Card>
                     {this.state.row.invoicePrice && (
                       <Card className="job-details-card">
@@ -891,7 +893,7 @@ export class Row extends Component {
                           <span className="item-with-icon">
                             <FaRegBuilding className="item-icon" size={16} />
                             {this.state.row.contractorCompany}&nbsp;
-                        <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
+                            <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
                               <FaExternalLinkAlt size={14} />
                             </a>
                           </span>

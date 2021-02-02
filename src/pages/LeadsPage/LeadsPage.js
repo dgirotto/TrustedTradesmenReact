@@ -5,13 +5,16 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
-import { formatDate } from '../../helpers/Utils';
+import { formatPhoneNumber, formatDate } from '../../helpers/Utils';
 
 import "./LeadsPage.css";
 
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
-import { FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute } from "react-icons/fa";
+import {
+  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute,
+  FaRegBuilding, FaExternalLinkAlt, FaAt, FaPhone, FaUser
+} from "react-icons/fa";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -167,36 +170,81 @@ export class Row extends Component {
           <TableCell style={{ padding: 0 }} colSpan={6}>
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
               <Box margin={1}>
-                <Card className="job-details-card">
-                  <p className="item-title">LEAD ID</p>
-                  {this.state.row.leadId}
-                  <p className="item-title">SERVICE</p>
-                  {this.state.row.serviceName}
-                  <p className="item-title">SUBMISSION DATE</p>
-                  <span className="item-with-icon">
-                    <FaRegCalendarAlt size={16} />&nbsp;
-                    {formatDate(this.state.row.creationDate.split(" ")[0])}
-                  </span>
-                  <p className="item-title">LOCATION</p>
-                  {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
-                  <p className="item-title">DESCRIPTION</p>
-                  {this.state.row.description}
-                  <p className="item-title">BUDGET</p>
-                  <span className="item-with-icon">
-                    <FaFileInvoiceDollar size={16} />&nbsp;
-                    {this.state.row.budget}
-                  </span>
-                  <p className="item-title">TIME FRAME</p>
-                  <span className="item-with-icon">
-                    <FaRegClock size={16} />&nbsp;
-                    {this.state.row.timeFrame} Month(s)
-                  </span>
-                  <p className="item-title">TRAVEL DISTANCE</p>
-                  <span className="item-with-icon">
-                    <FaRoute size={16} />&nbsp;
-                    {this.formatDistance(this.state.row.travelDistance)}
-                  </span>
-                </Card>
+                <div className="job-details">
+                  <div className="job-details-column job-details-column-1">
+                    <Card className="job-details-card">
+                      <p className="item-title">LEAD ID</p>
+                      {this.state.row.leadId}
+                      <p className="item-title">SERVICE</p>
+                      {this.state.row.serviceName}
+                      <p className="item-title">SUBMISSION DATE</p>
+                      <span className="item-with-icon">
+                        <FaRegCalendarAlt size={16} />&nbsp;
+                        {formatDate(this.state.row.creationDate.split(" ")[0])}
+                      </span>
+                      <p className="item-title">LOCATION</p>
+                      {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
+                      <p className="item-title">DESCRIPTION</p>
+                      {this.state.row.description}
+                      <p className="item-title">BUDGET</p>
+                      <span className="item-with-icon">
+                        <FaFileInvoiceDollar size={16} />&nbsp;
+                        {this.state.row.budget}
+                      </span>
+                      <p className="item-title">TIME FRAME</p>
+                      <span className="item-with-icon">
+                        <FaRegClock size={16} />&nbsp;
+                        {this.state.row.timeFrame} Month(s)
+                      </span>
+                      <p className="item-title">TRAVEL DISTANCE</p>
+                      <span className="item-with-icon">
+                        <FaRoute size={16} />&nbsp;
+                        {this.formatDistance(this.state.row.travelDistance)}
+                      </span>
+                    </Card>
+                  </div>
+                  <div className="job-details-column job-details-column-2">
+                    <Card className="job-details-card">
+                      <p className="item-title">CUSTOMER DETAILS</p>
+                      <span className="item-with-icon">
+                        <FaUser className="item-icon" size={16} />
+                        {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                      </span>
+                      <span className="item-with-icon">
+                        <FaPhone className="item-icon" size={16} />
+                        {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                      </span>
+                      <span className="item-with-icon">
+                        <FaAt className="item-icon" size={16} />
+                        <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
+                      </span>
+                    </Card>
+                    {this.props.userType !== 1 && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaRegBuilding className="item-icon" size={16} />
+                          {this.state.row.contractorCompany}&nbsp;
+                            <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        </span>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                  </div>
+                </div>
                 {(this.props.userType === 1) && (
                   <div className="button-container">
                     <Button

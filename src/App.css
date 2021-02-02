@@ -48,6 +48,10 @@
   padding-right: 0px !important;
 }
 
+.spacer {
+  flex-grow: 1;
+}
+
 .button-container {
   display: flex;
   margin: 15px 0;

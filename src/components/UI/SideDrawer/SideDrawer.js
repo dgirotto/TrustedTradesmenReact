@@ -27,9 +27,6 @@ const sideDrawer = props => {
         </Link>
         {props.isAuth ? (
           <Auxil>
-            {/* <Link onClick={props.drawerToggleClickHandler} to="/contractors">
-              <li>Contractors</li>
-            </Link> */}
             {props.userType !== 0 && props.userType !== 2 ? (
               <Link onClick={props.drawerToggleClickHandler} to="/leads">
                 <li>Leads</li>
@@ -38,11 +35,6 @@ const sideDrawer = props => {
             <Link onClick={props.drawerToggleClickHandler} to="/jobs">
               <li>Jobs</li>
             </Link>
-            {/* {props.userType === 3 ? (
-              <Link onClick={props.drawerToggleClickHandler} to="/admin">
-                <li>Admin</li>
-              </Link>
-            ) : null} */}
             <Link onClick={props.drawerToggleClickHandler} to="/settings">
               <li>Settings</li>
             </Link>

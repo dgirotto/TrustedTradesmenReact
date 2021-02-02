@@ -10,12 +10,11 @@
 
 .job-details-column-1 {
   flex: 65%;
-  padding: 0 5px 0 0;
 }
 
 .job-details-column-2 {
   flex: 35%;
-  padding: 0 0 0 5px;
+  padding: 0 0 0 10px; 
 }
 
 .job-details-card {

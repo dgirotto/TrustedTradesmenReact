@@ -37,13 +37,13 @@
 }
 
 .side-drawer li {
-  margin-bottom: 0.8rem;
+  margin: 6px 0;
 }
 
 .side-drawer a {
   color: #282828;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 20px;
 }
 
 .side-drawer a:hover {
