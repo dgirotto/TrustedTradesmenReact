@@ -84,7 +84,7 @@ class ServicesPage extends Component {
   render() {
     return (
       <div className="page-container">
-        {!this.state.isLoading && this.state.filteredServices ? (
+        {!this.state.isLoading && this.state.services ? (
           <Auxil>
             <Title>SERVICES</Title>
             <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
@@ -114,6 +114,9 @@ class ServicesPage extends Component {
                   </h2>
                 </Card>
               ))}
+              {this.state.filteredServices.length === 0 && (
+                <h2 style={{ margin: "20px auto 0", color: "#a5a5a5" }}>No services match</h2>
+              )}
             </div>
           </Auxil>
         ) : <Backdrop />}
