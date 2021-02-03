@@ -1018,8 +1018,8 @@ class JobsPage extends Component {
         {this.state.jobCount > 0 && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
+            {/* <TextField label="Search field" type="search" variant="outlined" /> */}
             <ThemeProvider theme={tableTheme}>
-
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
@@ -1057,7 +1057,6 @@ class JobsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
-
               <TableContainer className="mobile-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableBody>
@@ -1074,7 +1073,6 @@ class JobsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
-
               <TablePagination
                 rowsPerPageOptions={[10, 25, 50]}
                 component="div"
@@ -1084,9 +1082,7 @@ class JobsPage extends Component {
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeItemsPerPage}
               />
-
             </ThemeProvider>
-
           </Auxil>
         )}
 

@@ -16,7 +16,7 @@ class HomePage extends Component {
               <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
             </div> */}
             <div className="intro-desc">
-              My name is Chris Willick - I've been a professional home inspector for over 20 years. I have seen my fair share of
+              My name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
               contracting jobs done incorrectly and witnessed many people get ripped off.<br /><br />
               I've designed a website that has only inspector-approved contractors. Most other sites with contractor ratings are from
               customers who may not be completely knowledgable about construction. Contractors at Trusted Tradesmen are rated by
