@@ -301,10 +301,12 @@ export class Row extends Component {
               >
                 HIRE CONTRACTOR
               </Button>
+              <div className="spacer" />
               <Button
                 onClick={() => this.cancelJobConfirm()}
                 variant="contained"
                 color="secondary"
+                style={{ margin: "0" }}
               >
                 CANCEL JOB
               </Button>
@@ -316,36 +318,34 @@ export class Row extends Component {
         content = (
           <Auxil>
             <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div className="button-container">
-                <Button
-                  variant="contained"
-                  onClick={() => this.acceptInvoice(true)}
-                  color="primary"
-                  style={{
-                    backgroundColor: "#3bb13b",
-                    color: "white",
-                  }}
-                >
-                  ACCEPT
+            <div className="button-container">
+              <Button
+                variant="contained"
+                onClick={() => this.acceptInvoice(true)}
+                color="primary"
+                style={{
+                  backgroundColor: "#3bb13b",
+                  color: "white",
+                }}
+              >
+                ACCEPT
                 </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => this.acceptInvoice(false)}
-                  color="secondary"
-                >
-                  DECLINE
+              <Button
+                variant="contained"
+                onClick={() => this.acceptInvoice(false)}
+                color="secondary"
+              >
+                DECLINE
                 </Button>
-              </div>
-              <div style={{ margin: "15px 0" }}>
-                <Button
-                  onClick={() => this.cancelJobConfirm()}
-                  variant="contained"
-                  color="secondary"
-                >
-                  CANCEL JOB
+              <div className="spacer" />
+              <Button
+                onClick={() => this.cancelJobConfirm()}
+                variant="contained"
+                color="secondary"
+                style={{ margin: "0" }}
+              >
+                CANCEL JOB
                 </Button>
-              </div>
             </div>
           </Auxil>
         );
@@ -950,7 +950,9 @@ class JobsPage extends Component {
     pageNumber: 0,
     itemsPerPage: 10,
     isLoading: true,
-    showSnackbar: false,
+    // showSnackbar: false,
+    // showDialog: false,
+    dialogContent: null,
     isError: false,
     message: ""
   };
@@ -1096,6 +1098,28 @@ class JobsPage extends Component {
         )}
 
         {this.state.isLoading && <Backdrop />}
+
+        {/* <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{this.state.dialogContent.title}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {this.state.dialogContent.text}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose()} color="primary">
+              Cancel
+          </Button>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              Confirm
+          </Button>
+          </DialogActions>
+        </Dialog> */}
 
         <Snackbar
           open={this.state.showSnackbar}

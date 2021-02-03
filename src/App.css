@@ -54,11 +54,11 @@
 
 .button-container {
   display: flex;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 .button-container > button {
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .field-desc {
