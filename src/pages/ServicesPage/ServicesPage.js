@@ -56,7 +56,7 @@ class ServicesPage extends Component {
     else {
       // Filter services on search terms
       this.state.services.forEach(item => {
-        if (item.searchTerms.some(r => r.includes(event.target.value))) {
+        if (item.searchTerms.some(r => r.includes(event.target.value.toLowerCase()))) {
           filteredServicesNew.push(item);
         }
       });
@@ -87,7 +87,7 @@ class ServicesPage extends Component {
         {!this.state.isLoading && this.state.services ? (
           <Auxil>
             <Title>SERVICES</Title>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+            <div className="search-container">
               <FaSearch style={{ padding: "15px" }} color="#a5a5a5" size={26} />
               <TextField
                 type="search"

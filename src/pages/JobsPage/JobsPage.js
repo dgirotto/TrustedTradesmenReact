@@ -13,8 +13,8 @@ import { formatPhoneNumber, formatDate, formatNumber } from '../../helpers/Utils
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
-  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt,
-  FaRegBuilding, FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle
+  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt, FaRegBuilding,
+  FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle, FaSearch
 } from "react-icons/fa";
 
 import Table from "@material-ui/core/Table";
@@ -52,7 +52,8 @@ var tableTheme = createMuiTheme({
         margin: "auto",
         border: "1px solid rgba(224, 224, 224, 1)",
         borderRadius: "0",
-        boxShadow: "none"
+        boxShadow: "none",
+        boxSizing: "border-box"
       }
     },
     MuiTableCell: {
@@ -668,7 +669,7 @@ export class Row extends Component {
                 <td>{this.state.row.address}, {this.state.row.city}</td>
               </tr>
               <tr>
-                <td>Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
+                <td>Date Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>{this.getJobStatus()}</td>
@@ -690,7 +691,7 @@ export class Row extends Component {
         <Auxil>
           <TableCell>
             <IconButton aria-label="expand row" size="small">
-              {this.state.reportSent ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              {this.state.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
@@ -950,6 +951,7 @@ class JobsPage extends Component {
     pageNumber: 0,
     itemsPerPage: 10,
     isLoading: true,
+    sortDateDesc: null,
     // showSnackbar: false,
     // showDialog: false,
     dialogContent: null,
@@ -968,7 +970,7 @@ class JobsPage extends Component {
   getJobs = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 
-    JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage)
+    JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc)
       .then(res => {
         this.setState({
           jobs: res.data.jobs,
@@ -1012,13 +1014,33 @@ class JobsPage extends Component {
     this.setState({ showSnackbar: !this.state.showSnackbar });
   };
 
+  toggleSortDate = () => {
+    this.setState({
+      pageNumber: 0,
+      sortDateDesc: this.state.sortDateDesc ? !this.state.sortDateDesc : true
+    }, () => {
+      this.getJobs();
+    });
+  }
+
   render() {
     return (
       <div className="page-container">
         {this.state.jobCount > 0 && !this.state.isLoading && (
           <Auxil>
             <Title>JOBS</Title>
-            {/* <TextField label="Search field" type="search" variant="outlined" /> */}
+            {/* <div className="search-container">
+              <FaSearch style={{ padding: "15px" }} color="#a5a5a5" size={26} />
+              <TextField
+                type="search"
+                name="search"
+                label="Search Address"
+                value={this.state.searchContent}
+                onChange={this.searchChange}
+                variant="outlined"
+                style={{ width: "100%" }}
+              />
+            </div> */}
             <ThemeProvider theme={tableTheme}>
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
@@ -1027,19 +1049,24 @@ class JobsPage extends Component {
                       <TableCell style={{ width: "10px" }} >
                       </TableCell>
                       <TableCell>
-                        <b>Service</b>
+                        Service
                       </TableCell>
                       <TableCell>
-                        <b>Address</b>
+                        Address
                       </TableCell>
                       <TableCell>
-                        <b>City</b>
+                        City
                       </TableCell>
                       <TableCell>
-                        <b>Creation Date</b>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span style={{ paddingRight: "5px" }}>Date Created</span>
+                          <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
+                            {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                          </IconButton>
+                        </div>
                       </TableCell>
                       <TableCell style={{ width: "190px" }}>
-                        <b>Status</b>
+                        Status
                       </TableCell>
                     </TableRow>
                   </TableHead>

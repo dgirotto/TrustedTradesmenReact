@@ -102,7 +102,7 @@ class ResetPage extends Component {
                         <TextField
                             type="password"
                             name="password"
-                            label="password"
+                            label="Password"
                             value={this.state.resetDetails.password || ""}
                             variant="outlined"
                             onChange={this.change}
@@ -112,7 +112,7 @@ class ResetPage extends Component {
                         <TextField
                             type="password"
                             name="confirmPassword"
-                            label="confirm password"
+                            label="Confirm Password"
                             value={this.state.resetDetails.confirmPassword || ""}
                             variant="outlined"
                             onChange={this.change}

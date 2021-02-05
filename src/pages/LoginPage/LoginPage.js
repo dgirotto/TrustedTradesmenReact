@@ -134,7 +134,7 @@ class LoginPage extends Component {
                 <TextField
                   type="text"
                   name="email"
-                  label="email"
+                  label="Email"
                   value={this.state.loginDetails.email || ""}
                   variant="outlined"
                   onChange={this.change}
@@ -144,7 +144,7 @@ class LoginPage extends Component {
                 <TextField
                   type="password"
                   name="password"
-                  label="password"
+                  label="Password"
                   value={this.state.loginDetails.password || ""}
                   variant="outlined"
                   onChange={this.change}
@@ -188,7 +188,7 @@ class LoginPage extends Component {
                 <TextField
                   type="text"
                   name="email"
-                  label="email"
+                  label="Email"
                   value={this.state.emailToReset || ""}
                   variant="outlined"
                   onChange={this.emailChange}

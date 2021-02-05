@@ -4,10 +4,21 @@ import { config } from "../config.js";
 
 const commonEndpoint = config.local.apiUrl;
 
-function getJobs(pageNumber, itemsPerPage) {
+function getJobs(pageNumber, itemsPerPage, sortDateDesc) {
   const headers = getHeaders();
+  let endpoint = `${commonEndpoint}/job/read.php?pageNumber=${pageNumber}&itemsPerPage=${itemsPerPage}`;
+
+  if (sortDateDesc !== null) {
+    if (sortDateDesc) {
+      endpoint += `&sortDateDesc=1`
+    }
+    else {
+      endpoint += `&sortDateDesc=0`
+    }
+  }
+
   return axios.get(
-    `${commonEndpoint}/job/read.php?pageNumber=${pageNumber}&itemsPerPage=${itemsPerPage}`,
+    endpoint,
     { headers }
   );
 }

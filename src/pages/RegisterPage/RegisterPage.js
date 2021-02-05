@@ -97,7 +97,7 @@ class RegisterPage extends Component {
             <TextField
               type="text"
               name="email"
-              label="email"
+              label="Email"
               value={this.state.registerDetails.email || ""}
               variant="outlined"
               onChange={this.change}
@@ -107,7 +107,7 @@ class RegisterPage extends Component {
             <TextField
               type="password"
               name="password"
-              label="password"
+              label="Password"
               value={this.state.registerDetails.password || ""}
               variant="outlined"
               onChange={this.change}
@@ -117,7 +117,7 @@ class RegisterPage extends Component {
             <TextField
               type="password"
               name="confirmPassword"
-              label="confirm password"
+              label="Confirm Password"
               value={this.state.registerDetails.confirmPassword || ""}
               variant="outlined"
               onChange={this.change}

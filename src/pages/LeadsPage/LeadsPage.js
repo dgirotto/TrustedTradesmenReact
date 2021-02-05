@@ -119,7 +119,7 @@ export class Row extends Component {
                 <td>City: {this.state.row.city}</td>
               </tr>
               <tr>
-                <td>Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
+                <td>Date Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>Time Frame: {this.state.row.timeFrame} Month(s)</td>
@@ -355,19 +355,19 @@ class LeadsPage extends Component {
                       <TableCell style={{ width: "10px" }} >
                       </TableCell>
                       <TableCell>
-                        <b>Service</b>
+                        Service
                       </TableCell>
                       <TableCell>
-                        <b>City</b>
+                        City
                       </TableCell>
                       <TableCell>
-                        <b>Created</b>
+                        Date Created
                       </TableCell>
                       <TableCell>
-                        <b>Time Frame</b>
+                        Time Frame
                       </TableCell>
                       <TableCell>
-                        <b>Distance</b>
+                        Distance
                       </TableCell>
                     </TableRow>
                   </TableHead>
