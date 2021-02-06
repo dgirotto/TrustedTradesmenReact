@@ -1,9 +1,9 @@
 import React from "react";
 import "./DrawerToggleButton.css";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { FaBars } from "react-icons/fa";
 
 const drawerToggleButton = props => (
-  <GiHamburgerMenu className="toggle-button" size="40" onClick={props.click} />
+  <FaBars className="toggle-button" size="30" onClick={props.click} />
 );
 
 export default drawerToggleButton;

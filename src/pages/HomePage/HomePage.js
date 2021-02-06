@@ -81,10 +81,10 @@ class HomePage extends Component {
             <a href="faq" className="footer-link">FAQ</a>
           </div>
           <div style={{ paddingTop: "40px", textAlign: "center", color: "white" }}>
-            <a href="https://www.instagram.com" target="blank" className="footer-link with-icon"><FaInstagram size="25" /></a>
-            <a href="https://www.facebook.com" target="blank" className="footer-link with-icon"><FaFacebook size="25" /></a>
-            <a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter size="25" /></a>
-            <a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin size="25" /></a>
+            <a href="https://www.instagram.com" target="blank" className="footer-link with-icon"><FaInstagram size="27" /></a>
+            <a href="https://www.facebook.com" target="blank" className="footer-link with-icon"><FaFacebook size="27" /></a>
+            <a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter size="27" /></a>
+            <a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin size="27" /></a>
           </div>
           <p className="copyright-msg">Copyright © 2021 Trusted Tradesmen. All rights reserved.</p>
         </div>

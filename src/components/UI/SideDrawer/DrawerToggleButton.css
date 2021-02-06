@@ -1,6 +1,5 @@
 .toggle-button {
-  display: flex;
-  background: transparent;
+  display: flex;  
   color: white;
   cursor: pointer;
   margin-left: 1rem;
