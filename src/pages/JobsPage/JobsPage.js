@@ -14,7 +14,7 @@ import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
   FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt, FaRegBuilding,
-  FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle, FaSearch
+  FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle, FaSearch, FaSync
 } from "react-icons/fa";
 
 import Table from "@material-ui/core/Table";
@@ -952,6 +952,7 @@ class JobsPage extends Component {
     itemsPerPage: 10,
     isLoading: true,
     sortDateDesc: null,
+    addressFilterVal: "",
     // showSnackbar: false,
     // showDialog: false,
     dialogContent: null,
@@ -970,7 +971,7 @@ class JobsPage extends Component {
   getJobs = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 
-    JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc)
+    JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc, this.state.addressFilterVal)
       .then(res => {
         this.setState({
           jobs: res.data.jobs,
@@ -983,6 +984,19 @@ class JobsPage extends Component {
         this.setMessage(true, "Unable to retrieve jobs");
         this.setState({ isLoading: false });
       });
+  }
+
+  handleSearchClick = () => {
+    this.getJobs(true);
+  }
+
+  handleRefreshClick = () => {
+    this.setState({
+      sortDateDesc: null,
+      addressFilterVal: "",
+    }, () => {
+      this.getJobs(true);
+    });
   }
 
   handleChangePage = (event, newPage) => {
@@ -1019,28 +1033,46 @@ class JobsPage extends Component {
       pageNumber: 0,
       sortDateDesc: this.state.sortDateDesc ? !this.state.sortDateDesc : true
     }, () => {
-      this.getJobs();
+      this.getJobs(true);
     });
   }
 
   render() {
     return (
       <div className="page-container">
-        {this.state.jobCount > 0 && !this.state.isLoading && (
-          <Auxil>
-            <Title>JOBS</Title>
-            {/* <div className="search-container">
-              <FaSearch style={{ padding: "15px" }} color="#a5a5a5" size={26} />
-              <TextField
-                type="search"
-                name="search"
-                label="Search Address"
-                value={this.state.searchContent}
-                onChange={this.searchChange}
-                variant="outlined"
-                style={{ width: "100%" }}
-              />
-            </div> */}
+        <Auxil>
+          <Title>JOBS</Title>
+          <div className="search-container">
+            <TextField
+              type="search"
+              name="search"
+              label="Address Search"
+              value={this.state.addressFilterVal}
+              onChange={event => {
+                this.setState({ addressFilterVal: event.target.value })
+              }}
+              variant="outlined"
+              style={{ width: "100%" }}
+            />
+            <Button
+              onClick={this.handleSearchClick}
+              variant="contained"
+              color="primary"
+              disabled={this.state.addressFilterVal === ""}
+              style={{ marginLeft: "5px", padding: "16.9px", fontWeight: "bold" }}
+            >
+              <FaSearch size={22} />
+            </Button>
+            <Button
+              onClick={this.handleRefreshClick}
+              variant="contained"
+              color="primary"
+              style={{ marginLeft: "5px", padding: "17.5px", background: "#47a747" }}
+            >
+              <FaSync size={21} />
+            </Button>
+          </div>
+          {this.state.jobCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
@@ -1110,17 +1142,14 @@ class JobsPage extends Component {
                 onChangeRowsPerPage={this.handleChangeItemsPerPage}
               />
             </ThemeProvider>
-          </Auxil>
-        )}
+          )}
+        </Auxil>
 
         {this.state.jobCount === 0 && !this.state.isLoading && (
-          <Auxil>
-            <Title>JOBS</Title>
-            <Alert severity="info" color="info">You don't have any jobs at the moment.</Alert>
-          </Auxil>
+          <Alert severity="info" color="info">Could not find any jobs.</Alert>
         )}
 
-        {this.state.isLoading && <Backdrop />}
+        { this.state.isLoading && <Backdrop />}
 
         {/* <Dialog
           open={open}

@@ -9,7 +9,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FaSearch } from "react-icons/fa";
 
 import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
@@ -88,7 +87,6 @@ class ServicesPage extends Component {
           <Auxil>
             <Title>SERVICES</Title>
             <div className="search-container">
-              <FaSearch style={{ padding: "15px" }} color="#a5a5a5" size={26} />
               <TextField
                 type="search"
                 name="search"
