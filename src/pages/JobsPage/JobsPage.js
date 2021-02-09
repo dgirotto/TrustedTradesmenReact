@@ -73,8 +73,8 @@ export class Row extends Component {
   invoiceThreshold = 5000;
   requiresInspection = parseInt(this.props.row.invoicePrice) >= this.invoiceThreshold;
   holdingFee = this.props.row.invoicePrice * 0.15;
-  holdingFeeHst = (this.props.row.invoicePrice * 0.15) * (1 + this.hstValue);
-  invoicePriceHst = this.props.row.invoicePrice * (1 + this.hstValue);
+  holdingFeeHst = this.holdingFee * this.hstValue;
+  invoicePriceHst = this.props.row.invoicePrice * this.hstValue;
 
   state = {
     row: this.props.row,
@@ -781,16 +781,31 @@ export class Row extends Component {
                     {this.state.row.invoicePrice && (
                       <Card className="job-details-card">
                         <p className="item-title">INVOICE DETAILS</p>
-                        <span className="item-with-icon">
-                          <FaFileInvoiceDollar className="item-icon" size={16} />
-                        Total Price:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(this.invoicePriceHst.toFixed(2))}</span>
-                        </span>
-                        <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
-                          ${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))} + HST ({this.hstValue}%)
-                      </span>
+                        <div className="fee-table-container">
+                          <table className="fee-table">
+                            <tbody>
+                              <tr>
+                                <td>Subtotal</td>
+                                <td>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</td>
+                              </tr>
+                              <tr>
+                                <td>HST ({this.hstValue}%)</td>
+                                <td>${formatNumber((this.invoicePriceHst * 1.00).toFixed(2))}</td>
+                              </tr>
+                              <tr>
+                                <td>Total</td>
+                                <td>
+                                  <span style={{ fontWeight: "bold", color: "red" }}>
+                                    ${formatNumber(((this.state.row.invoicePrice * 1.00) + (this.invoicePriceHst * 1.00)).toFixed(2))}
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                         {this.state.row.invoiceAccepted === null ?
                           <span className="item-with-icon" style={{ color: "grey" }}>
-                            <FaMinusCircle className="item-icon" size={16} />Pending Approval
+                            <FaMinusCircle className="item-icon" size={16} />Pending Customer Approval
                         </span> :
                           this.state.row.invoiceAccepted === "1" ?
                             <span className="item-with-icon" style={{ color: "green" }}>
@@ -800,24 +815,40 @@ export class Row extends Component {
                               <FaTimesCircle className="item-icon" size={16} />Declined
                           </span>
                         }
-                        {this.state.row.invoicePaid ?
-                          <span className="item-with-icon" style={{ color: "green" }}>
-                            <FaCheckCircle className="item-icon" size={16} />Paid
-                        </span> :
-                          <span className="item-with-icon" style={{ color: "red" }}>
-                            <FaTimesCircle className="item-icon" size={16} />Not Paid
-                        </span>
-                        }
+                        {this.state.row.invoiceAccepted && (
+                          this.state.row.invoicePaid ?
+                            <span className="item-with-icon" style={{ color: "green" }}>
+                              <FaCheckCircle className="item-icon" size={16} />Paid
+                            </span> :
+                            <span className="item-with-icon" style={{ color: "red" }}>
+                              <FaTimesCircle className="item-icon" size={16} />Not Paid
+                            </span>
+                        )}
                         {this.state.row.invoiceAccepted === "1" && (
                           <Auxil>
                             <p className="item-title">HOLDING FEE DETAILS</p>
-                            <span className="item-with-icon">
-                              <FaFileInvoiceDollar className="item-icon" size={16} />
-                            Fee:&nbsp;<span style={{ fontWeight: "bold", color: "red", background: "#ffe7e7" }}>${formatNumber(this.holdingFeeHst.toFixed(2))}</span>
-                            </span>
-                            <span style={{ fontStyle: "italic", fontSize: "smaller", color: "grey" }}>
-                              ${formatNumber(this.holdingFee.toFixed(2))} + HST ({this.hstValue}%)
-                          </span>
+                            <div className="fee-table-container">
+                              <table className="fee-table">
+                                <tbody>
+                                  <tr>
+                                    <td>Subtotal</td>
+                                    <td>${formatNumber(this.holdingFee.toFixed(2))}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>HST ({this.hstValue}%)</td>
+                                    <td>${formatNumber(this.holdingFeeHst.toFixed(2))}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Total</td>
+                                    <td>
+                                      <span style={{ fontWeight: "bold", color: "red" }}>
+                                        ${formatNumber((this.holdingFee + this.holdingFeeHst).toFixed(2))}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
                             {this.state.row.holdingFeePaid ?
                               <span className="item-with-icon" style={{ color: "green" }}>
                                 <FaCheckCircle className="item-icon" size={16} />Paid
@@ -1042,36 +1073,39 @@ class JobsPage extends Component {
       <div className="page-container">
         <Auxil>
           <Title>JOBS</Title>
-          <div className="search-container">
-            <TextField
-              type="search"
-              name="search"
-              label="Address Search"
-              value={this.state.addressFilterVal}
-              onChange={event => {
-                this.setState({ addressFilterVal: event.target.value })
-              }}
-              variant="outlined"
-              style={{ width: "100%" }}
-            />
-            <Button
-              onClick={this.handleSearchClick}
-              variant="contained"
-              color="primary"
-              disabled={this.state.addressFilterVal === ""}
-              style={{ marginLeft: "5px", padding: "16.9px", fontWeight: "bold" }}
-            >
-              <FaSearch size={22} />
-            </Button>
-            <Button
-              onClick={this.handleRefreshClick}
-              variant="contained"
-              color="primary"
-              style={{ marginLeft: "5px", padding: "17.5px", background: "#47a747" }}
-            >
-              <FaSync size={21} />
-            </Button>
-          </div>
+          {this.state.userType !== 0 && (
+            <div className="search-container">
+              <TextField
+                type="search"
+                name="search"
+                label="Address Search"
+                value={this.state.addressFilterVal}
+                onChange={event => {
+                  this.setState({ addressFilterVal: event.target.value })
+                }}
+                variant="outlined"
+                style={{ width: "100%" }}
+              />
+              <Button
+                onClick={this.handleSearchClick}
+                variant="contained"
+                color="primary"
+                disabled={this.state.addressFilterVal === ""}
+                style={{ marginLeft: "5px", padding: "16.9px", fontWeight: "bold" }}
+              >
+                <FaSearch size={22} />
+              </Button>
+              <Button
+                onClick={this.handleRefreshClick}
+                variant="contained"
+                color="primary"
+                style={{ marginLeft: "5px", padding: "17.5px", background: "#47a747" }}
+              >
+                <FaSync size={21} />
+              </Button>
+            </div>
+          )}
+
           {this.state.jobCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
               <TableContainer className="desktop-table" component={Paper}>
