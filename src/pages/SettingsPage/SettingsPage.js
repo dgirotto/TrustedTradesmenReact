@@ -52,8 +52,12 @@ class SettingsPage extends Component {
       label: "120 km"
     },
     {
+      value: 170,
+      label: "170 km"
+    },
+    {
       value: 999,
-      label: "Over 120 km"
+      label: "Over 170 km"
     }
   ];
 
@@ -207,6 +211,16 @@ class SettingsPage extends Component {
           <Auxil>
             <Title>SETTINGS</Title>
             <h2 className="form-title" style={{ marginTop: "0" }}>ACCOUNT DETAILS</h2>
+            <div className="textfield-container-col">
+              <TextField
+                type="text"
+                name="email"
+                label="Email"
+                value={this.state.accountDetails.email || ""}
+                variant="outlined"
+                onChange={this.accountDetailsChange}
+              />
+            </div>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
@@ -287,18 +301,29 @@ class SettingsPage extends Component {
                 </TextField>
               </div>
             </div>
-            {this.state.userType === 1 && this.state.services !== null ? (
+            {(this.state.userType === 1 || this.state.userType === 2) && (
               <Auxil>
+                <span className="field-desc">How far are you willing to travel for a job?</span>
                 <div className="textfield-container-col">
                   <TextField
-                    type="text"
-                    name="companyName"
-                    label="Company Name"
-                    value={this.state.accountDetails.companyName || ""}
-                    variant="outlined"
+                    select
+                    name="maxDistance"
+                    label="Max Travel Distance"
+                    value={this.state.accountDetails.maxDistance || ""}
                     onChange={this.accountDetailsChange}
-                  />
+                    variant="outlined"
+                  >
+                    {this.maxDistances.map(option => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </div>
+              </Auxil>
+            )}
+            {this.state.userType === 1 && this.state.services !== null && (
+              <Auxil>
                 <span className="field-desc">Which services are you capable of providing? Select all that apply.</span>
                 <FormControl component="fieldset">
                   <FormGroup style={{ flexDirection: "row" }}>
@@ -353,22 +378,15 @@ class SettingsPage extends Component {
                 </FormControl>
                 <br />
                 <br />
-                <span className="field-desc">How far are you willing to travel to a customer for a job?</span>
                 <div className="textfield-container-col">
                   <TextField
-                    select
-                    name="maxDistance"
-                    label="Max Travel Distance"
-                    value={this.state.accountDetails.maxDistance || ""}
-                    onChange={this.accountDetailsChange}
+                    type="text"
+                    name="companyName"
+                    label="Company Name"
+                    value={this.state.accountDetails.companyName || ""}
                     variant="outlined"
-                  >
-                    {this.maxDistances.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    onChange={this.accountDetailsChange}
+                  />
                 </div>
                 <span className="field-desc">List any deals or specials you wish to be highlighted on your profile page.</span>
                 <div className="textfield-container-col">
@@ -450,7 +468,7 @@ class SettingsPage extends Component {
                   </div>
                 </div>
               </Auxil>
-            ) : null}
+            )}
             <Button
               onClick={this.saveChangesClickHandler}
               variant="contained"
