@@ -146,8 +146,7 @@ class App extends Component {
               component={AboutPage}
             />
             <Route
-              path="/disclaimers"
-              component={DisclaimersPage}
+              render={() => <DisclaimersPage isAuth={this.state.isAuth} userType={this.state.userType} />}
             />
             <Route
               path="/faq"

@@ -21,15 +21,7 @@
 }
 
 .logo-text {
-  margin-top: 4px;
-}
-
-.logo-icon {
-  margin-top: 1px;
-}
-
-.spacer {
-  flex: 1; 
+  margin-top: 3px;
 }
 
 .toolbar__navigation {

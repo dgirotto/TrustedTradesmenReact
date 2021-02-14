@@ -10,7 +10,7 @@ class HomePage extends Component {
     return (
       <Auxil>
         <div className="intro-container">
-          <h1 className="home-title">OUR MISSION</h1>
+          <h1 className="home-title">Our Mission</h1>
           <div className="intro">
             {/* <div className="intro-photo">
               <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
@@ -28,7 +28,7 @@ class HomePage extends Component {
           </div>
         </div>
         <div className="info-container">
-          <h1 className="home-title">HOW IT WORKS</h1>
+          <h1 className="home-title">How It Works</h1>
           <div className="card-container">
             <Card className="card">
               <FaUserPlus className="card-icon" size="60" />
