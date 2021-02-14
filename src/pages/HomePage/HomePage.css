@@ -1,9 +1,9 @@
 .home-title {
   text-align: center;
-  font-size: 38px;
+  font-size: 35px;
   color: rgb(40, 40, 40);
   margin: 0;
-  padding-bottom: 35px;
+  padding-bottom: 20px;
 }
 
 .intro-container, .info-container, .footer-container {
@@ -27,7 +27,9 @@
 
 .intro-desc {
   font-family: "Source Sans Pro", sans-serif;
+  text-align: justify;
   font-size: 18px;
+  padding: 15px;
 }
 
 .info-container {
@@ -105,6 +107,11 @@
 }
 
 @media (max-width: 768px) {
+  .home-title {
+    font-size: 30px;
+    padding-bottom: 10px;
+  }
+
   .intro-container, .info-container, .footer-container {
     padding: 30px 0;
   }
@@ -119,7 +126,7 @@
   }
 
   .intro-desc {
-    padding: 20px 10px 20px;
+    padding: 10px;
   }
 
   .card-container {

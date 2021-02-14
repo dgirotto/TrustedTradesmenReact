@@ -28,7 +28,7 @@ class HomePage extends Component {
           </div>
         </div>
         <div className="info-container">
-          <h1 className="home-title">How It Works</h1>
+          <h1 className="home-title">How it Works</h1>
           <div className="card-container">
             <Card className="card">
               <FaUserPlus className="card-icon" size="60" />
