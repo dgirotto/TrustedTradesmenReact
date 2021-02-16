@@ -67,12 +67,34 @@ class ServicesPage extends Component {
     });
   }
 
-  serviceCardClickHandler = arg => {
-    if (this.props.isAuth) {
-      window.location.href = "/services/" + arg;
+  setModal = modalType => {
+    if (modalType === 0) {
+      // Must log in modal
+      // console.log("SET MUST LOG IN MODAL");
     }
     else {
-      this.setState({ isOpen: true });
+      // No contractors found modal
+      // console.log("SET NO CONTRACTORS FOUND MODAL");
+    }
+
+    // this.setState({ isOpen: true });
+  }
+
+  serviceCardClickHandler = serviceId => {
+    var service = this.state.services.filter(service => {
+      return service.serviceId === serviceId
+    });
+
+    if (this.props.isAuth) {
+      if (service[0].hasContractors) {
+        window.location.href = "/services/" + service[0].serviceId;
+      }
+      else {
+        this.setModal(1);
+      }
+    }
+    else {
+      this.setModal(0);
     }
   };
 
@@ -100,12 +122,10 @@ class ServicesPage extends Component {
             <div className="services">
               {this.state.filteredServices.map(service => (
                 <Card
-                  onClick={() =>
-                    this.serviceCardClickHandler(service.serviceId)
-                  }
-                  key={service.serviceId}
                   className="service"
                   variant="outlined"
+                  key={service.serviceId}
+                  onClick={() => this.serviceCardClickHandler(service.serviceId)}
                 >
                   <h2 className="service-title">
                     {service.serviceName.toUpperCase()}
@@ -119,7 +139,21 @@ class ServicesPage extends Component {
           </Auxil>
         ) : <Backdrop />}
 
+
         <Dialog
+          open={this.state.isOpen}
+          onClose={this.handleClose}
+        >
+          <DialogTitle>Title here</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Content text here
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
+
+
+        {/* <Dialog
           open={this.state.isOpen}
           onClose={this.handleClose}
         >
@@ -145,7 +179,7 @@ class ServicesPage extends Component {
               </Button>
             </DialogContentText>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </div>
     );
   }
