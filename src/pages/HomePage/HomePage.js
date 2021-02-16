@@ -3,20 +3,16 @@ import "./HomePage.css";
 import Auxil from "../../helpers/Auxil";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
+import { FaRegHandshake, FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 class HomePage extends Component {
   render() {
     return (
       <Auxil>
         <div className="intro-container">
-          <h1 className="home-title">Our Mission</h1>
+          <h1 style={{ color: "#FFF" }} className="home-title">OUR MISSION</h1>
           <div className="intro">
-            {/* <div className="intro-photo">
-              <img src="https://www.oahi.com/_uploads/account_portrait/1861.jpg" alt="Chris Portrait" />
-            </div> */}
-            <div className="intro-desc">
-              My name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
+            My name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
               contracting jobs done incorrectly and witnessed many people get ripped off.<br /><br />
               I've designed a website that has only inspector-approved contractors. Most other sites with contractor ratings are from
               customers who may not be completely knowledgable about construction. Contractors at Trusted Tradesmen are rated by
@@ -24,11 +20,11 @@ class HomePage extends Component {
               A great job for a fair price is my ultimate aim, by honest
               contractors with integrity and morale. They're definitely out there, and I'm finding more as I go.<br /><br />
               Get started today!
-            </div>
           </div>
+          <FaRegHandshake style={{ color: "#e0e0e0  " }} size="80" />
         </div>
         <div className="info-container">
-          <h1 className="home-title">How it Works</h1>
+          <h1 style={{ color: "#2B3F48" }} className="home-title">HOW IT WORKS</h1>
           <div className="card-container">
             <Card className="card">
               <FaUserPlus className="card-icon" size="60" />

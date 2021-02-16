@@ -1,9 +1,8 @@
 .toolbar {
   width: 100%;
   background: #282828;
-  height: 48px;
   z-index: 100;
-  font-family: "Hammersmith One";
+  height: 50px;
 }
 
 .toolbar__logo a {
@@ -12,16 +11,14 @@
   align-content: center;
   color: white;
   text-decoration: none;
-  margin-left: 1.3rem;
+  margin-left: 1rem;
 }
 
-.toolbar__logo a span {
-  font-size: 1.5rem;
-  margin-left: 0.7rem;
-}
-
-.logo-text {
-  margin-top: 3px;
+.toolbar__logo a div {
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: 13px;
+  margin-top: 7px;
 }
 
 .toolbar__navigation {
@@ -31,20 +28,18 @@
 }
 
 .toolbar__navigation-items a {
-  padding-top: 5px;
   text-decoration: none;
+  margin-left: 18px;
 }
 
 .toolbar__navigation-items li {
   cursor: pointer;
-  padding-left: 1.25rem;
-  font-weight: 500;
   color: white;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .toolbar__navigation-items li:hover {
-  color: rgb(238, 178, 25);
+  color: #009E2D;
 }
 
 .toolbar__navigation-items li:active {
@@ -56,14 +51,6 @@
   display: flex;
   margin-right: 1.3em;
   padding: 0;
-}
-
-.icon-link {
-  margin-top: -2px;
-}
-
-.icon-link-settings {
-  margin-top: -1px;
 }
 
 @media (max-width: 335px) {

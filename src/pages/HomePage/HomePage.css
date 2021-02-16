@@ -1,13 +1,24 @@
 .home-title {
   text-align: center;
-  font-size: 35px;
-  color: rgb(40, 40, 40);
+  font-size: 30px;
+  font-weight: 700;
   margin: 0;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
 }
 
 .intro-container, .info-container, .footer-container {
-  padding: 70px 0 100px;
+  padding: 80px 0;
+}
+
+.intro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #202020;
+}
+
+.info-container {
+  background: #FFF;
 }
 
 .intro {
@@ -15,25 +26,11 @@
   flex-direction: column;
   max-width: 900px;
   margin: auto;
-}
-
-.intro-photo {
-  padding-right: 30px;
-}
-
-.intro-photo img {
-  border-radius: 75px;
-}
-
-.intro-desc {
-  font-family: "Source Sans Pro", sans-serif;
-  text-align: justify;
-  font-size: 18px;
   padding: 15px;
-}
-
-.info-container {
-  background: #84efe1;
+  font-size: 18px;
+  text-align: justify;
+  font-family: "Source Sans Pro", sans-serif;
+  color: #e0e0e0;
 }
 
 .card-container {
@@ -49,26 +46,28 @@
   min-height: 300px;
   margin: 15px;
   padding: 20px;
-  border-radius: 0 !important;
-  font-size: 17px;
+  font-size: 16px;
   text-align: center;
-  background-color: #fdc944 !important;
+  background-color: #FFF;
+  border: 1px solid rgb(0 0 0 / 13%);
+  box-shadow: none !important;
 }
 
 .home-button {
   width: 150px;
   margin: 10px auto !important;
-  background: rgb(40, 40, 40) !important;
+  background: #009E2D !important;
+  border-radius: 0px !important;
 }
 
 .card-icon {
   margin: 0 auto;
   padding: 15px;
-  color: rgb(40, 40, 40);
+  color:#424242;
 }
 
 .footer-container {
-  background: #282828;
+  background: #333333;
 }
 
 .footer-content {
@@ -91,6 +90,7 @@
 
 .with-icon {
   margin: 10px;
+  color: 
 }
 
 .footer-title {
@@ -118,15 +118,7 @@
 
   .intro {    
     padding: 0 10px;
-  }
-
-  .intro-photo {
-    margin: auto;
-    padding: 10px 0 0;
-  }
-
-  .intro-desc {
-    padding: 10px;
+    padding: 20px;
   }
 
   .card-container {
@@ -140,7 +132,7 @@
   }
 
   .footer-link {
-    font-size: 20px !important;
+    font-size: 18px !important;
   }
   
   .copyright-msg {

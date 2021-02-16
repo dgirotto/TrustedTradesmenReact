@@ -6,12 +6,12 @@
 }
 
 .close-icon:hover {
-  color: rgb(238, 178, 25);
+  color:#009E2D;
 }
 
 .side-drawer {
   position: fixed;
-  z-index: 200; /* above the backdrop */
+  z-index: 200;
   width: 70%;
   max-width: 350px;
   height: 100%;
@@ -37,17 +37,17 @@
 }
 
 .side-drawer li {
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .side-drawer a {
   color: #282828;
   text-decoration: none;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .side-drawer a:hover {
-  color: rgb(238, 178, 25);
+  color: #009E2D;
 }
 
 .side-drawer a:active {
