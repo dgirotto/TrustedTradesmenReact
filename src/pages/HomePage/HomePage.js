@@ -21,7 +21,7 @@ class HomePage extends Component {
               contractors with integrity and morale. They're definitely out there, and I'm finding more as I go.<br /><br />
               Get started today!
           </div>
-          <FaRegHandshake style={{ color: "#e0e0e0  " }} size="80" />
+          <FaRegHandshake className="handshake-icon" size="80" />
         </div>
         <div className="info-container">
           <h1 style={{ color: "#2B3F48" }} className="home-title">HOW IT WORKS</h1>

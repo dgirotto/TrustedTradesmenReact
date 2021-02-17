@@ -1,9 +1,9 @@
 .home-title {
   text-align: center;
-  font-size: 30px;
-  font-weight: 700;
   margin: 0;
   padding-bottom: 25px;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 .intro-container, .info-container, .footer-container {
@@ -27,9 +27,11 @@
   max-width: 900px;
   margin: auto;
   padding: 15px;
-  font-size: 18px;
-  text-align: justify;
-  font-family: "Source Sans Pro", sans-serif;
+  font-size: 17px;
+  color: #e0e0e0;
+}
+
+.handshake-icon {
   color: #e0e0e0;
 }
 
@@ -85,12 +87,11 @@
 }
 
 .footer-link:hover {
-  text-decoration: underline;
+  color: #009E2D;
 }
 
 .with-icon {
   margin: 10px;
-  color: 
 }
 
 .footer-title {
@@ -107,18 +108,24 @@
 }
 
 @media (max-width: 768px) {
+  
   .home-title {
-    font-size: 30px;
+    font-size: 26px;
     padding-bottom: 10px;
   }
 
   .intro-container, .info-container, .footer-container {
-    padding: 30px 0;
+    padding: 40px 0;
   }
 
   .intro {    
     padding: 0 10px;
     padding: 20px;
+  }
+
+  .handshake-icon {
+    width: 60px;
+    height: 60px;
   }
 
   .card-container {
