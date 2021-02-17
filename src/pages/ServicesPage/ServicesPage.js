@@ -9,11 +9,44 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
 
+function DialogFunction(props) {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
+  return (
+    <Dialog
+      open={props.isOpen}
+      onClose={props.handleClose}
+      fullScreen={fullScreen}
+    >
+      <DialogTitle>{props.modalContent.title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          {props.modalContent.content}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button>
+          Disagree
+        </Button>
+        <Button>
+          Agree
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
 class ServicesPage extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +54,11 @@ class ServicesPage extends Component {
       filteredServices: null,
       searchContent: "",
       isLoading: false,
-      isOpen: false
+      isOpen: false,
+      modalContent: {
+        title: "TEST",
+        content: "TEST"
+      }
     };
   }
 
@@ -48,14 +85,17 @@ class ServicesPage extends Component {
 
   searchChange = event => {
     var filteredServicesNew = [];
+    var searchTokens = null;
 
     if (event.target.value.trim() === "") {
       filteredServicesNew = this.state.services;
     }
     else {
+      searchTokens = event.target.value.split(' ');
+
       // Filter services on search terms
       this.state.services.forEach(item => {
-        if (item.searchTerms.some(r => r.includes(event.target.value.toLowerCase()))) {
+        if (item.searchTerms.filter(s => searchTokens.some(p => s.includes(p))).length > 0) {
           filteredServicesNew.push(item);
         }
       });
@@ -70,14 +110,14 @@ class ServicesPage extends Component {
   setModal = modalType => {
     if (modalType === 0) {
       // Must log in modal
-      // console.log("SET MUST LOG IN MODAL");
+      console.log("SET MUST LOG IN MODAL");
     }
     else {
       // No contractors found modal
-      // console.log("SET NO CONTRACTORS FOUND MODAL");
+      console.log("SET NO CONTRACTORS FOUND MODAL");
     }
 
-    // this.setState({ isOpen: true });
+    this.setState({ isOpen: true });
   }
 
   serviceCardClickHandler = serviceId => {
@@ -139,19 +179,7 @@ class ServicesPage extends Component {
           </Auxil>
         ) : <Backdrop />}
 
-
-        <Dialog
-          open={this.state.isOpen}
-          onClose={this.handleClose}
-        >
-          <DialogTitle>Title here</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Content text here
-            </DialogContentText>
-          </DialogContent>
-        </Dialog>
-
+        <DialogFunction isOpen={this.state.isOpen} handleClose={this.handleClose} modalContent={this.state.modalContent} />
 
         {/* <Dialog
           open={this.state.isOpen}
