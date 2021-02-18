@@ -17,7 +17,7 @@ import { useTheme } from '@material-ui/core/styles';
 import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
 
-function DialogFunction(props) {
+function ResponsiveDialog(props) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -26,20 +26,16 @@ function DialogFunction(props) {
       open={props.isOpen}
       onClose={props.handleClose}
       fullScreen={fullScreen}
+      fullWidth={true}
     >
-      <DialogTitle>{props.modalContent.title}</DialogTitle>
-      <DialogContent>
+      <DialogTitle style={{ background: "#fbfbfb" }}>{props.modalContent.title}</DialogTitle>
+      <DialogContent style={{ background: "#fbfbfb" }}>
         <DialogContentText>
           {props.modalContent.content}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button>
-          Disagree
-        </Button>
-        <Button>
-          Agree
-        </Button>
+      <DialogActions style={{ background: "#fbfbfb" }}>
+        {props.modalContent.actions}
       </DialogActions>
     </Dialog>
   );
@@ -56,8 +52,8 @@ class ServicesPage extends Component {
       isLoading: false,
       isOpen: false,
       modalContent: {
-        title: "TEST",
-        content: "TEST"
+        title: null,
+        content: null
       }
     };
   }
@@ -68,8 +64,8 @@ class ServicesPage extends Component {
     ServicesService.getServices()
       .then(res => {
         // Tokenize search terms
-        res.data.forEach(item => {
-          item.searchTerms = item.searchTerms.split(';');
+        res.data.forEach(service => {
+          service.searchTerms = service.searchTerms.split(';');
         })
 
         this.setState({
@@ -91,12 +87,11 @@ class ServicesPage extends Component {
       filteredServicesNew = this.state.services;
     }
     else {
-      searchTokens = event.target.value.split(' ');
-
+      searchTokens = event.target.value.trim().toLowerCase().split(' ');
       // Filter services on search terms
-      this.state.services.forEach(item => {
-        if (item.searchTerms.filter(s => searchTokens.some(p => s.includes(p))).length > 0) {
-          filteredServicesNew.push(item);
+      this.state.services.forEach(service => {
+        if (service.searchTerms.filter(s => searchTokens.some(p => s.includes(p))).length > 0) {
+          filteredServicesNew.push(service);
         }
       });
     }
@@ -110,11 +105,52 @@ class ServicesPage extends Component {
   setModal = modalType => {
     if (modalType === 0) {
       // Must log in modal
-      console.log("SET MUST LOG IN MODAL");
+      this.setState({
+        modalContent: {
+          title: 'Login Required',
+          content: <>
+            <span style={{ display: "block", margin: "10px 0" }}>You'll need to login to be able to submit a job request.</span>
+            <Button
+              onClick={() => (window.location.href = "/login")}
+              variant="contained"
+              color="primary"
+              style={{ background: "#282828", borderRadius: "0" }}
+            >
+              LOGIN
+            </Button>
+            <span style={{ display: "block", margin: "20px 0 10px" }}>Don't have an account?</span>
+            <Button
+              onClick={() => (window.location.href = "/register")}
+              variant="contained"
+              color="primary"
+              style={{ background: "#282828", borderRadius: "0" }}
+            >
+              REGISTER
+            </Button>
+          </>,
+          actions: <>
+            <Button onClick={this.handleClose}>
+              CLOSE
+            </Button>
+          </>
+        }
+      });
     }
     else {
       // No contractors found modal
-      console.log("SET NO CONTRACTORS FOUND MODAL");
+      this.setState({
+        modalContent: {
+          title: 'No Contractors Available',
+          content: <>
+            Sorry, but there aren't any contractors currently available for that service. Please check back soon!
+          </>,
+          actions: <>
+            <Button onClick={this.handleClose}>
+              OK
+            </Button>
+          </>
+        }
+      });
     }
 
     this.setState({ isOpen: true });
@@ -179,35 +215,11 @@ class ServicesPage extends Component {
           </Auxil>
         ) : <Backdrop />}
 
-        <DialogFunction isOpen={this.state.isOpen} handleClose={this.handleClose} modalContent={this.state.modalContent} />
-
-        {/* <Dialog
-          open={this.state.isOpen}
-          onClose={this.handleClose}
-        >
-          <DialogTitle style={{ background: "#fbfbfb" }}>Please login to continue</DialogTitle>
-          <DialogContent style={{ background: "#fbfbfb" }}>
-            <DialogContentText style={{ textAlign: "center" }}>
-              <Button
-                className="home-button"
-                onClick={() => (window.location.href = "/login")}
-                variant="contained"
-                color="primary"
-              >
-                LOGIN
-              </Button>
-              <span style={{ display: "block", padding: "10px 0" }}>Don't have an account?</span>
-              <Button
-                className="home-button"
-                onClick={() => (window.location.href = "/register")}
-                variant="contained"
-                color="primary"
-              >
-                REGISTER
-              </Button>
-            </DialogContentText>
-          </DialogContent>
-        </Dialog> */}
+        <ResponsiveDialog
+          isOpen={this.state.isOpen}
+          modalContent={this.state.modalContent}
+          handleClose={this.handleClose}
+        />
       </div>
     );
   }
