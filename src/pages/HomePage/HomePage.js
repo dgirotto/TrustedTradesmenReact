@@ -48,7 +48,7 @@ class HomePage extends Component {
             </Card>
             <Card className="card">
               <FaFileContract className="card-icon" size="60" />
-              <p>Select a service and submit a job request</p>
+              <p>Choose a service and submit a job request</p>
               <Button
                 className="home-button"
                 onClick={() => (window.location.href = "/services")}
@@ -60,7 +60,7 @@ class HomePage extends Component {
             </Card>
             <Card className="card">
               <FaUsers className="card-icon" size="60" />
-              <p>Choose from one of our many qualified tradesmen</p>
+              <p>Connect with one of our many qualified tradesmen</p>
             </Card>
           </div>
         </div>

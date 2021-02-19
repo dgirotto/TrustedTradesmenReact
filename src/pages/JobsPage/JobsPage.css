@@ -18,9 +18,11 @@
 }
 
 .job-details-card {
-  border-radius: 0px !important;
   padding: 0 10px 10px;
   margin-bottom: 10px;
+  border-radius: 0px !important;
+  border: 1px solid #e4e4e4;
+  box-shadow: none! important;
 }
 
 .item-title {
@@ -35,7 +37,8 @@
 }
 
 .item-icon {
-  padding-right: 5px;
+  color: #303030;
+  padding-right: 6px;
 }
 
 .status {
@@ -85,17 +88,17 @@
 
 .fee-table-container {
   max-width: 400px;
+  margin: 10px 0;
 }
 
 .fee-table {
   width: 100%;
-  margin-bottom: 10px;
-  background: rgb(250, 250, 250);
   border-collapse: collapse;
+  border: solid #d3d3d3 1px;
 }
 
 .fee-table > tbody > tr:nth-child(2) {
-  border-bottom: solid #282828 2px;
+  border-bottom: solid #d3d3d3 1px;
 }
 
 .fee-table > tbody > tr > td:nth-child(2) {
@@ -103,7 +106,7 @@
 }
 
 .fee-table > tbody > tr > td {
-  padding: 5px;
+  padding: 4px 8px;
 }
 
 @media (min-width: 661px) {

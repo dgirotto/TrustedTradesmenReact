@@ -59,6 +59,7 @@
 
 .button-container > button {
   margin-right: 10px;
+  font-weight: bold;
 }
 
 .field-desc {

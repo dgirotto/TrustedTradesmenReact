@@ -248,13 +248,14 @@ export class Row extends Component {
                 {(this.props.userType === 1) && (
                   <div className="button-container">
                     <Button
+                      style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
                       onClick={() => this.claimLead(true)}
                       variant="contained"
-                      style={{ backgroundColor: "#3bb13b", color: "white" }}
                     >
                       ACCEPT
                     </Button>
                     <Button
+                      style={{ fontWeight: "bold" }}
                       onClick={() => this.dismissLead()}
                       variant="contained"
                       color="secondary"
@@ -347,11 +348,10 @@ class LeadsPage extends Component {
           <Auxil>
             <Title>LEADS</Title>
             <ThemeProvider theme={tableTheme}>
-
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
-                    <TableRow style={{ backgroundColor: "rgb(250 250 250)" }}>
+                    <TableRow>
                       <TableCell style={{ width: "10px" }} >
                       </TableCell>
                       <TableCell>
@@ -385,7 +385,6 @@ class LeadsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
-
               <TableContainer className="mobile-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableBody>
@@ -402,7 +401,6 @@ class LeadsPage extends Component {
                   </TableBody>
                 </Table>
               </TableContainer>
-
               <TablePagination
                 rowsPerPageOptions={[10, 25, 50]}
                 component="div"
@@ -412,7 +410,6 @@ class LeadsPage extends Component {
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeItemsPerPage}
               />
-
             </ThemeProvider>
           </Auxil>
         )}

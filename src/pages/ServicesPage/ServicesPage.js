@@ -136,13 +136,29 @@ class ServicesPage extends Component {
         }
       });
     }
-    else {
+    else if (modalType === 1) {
       // No contractors found modal
       this.setState({
         modalContent: {
           title: 'No Contractors Available',
           content: <>
             Sorry, but there aren't any contractors currently available for that service. Please check back soon!
+          </>,
+          actions: <>
+            <Button onClick={this.handleClose}>
+              OK
+            </Button>
+          </>
+        }
+      });
+    }
+    else {
+      // Need a customer account to submit job request
+      this.setState({
+        modalContent: {
+          title: 'Invalid Account Type',
+          content: <>
+            You need to be logged in as a customer to submit a job request.
           </>,
           actions: <>
             <Button onClick={this.handleClose}>
@@ -162,7 +178,10 @@ class ServicesPage extends Component {
     });
 
     if (this.props.isAuth) {
-      if (service[0].hasContractors) {
+      if (this.props.userType !== 0) {
+        this.setModal(2);
+      }
+      else if (service[0].hasContractors) {
         window.location.href = "/services/" + service[0].serviceId;
       }
       else {

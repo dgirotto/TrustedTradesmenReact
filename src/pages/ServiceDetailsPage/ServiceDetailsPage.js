@@ -4,7 +4,8 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Auxil from "../../helpers/Auxil";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Title from "../../components/UI/Title/Title";
@@ -76,7 +77,7 @@ class ServiceDetailsPage extends Component {
       jobDetails: {
         serviceId: this.props.match.params.id
       },
-      updateContactDetails: false,
+      setPrimaryAddress: true,
       userType: AuthService.getRole(),
       isLoading: true,
       showSnackbar: false,
@@ -113,7 +114,6 @@ class ServiceDetailsPage extends Component {
             this.setState({
               jobDetails: jobDetailsCopy,
               accountDetails: accountDetails,
-              updateContactDetails: !(res.data.firstName && res.data.lastName && res.data.phone),
               isLoading: false
             });
           })
@@ -141,22 +141,10 @@ class ServiceDetailsPage extends Component {
   submitJobClickHandler = () => {
     this.setState({ isLoading: true });
 
-    if (this.state.updateContactDetails) {
-      AccountService.setAccountDetails(
-        {
-          firstName: this.state.jobDetails.firstName,
-          lastName: this.state.jobDetails.lastName,
-          phone: this.state.jobDetails.phone
-        }
-      )
-        .catch(error => {
-          this.displayMessage("Error while updating account details: " + error.response + "; Job not submitted.", false);
-          this.setState({ isLoading: false });
-          return;
-        });
-    }
+    var jobDetailsToSend = this.state.jobDetails;
+    jobDetailsToSend.setPrimaryAddress = this.state.setPrimaryAddress;
 
-    JobService.addJob(this.state.jobDetails)
+    JobService.addJob(jobDetailsToSend)
       .then(() => {
         var cleanJobDetails = this.state.jobDetails;
         cleanJobDetails.description = null;
@@ -195,7 +183,7 @@ class ServiceDetailsPage extends Component {
   renderContent() {
     return (
       <Auxil>
-        <Title>{this.state.serviceDetails.serviceName.toUpperCase()} SERVICES</Title>
+        <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
         <h2 className="form-title">DESCRIPTION</h2>
         <p>{this.state.serviceDetails.description}</p>
         {this.state.userType === 0 && (
@@ -206,9 +194,11 @@ class ServiceDetailsPage extends Component {
                 type="text"
                 name="description"
                 label="Description"
-                value={this.state.jobDetails.description || ""}
                 variant="outlined"
+                required
+                value={this.state.jobDetails.description || ""}
                 onChange={this.jobDetailsChange}
+
               />
             </div>
             <div className="textfield-container-row">
@@ -217,9 +207,10 @@ class ServiceDetailsPage extends Component {
                   select
                   name="budget"
                   label="Budget"
+                  variant="outlined"
+                  required
                   value={this.state.jobDetails.budget || ""}
                   onChange={this.jobDetailsChange}
-                  variant="outlined"
                 >
                   {this.budgets.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -233,9 +224,10 @@ class ServiceDetailsPage extends Component {
                   select
                   name="timeFrame"
                   label="Time Frame"
+                  variant="outlined"
+                  required
                   value={this.state.jobDetails.timeFrame || ""}
                   onChange={this.jobDetailsChange}
-                  variant="outlined"
                 >
                   {this.timeFrames.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -251,10 +243,10 @@ class ServiceDetailsPage extends Component {
                   type="text"
                   name="firstName"
                   label="First Name"
-                  value={this.state.jobDetails.firstName || ""}
                   variant="outlined"
+                  required
+                  value={this.state.jobDetails.firstName || ""}
                   onChange={this.jobDetailsChange}
-                  disabled={this.state.accountDetails.firstName !== null}
                 />
               </div>
               <div className="textfield-container-col">
@@ -262,10 +254,10 @@ class ServiceDetailsPage extends Component {
                   type="text"
                   name="lastName"
                   label="Last Name"
-                  value={this.state.jobDetails.lastName || ""}
                   variant="outlined"
+                  required
+                  value={this.state.jobDetails.lastName || ""}
                   onChange={this.jobDetailsChange}
-                  disabled={this.state.accountDetails.lastName !== null}
                 />
               </div>
               <div className="textfield-container-col">
@@ -273,10 +265,10 @@ class ServiceDetailsPage extends Component {
                   type="text"
                   name="phone"
                   label="Phone"
-                  value={this.state.jobDetails.phone || ""}
                   variant="outlined"
+                  required
+                  value={this.state.jobDetails.phone || ""}
                   onChange={this.jobDetailsChange}
-                  disabled={this.state.accountDetails.phone !== null}
                 />
               </div>
             </div>
@@ -285,8 +277,9 @@ class ServiceDetailsPage extends Component {
                 type="text"
                 name="address"
                 label="Address"
-                value={this.state.jobDetails.address || ""}
                 variant="outlined"
+                required
+                value={this.state.jobDetails.address || ""}
                 onChange={this.jobDetailsChange}
               />
             </div>
@@ -296,18 +289,9 @@ class ServiceDetailsPage extends Component {
                   type="text"
                   name="city"
                   label="City"
+                  variant="outlined"
+                  required
                   value={this.state.jobDetails.city || ""}
-                  variant="outlined"
-                  onChange={this.jobDetailsChange}
-                />
-              </div>
-              <div className="textfield-container-col">
-                <TextField
-                  type="text"
-                  name="postalCode"
-                  label="Postal Code"
-                  value={this.state.jobDetails.postalCode || ""}
-                  variant="outlined"
                   onChange={this.jobDetailsChange}
                 />
               </div>
@@ -316,9 +300,10 @@ class ServiceDetailsPage extends Component {
                   select
                   name="province"
                   label="Province"
+                  variant="outlined"
+                  required
                   value={this.state.jobDetails.province || ""}
                   onChange={this.jobDetailsChange}
-                  variant="outlined"
                 >
                   {this.provinces.map(option => (
                     <MenuItem key={option.value} value={option.value}>
@@ -327,11 +312,38 @@ class ServiceDetailsPage extends Component {
                   ))}
                 </TextField>
               </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="Postal Code"
+                  variant="outlined"
+                  required
+                  value={this.state.jobDetails.postalCode || ""}
+                  onChange={this.jobDetailsChange}
+                />
+              </div>
             </div>
-            <span style={{ display: "block", padding: "0 0 15px", fontStyle: "italic", color: "red" }}>
-              All fields are required. Account details can be updated <a href="/settings" target="_blank">here</a>.
-            </span>
+            <div style={{ margin: "-10px 0 10px" }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={event => {
+                      if (event.target.checked) {
+                        this.setState({ setPrimaryAddress: true });
+                      }
+                      else {
+                        this.setState({ setPrimaryAddress: false });
+                      }
+                    }}
+                    checked={this.state.setPrimaryAddress}
+                  />
+                }
+                label="Use this as my primary address"
+              />
+            </div>
             <Button
+              style={{ fontWeight: "bold" }}
               onClick={this.submitJobClickHandler}
               variant="contained"
               color="primary"

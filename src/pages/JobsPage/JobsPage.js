@@ -286,6 +286,7 @@ export class Row extends Component {
             </div>
             <div className="button-container multi-button">
               <Button
+                style={{ fontWeight: "bold" }}
                 onClick={() => window.open("/contractors/" + this.state.contractor)}
                 variant="contained"
                 color="primary"
@@ -293,21 +294,17 @@ export class Row extends Component {
                 VIEW PROFILE
               </Button>
               <Button
+                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
                 onClick={() => this.claimJobConfirm()}
                 variant="contained"
-                style={{
-                  backgroundColor: "#3bb13b",
-                  color: "white"
-                }}
               >
                 HIRE CONTRACTOR
               </Button>
               <div className="spacer" />
               <Button
+                style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
                 onClick={() => this.cancelJobConfirm()}
                 variant="contained"
-                color="secondary"
-                style={{ margin: "0" }}
               >
                 CANCEL JOB
               </Button>
@@ -321,32 +318,30 @@ export class Row extends Component {
             <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
             <div className="button-container">
               <Button
+                style={{ background: "#3bb13b", color: "white", fontWeight: "bold" }}
                 variant="contained"
                 onClick={() => this.acceptInvoice(true)}
                 color="primary"
-                style={{
-                  backgroundColor: "#3bb13b",
-                  color: "white",
-                }}
               >
                 ACCEPT
-                </Button>
+              </Button>
               <Button
+                style={{ fontWeight: "bold" }}
                 variant="contained"
                 onClick={() => this.acceptInvoice(false)}
                 color="secondary"
               >
                 DECLINE
-                </Button>
+              </Button>
               <div className="spacer" />
               <Button
+                style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
                 onClick={() => this.cancelJobConfirm()}
                 variant="contained"
                 color="secondary"
-                style={{ margin: "0" }}
               >
                 CANCEL JOB
-                </Button>
+              </Button>
             </div>
           </Auxil>
         );
@@ -356,10 +351,10 @@ export class Row extends Component {
           <div className="button-container">
             <div className="spacer" />
             <Button
+              style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
               onClick={() => this.cancelJobConfirm()}
               variant="contained"
               color="secondary"
-              style={{ margin: "0" }}
             >
               CANCEL JOB
             </Button>
@@ -392,13 +387,14 @@ export class Row extends Component {
             </div>
             <div className="button-container">
               <Button
+                style={{ fontWeight: "bold" }}
                 variant="contained"
                 onClick={() => this.sendInvoice()}
                 disabled={this.state.invoicePrice === 0 || !this.state.invoicePrice}
                 color="primary"
               >
                 SEND INVOICE
-            </Button>
+              </Button>
             </div>
           </Auxil>
         );
@@ -439,6 +435,7 @@ export class Row extends Component {
             </div>
             <div className="button-container">
               <Button
+                style={{ fontWeight: "bold" }}
                 variant="contained"
                 onClick={() => this.completeJob()}
                 disabled={this.state.completionDate === ""}
@@ -457,12 +454,9 @@ export class Row extends Component {
             <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceHst - this.holdingFeeHst).toFixed(2))}</b> ${formatNumber((this.state.row.invoicePrice - this.holdingFee).toFixed(2))} + HST ({this.hstValue}%) is owed by the customer.</Alert>
             <div className="button-container">
               <Button
+                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
                 variant="contained"
                 onClick={() => this.paymentReceivedConfirm()}
-                style={{
-                  backgroundColor: "#3bb13b",
-                  color: "white"
-                }}
               >
                 PAYMENT RECEIVED
               </Button>
@@ -477,12 +471,9 @@ export class Row extends Component {
         content = (
           <div className="button-container">
             <Button
+              style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
               variant="contained"
               onClick={() => this.claimJob()}
-              style={{
-                backgroundColor: "#3bb13b",
-                color: "white"
-              }}
             >
               CLAIM JOB
             </Button>
@@ -805,23 +796,23 @@ export class Row extends Component {
                         </div>
                         {this.state.row.invoiceAccepted === null ?
                           <span className="item-with-icon" style={{ color: "grey" }}>
-                            <FaMinusCircle className="item-icon" size={16} />Pending Customer Approval
-                        </span> :
+                            <FaMinusCircle className="item-icon" style={{ color: "grey" }} size={16} />Pending Customer Approval
+                          </span> :
                           this.state.row.invoiceAccepted === "1" ?
                             <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" size={16} />Accepted
-                          </span> :
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Accepted
+                            </span> :
                             <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" size={16} />Declined
-                          </span>
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Declined
+                            </span>
                         }
                         {this.state.row.invoiceAccepted && (
                           this.state.row.invoicePaid ?
                             <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" size={16} />Paid
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
                             </span> :
                             <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" size={16} />Not Paid
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
                             </span>
                         )}
                         {this.state.row.invoiceAccepted === "1" && (
@@ -851,11 +842,11 @@ export class Row extends Component {
                             </div>
                             {this.state.row.holdingFeePaid ?
                               <span className="item-with-icon" style={{ color: "green" }}>
-                                <FaCheckCircle className="item-icon" size={16} />Paid
-                            </span> :
+                                <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                              </span> :
                               <span className="item-with-icon" style={{ color: "red" }}>
-                                <FaTimesCircle className="item-icon" size={16} />Not Paid
-                            </span>
+                                <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                              </span>
                             }
                           </Auxil>
                         )}
@@ -885,10 +876,10 @@ export class Row extends Component {
                         </span>
                         {this.state.row.inspectionPassed === "1" ?
                           <span className="item-with-icon" style={{ color: "green" }}>
-                            <FaCheckCircle className="item-icon" size={16} />Inspection Passed
+                            <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Inspection Passed
                         </span> :
                           <span className="item-with-icon" style={{ color: "red" }}>
-                            <FaTimesCircle className="item-icon" size={16} />Job Failed Inspection
+                            <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Job Failed Inspection
                         </span>
                         }
                         {this.props.userType !== 0 && this.state.row.inspectorNotes && (
@@ -1087,19 +1078,19 @@ class JobsPage extends Component {
                 style={{ width: "100%" }}
               />
               <Button
+                style={{ marginLeft: "5px", padding: "16.9px" }}
                 onClick={this.handleSearchClick}
                 variant="contained"
                 color="primary"
                 disabled={this.state.addressFilterVal === ""}
-                style={{ marginLeft: "5px", padding: "16.9px", fontWeight: "bold" }}
               >
                 <FaSearch size={22} />
               </Button>
               <Button
+                style={{ marginLeft: "5px", padding: "17.5px", background: "#47a747" }}
                 onClick={this.handleRefreshClick}
                 variant="contained"
                 color="primary"
-                style={{ marginLeft: "5px", padding: "17.5px", background: "#47a747" }}
               >
                 <FaSync size={21} />
               </Button>
@@ -1111,7 +1102,7 @@ class JobsPage extends Component {
               <TableContainer className="desktop-table" component={Paper}>
                 <Table aria-label="collapsible table">
                   <TableHead>
-                    <TableRow style={{ backgroundColor: "rgb(250 250 250)" }}>
+                    <TableRow>
                       <TableCell style={{ width: "10px" }} >
                       </TableCell>
                       <TableCell>

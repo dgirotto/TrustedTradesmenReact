@@ -98,7 +98,7 @@ class App extends Component {
             />
             <Route path="/services"
               exact
-              render={() => <ServicesPage isAuth={this.state.isAuth} />}
+              render={() => <ServicesPage isAuth={this.state.isAuth} userType={this.state.userType} />}
             />
             <PrivateRoute
               path="/services/:id"

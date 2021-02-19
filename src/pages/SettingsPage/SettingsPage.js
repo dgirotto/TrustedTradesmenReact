@@ -276,16 +276,6 @@ class SettingsPage extends Component {
               </div>
               <div className="textfield-container-col">
                 <TextField
-                  type="text"
-                  name="postalCode"
-                  label="Postal Code"
-                  value={this.state.accountDetails.postalCode || ""}
-                  variant="outlined"
-                  onChange={this.accountDetailsChange}
-                />
-              </div>
-              <div className="textfield-container-col">
-                <TextField
                   select
                   name="province"
                   label="Province"
@@ -299,6 +289,16 @@ class SettingsPage extends Component {
                     </MenuItem>
                   ))}
                 </TextField>
+              </div>
+              <div className="textfield-container-col">
+                <TextField
+                  type="text"
+                  name="postalCode"
+                  label="Postal Code"
+                  value={this.state.accountDetails.postalCode || ""}
+                  variant="outlined"
+                  onChange={this.accountDetailsChange}
+                />
               </div>
             </div>
             {(this.state.userType === 1 || this.state.userType === 2) && (
@@ -470,13 +470,14 @@ class SettingsPage extends Component {
               </Auxil>
             )}
             <Button
+              style={{ fontWeight: "bold" }}
               onClick={this.saveChangesClickHandler}
               variant="contained"
               color="secondary"
               disabled={!this.state.hasEditedDetails}
             >
               SAVE DETAILS
-              </Button>
+            </Button>
             <h2 className="form-title" style={{ marginTop: "25px" }}>CHANGE PASSWORD</h2>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
@@ -511,6 +512,7 @@ class SettingsPage extends Component {
               </div>
             </div>
             <Button
+              style={{ fontWeight: "bold" }}
               onClick={this.changePasswordClickHandler}
               variant="contained"
               color="secondary"
@@ -523,7 +525,7 @@ class SettingsPage extends Component {
               }
             >
               CHANGE PASSWORD
-              </Button>
+            </Button>
           </Auxil>
         )
         }
