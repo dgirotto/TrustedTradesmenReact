@@ -3,43 +3,12 @@ import Card from "@material-ui/core/Card";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
 import Title from "../../components/UI/Title/Title";
+import ResponsiveDialog from "../../components/ResponsiveDialog";
 import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 
 import "./ServicesPage.css";
 import { ServicesService } from "../../services/service";
-
-function ResponsiveDialog(props) {
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-
-  return (
-    <Dialog
-      open={props.isOpen}
-      onClose={props.handleClose}
-      fullScreen={fullScreen}
-      fullWidth={true}
-    >
-      <DialogTitle style={{ background: "#fbfbfb" }}>{props.modalContent.title}</DialogTitle>
-      <DialogContent style={{ background: "#fbfbfb" }}>
-        <DialogContentText>
-          {props.modalContent.content}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions style={{ background: "#fbfbfb" }}>
-        {props.modalContent.actions}
-      </DialogActions>
-    </Dialog>
-  );
-}
 
 class ServicesPage extends Component {
 

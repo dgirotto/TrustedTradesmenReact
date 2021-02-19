@@ -231,7 +231,6 @@ export class Row extends Component {
       });
   }
 
-  // TODO: Use https://material-ui.com/components/dialogs/ instead of window.confirm()
   claimJobConfirm = () => {
     if (window.confirm("Are you sure you wish to hire the selected contractor?")) {
       this.claimJob();
@@ -975,7 +974,7 @@ class JobsPage extends Component {
     isLoading: true,
     sortDateDesc: null,
     addressFilterVal: "",
-    // showSnackbar: false,
+    showSnackbar: false,
     // showDialog: false,
     dialogContent: null,
     isError: false,
