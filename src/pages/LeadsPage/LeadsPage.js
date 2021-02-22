@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+
 import { LeadsService } from "../../services/leads";
 import { AuthService } from "../../services/auth";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Auxil from "../../helpers/Auxil";
+import ResponsiveDialog from "../../components/ResponsiveDialog";
 import { formatPhoneNumber, formatDate } from '../../helpers/Utils';
 
 import "./LeadsPage.css";
@@ -30,10 +31,10 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+// import MuiAlert from "@material-ui/lab/Alert";
+// import Snackbar from "@material-ui/core/Snackbar";
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -54,9 +55,9 @@ var tableTheme = createMuiTheme({
   }
 });
 
-function AlertPopup(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function AlertPopup(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 export class Row extends Component {
   state = {
@@ -66,16 +67,26 @@ export class Row extends Component {
 
   componentWillReceiveProps(newProps) {
     this.setState({
-      row: newProps.row,
-      userType: newProps.userType,
-      open: false
+      row: newProps.row
     });
   }
 
   dismissLead = () => {
-    if (window.confirm("Are you sure you wish to dismiss this lead?")) {
-      this.claimLead(false);
-    }
+    let modalContent = {
+      title: `Confirm Dismissal`,
+      content: `Are you sure you wish to dismiss this lead?`,
+      actions: <>
+        <Button onClick={() => this.claimLead(false)}>
+          Yes
+        </Button>
+        <Button onClick={this.props.handleClose}>
+          No
+        </Button>
+      </>
+    };
+  
+    this.props.setDialog(modalContent);
+    this.props.handleOpen();
   }
 
   claimLead = (isAccepted) => {
@@ -87,11 +98,13 @@ export class Row extends Component {
     LeadsService.updateLead(body)
       .then(() => {
         this.props.getLeads(true);
-        this.props.setMessage(false, "Lead successfully updated");
+        // this.props.setMessage(false, "Lead successfully updated");
       })
       .catch(() => {
-        this.props.setMessage(true, "Unable to update lead");
+        // this.props.setMessage(true, "Unable to update lead");
       });
+
+    this.props.handleClose();
   }
 
   formatDistance = (distance) => {
@@ -141,7 +154,7 @@ export class Row extends Component {
     }
     else {
       content = (
-        <Auxil>
+        <>
           <TableCell>
             <IconButton aria-label="expand row" size="small">
               {this.state.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -152,7 +165,7 @@ export class Row extends Component {
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.state.row.timeFrame} Month(s)</TableCell>
           <TableCell>{this.formatDistance(this.state.row.travelDistance)}</TableCell>
-        </Auxil>
+        </>
       );
     }
 
@@ -161,7 +174,7 @@ export class Row extends Component {
 
   render() {
     return (
-      <Auxil>
+      <>
         <TableRow onClick={() => this.setState({ open: !this.state.open })} style={{ cursor: "pointer" }}>
           {this.getRowContent()}
         </TableRow>
@@ -267,7 +280,7 @@ export class Row extends Component {
             </Collapse>
           </TableCell>
         </TableRow>
-      </Auxil>
+      </>
     );
   }
 }
@@ -280,9 +293,15 @@ class LeadsPage extends Component {
     pageNumber: 0,
     itemsPerPage: 10,
     isLoading: true,
-    showSnackbar: false,
+    // showSnackbar: false,
     isError: false,
-    message: ""
+    message: "",
+    isOpen: false,
+    modalContent: {
+      title: null,
+      content: null,
+      actions: null
+    }
   };
 
   componentDidMount() {
@@ -306,7 +325,7 @@ class LeadsPage extends Component {
         });
       })
       .catch(() => {
-        this.setMessage(true, "Unable to retrieve leads");
+        // this.setMessage(true, "Unable to retrieve leads");
         this.setState({ isLoading: false });
       });
   }
@@ -328,101 +347,128 @@ class LeadsPage extends Component {
     });
   }
 
-  setMessage = (isError, message) => {
+  setDialog = (content) => {
     this.setState({
-      showSnackbar: true,
-      isError: isError,
-      message: message
+      modalContent: {
+        title: content.title,
+        content: content.content,
+        actions: content.actions
+      }
     });
   }
 
-  toggleSnackbar = () => {
-    this.setState({ showSnackbar: !this.state.showSnackbar });
-  };
+  handleOpen = () => {
+    this.setState({ isOpen: true });
+  }
+
+  handleClose = () => {
+    this.setState({ isOpen: false });
+  }
+
+  // setMessage = (isError, message) => {
+  //   this.setState({
+  //     showSnackbar: true,
+  //     isError: isError,
+  //     message: message
+  //   });
+  // }
+
+  // toggleSnackbar = () => {
+  //   this.setState({ showSnackbar: !this.state.showSnackbar });
+  // };
 
   render() {
     return (
       <div className="page-container">
-        {this.state.leadCount > 0 && !this.state.isLoading && (
-          <Auxil>
-            <Title>LEADS</Title>
+        <>
+          <Title>LEADS</Title>
+          {this.state.leadCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
-              <TableContainer className="desktop-table" component={Paper}>
-                <Table aria-label="collapsible table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell style={{ width: "10px" }} >
+                <TableContainer className="desktop-table" component={Paper}>
+                  <Table aria-label="collapsible table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ width: "10px" }} >
+                        </TableCell>
+                        <TableCell>
+                          Service
                       </TableCell>
-                      <TableCell>
-                        Service
+                        <TableCell>
+                          City
                       </TableCell>
-                      <TableCell>
-                        City
+                        <TableCell>
+                          Date Created
                       </TableCell>
-                      <TableCell>
-                        Date Created
+                        <TableCell>
+                          Time Frame
                       </TableCell>
-                      <TableCell>
-                        Time Frame
+                        <TableCell>
+                          Distance
                       </TableCell>
-                      <TableCell>
-                        Distance
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.state.leads.map(lead => (
-                      <Row
-                        key={lead.leadId}
-                        row={lead}
-                        userType={this.state.userType}
-                        isMobile={false}
-                        getLeads={this.getLeads}
-                        setMessage={this.setMessage}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TableContainer className="mobile-table" component={Paper}>
-                <Table aria-label="collapsible table">
-                  <TableBody>
-                    {this.state.leads.map(lead => (
-                      <Row
-                        key={lead.leadId}
-                        row={lead}
-                        userType={this.state.userType}
-                        isMobile={true}
-                        getLeads={this.getLeads}
-                        setMessage={this.setMessage}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
-                component="div"
-                count={this.state.leadCount}
-                rowsPerPage={this.state.itemsPerPage}
-                page={this.state.pageNumber}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeItemsPerPage}
-              />
-            </ThemeProvider>
-          </Auxil>
-        )}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {this.state.leads.map(lead => (
+                        <Row
+                          key={lead.leadId}
+                          row={lead}
+                          userType={this.state.userType}
+                          isMobile={false}
+                          getLeads={this.getLeads}
+                          setDialog={this.setDialog}
+                          handleOpen={this.handleOpen}
+                          handleClose={this.handleClose}
+                        // setMessage={this.setMessage}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TableContainer className="mobile-table" component={Paper}>
+                  <Table aria-label="collapsible table">
+                    <TableBody>
+                      {this.state.leads.map(lead => (
+                        <Row
+                          key={lead.leadId}
+                          row={lead}
+                          userType={this.state.userType}
+                          isMobile={true}
+                          getLeads={this.getLeads}
+                          setDialog={this.setDialog}
+                          handleOpen={this.handleOpen}
+                          handleClose={this.handleClose}
+                        // setMessage={this.setMessage}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 50]}
+                  component="div"
+                  count={this.state.leadCount}
+                  rowsPerPage={this.state.itemsPerPage}
+                  page={this.state.pageNumber}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeItemsPerPage}
+                />
+              </ThemeProvider>
+          )}
+        </>
 
         {this.state.leadCount === 0 && !this.state.isLoading && (
-          <Auxil>
-            <Title>LEADS</Title>
-            <Alert severity="info" color="info">You don't have any leads at the moment.</Alert>
-          </Auxil>
+          <Alert severity="info" color="info">You don't have any leads at the moment.</Alert>
         )}
+
+        <ResponsiveDialog
+          isOpen={this.state.isOpen}
+          modalContent={this.state.modalContent}
+          handleClose={this.handleClose}
+        />
 
         {this.state.isLoading && <Backdrop />}
 
-        <Snackbar
+        {/* <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}
           onClose={this.toggleSnackbar}
@@ -430,7 +476,7 @@ class LeadsPage extends Component {
           <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
             {this.state.message}
           </AlertPopup>
-        </Snackbar>
+        </Snackbar> */}
       </div>
     );
   }

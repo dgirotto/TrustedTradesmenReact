@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 
-import "./JobsPage.css";
-
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Auxil from "../../helpers/Auxil";
 import ResponsiveDialog from "../../components/ResponsiveDialog";
 import { formatPhoneNumber, formatDate, formatNumber } from '../../helpers/Utils';
+
+import "./JobsPage.css";
 
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -32,8 +31,6 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
-// import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -43,6 +40,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+// import MuiAlert from "@material-ui/lab/Alert";
+// import Snackbar from "@material-ui/core/Snackbar";
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -64,9 +63,9 @@ var tableTheme = createMuiTheme({
   }
 });
 
-function AlertPopup(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function AlertPopup(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 export class Row extends Component {
   hstValue = 0.13;
@@ -95,8 +94,6 @@ export class Row extends Component {
 
     this.setState({
       row: newProps.row,
-      userType: newProps.userType,
-      open: false,
       notes: this.getNotes,
       invoicePrice: 0,
       completionDate: "",
@@ -289,26 +286,6 @@ export class Row extends Component {
     this.props.handleOpen();
   }
 
-  claimJobConfirm = () => {
-    if (window.confirm("Are you sure you wish to hire the selected contractor?")) {
-      this.claimJob();
-    }
-  }
-
-  cancelJobConfirm = () => {
-    if (window.confirm("Are you sure you wish to cancel this job? This action cannot be undone.")) {
-      this.cancelJob();
-    }
-  }
-
-  paymentReceivedConfirm = () => {
-    let verbiage = this.props.userType === 1 ? "holding fee" : "payment";
-
-    if (window.confirm(`Are you sure you've received the ${verbiage} for this job?`)) {
-      this.paymentReceived();
-    }
-  }
-
   getUIContent = () => {
     let content = null;
 
@@ -316,7 +293,7 @@ export class Row extends Component {
       // CUSTOMER
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         content = (
-          <Auxil>
+          <>
             {this.state.row.contractors.length === 1 ? (
               <Alert severity="info" color="info">A contractor has shown an interest in your job!</Alert>
             ) : (
@@ -352,7 +329,7 @@ export class Row extends Component {
               </Button>
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
-                onClick={() => this.claimJobConfirm()}
+                onClick={() => this.setModal(0)}
                 variant="contained"
               >
                 HIRE CONTRACTOR
@@ -366,12 +343,12 @@ export class Row extends Component {
                 CANCEL JOB
               </Button>
             </div>
-          </Auxil>
+          </>
         );
       }
       else if (this.state.row.invoicePrice && this.state.row.invoiceAccepted === null) {
         content = (
-          <Auxil>
+          <>
             <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
             <div className="button-container">
               <Button
@@ -400,7 +377,7 @@ export class Row extends Component {
                 CANCEL JOB
               </Button>
             </div>
-          </Auxil>
+          </>
         );
       }
       else if (this.state.row.contractorId === null || this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
@@ -423,7 +400,7 @@ export class Row extends Component {
       // CONTRACTOR
       if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
         content = (
-          <Auxil>
+          <>
             {this.state.row.invoiceAccepted === "0" && (
               <Alert severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
             )}
@@ -453,16 +430,16 @@ export class Row extends Component {
                 SEND INVOICE
               </Button>
             </div>
-          </Auxil>
+          </>
         );
       }
       else if (this.state.row.invoiceAccepted === "1"
         && this.state.row.holdingFeePaid
         && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
         content = (
-          <Auxil>
+          <>
             {this.requiresInspection && (
-              <Auxil>
+              <>
                 <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
                 <div className="textfield-container-col">
                   <TextField
@@ -477,7 +454,7 @@ export class Row extends Component {
                     }}
                   />
                 </div>
-              </Auxil>
+              </>
             )}
             <span className="field-desc">Record the date when the job was completed.</span>
             <div className="textfield-container-col">
@@ -501,24 +478,24 @@ export class Row extends Component {
                 SUBMIT
               </Button>
             </div>
-          </Auxil>
+          </>
         );
       }
       else if (this.state.row.invoicePaid === null
         && ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)) {
         content = (
-          <Auxil>
+          <>
             <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.state.row.invoicePrice * 1.00 + this.invoicePriceHst) - (this.holdingFee * 1.00 + this.holdingFeeHst))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
                 variant="contained"
-                onClick={() => this.paymentReceivedConfirm()}
+                onClick={() => this.setModal(2)}
               >
                 PAYMENT RECEIVED
               </Button>
             </div>
-          </Auxil>
+          </>
         );
       }
     }
@@ -556,7 +533,7 @@ export class Row extends Component {
         if (this.state.inspectionPassed !== null) {
           if (this.state.inspectionPassed === "false") {
             content = (
-              <Auxil>
+              <>
                 {content}
                 <span className="field-desc">Record any relevant notes to pass back to the contractor.</span>
                 <div className="textfield-container-col">
@@ -572,12 +549,12 @@ export class Row extends Component {
                     }}
                   />
                 </div>
-              </Auxil>
+              </>
             );
           }
 
           content = (
-            <Auxil>
+            <>
               {content}
               <span className="field-desc">Record the date when the inspection was completed.</span>
               <div className="textfield-container-col">
@@ -619,7 +596,7 @@ export class Row extends Component {
                   SUBMIT
                 </Button>
               </div>
-            </Auxil>
+            </>
           );
         }
       }
@@ -628,12 +605,12 @@ export class Row extends Component {
       // ADMIN
       if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
         content = (
-          <Auxil>
+          <>
             <Alert severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeHst.toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
-                onClick={() => this.paymentReceivedConfirm()}
+                onClick={() => this.setModal(2)}
                 style={{
                   backgroundColor: "#3bb13b",
                   color: "white"
@@ -642,7 +619,7 @@ export class Row extends Component {
                 PAYMENT RECEIVED
               </Button>
             </div>
-          </Auxil>
+          </>
         );
       }
     }
@@ -736,7 +713,7 @@ export class Row extends Component {
     }
     else {
       content = (
-        <Auxil>
+        <>
           <TableCell>
             <IconButton aria-label="expand row" size="small">
               {this.state.open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
@@ -747,7 +724,7 @@ export class Row extends Component {
           <TableCell>{this.state.row.city}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.getJobStatus()}</TableCell>
-        </Auxil>
+        </>
       );
     }
     return content;
@@ -791,7 +768,7 @@ export class Row extends Component {
 
   render() {
     return (
-      <Auxil>
+      <>
         <TableRow onClick={() => this.setState({ open: !this.state.open })} style={{ cursor: "pointer" }}>
           {this.getRowContent()}
         </TableRow>
@@ -874,7 +851,7 @@ export class Row extends Component {
                           </table>
                         </div>
                         {this.state.row.invoiceAccepted === "1" && (
-                          <Auxil>
+                          <>
                             <p className="item-title">HOLDING FEE DETAILS</p>
                             {this.state.row.holdingFeePaid ?
                               <span className="item-with-icon" style={{ color: "green" }}>
@@ -906,7 +883,7 @@ export class Row extends Component {
                                 </tbody>
                               </table>
                             </div>
-                          </Auxil>
+                          </>
                         )}
                       </Card>
                     )}
@@ -918,10 +895,10 @@ export class Row extends Component {
                           {formatDate(this.state.row.completionDate.split(" ")[0])}
                         </span>
                         {this.props.userType !== 0 && this.state.row.contractorNotes && (
-                          <Auxil>
+                          <>
                             <p className="item-title">CONTRACTOR NOTES</p>
                             {this.state.row.contractorNotes}
-                          </Auxil>
+                          </>
                         )}
                       </Card>
                     )}
@@ -942,10 +919,10 @@ export class Row extends Component {
                         </span>
                         }
                         {this.props.userType !== 0 && this.state.row.inspectorNotes && (
-                          <Auxil>
+                          <>
                             <p className="item-title">INSPECTOR NOTES</p>
                             {this.state.row.inspectorNotes}
-                          </Auxil>
+                          </>
                         )}
                       </Card>
                     )}
@@ -1019,7 +996,7 @@ export class Row extends Component {
             </Collapse>
           </TableCell>
         </TableRow>
-      </Auxil >
+      </>
     );
   }
 }
@@ -1101,18 +1078,6 @@ class JobsPage extends Component {
     });
   }
 
-  // setMessage = (isError, message) => {
-  //   this.setState({
-  //     showSnackbar: true,
-  //     isError: isError,
-  //     message: message
-  //   });
-  // }
-
-  // toggleSnackbar = () => {
-  //   this.setState({ showSnackbar: !this.state.showSnackbar });
-  // };
-
   toggleSortDate = () => {
     this.setState({
       pageNumber: 0,
@@ -1140,10 +1105,22 @@ class JobsPage extends Component {
     this.setState({ isOpen: false });
   }
 
+  // setMessage = (isError, message) => {
+  //   this.setState({
+  //     showSnackbar: true,
+  //     isError: isError,
+  //     message: message
+  //   });
+  // }
+
+  // toggleSnackbar = () => {
+  //   this.setState({ showSnackbar: !this.state.showSnackbar });
+  // };
+
   render() {
     return (
       <div className="page-container">
-        <Auxil>
+        <>
           <Title>JOBS</Title>
           {this.state.userType !== 0 && (
             <div className="search-container">
@@ -1216,10 +1193,10 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         isMobile={false}
                         getJobs={this.getJobs}
-                        // setMessage={this.setMessage}
                         setDialog={this.setDialog}
                         handleOpen={this.handleOpen}
                         handleClose={this.handleClose}
+                      // setMessage={this.setMessage}
                       />
                     ))}
                   </TableBody>
@@ -1235,10 +1212,10 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         isMobile={true}
                         getJobs={this.getJobs}
-                        // setMessage={this.setMessage}
                         setDialog={this.setDialog}
                         handleOpen={this.handleOpen}
                         handleClose={this.handleClose}
+                      // setMessage={this.setMessage}
                       />
                     ))}
                   </TableBody>
@@ -1255,19 +1232,19 @@ class JobsPage extends Component {
               />
             </ThemeProvider>
           )}
-        </Auxil>
+        </>
 
         {this.state.jobCount === 0 && !this.state.isLoading && (
           <Alert severity="info" color="info">Could not find any jobs.</Alert>
         )}
-
-        { this.state.isLoading && <Backdrop />}
 
         <ResponsiveDialog
           isOpen={this.state.isOpen}
           modalContent={this.state.modalContent}
           handleClose={this.handleClose}
         />
+
+        { this.state.isLoading && <Backdrop />}
 
         {/* <Snackbar
           open={this.state.showSnackbar}
