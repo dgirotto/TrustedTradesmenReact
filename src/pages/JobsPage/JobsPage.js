@@ -8,6 +8,7 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Auxil from "../../helpers/Auxil";
+import ResponsiveDialog from "../../components/ResponsiveDialog";
 import { formatPhoneNumber, formatDate, formatNumber } from '../../helpers/Utils';
 
 import { ThemeProvider } from '@material-ui/core'
@@ -31,8 +32,7 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
-
-import Snackbar from "@material-ui/core/Snackbar";
+// import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -90,8 +90,8 @@ export class Row extends Component {
   componentWillReceiveProps(newProps) {
     this.requiresInspection = parseInt(newProps.row.invoicePrice) >= this.invoiceThreshold;
     this.holdingFee = newProps.row.invoicePrice * 0.15;
-    this.holdingFeeHst = (newProps.row.invoicePrice * 0.15) * (1 + this.hstValue);
-    this.invoicePriceHst = newProps.row.invoicePrice * (1 + this.hstValue);
+    this.holdingFeeHst = this.holdingFee * this.hstValue;
+    this.invoicePriceHst = newProps.row.invoicePrice * this.hstValue;
 
     this.setState({
       row: newProps.row,
@@ -111,7 +111,7 @@ export class Row extends Component {
       return this.state.row.contractorNotes;
     }
     else if (this.props.userType === 2) {
-      return this.state.row.inspectorNotes
+      return this.state.row.inspectorNotes;
     }
     else {
       return "";
@@ -128,11 +128,13 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Contractor successfully hired");
+        // this.props.setMessage(false, "Contractor successfully hired");
       })
       .catch(err => {
-        this.props.setMessage(true, "Unable to hire Contractor");
+        // this.props.setMessage(true, "Unable to hire Contractor");
       });
+
+    this.props.handleClose();
   }
 
   cancelJob = () => {
@@ -141,11 +143,13 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Job successfully cancelled");
+        // this.props.setMessage(false, "Job successfully cancelled");
       })
       .catch(err => {
-        this.props.setMessage(true, "Unable to cancel Job");
+        // this.props.setMessage(true, "Unable to cancel Job");
       });
+
+    this.props.handleClose();
   }
 
   acceptInvoice = (isAccepted) => {
@@ -154,11 +158,13 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Invoice successfully accepted");
+        // this.props.setMessage(false, "Invoice successfully accepted");
       })
       .catch(err => {
-        this.props.setMessage(false, "Unable to accept invoice");
+        // this.props.setMessage(false, "Unable to accept invoice");
       });
+
+    this.props.handleClose();
   }
 
   sendInvoice = () => {
@@ -170,10 +176,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Invoice successfully sent");
+        // this.props.setMessage(false, "Invoice successfully sent");
       })
       .catch(err => {
-        this.props.setMessage(false, "Unable to send invoice");
+        // this.props.setMessage(false, "Unable to send invoice");
       });
   }
 
@@ -192,10 +198,10 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Successfully updated invoice status");
+        // this.props.setMessage(false, "Successfully updated invoice status");
       })
       .catch(err => {
-        this.props.setMessage(false, "Unable to update invoice status");
+        // this.props.setMessage(false, "Unable to update invoice status");
       });
   }
 
@@ -224,11 +230,63 @@ export class Row extends Component {
     JobService.updateJob(body)
       .then(() => {
         this.props.getJobs(true);
-        this.props.setMessage(false, "Successfully completed job");
+        // this.props.setMessage(false, "Successfully completed job");
       })
       .catch(err => {
-        this.props.setMessage(false, "Unable to complete job");
+        // this.props.setMessage(false, "Unable to complete job");
       });
+  }
+
+  setModal = modalType => {
+    var modalContent;
+
+    if (modalType === 0) {
+      modalContent = {
+        title: 'Confirm Hire',
+        content: 'Are you sure you wish to hire the selected contractor?',
+        actions: <>
+          <Button onClick={this.claimJob}>
+            Yes
+          </Button>
+          <Button onClick={this.props.handleClose}>
+            No
+          </Button>
+        </>
+      };
+    }
+    else if (modalType === 1) {
+      modalContent = {
+        title: 'Confirm Cancellation',
+        content: 'Are you sure you wish to cancel this job? This action cannot be undone.',
+        actions: <>
+          <Button onClick={this.cancelJob}>
+            Yes
+          </Button>
+          <Button onClick={this.props.handleClose}>
+            No
+          </Button>
+        </>
+      };
+    }
+    else {
+      let verbiage = this.state.userType === 1 ? "Holding Fee" : "Payment";
+
+      modalContent = {
+        title: `Confirm Received ${verbiage}`,
+        content: `Are you sure you've received the ${verbiage.toLowerCase()} for this job?`,
+        actions: <>
+          <Button onClick={this.paymentReceived}>
+            Yes
+          </Button>
+          <Button onClick={this.props.handleClose}>
+            No
+          </Button>
+        </>
+      };
+    }
+
+    this.props.setDialog(modalContent);
+    this.props.handleOpen();
   }
 
   claimJobConfirm = () => {
@@ -302,7 +360,7 @@ export class Row extends Component {
               <div className="spacer" />
               <Button
                 style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
-                onClick={() => this.cancelJobConfirm()}
+                onClick={() => this.setModal(1)}
                 variant="contained"
               >
                 CANCEL JOB
@@ -335,7 +393,7 @@ export class Row extends Component {
               <div className="spacer" />
               <Button
                 style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
-                onClick={() => this.cancelJobConfirm()}
+                onClick={() => this.setModal(1)}
                 variant="contained"
                 color="secondary"
               >
@@ -351,7 +409,7 @@ export class Row extends Component {
             <div className="spacer" />
             <Button
               style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
-              onClick={() => this.cancelJobConfirm()}
+              onClick={() => this.setModal(1)}
               variant="contained"
               color="secondary"
             >
@@ -450,7 +508,7 @@ export class Row extends Component {
         && ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)) {
         content = (
           <Auxil>
-            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceHst - this.holdingFeeHst).toFixed(2))}</b> ${formatNumber((this.state.row.invoicePrice - this.holdingFee).toFixed(2))} + HST ({this.hstValue}%) is owed by the customer.</Alert>
+            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.state.row.invoicePrice * 1.00 + this.invoicePriceHst) - (this.holdingFee * 1.00 + this.holdingFeeHst))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -496,7 +554,7 @@ export class Row extends Component {
         );
 
         if (this.state.inspectionPassed !== null) {
-          if (this.inspectionPassed === "false") {
+          if (this.state.inspectionPassed === "false") {
             content = (
               <Auxil>
                 {content}
@@ -739,7 +797,8 @@ export class Row extends Component {
         </TableRow>
         <TableRow>
           <TableCell style={{ padding: 0 }} colSpan={6}>
-            <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+            <Collapse in={this.state.open} timeout="auto">
+              {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit> */}
               <Box margin={1}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
@@ -771,6 +830,27 @@ export class Row extends Component {
                     {this.state.row.invoicePrice && (
                       <Card className="job-details-card">
                         <p className="item-title">INVOICE DETAILS</p>
+                        {this.state.row.invoiceAccepted === null ?
+                          <span className="item-with-icon" style={{ color: "grey" }}>
+                            <FaMinusCircle className="item-icon" style={{ color: "grey" }} size={16} />Pending Customer Approval
+                          </span> :
+                          this.state.row.invoiceAccepted === "1" ?
+                            <span className="item-with-icon" style={{ color: "green" }}>
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Accepted
+                            </span> :
+                            <span className="item-with-icon" style={{ color: "red" }}>
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Declined
+                            </span>
+                        }
+                        {this.state.row.invoiceAccepted && (
+                          this.state.row.invoicePaid ?
+                            <span className="item-with-icon" style={{ color: "green" }}>
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                            </span> :
+                            <span className="item-with-icon" style={{ color: "red" }}>
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                            </span>
+                        )}
                         <div className="fee-table-container">
                           <table className="fee-table">
                             <tbody>
@@ -793,30 +873,17 @@ export class Row extends Component {
                             </tbody>
                           </table>
                         </div>
-                        {this.state.row.invoiceAccepted === null ?
-                          <span className="item-with-icon" style={{ color: "grey" }}>
-                            <FaMinusCircle className="item-icon" style={{ color: "grey" }} size={16} />Pending Customer Approval
-                          </span> :
-                          this.state.row.invoiceAccepted === "1" ?
-                            <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Accepted
-                            </span> :
-                            <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Declined
-                            </span>
-                        }
-                        {this.state.row.invoiceAccepted && (
-                          this.state.row.invoicePaid ?
-                            <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
-                            </span> :
-                            <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
-                            </span>
-                        )}
                         {this.state.row.invoiceAccepted === "1" && (
                           <Auxil>
                             <p className="item-title">HOLDING FEE DETAILS</p>
+                            {this.state.row.holdingFeePaid ?
+                              <span className="item-with-icon" style={{ color: "green" }}>
+                                <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                              </span> :
+                              <span className="item-with-icon" style={{ color: "red" }}>
+                                <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                              </span>
+                            }
                             <div className="fee-table-container">
                               <table className="fee-table">
                                 <tbody>
@@ -839,14 +906,6 @@ export class Row extends Component {
                                 </tbody>
                               </table>
                             </div>
-                            {this.state.row.holdingFeePaid ?
-                              <span className="item-with-icon" style={{ color: "green" }}>
-                                <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
-                              </span> :
-                              <span className="item-with-icon" style={{ color: "red" }}>
-                                <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
-                              </span>
-                            }
                           </Auxil>
                         )}
                       </Card>
@@ -873,9 +932,10 @@ export class Row extends Component {
                           <FaRegCalendarAlt className="item-icon" size={16} />
                           {formatDate(this.state.row.inspectionDate.split(" ")[0])}
                         </span>
+                        <p className="item-title">INSPECTION OUTCOME</p>
                         {this.state.row.inspectionPassed === "1" ?
                           <span className="item-with-icon" style={{ color: "green" }}>
-                            <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Inspection Passed
+                            <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Job Passed Inspection
                         </span> :
                           <span className="item-with-icon" style={{ color: "red" }}>
                             <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Job Failed Inspection
@@ -974,11 +1034,15 @@ class JobsPage extends Component {
     isLoading: true,
     sortDateDesc: null,
     addressFilterVal: "",
-    showSnackbar: false,
-    // showDialog: false,
-    dialogContent: null,
+    // showSnackbar: false,
     isError: false,
-    message: ""
+    message: "",
+    isOpen: false,
+    modalContent: {
+      title: null,
+      content: null,
+      actions: null
+    }
   };
 
   componentDidMount() {
@@ -1002,7 +1066,7 @@ class JobsPage extends Component {
         });
       })
       .catch(() => {
-        this.setMessage(true, "Unable to retrieve jobs");
+        // this.setMessage(true, "Unable to retrieve jobs");
         this.setState({ isLoading: false });
       });
   }
@@ -1037,17 +1101,17 @@ class JobsPage extends Component {
     });
   }
 
-  setMessage = (isError, message) => {
-    this.setState({
-      showSnackbar: true,
-      isError: isError,
-      message: message
-    });
-  }
+  // setMessage = (isError, message) => {
+  //   this.setState({
+  //     showSnackbar: true,
+  //     isError: isError,
+  //     message: message
+  //   });
+  // }
 
-  toggleSnackbar = () => {
-    this.setState({ showSnackbar: !this.state.showSnackbar });
-  };
+  // toggleSnackbar = () => {
+  //   this.setState({ showSnackbar: !this.state.showSnackbar });
+  // };
 
   toggleSortDate = () => {
     this.setState({
@@ -1056,6 +1120,24 @@ class JobsPage extends Component {
     }, () => {
       this.getJobs(true);
     });
+  }
+
+  setDialog = (content) => {
+    this.setState({
+      modalContent: {
+        title: content.title,
+        content: content.content,
+        actions: content.actions
+      }
+    });
+  }
+
+  handleOpen = () => {
+    this.setState({ isOpen: true });
+  }
+
+  handleClose = () => {
+    this.setState({ isOpen: false });
   }
 
   render() {
@@ -1134,7 +1216,10 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         isMobile={false}
                         getJobs={this.getJobs}
-                        setMessage={this.setMessage}
+                        // setMessage={this.setMessage}
+                        setDialog={this.setDialog}
+                        handleOpen={this.handleOpen}
+                        handleClose={this.handleClose}
                       />
                     ))}
                   </TableBody>
@@ -1150,7 +1235,10 @@ class JobsPage extends Component {
                         userType={this.state.userType}
                         isMobile={true}
                         getJobs={this.getJobs}
-                        setMessage={this.setMessage}
+                        // setMessage={this.setMessage}
+                        setDialog={this.setDialog}
+                        handleOpen={this.handleOpen}
+                        handleClose={this.handleClose}
                       />
                     ))}
                   </TableBody>
@@ -1175,29 +1263,13 @@ class JobsPage extends Component {
 
         { this.state.isLoading && <Backdrop />}
 
-        {/* <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{this.state.dialogContent.title}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {this.state.dialogContent.text}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose()} color="primary">
-              Cancel
-          </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
-              Confirm
-          </Button>
-          </DialogActions>
-        </Dialog> */}
+        <ResponsiveDialog
+          isOpen={this.state.isOpen}
+          modalContent={this.state.modalContent}
+          handleClose={this.handleClose}
+        />
 
-        <Snackbar
+        {/* <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}
           onClose={this.toggleSnackbar}
@@ -1205,7 +1277,7 @@ class JobsPage extends Component {
           <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
             {this.state.message}
           </AlertPopup>
-        </Snackbar>
+        </Snackbar> */}
       </div >
     );
   }

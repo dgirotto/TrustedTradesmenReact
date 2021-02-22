@@ -29,13 +29,13 @@
 
 .toolbar__navigation-items a {
   text-decoration: none;
-  margin-left: 18px;
+  margin-left: 20px;
 }
 
 .toolbar__navigation-items li {
   cursor: pointer;
   color: white;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .toolbar__navigation-items li:hover {
