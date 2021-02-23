@@ -73,7 +73,9 @@ export class Row extends Component {
   requiresInspection = parseInt(this.props.row.invoicePrice) >= this.invoiceThreshold;
   holdingFee = this.props.row.invoicePrice * 0.15;
   holdingFeeHst = this.holdingFee * this.hstValue;
+  holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
   invoicePriceHst = this.props.row.invoicePrice * this.hstValue;
+  invoicePriceTotal = this.props.row.invoicePrice * 1.00 + this.invoicePriceHst;
 
   state = {
     row: this.props.row,
@@ -87,10 +89,13 @@ export class Row extends Component {
   };
 
   componentWillReceiveProps(newProps) {
+    // TODO: Reduce this redundancy
     this.requiresInspection = parseInt(newProps.row.invoicePrice) >= this.invoiceThreshold;
     this.holdingFee = newProps.row.invoicePrice * 0.15;
     this.holdingFeeHst = this.holdingFee * this.hstValue;
+    this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
     this.invoicePriceHst = newProps.row.invoicePrice * this.hstValue;
+    this.invoicePriceTotal = newProps.row.invoicePrice * 1.00 + this.invoicePriceHst;
 
     this.setState({
       row: newProps.row,
@@ -149,37 +154,6 @@ export class Row extends Component {
     this.props.handleClose();
   }
 
-  acceptInvoice = (isAccepted) => {
-    let body = { jobId: this.state.row.jobId, invoiceAccepted: isAccepted };
-
-    JobService.updateJob(body)
-      .then(() => {
-        this.props.getJobs(true);
-        // this.props.setMessage(false, "Invoice successfully accepted");
-      })
-      .catch(err => {
-        // this.props.setMessage(false, "Unable to accept invoice");
-      });
-
-    this.props.handleClose();
-  }
-
-  sendInvoice = () => {
-    let body = {
-      jobId: this.state.row.jobId,
-      invoicePrice: this.state.invoicePrice
-    };
-
-    JobService.updateJob(body)
-      .then(() => {
-        this.props.getJobs(true);
-        // this.props.setMessage(false, "Invoice successfully sent");
-      })
-      .catch(err => {
-        // this.props.setMessage(false, "Unable to send invoice");
-      });
-  }
-
   paymentReceived = () => {
     let body = {
       jobId: this.state.row.jobId,
@@ -199,6 +173,37 @@ export class Row extends Component {
       })
       .catch(err => {
         // this.props.setMessage(false, "Unable to update invoice status");
+      });
+
+    this.props.handleClose();
+  }
+
+  acceptInvoice = (isAccepted) => {
+    let body = { jobId: this.state.row.jobId, invoiceAccepted: isAccepted };
+
+    JobService.updateJob(body)
+      .then(() => {
+        this.props.getJobs(true);
+        // this.props.setMessage(false, "Invoice successfully accepted");
+      })
+      .catch(err => {
+        // this.props.setMessage(false, "Unable to accept invoice");
+      });
+  }
+
+  sendInvoice = () => {
+    let body = {
+      jobId: this.state.row.jobId,
+      invoicePrice: this.state.invoicePrice
+    };
+
+    JobService.updateJob(body)
+      .then(() => {
+        this.props.getJobs(true);
+        // this.props.setMessage(false, "Invoice successfully sent");
+      })
+      .catch(err => {
+        // this.props.setMessage(false, "Unable to send invoice");
       });
   }
 
@@ -339,6 +344,7 @@ export class Row extends Component {
                 style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
                 onClick={() => this.setModal(1)}
                 variant="contained"
+                color="secondary"
               >
                 CANCEL JOB
               </Button>
@@ -423,7 +429,7 @@ export class Row extends Component {
               <Button
                 style={{ fontWeight: "bold" }}
                 variant="contained"
-                onClick={() => this.sendInvoice()}
+                onClick={() => this.sendInvoice}
                 disabled={this.state.invoicePrice === 0 || !this.state.invoicePrice}
                 color="primary"
               >
@@ -471,7 +477,7 @@ export class Row extends Component {
               <Button
                 style={{ fontWeight: "bold" }}
                 variant="contained"
-                onClick={() => this.completeJob()}
+                onClick={() => this.completeJob}
                 disabled={this.state.completionDate === ""}
                 color="primary"
               >
@@ -485,7 +491,7 @@ export class Row extends Component {
         && ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)) {
         content = (
           <>
-            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.state.row.invoicePrice * 1.00 + this.invoicePriceHst) - (this.holdingFee * 1.00 + this.holdingFeeHst))}</b> is owed by the customer.</Alert>
+            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -507,7 +513,7 @@ export class Row extends Component {
             <Button
               style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
               variant="contained"
-              onClick={() => this.claimJob()}
+              onClick={() => this.claimJob}
             >
               CLAIM JOB
             </Button>
@@ -589,7 +595,7 @@ export class Row extends Component {
               <div className="button-container">
                 <Button
                   variant="contained"
-                  onClick={() => this.completeJob()}
+                  onClick={() => this.completeJob}
                   disabled={this.state.completionDate === "" || !this.state.reportSent}
                   color="primary"
                 >
@@ -606,7 +612,7 @@ export class Row extends Component {
       if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
         content = (
           <>
-            <Alert severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeHst.toFixed(2))}</b> is owed by the customer.</Alert>
+            <Alert severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
@@ -656,10 +662,10 @@ export class Row extends Component {
     else if (this.props.userType === "1" && this.state.row.invoiceAccepted === "0") {
       status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (this.state.row.holdingFeePaid === "1" && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
+    else if (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0") {
       status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Job In Progress" />;
     }
-    else if (this.requiresInspection && (this.state.row.inspectorId === null || this.state.row.inspectionPassed === null || this.state.row.inspectionPassed === "0")) {
+    else if (this.state.row.holdingFeePaid === "1" && this.requiresInspection && (this.state.row.inspectorId === null || this.state.row.inspectionPassed === null || this.state.row.inspectionPassed === "0")) {
       if (this.state.row.inspectorId === null) {
         status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Inspector Required" />;
       }
@@ -744,11 +750,11 @@ export class Row extends Component {
         content = <Alert severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
       }
       else if (this.state.row.holdingFeePaid === null && this.state.row.invoiceAccepted === "1") {
-        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeHst.toFixed(2))}</b> ${formatNumber(this.holdingFee.toFixed(2))} + HST ({this.hstValue}%) to HOLDING_ACCOUNT_HERE.</Alert>;
+        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
       }
       else if (this.state.row.completionDate !== null && (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed === "1"))) {
         if (this.state.row.invoicePaid === null) {
-          content = <Alert severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceHst - this.holdingFeeHst).toFixed(2))}</b> (${this.state.row.invoicePrice} - Holding Fee + HST ({this.hstValue}%)) to the contractor.</Alert>;
+          content = <Alert severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> to the contractor.</Alert>;
         }
         else if (this.state.row.invoicePaid === "1") {
           content = <Alert severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
@@ -837,13 +843,13 @@ export class Row extends Component {
                               </tr>
                               <tr>
                                 <td>HST ({this.hstValue}%)</td>
-                                <td>${formatNumber((this.invoicePriceHst * 1.00).toFixed(2))}</td>
+                                <td>${formatNumber(this.invoicePriceHst.toFixed(2))}</td>
                               </tr>
                               <tr>
                                 <td>Total</td>
                                 <td>
                                   <span style={{ fontWeight: "bold", color: "red" }}>
-                                    ${formatNumber(((this.state.row.invoicePrice * 1.00) + (this.invoicePriceHst * 1.00)).toFixed(2))}
+                                    ${formatNumber(this.invoicePriceTotal.toFixed(2))}
                                   </span>
                                 </td>
                               </tr>
@@ -876,7 +882,7 @@ export class Row extends Component {
                                     <td>Total</td>
                                     <td>
                                       <span style={{ fontWeight: "bold", color: "red" }}>
-                                        ${formatNumber((this.holdingFee + this.holdingFeeHst).toFixed(2))}
+                                        ${formatNumber(this.holdingFeeTotal.toFixed(2))}
                                       </span>
                                     </td>
                                   </tr>

@@ -126,7 +126,7 @@ class ResetPage extends Component {
                         onClick={this.reset}
                         variant="contained"
                         color="primary"
-                        style={{ width: "190px" }}
+                        style={{ width: "190px", fontWeight: "bold" }}
                     >
                         UPDATE PASSWORD
                     </Button>

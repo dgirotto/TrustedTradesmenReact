@@ -170,7 +170,7 @@ class LoginPage extends Component {
                 onClick={this.login}
                 variant="contained"
                 color="primary"
-                style={{ width: "175px" }}
+                style={{ width: "175px", fontWeight: "bold" }}
               >
                 LOGIN
                 </Button>
@@ -199,7 +199,7 @@ class LoginPage extends Component {
                     onClick={this.generateToken}
                     variant="contained"
                     color="primary"
-                    style={{ width: "175px", marginTop: "15px" }}
+                    style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
                   >
                     RESET PASSWORD
                   </Button>
@@ -207,7 +207,7 @@ class LoginPage extends Component {
                     onClick={this.toggleResetPassword}
                     variant="contained"
                     color="secondary"
-                    style={{ width: "175px", marginTop: "15px" }}
+                    style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
                   >
                     BACK
                   </Button>
