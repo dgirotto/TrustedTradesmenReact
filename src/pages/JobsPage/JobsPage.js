@@ -300,13 +300,13 @@ export class Row extends Component {
         content = (
           <>
             {this.state.row.contractors.length === 1 ? (
-              <Alert severity="info" color="info">A contractor has shown an interest in your job!</Alert>
+              <Alert className="alert-msg" severity="info" color="info">A contractor has shown an interest in your job!</Alert>
             ) : (
-                <Alert severity="info">
+                <Alert className="alert-msg" severity="info">
                   <b>{this.state.row.contractors.length}</b> contractors have shown an interest in your job!
                 </Alert>
               )}
-            <div className="textfield-container-col" style={{ marginTop: "15px" }}>
+            <div className="textfield-container-col">
               <TextField
                 select
                 name="contractor"
@@ -355,7 +355,7 @@ export class Row extends Component {
       else if (this.state.row.invoicePrice && this.state.row.invoiceAccepted === null) {
         content = (
           <>
-            <Alert severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
+            <Alert className="alert-msg" severity="info" color="info">The contractor has suggested an invoice of <b>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</b> (HST not included).</Alert>
             <div className="button-container">
               <Button
                 style={{ background: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -408,9 +408,9 @@ export class Row extends Component {
         content = (
           <>
             {this.state.row.invoiceAccepted === "0" && (
-              <Alert severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
+              <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
             )}
-            <div className="textfield-container-col" style={{ marginTop: "15px" }}>
+            <div className="textfield-container-col">
               <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
               <TextField
                 type="text"
@@ -429,7 +429,7 @@ export class Row extends Component {
               <Button
                 style={{ fontWeight: "bold" }}
                 variant="contained"
-                onClick={() => this.sendInvoice}
+                onClick={this.sendInvoice}
                 disabled={this.state.invoicePrice === 0 || !this.state.invoicePrice}
                 color="primary"
               >
@@ -477,7 +477,7 @@ export class Row extends Component {
               <Button
                 style={{ fontWeight: "bold" }}
                 variant="contained"
-                onClick={() => this.completeJob}
+                onClick={this.completeJob}
                 disabled={this.state.completionDate === ""}
                 color="primary"
               >
@@ -491,7 +491,7 @@ export class Row extends Component {
         && ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)) {
         content = (
           <>
-            <Alert severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> is owed by the customer.</Alert>
+            <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -513,7 +513,7 @@ export class Row extends Component {
             <Button
               style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
               variant="contained"
-              onClick={() => this.claimJob}
+              onClick={this.claimJob}
             >
               CLAIM JOB
             </Button>
@@ -595,7 +595,7 @@ export class Row extends Component {
               <div className="button-container">
                 <Button
                   variant="contained"
-                  onClick={() => this.completeJob}
+                  onClick={this.completeJob}
                   disabled={this.state.completionDate === "" || !this.state.reportSent}
                   color="primary"
                 >
@@ -612,7 +612,7 @@ export class Row extends Component {
       if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
         content = (
           <>
-            <Alert severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
+            <Alert className="alert-msg" severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 variant="contained"
@@ -636,12 +636,12 @@ export class Row extends Component {
     let status = null;
 
     if (this.state.row.isAbandoned === "1") {
-      status = <Chip style={{ borderRadius: "5px" }} className="status cancelled" label="Job Cancelled" />;
+      status = <Chip className="status cancelled" label="Cancelled" />;
     }
     else if (this.state.row.contractorId === null) {
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         status = (
-          <Chip style={{ borderRadius: "5px" }} className="status interested" label={this.state.row.contractors.length === 1 ?
+          <Chip className="status interested" label={this.state.row.contractors.length === 1 ?
             <span><b>1</b> Contractor Interested</span> :
             <span><b>{this.state.row.contractors.length}</b> Contractors Interested</span>
           } />
@@ -649,38 +649,38 @@ export class Row extends Component {
       }
       else {
         status = (
-          <Chip style={{ borderRadius: "5px" }} className="status required" label="Contractor Required" />
+          <Chip className="status required" label="Contractor Required" />
         );
       }
     }
     else if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
-      status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Invoice Required" />;
+      status = <Chip className="status required" label="Invoice Required" />;
     }
     else if (this.state.row.invoiceAccepted === null) {
-      status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Response Required" />;
+      status = <Chip className="status required" label="Response Required" />;
     }
     else if (this.props.userType === "1" && this.state.row.invoiceAccepted === "0") {
-      status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Invoice Rejected" />;
+      status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
     else if (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0") {
-      status = <Chip style={{ borderRadius: "5px" }} className="status in-progress" label="Job In Progress" />;
+      status = <Chip className="status in-progress" label="In Progress" />;
     }
     else if (this.state.row.holdingFeePaid === "1" && this.requiresInspection && (this.state.row.inspectorId === null || this.state.row.inspectionPassed === null || this.state.row.inspectionPassed === "0")) {
       if (this.state.row.inspectorId === null) {
-        status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Inspector Required" />;
+        status = <Chip className="status required" label="Inspector Required" />;
       }
       else if (this.state.row.inspectionPassed === null) {
-        status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Requires Inspection" />;
+        status = <Chip className="status required" label="Requires Inspection" />;
       }
       else {
-        status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Requires Revisit" />;
+        status = <Chip className="status required" label="Requires Revisit" />;
       }
     }
     else if (this.state.row.holdingFeePaid === null || this.state.row.invoicePaid === null) {
-      status = <Chip style={{ borderRadius: "5px" }} className="status required" label="Payment Required" />;
+      status = <Chip className="status required" label="Payment Required" />;
     }
     else {
-      status = <Chip style={{ borderRadius: "5px" }} className="status completed" label="Completed" />;
+      status = <Chip className="status completed" label="Completed" />;
     }
     return status;
   }
@@ -740,33 +740,33 @@ export class Row extends Component {
     let content = null;
 
     if (this.state.row.isAbandoned === "1") {
-      content = <Alert severity="error" color="error">The job was cancelled by the customer on {formatDate(this.state.row.lastUpdatedDate.split(" ")[0])}.</Alert>;
+      content = <Alert className="alert-msg" severity="error" color="error">The job was cancelled by the customer on {formatDate(this.state.row.lastUpdatedDate.split(" ")[0])}.</Alert>;
     }
     else if (this.props.userType === 0) {
       if (this.state.row.contractorId !== null && this.state.row.invoicePrice === null) {
-        content = <Alert severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
       if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === "0") {
-        content = <Alert severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
       }
       else if (this.state.row.holdingFeePaid === null && this.state.row.invoiceAccepted === "1") {
-        content = <Alert severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
       }
       else if (this.state.row.completionDate !== null && (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed === "1"))) {
         if (this.state.row.invoicePaid === null) {
-          content = <Alert severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> to the contractor.</Alert>;
+          content = <Alert className="alert-msg" severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> to the contractor.</Alert>;
         }
         else if (this.state.row.invoicePaid === "1") {
-          content = <Alert severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
+          content = <Alert className="alert-msg" severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
         }
       }
     }
     else if (this.props.userType === 1) {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
-        content = <Alert severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
       }
       else if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
-        content = <Alert severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
       }
     }
     return content;
@@ -812,70 +812,31 @@ export class Row extends Component {
                     </Card>
                     {this.state.row.invoicePrice && (
                       <Card className="job-details-card">
-                        <p className="item-title">INVOICE DETAILS</p>
+                        <p className="item-title">INVOICE STATUS</p>
                         {this.state.row.invoiceAccepted === null ?
                           <span className="item-with-icon" style={{ color: "grey" }}>
                             <FaMinusCircle className="item-icon" style={{ color: "grey" }} size={16} />Pending Customer Approval
                           </span> :
                           this.state.row.invoiceAccepted === "1" ?
                             <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Accepted
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Customer Approved
                             </span> :
                             <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Declined
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Customer Denied
                             </span>
                         }
-                        {this.state.row.invoiceAccepted && (
-                          this.state.row.invoicePaid ?
-                            <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
-                            </span> :
-                            <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
-                            </span>
-                        )}
-                        <div className="fee-table-container">
-                          <table className="fee-table">
-                            <tbody>
-                              <tr>
-                                <td>Subtotal</td>
-                                <td>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</td>
-                              </tr>
-                              <tr>
-                                <td>HST ({this.hstValue}%)</td>
-                                <td>${formatNumber(this.invoicePriceHst.toFixed(2))}</td>
-                              </tr>
-                              <tr>
-                                <td>Total</td>
-                                <td>
-                                  <span style={{ fontWeight: "bold", color: "red" }}>
-                                    ${formatNumber(this.invoicePriceTotal.toFixed(2))}
-                                  </span>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
                         {this.state.row.invoiceAccepted === "1" && (
                           <>
                             <p className="item-title">HOLDING FEE DETAILS</p>
-                            {this.state.row.holdingFeePaid ?
-                              <span className="item-with-icon" style={{ color: "green" }}>
-                                <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
-                              </span> :
-                              <span className="item-with-icon" style={{ color: "red" }}>
-                                <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
-                              </span>
-                            }
                             <div className="fee-table-container">
                               <table className="fee-table">
                                 <tbody>
                                   <tr>
-                                    <td>Subtotal</td>
+                                    <td>Subtotal (15% of Invoice)</td>
                                     <td>${formatNumber(this.holdingFee.toFixed(2))}</td>
                                   </tr>
                                   <tr>
-                                    <td>HST ({this.hstValue}%)</td>
+                                    <td>HST ({this.hstValue * 100}%)</td>
                                     <td>${formatNumber(this.holdingFeeHst.toFixed(2))}</td>
                                   </tr>
                                   <tr>
@@ -889,7 +850,47 @@ export class Row extends Component {
                                 </tbody>
                               </table>
                             </div>
+                            {this.state.row.holdingFeePaid ?
+                              <span className="item-with-icon" style={{ color: "green" }}>
+                                <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                              </span> :
+                              <span className="item-with-icon" style={{ color: "red" }}>
+                                <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                              </span>
+                            }
                           </>
+                        )}
+                        <p className="item-title">INVOICE DETAILS</p>
+                        <div className="fee-table-container">
+                          <table className="fee-table">
+                            <tbody>
+                              <tr>
+                                <td>Subtotal</td>
+                                <td>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</td>
+                              </tr>
+                              <tr>
+                                <td>HST ({this.hstValue * 100}%)</td>
+                                <td>${formatNumber(this.invoicePriceHst.toFixed(2))}</td>
+                              </tr>
+                              <tr>
+                                <td>Total</td>
+                                <td>
+                                  <span style={{ fontWeight: "bold", color: "red" }}>
+                                    ${formatNumber(this.invoicePriceTotal.toFixed(2))}
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        {this.state.row.invoiceAccepted && (
+                          this.state.row.invoicePaid ?
+                            <span className="item-with-icon" style={{ color: "green" }}>
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                            </span> :
+                            <span className="item-with-icon" style={{ color: "red" }}>
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                            </span>
                         )}
                       </Card>
                     )}
@@ -915,7 +916,7 @@ export class Row extends Component {
                           <FaRegCalendarAlt className="item-icon" size={16} />
                           {formatDate(this.state.row.inspectionDate.split(" ")[0])}
                         </span>
-                        <p className="item-title">INSPECTION OUTCOME</p>
+                        <p className="item-title">INSPECTION STATUS</p>
                         {this.state.row.inspectionPassed === "1" ?
                           <span className="item-with-icon" style={{ color: "green" }}>
                             <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Job Passed Inspection
@@ -1241,7 +1242,7 @@ class JobsPage extends Component {
         </>
 
         {this.state.jobCount === 0 && !this.state.isLoading && (
-          <Alert severity="info" color="info">Could not find any jobs.</Alert>
+          <Alert className="alert-msg" severity="info" color="info">Could not find any jobs.</Alert>
         )}
 
         <ResponsiveDialog

@@ -268,7 +268,7 @@ export class Row extends Component {
                     </Button>
                     <Button
                       style={{ fontWeight: "bold" }}
-                      onClick={() => this.dismissLead}
+                      onClick={this.dismissLead}
                       variant="contained"
                       color="secondary"
                     >

@@ -14,7 +14,7 @@
 
 .job-details-column-2 {
   flex: 35%;
-  padding: 0 0 0 10px; 
+  padding: 0 0 0 10px;
 }
 
 .job-details-card {
@@ -44,26 +44,32 @@
 .status {
   width: 185px;
   text-align: center;
+  color: #0e0e0e !important;
+  border-radius: 0 !important;
 }
 
 .status.cancelled {
-  background-color: #bfbfbf;
+  background-color: #cfcfcf;
 }
 
 .status.interested {
-  background-color: #e8f4fd;
+  background-color: #95d1ff;
 }
 
 .status.required {
-  background-color: #f7f494;
+  background-color: hsl(54, 100%, 70%);
 }
 
 .status.in-progress {
-  background-color: #ffae9a;
+  background-color: #ff9b8e;
 }
 
 .status.completed {
-  background-color: #a2e481;
+  background-color: #9aff67;
+}
+
+.alert-msg {
+  margin-bottom: 10px;
 }
 
 .content-div {
@@ -83,12 +89,12 @@
 
 .mobile-table > tbody > tr > td {
   text-align: center;
-  padding: 5px; 
+  padding: 5px;
 }
 
 .fee-table-container {
   max-width: 400px;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .fee-table {
@@ -113,7 +119,7 @@
   .deskop-table {
     display: table;
   }
-  
+
   .mobile-table {
     display: none;
   }
@@ -133,8 +139,8 @@
 @media (max-width: 660px) {
   .desktop-table {
     display: none;
-  }  
-  
+  }
+
   .mobile-table {
     display: table;
   }
