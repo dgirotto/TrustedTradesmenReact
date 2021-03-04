@@ -41,23 +41,31 @@ class ServiceDetailsPage extends Component {
 
   timeFrames = [
     {
+      value: -1,
+      label: "Emergency"
+    },
+    {
       value: 1,
+      label: "1 Week"
+    },
+    {
+      value: 4,
       label: "1 Month"
     },
     {
-      value: 2,
+      value: 6,
       label: "2 Months"
     },
     {
-      value: 3,
+      value: 12,
       label: "3 Months"
     },
     {
-      value: 6,
+      value: 24,
       label: "6 Months"
     },
     {
-      value: 12,
+      value: 48,
       label: "1 Year"
     }
   ];

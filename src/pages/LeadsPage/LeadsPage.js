@@ -1,22 +1,4 @@
 import React, { Component } from "react";
-
-import { LeadsService } from "../../services/leads";
-import { AuthService } from "../../services/auth";
-
-import Title from "../../components/UI/Title/Title";
-import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import ResponsiveDialog from "../../components/ResponsiveDialog";
-import { formatPhoneNumber, formatDate } from '../../helpers/Utils';
-
-import "./LeadsPage.css";
-
-import { ThemeProvider } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles';
-import {
-  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute,
-  FaRegBuilding, FaExternalLinkAlt, FaAt, FaPhone, FaUser
-} from "react-icons/fa";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -35,6 +17,23 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
+
+import { ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles';
+import {
+  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute,
+  FaRegBuilding, FaExternalLinkAlt, FaAt, FaPhone, FaUser
+} from "react-icons/fa";
+
+import { LeadsService } from "../../services/leads";
+import { AuthService } from "../../services/auth";
+
+import Title from "../../components/UI/Title/Title";
+import Backdrop from "../../components/UI/Backdrop/Backdrop";
+import ResponsiveDialog from "../../components/ResponsiveDialog";
+import { formatPhoneNumber, formatDate, formatTimeFrame } from '../../helpers/Utils';
+
+import "./LeadsPage.css";
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -134,7 +133,10 @@ export class Row extends Component {
                 <td>Date Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
-                <td>Time Frame: {this.state.row.timeFrame} Month(s)</td>
+                <td>
+                  Time Frame:&nbsp;
+                  {formatTimeFrame(this.state.row.timeFrame)}
+                </td>
               </tr>
               <tr>
                 <td>Distance: {this.formatDistance(this.state.row.travelDistance)}
@@ -163,7 +165,7 @@ export class Row extends Component {
           <TableCell>{this.state.row.serviceName}</TableCell>
           <TableCell>{this.state.row.city}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
-          <TableCell>{this.state.row.timeFrame} Month(s)</TableCell>
+          <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
           <TableCell>{this.formatDistance(this.state.row.travelDistance)}</TableCell>
         </>
       );
@@ -206,7 +208,7 @@ export class Row extends Component {
                       <p className="item-title">TIME FRAME</p>
                       <span className="item-with-icon">
                         <FaRegClock size={16} />&nbsp;
-                        {this.state.row.timeFrame} Month(s)
+                        {formatTimeFrame(this.state.row.timeFrame)}
                       </span>
                       <p className="item-title">TRAVEL DISTANCE</p>
                       <span className="item-with-icon">
