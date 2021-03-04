@@ -31,7 +31,7 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import ResponsiveDialog from "../../components/ResponsiveDialog";
-import { formatPhoneNumber, formatDate, formatTimeFrame } from '../../helpers/Utils';
+import { formatPhoneNumber, formatDate, formatTimeFrame, formatBudget } from '../../helpers/Utils';
 
 import "./LeadsPage.css";
 
@@ -134,8 +134,7 @@ export class Row extends Component {
               </tr>
               <tr>
                 <td>
-                  Time Frame:&nbsp;
-                  {formatTimeFrame(this.state.row.timeFrame)}
+                  Time Frame: {formatTimeFrame(this.state.row.timeFrame)}
                 </td>
               </tr>
               <tr>
@@ -203,7 +202,7 @@ export class Row extends Component {
                       <p className="item-title">BUDGET</p>
                       <span className="item-with-icon">
                         <FaFileInvoiceDollar size={16} />&nbsp;
-                        {this.state.row.budget}
+                        {formatBudget(this.state.row.budget)}
                       </span>
                       <p className="item-title">TIME FRAME</p>
                       <span className="item-with-icon">

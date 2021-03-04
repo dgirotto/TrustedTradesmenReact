@@ -15,67 +15,16 @@ import { ServicesService } from "../../services/service";
 import { AccountService } from "../../services/account";
 import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
+import { formatTimeFrame, formatBudget } from '../../helpers/Utils';
 
 function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 class ServiceDetailsPage extends Component {
-  budgets = [
-    {
-      value: "Under $1,000"
-    },
-    {
-      value: "$1,000 - $2,000"
-    },
-    {
-      value: "$2,000 - $4,000"
-    },
-    {
-      value: "$4,000 - $10,000"
-    },
-    {
-      value: "Over $10,000"
-    }
-  ];
-
-  timeFrames = [
-    {
-      value: -1,
-      label: "Emergency"
-    },
-    {
-      value: 1,
-      label: "1 Week"
-    },
-    {
-      value: 4,
-      label: "1 Month"
-    },
-    {
-      value: 6,
-      label: "2 Months"
-    },
-    {
-      value: 12,
-      label: "3 Months"
-    },
-    {
-      value: 24,
-      label: "6 Months"
-    },
-    {
-      value: 48,
-      label: "1 Year"
-    }
-  ];
-
-  provinces = [
-    {
-      value: "ON",
-      label: "Ontario"
-    }
-  ];
+  budgets = [1, 2, 3, 4, 5];
+  timeFrames = [-1, 1, 4, 8, 12, 24, 48];
+  provinces = [{ value: "ON", label: "Ontario" }];
 
   constructor(props) {
     super(props);
@@ -221,8 +170,8 @@ class ServiceDetailsPage extends Component {
                   onChange={this.jobDetailsChange}
                 >
                   {this.budgets.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.value}
+                    <MenuItem key={option} value={option}>
+                      {formatBudget(option)}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -238,8 +187,8 @@ class ServiceDetailsPage extends Component {
                   onChange={this.jobDetailsChange}
                 >
                   {this.timeFrames.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                    <MenuItem key={option} value={option}>
+                      {formatTimeFrame(option)}
                     </MenuItem>
                   ))}
                 </TextField>

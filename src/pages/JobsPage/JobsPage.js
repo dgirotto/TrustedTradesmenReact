@@ -6,7 +6,7 @@ import { AuthService } from "../../services/auth";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import ResponsiveDialog from "../../components/ResponsiveDialog";
-import { formatNumber, formatPhoneNumber, formatDate, formatTimeFrame } from '../../helpers/Utils';
+import { formatNumber, formatPhoneNumber, formatDate, formatTimeFrame, formatBudget } from '../../helpers/Utils';
 
 import "./JobsPage.css";
 
@@ -802,7 +802,7 @@ export class Row extends Component {
                       <p className="item-title">BUDGET</p>
                       <span className="item-with-icon">
                         <FaFileInvoiceDollar className="item-icon" size={16} />
-                        {this.state.row.budget}
+                        {formatBudget(this.state.row.budget)}
                       </span>
                       <p className="item-title">TIME FRAME</p>
                       <span className="item-with-icon">

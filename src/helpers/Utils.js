@@ -36,3 +36,27 @@ export const formatTimeFrame = (number) => {
     }
     return verbiage;
 }
+
+export const formatBudget = (budgetId) => {
+    let verbiage = '';
+    switch (budgetId) {
+        case 1:
+            verbiage = 'Under $1,000';
+            break;
+        case 2:
+            verbiage = '$1,000 - $2,000';
+            break;
+        case 3:
+            verbiage = '$2,000 - $4,000';
+            break;
+        case 4:
+            verbiage = '$4,000 - $10,000';
+            break;
+        case 5:
+            verbiage = 'Over $10,000';
+            break;
+        default:
+            break;
+    }
+    return verbiage;
+}
