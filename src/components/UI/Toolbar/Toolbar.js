@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
-import Auxil from "../../../helpers/Auxil";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 
 import "./Toolbar.css";
@@ -23,20 +22,20 @@ const ToolBar = props => {
         <div className="toolbar__navigation-items">
           <ul>
             <Link to="/">
-              <li>
-                Home
-              </li>
-            </Link>
-            <Link to="/services">
-              <li>Services</li>
+              <li>Home</li>
             </Link>
             {props.isAuth ? (
-              <Auxil>
-                {props.userType !== 0 && props.userType !== 2 ? (
+              <>
+                {props.userType === 0 && (
+                  <Link to="/services">
+                    <li>Add Job</li>
+                  </Link>
+                )}
+                {(props.userType === 1 || props.userType === 3) && (
                   <Link to="/leads">
                     <li>Leads</li>
                   </Link>
-                ) : null}
+                )}
                 <Link to="/jobs">
                   <li>Jobs</li>
                 </Link>
@@ -48,16 +47,19 @@ const ToolBar = props => {
                     Logout
                   </li>
                 </Link>
-              </Auxil>
+              </>
             ) : (
-                <Auxil>
+                <>
+                  <Link to="/services">
+                    <li>New Job</li>
+                  </Link>
                   <Link to="/login">
                     <li>Login</li>
                   </Link>
                   <Link to="/register">
                     <li>Register</li>
                   </Link>
-                </Auxil>
+                </>
               )}
           </ul>
         </div>
