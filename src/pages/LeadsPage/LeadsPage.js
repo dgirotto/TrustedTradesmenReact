@@ -15,6 +15,7 @@ import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+import Chip from "@material-ui/core/Chip";
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
 
@@ -106,13 +107,31 @@ export class Row extends Component {
     this.props.handleClose();
   }
 
-  formatDistance = (distance) => {
+  formatDistance = () => {
     let content = "N/A";
 
-    if (distance !== null) {
-      content = `${distance} km`;
+    if (this.state.row.travelDistance !== null) {
+      content = `${this.state.row.travelDistance} km`;
     }
     return content;
+  }
+
+  getLeadStatus = () => {
+    let status = null;
+
+    if (this.state.row.isAccepted) {
+      status = (
+        <Chip className="status completed" label="Accepted" />
+      );
+    }
+    else {
+        // TODO: Label should be "x hrs remaining"
+        status = (
+          <Chip className="status required" label="Response Required" />
+        );
+    }
+
+    return status;
   }
 
   getRowContent = () => {
@@ -127,19 +146,16 @@ export class Row extends Component {
                 <td>{this.state.row.serviceName}</td>
               </tr>
               <tr>
-                <td>City: {this.state.row.city}</td>
-              </tr>
-              <tr>
                 <td>Date Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
-                <td>
-                  Time Frame: {formatTimeFrame(this.state.row.timeFrame)}
-                </td>
+                <td>Time Frame: {formatTimeFrame(this.state.row.timeFrame)}</td>
               </tr>
               <tr>
-                <td>Distance: {this.formatDistance(this.state.row.travelDistance)}
-                </td>
+                <td>Travel Distance: {this.formatDistance()}</td>
+              </tr>
+              <tr>
+                <td>{this.getLeadStatus(this.state.row.isAccepted)}</td>
               </tr>
               <tr>
                 <td style={{ paddingTop: "5px" }}>
@@ -162,10 +178,10 @@ export class Row extends Component {
             </IconButton>
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
-          <TableCell>{this.state.row.city}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
-          <TableCell>{this.formatDistance(this.state.row.travelDistance)}</TableCell>
+          <TableCell>{this.formatDistance()}</TableCell>
+          <TableCell>{this.getLeadStatus(this.state.row.isAccepted)}</TableCell>
         </>
       );
     }
@@ -192,7 +208,7 @@ export class Row extends Component {
                       {this.state.row.serviceName}
                       <p className="item-title">SUBMISSION DATE</p>
                       <span className="item-with-icon">
-                        <FaRegCalendarAlt size={16} />&nbsp;
+                        <FaRegCalendarAlt className="item-icon" size={16} />
                         {formatDate(this.state.row.creationDate.split(" ")[0])}
                       </span>
                       <p className="item-title">LOCATION</p>
@@ -201,43 +217,46 @@ export class Row extends Component {
                       {this.state.row.description}
                       <p className="item-title">BUDGET</p>
                       <span className="item-with-icon">
-                        <FaFileInvoiceDollar size={16} />&nbsp;
+                        <FaFileInvoiceDollar className="item-icon" size={16} />
                         {formatBudget(this.state.row.budget)}
                       </span>
                       <p className="item-title">TIME FRAME</p>
                       <span className="item-with-icon">
-                        <FaRegClock size={16} />&nbsp;
+                        <FaRegClock className="item-icon" size={16} />
                         {formatTimeFrame(this.state.row.timeFrame)}
                       </span>
                       <p className="item-title">TRAVEL DISTANCE</p>
                       <span className="item-with-icon">
-                        <FaRoute size={16} />&nbsp;
-                        {this.formatDistance(this.state.row.travelDistance)}
+                        <FaRoute className="item-icon" size={16} />
+                        {this.formatDistance()}
                       </span>
                     </Card>
                   </div>
+                {(this.props.userType !== 1 || this.state.row.isAccepted) && (
                   <div className="job-details-column job-details-column-2">
-                    <Card className="job-details-card">
-                      <p className="item-title">CUSTOMER DETAILS</p>
-                      <span className="item-with-icon">
-                        <FaUser className="item-icon" size={16} />
-                        {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaPhone className="item-icon" size={16} />
-                        {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                      </span>
-                      <span className="item-with-icon">
-                        <FaAt className="item-icon" size={16} />
-                        <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
-                      </span>
-                    </Card>
+                    {(this.props.userType !== 1 || this.state.row.isAccepted) && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CUSTOMER DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
+                        </span>
+                      </Card>
+                    )}
                     {this.props.userType !== 1 && (
                       <Card className="job-details-card">
                         <p className="item-title">CONTRACTOR DETAILS</p>
                         <span className="item-with-icon">
                           <FaRegBuilding className="item-icon" size={16} />
-                          {this.state.row.contractorCompany}&nbsp;
+                          {this.state.row.contractorCompany}&nbsp;&nbsp;
                             <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
                             <FaExternalLinkAlt size={14} />
                           </a>
@@ -257,8 +276,10 @@ export class Row extends Component {
                       </Card>
                     )}
                   </div>
+                )}
+                
                 </div>
-                {(this.props.userType === 1) && (
+                {(this.props.userType === 1 && this.state.row.isAccepted === null) && (
                   <div className="button-container">
                     <Button
                       style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -389,23 +410,23 @@ class LeadsPage extends Component {
                   <Table aria-label="collapsible table">
                     <TableHead>
                       <TableRow>
-                        <TableCell style={{ width: "10px" }} >
+                        <TableCell style={{ width: "10px" }}>                          
                         </TableCell>
                         <TableCell>
                           Service
-                      </TableCell>
-                        <TableCell>
-                          City
-                      </TableCell>
+                        </TableCell>
                         <TableCell>
                           Date Created
-                      </TableCell>
+                        </TableCell>
                         <TableCell>
                           Time Frame
-                      </TableCell>
+                        </TableCell>
                         <TableCell>
-                          Distance
-                      </TableCell>
+                          Travel Distance
+                        </TableCell>
+                        <TableCell style={{ width: "190px" }}>
+                          Status
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

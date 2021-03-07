@@ -27,6 +27,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -302,10 +303,10 @@ export class Row extends Component {
             {this.state.row.contractors.length === 1 ? (
               <Alert className="alert-msg" severity="info" color="info">A contractor has shown an interest in your job!</Alert>
             ) : (
-                <Alert className="alert-msg" severity="info">
-                  <b>{this.state.row.contractors.length}</b> contractors have shown an interest in your job!
-                </Alert>
-              )}
+              <Alert className="alert-msg" severity="info">
+                <b>{this.state.row.contractors.length}</b> contractors have shown an interest in your job!
+              </Alert>
+            )}
             <div className="textfield-container-col">
               <TextField
                 select
@@ -386,7 +387,7 @@ export class Row extends Component {
           </>
         );
       }
-      else if (this.state.row.contractorId === null || this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
+      else if (this.state.row.contractorId === null || this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === false) {
         content = (
           <div className="button-container">
             <div className="spacer" />
@@ -404,14 +405,22 @@ export class Row extends Component {
     }
     else if (this.props.userType === 1) {
       // CONTRACTOR
-      if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
+      if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === false) {
         content = (
           <>
-            {this.state.row.invoiceAccepted === "0" && (
-              <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
-            )}
+            {this.state.row.invoiceAccepted === false ? 
+              <>
+                <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
+                <span className="field-desc">
+                  Please enter a new invoice price.
+                </span>
+              </>              
+              : 
+              <span className="field-desc">
+                Enter the invoice price. This will have to be confirmed by the customer.
+              </span>
+            }
             <div className="textfield-container-col">
-              <span className="field-desc">Enter the invoice price. This will have to be confirmed by the customer.</span>
               <TextField
                 type="text"
                 name="invoicePrice"
@@ -439,9 +448,10 @@ export class Row extends Component {
           </>
         );
       }
-      else if (this.state.row.invoiceAccepted === "1"
-        && this.state.row.holdingFeePaid
-        && (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0")) {
+      else if (this.state.row.invoiceAccepted &&
+        this.state.row.holdingFeePaid &&
+        (this.state.row.completionDate === null || this.state.row.inspectionPassed === false)
+      ) {
         content = (
           <>
             {this.requiresInspection && (
@@ -487,8 +497,9 @@ export class Row extends Component {
           </>
         );
       }
-      else if (this.state.row.invoicePaid === null
-        && ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)) {
+      else if (!this.state.row.invoicePaid &&
+        ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)
+      ) {
         content = (
           <>
             <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> is owed by the customer.</Alert>
@@ -609,7 +620,7 @@ export class Row extends Component {
     }
     else if (this.props.userType === 3) {
       // ADMIN
-      if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
+      if (this.state.row.invoiceAccepted && !this.state.row.holdingFeePaid) {
         content = (
           <>
             <Alert className="alert-msg" severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
@@ -635,7 +646,7 @@ export class Row extends Component {
   getJobStatus = () => {
     let status = null;
 
-    if (this.state.row.isAbandoned === "1") {
+    if (this.state.row.isAbandoned) {
       status = <Chip className="status cancelled" label="Cancelled" />;
     }
     else if (this.state.row.contractorId === null) {
@@ -653,19 +664,22 @@ export class Row extends Component {
         );
       }
     }
-    else if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === "0") {
+    else if (this.state.row.invoicePrice === null) {
       status = <Chip className="status required" label="Invoice Required" />;
     }
     else if (this.state.row.invoiceAccepted === null) {
       status = <Chip className="status required" label="Response Required" />;
     }
-    else if (this.props.userType === "1" && this.state.row.invoiceAccepted === "0") {
+    else if (this.props.userType === 1 && this.state.row.invoiceAccepted === false) {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (this.state.row.completionDate === null || this.state.row.inspectionPassed === "0") {
+    else if (this.state.row.completionDate === null || this.state.row.inspectionPassed === false) {
       status = <Chip className="status in-progress" label="In Progress" />;
     }
-    else if (this.state.row.holdingFeePaid === "1" && this.requiresInspection && (this.state.row.inspectorId === null || this.state.row.inspectionPassed === null || this.state.row.inspectionPassed === "0")) {
+    else if (this.state.row.holdingFeePaid &&
+      this.requiresInspection &&
+      (this.state.row.inspectorId === null || this.state.row.inspectionDate === null || this.state.row.inspectionPassed === false)
+    ) {
       if (this.state.row.inspectorId === null) {
         status = <Chip className="status required" label="Inspector Required" />;
       }
@@ -676,7 +690,7 @@ export class Row extends Component {
         status = <Chip className="status required" label="Requires Revisit" />;
       }
     }
-    else if (this.state.row.holdingFeePaid === null || this.state.row.invoicePaid === null) {
+    else if (!this.state.row.holdingFeePaid || !this.state.row.invoicePaid) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
@@ -739,25 +753,27 @@ export class Row extends Component {
   getAlertContent = () => {
     let content = null;
 
-    if (this.state.row.isAbandoned === "1") {
+    if (this.state.row.isAbandoned) {
       content = <Alert className="alert-msg" severity="error" color="error">The job was cancelled by the customer on {formatDate(this.state.row.lastUpdatedDate.split(" ")[0])}.</Alert>;
     }
     else if (this.props.userType === 0) {
       if (this.state.row.contractorId !== null && this.state.row.invoicePrice === null) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
-      if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === "0") {
+      else if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === false) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
       }
-      else if (this.state.row.holdingFeePaid === null && this.state.row.invoiceAccepted === "1") {
+      else if (!this.state.row.holdingFeePaid && this.state.row.invoiceAccepted) {
         content = <Alert className="alert-msg" severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
       }
-      else if (this.state.row.completionDate !== null && (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed === "1"))) {
-        if (this.state.row.invoicePaid === null) {
-          content = <Alert className="alert-msg" severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> to the contractor.</Alert>;
-        }
-        else if (this.state.row.invoicePaid === "1") {
+      else if (this.state.row.completionDate !== null &&
+        (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed))
+      ) {
+        if (this.state.row.invoicePaid) {
           content = <Alert className="alert-msg" severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
+        }
+        else {
+          content = <Alert className="alert-msg" severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> to the contractor.</Alert>;
         }
       }
     }
@@ -765,7 +781,7 @@ export class Row extends Component {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
       }
-      else if (this.state.row.invoiceAccepted === "1" && this.state.row.holdingFeePaid === null) {
+      else if (this.state.row.invoiceAccepted && !this.state.row.holdingFeePaid) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
       }
     }
@@ -781,7 +797,6 @@ export class Row extends Component {
         <TableRow>
           <TableCell style={{ padding: 0 }} colSpan={6}>
             <Collapse in={this.state.open} timeout="auto">
-              {/* <Collapse in={this.state.open} timeout="auto" unmountOnExit> */}
               <Box margin={1}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
@@ -817,17 +832,20 @@ export class Row extends Component {
                           <span className="item-with-icon" style={{ color: "grey" }}>
                             <FaMinusCircle className="item-icon" style={{ color: "grey" }} size={16} />Pending Customer Approval
                           </span> :
-                          this.state.row.invoiceAccepted === "1" ?
+                          this.state.row.invoiceAccepted ?
                             <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Customer Approved
+                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Approved by Customer
                             </span> :
                             <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Customer Denied
+                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Rejected by Customer
                             </span>
                         }
-                        {this.state.row.invoiceAccepted === "1" && (
+                        {this.state.row.invoiceAccepted && (
                           <>
-                            <p className="item-title">HOLDING FEE DETAILS</p>
+                            <p className="item-title item-with-icon">
+                              HOLDING FEE DETAILS 
+                              <HelpOutlineIcon className="help-icon" />                            
+                            </p>
                             <div className="fee-table-container">
                               <table className="fee-table">
                                 <tbody>
@@ -917,7 +935,7 @@ export class Row extends Component {
                           {formatDate(this.state.row.inspectionDate.split(" ")[0])}
                         </span>
                         <p className="item-title">INSPECTION STATUS</p>
-                        {this.state.row.inspectionPassed === "1" ?
+                        {this.state.row.inspectionPassed ?
                           <span className="item-with-icon" style={{ color: "green" }}>
                             <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Job Passed Inspection
                         </span> :
@@ -998,7 +1016,7 @@ export class Row extends Component {
                   )}
                 </div>
                 {this.getAlertContent()}
-                {this.state.row.isAbandoned === null && this.getUIContent()}
+                {!this.state.row.isAbandoned && this.getUIContent()}
               </Box>
             </Collapse>
           </TableCell>
@@ -1242,7 +1260,12 @@ class JobsPage extends Component {
         </>
 
         {this.state.jobCount === 0 && !this.state.isLoading && (
-          <Alert className="alert-msg" severity="info" color="info">Could not find any jobs.</Alert>
+          <Alert className="alert-msg" severity="info" color="info">
+            {this.state.userType === 0 ? 
+              <>We couldn't find any jobs. Get started <a href="/services">here</a>!</> 
+              : <>You currently don't have any assigned jobs.</>
+            }
+          </Alert>
         )}
 
         <ResponsiveDialog

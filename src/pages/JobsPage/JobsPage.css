@@ -1,7 +1,7 @@
 .job-details {
   display: flex;
   flex-wrap: wrap;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .job-details-column {
@@ -26,7 +26,7 @@
 }
 
 .item-title {
-  margin: 10px 0 3px;
+  margin: 10px 0 0px;
   font-weight: bold;
   font-family: 'Yantramanav', sans-serif;
 }
@@ -36,9 +36,23 @@
   align-Items: center;
 }
 
+.help-icon {
+  height: 22px !important;
+  width: 22px !important;
+  margin-left: 3px;
+  margin-bottom: 1.25px;
+  color: #3b9cfd;
+}
+
+.help-icon:hover {
+  cursor: pointer;
+  color: #3c8cdb;
+}
+
 .item-icon {
   color: #303030;
-  padding-right: 6px;
+  margin-right: 6px;
+  margin-bottom: 2px;
 }
 
 .status {
@@ -94,7 +108,7 @@
 
 .fee-table-container {
   max-width: 400px;
-  margin: 8px 0;
+  margin: 5px 0;
 }
 
 .fee-table {
