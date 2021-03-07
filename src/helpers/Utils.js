@@ -22,7 +22,7 @@ export const formatTimeFrame = (number) => {
     let verbiage = '';
     switch (number) {
         case -1:
-            verbiage = 'Immediately';
+            verbiage = 'Immediate';
             break;
         case 1:
             verbiage = '1 Week';

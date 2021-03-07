@@ -829,15 +829,15 @@ export class Row extends Component {
                       <Card className="job-details-card">
                         <p className="item-title">INVOICE STATUS</p>
                         {this.state.row.invoiceAccepted === null ?
-                          <span className="item-with-icon" style={{ color: "grey" }}>
-                            <FaMinusCircle className="item-icon" style={{ color: "grey" }} size={16} />Pending Customer Approval
+                          <span className="item-with-icon grey">
+                            <FaMinusCircle className="item-icon grey" size={16} />Pending Customer Approval
                           </span> :
                           this.state.row.invoiceAccepted ?
-                            <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Approved by Customer
+                            <span className="item-with-icon green">
+                              <FaCheckCircle className="item-icon green" size={16} />Approved by Customer
                             </span> :
-                            <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Rejected by Customer
+                            <span className="item-with-icon red">
+                              <FaTimesCircle className="item-icon red" size={16} />Rejected by Customer
                             </span>
                         }
                         {this.state.row.invoiceAccepted && (
@@ -857,10 +857,10 @@ export class Row extends Component {
                                     <td>HST ({this.hstValue * 100}%)</td>
                                     <td>${formatNumber(this.holdingFeeHst.toFixed(2))}</td>
                                   </tr>
-                                  <tr>
+                                  <tr className="table-divider">
                                     <td>Total</td>
                                     <td>
-                                      <span style={{ fontWeight: "bold", color: "red" }}>
+                                      <span className={this.state.row.holdingFeePaid ? "green" : "red"} style={{ fontWeight: "bold" }}>
                                         ${formatNumber(this.holdingFeeTotal.toFixed(2))}
                                       </span>
                                     </td>
@@ -869,11 +869,11 @@ export class Row extends Component {
                               </table>
                             </div>
                             {this.state.row.holdingFeePaid ?
-                              <span className="item-with-icon" style={{ color: "green" }}>
-                                <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                              <span className="item-with-icon green">
+                                <FaCheckCircle className="item-icon green" size={16} />Paid
                               </span> :
-                              <span className="item-with-icon" style={{ color: "red" }}>
-                                <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                              <span className="item-with-icon red">
+                                <FaTimesCircle className="item-icon red" size={16} />Not Paid
                               </span>
                             }
                           </>
@@ -890,11 +890,22 @@ export class Row extends Component {
                                 <td>HST ({this.hstValue * 100}%)</td>
                                 <td>${formatNumber(this.invoicePriceHst.toFixed(2))}</td>
                               </tr>
-                              <tr>
+                              {this.state.row.holdingFeePaid && (
+                                <tr>
+                                  <td>Holding Fee</td>
+                                  <td>- ${formatNumber(this.holdingFeeTotal.toFixed(2))}</td>
+                                </tr>
+                              )}
+                              <tr className="table-divider">
                                 <td>Total</td>
                                 <td>
-                                  <span style={{ fontWeight: "bold", color: "red" }}>
-                                    ${formatNumber(this.invoicePriceTotal.toFixed(2))}
+                                  <span className={this.state.row.invoicePaid ? "green" : "red"} style={{ fontWeight: "bold" }}>
+                                    {this.state.row.holdingFeePaid ? (
+                                      <>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</>
+                                    ) :
+                                    (
+                                      <>${formatNumber(this.invoicePriceTotal.toFixed(2))}</>
+                                    )}                                    
                                   </span>
                                 </td>
                               </tr>
@@ -903,11 +914,11 @@ export class Row extends Component {
                         </div>
                         {this.state.row.invoiceAccepted && (
                           this.state.row.invoicePaid ?
-                            <span className="item-with-icon" style={{ color: "green" }}>
-                              <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Paid
+                            <span className="item-with-icon green">
+                              <FaCheckCircle className="item-icon green" size={16} />Paid
                             </span> :
-                            <span className="item-with-icon" style={{ color: "red" }}>
-                              <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Not Paid
+                            <span className="item-with-icon red">
+                              <FaTimesCircle className="item-icon red" size={16} />Not Paid
                             </span>
                         )}
                       </Card>
@@ -936,11 +947,11 @@ export class Row extends Component {
                         </span>
                         <p className="item-title">INSPECTION STATUS</p>
                         {this.state.row.inspectionPassed ?
-                          <span className="item-with-icon" style={{ color: "green" }}>
-                            <FaCheckCircle className="item-icon" style={{ color: "green" }} size={16} />Job Passed Inspection
+                          <span className="item-with-icon green">
+                            <FaCheckCircle className="item-icon green" size={16} />Job Passed Inspection
                         </span> :
-                          <span className="item-with-icon" style={{ color: "red" }}>
-                            <FaTimesCircle className="item-icon" style={{ color: "red" }} size={16} />Job Failed Inspection
+                          <span className="item-with-icon red">
+                            <FaTimesCircle className="item-icon red" size={16} />Job Failed Inspection
                         </span>
                         }
                         {this.props.userType !== 0 && this.state.row.inspectorNotes && (
@@ -959,11 +970,11 @@ export class Row extends Component {
                           <p className="item-title">CUSTOMER DETAILS</p>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
-                            {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                            {this.state.row.customerName ? this.state.row.customerName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                            {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaAt className="item-icon" size={16} />
@@ -983,11 +994,11 @@ export class Row extends Component {
                           </span>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
-                            {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                            {this.state.row.contractorName ? this.state.row.contractorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                            {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaAt className="item-icon" size={16} />
@@ -1000,11 +1011,11 @@ export class Row extends Component {
                           <p className="item-title">INSPECTOR DETAILS</p>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
-                            {this.state.row.inspectorName ? this.state.row.inspectorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                            {this.state.row.inspectorName ? this.state.row.inspectorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {this.state.inspectorPhone ? formatPhoneNumber(this.state.row.inspectorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                            {this.state.inspectorPhone ? formatPhoneNumber(this.state.row.inspectorPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
                           </span>
                           <span className="item-with-icon">
                             <FaAt className="item-icon" size={16} />

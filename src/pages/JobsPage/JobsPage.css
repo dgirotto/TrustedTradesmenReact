@@ -108,7 +108,7 @@
 
 .fee-table-container {
   max-width: 400px;
-  margin: 5px 0;
+  margin: 5px 0 8px;
 }
 
 .fee-table {
@@ -117,8 +117,8 @@
   border: solid #d3d3d3 1px;
 }
 
-.fee-table > tbody > tr:nth-child(2) {
-  border-bottom: solid #d3d3d3 1px;
+.table-divider {
+  border-top: solid #d3d3d3 1px;
 }
 
 .fee-table > tbody > tr > td:nth-child(2) {
@@ -127,6 +127,18 @@
 
 .fee-table > tbody > tr > td {
   padding: 4px 8px;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.grey {
+  color: grey;
 }
 
 @media (min-width: 661px) {
