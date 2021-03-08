@@ -37,16 +37,16 @@
 }
 
 .help-icon {
-  height: 22px !important;
-  width: 22px !important;
-  margin-left: 3px;
-  margin-bottom: 1.25px;
-  color: #3b9cfd;
+  height: 18px !important;
+  width: 18px !important;
+  margin-left: 5px;
+  margin-bottom: 1.2px;
+  color: #3c8cdb;
 }
 
 .help-icon:hover {
   cursor: pointer;
-  color: #3c8cdb;
+  color: #3b9cfd;
 }
 
 .item-icon {
