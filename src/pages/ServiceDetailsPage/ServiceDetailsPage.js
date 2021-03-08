@@ -6,7 +6,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Auxil from "../../helpers/Auxil";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Title from "../../components/UI/Title/Title";
 import "./ServiceDetailsPage.css";
@@ -139,13 +138,21 @@ class ServiceDetailsPage extends Component {
 
   renderContent() {
     return (
-      <Auxil>
+      <>
         <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
-        <h2 className="form-title">DESCRIPTION</h2>
-        <p>{this.state.serviceDetails.description}</p>
+        <Button
+          style={{ marginBottom: "15px", fontWeight: "bold", background: "#2f2f2f", color: "white" }}
+          onClick={() => { window.location.href = "/services" }}
+        >
+          BACK TO SERVICES
+        </Button>
+        {/* <div style={{ margin: "35px 0" }}>
+          <h2 className="form-title">DESCRIPTION</h2>
+          <p>{this.state.serviceDetails.description}</p>
+        </div> */}
         {this.state.userType === 0 && (
-          <Auxil>
-            <p style={{ marginTop: "50px" }}>Interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
+          <>
+            <p>Are you interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
             <div className="textfield-container-col">
               <TextField
                 type="text"
@@ -319,11 +326,11 @@ class ServiceDetailsPage extends Component {
                 )
               }
             >
-              SUBMIT REQUEST
+              SUBMIT JOB REQUEST
             </Button>
-          </Auxil>
+          </>
         )}
-      </Auxil>
+      </>
     );
   }
 

@@ -1043,6 +1043,7 @@ class JobsPage extends Component {
     pageNumber: 0,
     itemsPerPage: 10,
     isLoading: true,
+    isFiltered: false,
     sortDateDesc: null,
     addressFilterVal: "",
     // showSnackbar: false,
@@ -1073,7 +1074,8 @@ class JobsPage extends Component {
           jobs: res.data.jobs,
           jobCount: res.data.job_count,
           pageNumber: pageNumberToLoad,
-          isLoading: false
+          isLoading: false, 
+          isFiltered: this.state.addressFilterVal !== ""
         });
       })
       .catch(() => {
@@ -1156,8 +1158,8 @@ class JobsPage extends Component {
       <div className="page-container">
         <>
           <Title>JOBS</Title>
-          {this.state.userType === 0 && (
-            <div className="button-container">
+          {this.state.userType === 0 && !this.state.isLoading && (
+            <div style={{ marginBottom: "15px" }} className="button-container">
               <div className="spacer" />
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
@@ -1168,7 +1170,7 @@ class JobsPage extends Component {
               </Button>
             </div>
           )}
-          {this.state.userType !== 0 && (
+          {this.state.userType !== 0 && (this.state.jobCount > 0 || this.state.isFiltered) && (
             <div className="search-container">
               <TextField
                 type="search"
@@ -1200,93 +1202,96 @@ class JobsPage extends Component {
               </Button>
             </div>
           )}
-
           {this.state.jobCount > 0 && !this.state.isLoading && (
-            <ThemeProvider theme={tableTheme}>
-              <TableContainer className="desktop-table" component={Paper}>
-                <Table aria-label="collapsible table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell style={{ width: "10px" }} >
-                      </TableCell>
-                      <TableCell>
-                        Service
-                      </TableCell>
-                      <TableCell>
-                        Address
-                      </TableCell>
-                      <TableCell>
-                        City
-                      </TableCell>
-                      <TableCell>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <span style={{ paddingRight: "5px" }}>Date Created</span>
-                          <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
-                            {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                          </IconButton>
-                        </div>
-                      </TableCell>
-                      <TableCell style={{ width: "190px" }}>
-                        Status
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.state.jobs.map(job => (
-                      <Row
-                        key={job.jobId}
-                        row={job}
-                        userType={this.state.userType}
-                        isMobile={false}
-                        getJobs={this.getJobs}
-                        setDialog={this.setDialog}
-                        handleOpen={this.handleOpen}
-                        handleClose={this.handleClose}
-                      // setMessage={this.setMessage}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TableContainer className="mobile-table" component={Paper}>
-                <Table aria-label="collapsible table">
-                  <TableBody>
-                    {this.state.jobs.map(job => (
-                      <Row
-                        key={job.jobId}
-                        row={job}
-                        userType={this.state.userType}
-                        isMobile={true}
-                        getJobs={this.getJobs}
-                        setDialog={this.setDialog}
-                        handleOpen={this.handleOpen}
-                        handleClose={this.handleClose}
-                      // setMessage={this.setMessage}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50]}
-                component="div"
-                count={this.state.jobCount}
-                rowsPerPage={this.state.itemsPerPage}
-                page={this.state.pageNumber}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeItemsPerPage}
-              />
-            </ThemeProvider>
+            <>              
+              <ThemeProvider theme={tableTheme}>
+                <TableContainer className="desktop-table" component={Paper}>
+                  <Table aria-label="collapsible table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ width: "10px" }} >
+                        </TableCell>
+                        <TableCell>
+                          Service
+                        </TableCell>
+                        <TableCell>
+                          Address
+                        </TableCell>
+                        <TableCell>
+                          City
+                        </TableCell>
+                        <TableCell>
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <span style={{ paddingRight: "5px" }}>Date Created</span>
+                            <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
+                              {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                          </div>
+                        </TableCell>
+                        <TableCell style={{ width: "190px" }}>
+                          Status
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {this.state.jobs.map(job => (
+                        <Row
+                          key={job.jobId}
+                          row={job}
+                          userType={this.state.userType}
+                          isMobile={false}
+                          getJobs={this.getJobs}
+                          setDialog={this.setDialog}
+                          handleOpen={this.handleOpen}
+                          handleClose={this.handleClose}
+                        // setMessage={this.setMessage}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TableContainer className="mobile-table" component={Paper}>
+                  <Table aria-label="collapsible table">
+                    <TableBody>
+                      {this.state.jobs.map(job => (
+                        <Row
+                          key={job.jobId}
+                          row={job}
+                          userType={this.state.userType}
+                          isMobile={true}
+                          getJobs={this.getJobs}
+                          setDialog={this.setDialog}
+                          handleOpen={this.handleOpen}
+                          handleClose={this.handleClose}
+                        // setMessage={this.setMessage}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 50]}
+                  component="div"
+                  count={this.state.jobCount}
+                  rowsPerPage={this.state.itemsPerPage}
+                  page={this.state.pageNumber}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeItemsPerPage}
+                />
+              </ThemeProvider>
+            </>
           )}
         </>
 
         {this.state.jobCount === 0 && !this.state.isLoading && (
           <Alert className="alert-msg" severity="info" color="info">
             {this.state.userType === 0 ? 
-              <>We couldn't find any jobs. Get started <a href="/services">here</a>!</> 
-              : <>You currently don't have any assigned jobs.</>
+              <>We couldn't find any jobs. Get started <a href="/services">here</a>!</> : 
+              this.state.isFiltered ? 
+                <>We could not find any jobs that match that address. Please try a different one.</> : 
+                <>You currently don't have any assigned jobs.</>
             }
-          </Alert>
+          </Alert>  
         )}
 
         <ResponsiveDialog

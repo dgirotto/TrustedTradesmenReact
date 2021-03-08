@@ -71,7 +71,7 @@
 }
 
 .status.required {
-  background-color: hsl(54, 100%, 70%);
+  background-color: #ffe252;
 }
 
 .status.in-progress {
