@@ -28,7 +28,7 @@ const ToolBar = props => {
               <>
                 {props.userType === 0 && (
                   <Link to="/services">
-                    <li>Add Job</li>
+                    <li>New Job</li>
                   </Link>
                 )}
                 {(props.userType === 1 || props.userType === 3) && (
@@ -49,18 +49,18 @@ const ToolBar = props => {
                 </Link>
               </>
             ) : (
-                <>
-                  <Link to="/services">
-                    <li>New Job</li>
-                  </Link>
-                  <Link to="/login">
-                    <li>Login</li>
-                  </Link>
-                  <Link to="/register">
-                    <li>Register</li>
-                  </Link>
-                </>
-              )}
+              <>
+                <Link to="/services">
+                  <li>New Job</li>
+                </Link>
+                <Link to="/login">
+                  <li>Login</li>
+                </Link>
+                <Link to="/register">
+                  <li>Register</li>
+                </Link>
+              </>
+            )}
           </ul>
         </div>
       </nav>

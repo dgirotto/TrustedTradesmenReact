@@ -246,7 +246,7 @@ export class Row extends Component {
     if (modalType === 0) {
       modalContent = {
         title: 'Confirm Hire',
-        content: 'Are you sure you wish to hire the selected contractor?',
+        content: 'Are you sure you wish to hire the selected contractor? This action cannot be undone.',
         actions: <>
           <Button onClick={this.claimJob}>
             Yes
@@ -300,11 +300,9 @@ export class Row extends Component {
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         content = (
           <>
-            {this.state.row.contractors.length === 1 ? (
-              <Alert className="alert-msg" severity="info" color="info">A contractor has shown an interest in your job!</Alert>
-            ) : (
-              <Alert className="alert-msg" severity="info">
-                <b>{this.state.row.contractors.length}</b> contractors have shown an interest in your job!
+            {this.state.row.contractors.length > 0 && (
+              <Alert className="alert-msg" severity="info" color="info">
+                Contractors have shown an interest in your job! If you wish to commit to a particular contractor, click the <b>Hire Contractor</b> button.
               </Alert>
             )}
             <div className="textfield-container-col">
@@ -410,7 +408,7 @@ export class Row extends Component {
           <>
             {this.state.row.invoiceAccepted === false ? 
               <>
-                <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please enter a new price.</Alert>
+                <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Contact the customer to resolve pricing discrepancies.</Alert>
                 <span className="field-desc">
                   Please enter a new invoice price.
                 </span>
@@ -1158,6 +1156,18 @@ class JobsPage extends Component {
       <div className="page-container">
         <>
           <Title>JOBS</Title>
+          {this.state.userType === 0 && (
+            <div className="button-container">
+              <div className="spacer" />
+              <Button
+                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                onClick={() => window.location.href="/services"}
+                variant="contained"
+              >
+                POST NEW JOB
+              </Button>
+            </div>
+          )}
           {this.state.userType !== 0 && (
             <div className="search-container">
               <TextField

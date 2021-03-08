@@ -324,7 +324,7 @@ class SettingsPage extends Component {
             )}
             {this.state.userType === 1 && this.state.services !== null && (
               <Auxil>
-                <span className="field-desc">Which services are you capable of providing? Select all that apply.</span>
+                <span className="field-desc">Which services are you capable of providing? Please select only those of which you <b>specialize</b> in.</span>
                 <FormControl component="fieldset">
                   <FormGroup style={{ flexDirection: "row" }}>
                     {this.state.services.map(service => (
