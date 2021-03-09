@@ -8,7 +8,6 @@ import { ServicesService } from "../../services/service";
 
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Auxil from "../../helpers/Auxil";
 
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -84,7 +83,7 @@ class SettingsPage extends Component {
       services: null
     },
     passwordDetails: {
-      password: null,
+      oldPassword: null,
       newPassword: null,
       confirmNewPassword: null
     },
@@ -153,7 +152,7 @@ class SettingsPage extends Component {
     this.setState({ isLoading: true });
 
     AccountService.changePassword({
-      password: this.state.passwordDetails.password,
+      password: this.state.passwordDetails.oldPassword,
       newPassword: this.state.passwordDetails.newPassword
     })
       .then(() => {
@@ -161,7 +160,7 @@ class SettingsPage extends Component {
         this.setState({
           isLoading: false,
           passwordDetails: {
-            password: "",
+            oldPassword: "",
             newPassword: "",
             confirmNewPassword: ""
           }
@@ -208,9 +207,8 @@ class SettingsPage extends Component {
     return (
       <div className="page-container">
         {this.state.accountDetails.email && (
-          <Auxil>
-            <Title>SETTINGS</Title>
-            <h2 className="form-title" style={{ marginTop: "0" }}>ACCOUNT DETAILS</h2>
+          <>
+            <h2 className="form-title">Account Details</h2>
             <div className="textfield-container-col">
               <TextField
                 type="text"
@@ -302,7 +300,7 @@ class SettingsPage extends Component {
               </div>
             </div>
             {(this.state.userType === 1 || this.state.userType === 2) && (
-              <Auxil>
+              <>
                 <span className="field-desc">How far are you willing to travel for a job?</span>
                 <div className="textfield-container-col">
                   <TextField
@@ -320,10 +318,10 @@ class SettingsPage extends Component {
                     ))}
                   </TextField>
                 </div>
-              </Auxil>
+              </>
             )}
             {this.state.userType === 1 && this.state.services !== null && (
-              <Auxil>
+              <>
                 <span className="field-desc">Which services are you capable of providing? Please select only those of which you <b>specialize</b> in.</span>
                 <FormControl component="fieldset">
                   <FormGroup style={{ flexDirection: "row" }}>
@@ -467,7 +465,7 @@ class SettingsPage extends Component {
                     />
                   </div>
                 </div>
-              </Auxil>
+              </>
             )}
             <Button
               style={{ fontWeight: "bold" }}
@@ -478,20 +476,22 @@ class SettingsPage extends Component {
             >
               SAVE DETAILS
             </Button>
-            <h2 className="form-title" style={{ marginTop: "25px" }}>CHANGE PASSWORD</h2>
+            <h2 className="form-title" style={{ marginTop: "25px" }}>Change Password</h2>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
+                  id="oldPassword"
                   type="password"
-                  name="password"
+                  name="oldPassword"
                   label="Old Password"
-                  value={this.state.passwordDetails.password || ""}
+                  value={this.state.passwordDetails.oldPassword || ""}
                   variant="outlined"
                   onChange={this.passwordChange}
                 />
               </div>
               <div className="textfield-container-col">
                 <TextField
+                  id="newPassword"
                   type="password"
                   name="newPassword"
                   label="New Password"
@@ -502,6 +502,7 @@ class SettingsPage extends Component {
               </div>
               <div className="textfield-container-col">
                 <TextField
+                  id="confirmNewPassword"
                   type="password"
                   name="confirmNewPassword"
                   label="Confirm New Password"
@@ -518,7 +519,7 @@ class SettingsPage extends Component {
               color="secondary"
               disabled={
                 !(
-                  this.state.passwordDetails.password &&
+                  this.state.passwordDetails.oldPassword &&
                   this.state.passwordDetails.newPassword &&
                   this.state.passwordDetails.confirmNewPassword
                 )
@@ -526,7 +527,7 @@ class SettingsPage extends Component {
             >
               CHANGE PASSWORD
             </Button>
-          </Auxil>
+          </>
         )
         }
 

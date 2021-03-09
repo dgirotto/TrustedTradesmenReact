@@ -9,8 +9,8 @@
 }
 
 .form-title {
-  text-align: left;
   font-size: 20px;
+  margin: 35px 0 25px;
 }
 
 .textfield-container {
@@ -64,7 +64,7 @@
 
 .field-desc {
   display: block;
-  margin-bottom: 15px;
+  margin: 5px 0 15px;
 }
 
 .search-container {
