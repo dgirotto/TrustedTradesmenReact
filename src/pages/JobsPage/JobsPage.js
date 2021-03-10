@@ -272,7 +272,7 @@ export class Row extends Component {
       };
     }
     else {
-      let verbiage = this.state.userType === 1 ? "Holding Fee" : "Payment";
+      let verbiage = this.props.userType === 1 ? "Holding Fee" : "Payment";
 
       modalContent = {
         title: `Confirm Received ${verbiage}`,
@@ -419,7 +419,7 @@ export class Row extends Component {
           <>
             {this.state.row.invoiceAccepted === false ? 
               <>
-                <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Contact the customer to resolve pricing discrepancies.</Alert>
+                <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please contact the customer to resolve pricing discrepancies.</Alert>
                 <span className="field-desc">
                   Please enter a new invoice price.
                 </span>
@@ -770,7 +770,7 @@ export class Row extends Component {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the contractor to submit an invoice.</Alert>;
       }
       else if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === false) {
-        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the contractor to submit a new invoice.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">The contractor will contact you to discuss a revised invoice.</Alert>;
       }
       else if (!this.state.row.holdingFeePaid && this.state.row.invoiceAccepted) {
         content = <Alert className="alert-msg" severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
@@ -788,10 +788,10 @@ export class Row extends Component {
     }
     else if (this.props.userType === 1) {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
-        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm invoice.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm the invoice.</Alert>;
       }
       else if (this.state.row.invoiceAccepted && !this.state.row.holdingFeePaid) {
-        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to pay the holding fee.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to submit the holding fee.</Alert>;
       }
     }
     return content;
@@ -846,7 +846,7 @@ export class Row extends Component {
                               <FaCheckCircle className="item-icon green" size={16} />Approved by Customer
                             </span> :
                             <span className="item-with-icon red">
-                              <FaTimesCircle className="item-icon red" size={16} />Rejected by Customer
+                              <FaTimesCircle className="item-icon red" size={16} />Revision Requested by Customer
                             </span>
                         }
                         {this.state.row.invoiceAccepted && (
@@ -887,7 +887,16 @@ export class Row extends Component {
                             }
                           </>
                         )}
-                        <p className="item-title">INVOICE DETAILS</p>
+                        <p className="item-title item-with-icon">
+                          INVOICE DETAILS 
+                          <HelpOutlineIcon className="help-icon" />
+                          {/* {this.props.userType === 1 && ( 
+                            <>
+                              We do not advise that a full payment is taken before the job is complete. We respect that funding may be required
+                              for materials and other costs, but payments should be received in increments.
+                            </>
+                          )} */}                    
+                        </p>
                         <div className="fee-table-container">
                           <table className="fee-table">
                             <tbody>
@@ -1168,7 +1177,7 @@ class JobsPage extends Component {
     return (
       <div className="page-container">
         <>
-          <Title>My Jobs</Title>
+          {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
           {this.state.userType === 0 && !this.state.isLoading && (
             <div style={{ marginBottom: "15px" }} className="button-container">
               <div className="spacer" />
@@ -1195,7 +1204,7 @@ class JobsPage extends Component {
                 style={{ width: "100%" }}
               />
               <Button
-                style={{ marginLeft: "5px", padding: "16.9px" }}
+                style={{ margin: "0 10px", padding: "16.9px" }}
                 onClick={this.handleSearchClick}
                 variant="contained"
                 color="primary"
@@ -1204,7 +1213,7 @@ class JobsPage extends Component {
                 <FaSearch size={22} />
               </Button>
               <Button
-                style={{ marginLeft: "5px", padding: "17.5px", background: "#47a747" }}
+                style={{ padding: "17.5px", background: "#47a747" }}
                 onClick={this.handleRefreshClick}
                 variant="contained"
                 color="primary"

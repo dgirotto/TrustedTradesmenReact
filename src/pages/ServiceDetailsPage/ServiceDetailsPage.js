@@ -16,6 +16,8 @@ import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
 import { formatTimeFrame, formatBudget } from '../../helpers/Utils';
 
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+
 function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -139,12 +141,12 @@ class ServiceDetailsPage extends Component {
   renderContent() {
     return (
       <>
-        <Title>{this.state.serviceDetails.serviceName.toUpperCase()}</Title>
+        <Title>{this.state.serviceDetails.serviceName} Request</Title>
         <Button
-          style={{ marginBottom: "15px", fontWeight: "bold", background: "#2f2f2f", color: "white" }}
+          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white" }}
           onClick={() => { window.location.href = "/services" }}
         >
-          BACK TO SERVICES
+          <KeyboardBackspaceIcon style={{ marginRight: "3px", marginLeft: "-3px" }} /> SERVICES
         </Button>
         {/* <div style={{ margin: "35px 0" }}>
           <h2 className="form-title">DESCRIPTION</h2>

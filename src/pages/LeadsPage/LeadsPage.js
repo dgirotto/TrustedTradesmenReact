@@ -125,14 +125,24 @@ export class Row extends Component {
   getLeadStatus = () => {
     let status = null;
 
-    if (this.state.row.isInterested) {
+    if (this.state.row.isCommitted) {
+      status = (
+        <Chip className="status completed" label="Committed" />
+      );
+    } 
+    else if (this.state.row.isCommitted === false) {
+      status = (
+        <Chip className="status cancelled" label="Not Committed" />
+      );
+    }
+    else if (this.state.row.isInterested) {
       status = (
         <Chip className="status completed" label="Interested" />
       );
     }
-    else if (this.state.row.isCommitted) {
+    else if (this.state.row.isInterested === false) {
       status = (
-        <Chip className="status completed" label="Committed" />
+        <Chip className="status cancelled" label="Dismissed" />
       );
     }
     else {
@@ -360,8 +370,12 @@ export class Row extends Component {
                     </div>
                   )}
                 </div>
-                {this.getAlertContent()}
-                {this.getUIContent()}
+                {this.props.userType === 1 && (
+                  <>
+                    {this.getAlertContent()}
+                    {this.getUIContent()}
+                  </>
+                )}
               </Box>
             </Collapse>
           </TableCell>
@@ -467,7 +481,7 @@ class LeadsPage extends Component {
     return (
       <div className="page-container">
         <>
-          <Title>My Leads</Title>
+          {this.state.userType === 3 ? <Title>All Leads</Title> : <Title>My Leads</Title>}
           {this.state.leadCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
                 <TableContainer className="desktop-table" component={Paper}>
