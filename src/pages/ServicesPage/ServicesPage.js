@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Auxil from "../../helpers/Auxil";
 import Title from "../../components/UI/Title/Title";
 import ResponsiveDialog from "../../components/ResponsiveDialog";
 import Button from '@material-ui/core/Button';
@@ -170,8 +169,8 @@ class ServicesPage extends Component {
     return (
       <div className="page-container">
         {!this.state.isLoading && this.state.services ? (
-          <Auxil>
-            <Title>SERVICES</Title>
+          <>
+            <Title>Services</Title>
             <div className="search-container">
               <TextField
                 type="search"
@@ -200,7 +199,7 @@ class ServicesPage extends Component {
                 <h2 style={{ margin: "20px auto 0", color: "#a5a5a5" }}>No services match</h2>
               )}
             </div>
-          </Auxil>
+          </>
         ) : <Backdrop />}
 
         <ResponsiveDialog

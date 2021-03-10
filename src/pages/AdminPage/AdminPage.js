@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./AdminPage.css";
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Auxil from "../../helpers/Auxil";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -203,7 +202,7 @@ class AdminPage extends Component {
     return (
       <div className="page-container">
         {this.state.services && (
-          <Auxil>
+          <>
             <Title>ADMIN PANEL</Title>
             <div className="textfield-container-row">
               <TextField
@@ -243,7 +242,7 @@ class AdminPage extends Component {
                   </TextField>
                 </div>
                 {this.state.accountDetails.accountType !== null ? (
-                  <Auxil>
+                  <>
                     <h2 className="form-title">LOGIN DETAILS</h2>
                     <div className="textfield-container-row">
                       <TextField
@@ -354,7 +353,7 @@ class AdminPage extends Component {
                       </TextField>
                     </div>
                     {this.state.accountDetails.accountType === 1 ? (
-                      <Auxil>
+                      <>
                         <h2 className="form-title">CONTRACTOR DETAILS</h2>
                         <FormControl component="fieldset">
                           <FormGroup>
@@ -471,14 +470,14 @@ class AdminPage extends Component {
                             onChange={this.accountDetailsChange}
                           />
                         </div>
-                      </Auxil>
+                      </>
                     ) : null}
-                  </Auxil>
+                  </>
                 ) : null}
               </div>
             ) : null}
             {this.state.typeToCreate === 2 ? (
-              <Auxil>
+              <>
                 <h2 className="form-title">SERVICE DETAILS</h2>
                 <div className="textfield-container">
                   <div className="textfield-container-row">
@@ -504,7 +503,7 @@ class AdminPage extends Component {
                     />
                   </div>
                 </div>
-              </Auxil>
+              </>
             ) : null}
             {this.state.typeToCreate != null ? (
               <div className="button-container">
@@ -526,7 +525,7 @@ class AdminPage extends Component {
                 </Button>
               </div>
             ) : null}
-          </Auxil>
+          </>
         )}
         {this.state.isLoading ? <Backdrop /> : null}
       </div>

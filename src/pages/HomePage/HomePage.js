@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./HomePage.css";
-import Auxil from "../../helpers/Auxil";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import { FaRegHandshake, FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
@@ -8,7 +7,7 @@ import { FaRegHandshake, FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLin
 class HomePage extends Component {
   render() {
     return (
-      <Auxil>
+      <>
         <div className="intro-container">
           <h1 style={{ color: "#FFF" }} className="home-title">OUR MISSION</h1>
           <div className="intro">
@@ -84,7 +83,7 @@ class HomePage extends Component {
           </div>
           <p className="copyright-msg">Copyright © 2021 Trusted Tradesmen. All rights reserved.</p>
         </div>
-      </Auxil >
+      </ >
     );
   }
 }

@@ -74,7 +74,7 @@ export class Row extends Component {
   dismissLead = () => {
     let modalContent = {
       title: `Confirm Dismissal`,
-      content: `Are you sure you wish to dismiss this lead?`,
+      content: `Are you sure you wish to dismiss this lead? It will be removed from your feed.`,
       actions: <>
         <Button onClick={() => this.claimLead(false)}>
           Yes
@@ -89,11 +89,17 @@ export class Row extends Component {
     this.props.handleOpen();
   }
 
-  claimLead = (isAccepted) => {
+  claimLead = (claim) => {
     let body = {
-      leadId: this.state.row.leadId,
-      isAccepted: isAccepted ? 1 : 0
+      leadId: this.state.row.leadId
     };
+
+    if (this.state.row.isInterested === null) {
+      body.isInterested = claim ? 1 : 0;
+    }
+    else {
+      body.isCommitted = claim ? 1 : 0;
+    }
 
     LeadsService.updateLead(body)
       .then(() => {
@@ -119,13 +125,18 @@ export class Row extends Component {
   getLeadStatus = () => {
     let status = null;
 
-    if (this.state.row.isAccepted) {
+    if (this.state.row.isInterested) {
       status = (
-        <Chip className="status completed" label="Accepted" />
+        <Chip className="status completed" label="Interested" />
+      );
+    }
+    else if (this.state.row.isCommitted) {
+      status = (
+        <Chip className="status completed" label="Committed" />
       );
     }
     else {
-        // TODO: Label should be "x hrs remaining"
+        // TODO: Label should be "<x> HRS REMAINING"
         status = (
           <Chip className="status required" label="Response Required" />
         );
@@ -155,7 +166,7 @@ export class Row extends Component {
                 <td>Travel Distance: {this.formatDistance()}</td>
               </tr>
               <tr>
-                <td>{this.getLeadStatus(this.state.row.isAccepted)}</td>
+                <td>{this.getLeadStatus()}</td>
               </tr>
               <tr>
                 <td style={{ paddingTop: "5px" }}>
@@ -181,9 +192,80 @@ export class Row extends Component {
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
           <TableCell>{this.formatDistance()}</TableCell>
-          <TableCell>{this.getLeadStatus(this.state.row.isAccepted)}</TableCell>
+          <TableCell>{this.getLeadStatus()}</TableCell>
         </>
       );
+    }
+
+    return content;
+  }
+
+  getAlertContent = () =>  {
+    let content = null;
+
+    if (this.props.row.isCommitted) 
+    {
+      content = <Alert className="alert-msg" severity="info" color="info">Waiting on the customer to make their decision.</Alert>;
+    }
+    else if (this.props.row.isInterested)
+    {
+      content = <Alert className="alert-msg" severity="info" color="info">We advise that you visit the customer before committing to this job.</Alert>;
+    }
+
+    return content; 
+  }
+
+  getUIContent = () =>  {
+    let content = null;
+
+    if (this.props.userType !== 1)
+    {
+      return;
+    }
+
+    if (this.state.row.isInterested === null)
+    {
+      content = (
+        <div className="button-container">
+          <Button
+            style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
+            onClick={() => this.claimLead(true)}
+            variant="contained"
+          >
+            I'M INTERESTED
+          </Button>
+          <Button
+            style={{ fontWeight: "bold" }}
+            onClick={this.dismissLead}
+            variant="contained"
+            color="secondary"
+          >
+            NO THANKS
+          </Button>
+        </div>
+      )
+    }
+    else if (this.state.row.isCommitted === null)
+    {
+      content = (
+        <div className="button-container">
+          <Button
+            style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
+            onClick={() => this.claimLead(true)}
+            variant="contained"
+          >
+            I'M COMMITTED
+          </Button>
+          <Button
+            style={{ fontWeight: "bold" }}
+            onClick={this.dismissLead}
+            variant="contained"
+            color="secondary"
+          >
+            NO THANKS
+          </Button>
+        </div>
+      )
     }
 
     return content;
@@ -232,72 +314,54 @@ export class Row extends Component {
                       </span>
                     </Card>
                   </div>
-                {(this.props.userType !== 1 || this.state.row.isAccepted) && (
-                  <div className="job-details-column job-details-column-2">
-                    {(this.props.userType !== 1 || this.state.row.isAccepted) && (
-                      <Card className="job-details-card">
-                        <p className="item-title">CUSTOMER DETAILS</p>
-                        <span className="item-with-icon">
-                          <FaUser className="item-icon" size={16} />
-                          {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaPhone className="item-icon" size={16} />
-                          {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaAt className="item-icon" size={16} />
-                          <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
-                        </span>
-                      </Card>
-                    )}
-                    {this.props.userType !== 1 && (
-                      <Card className="job-details-card">
-                        <p className="item-title">CONTRACTOR DETAILS</p>
-                        <span className="item-with-icon">
-                          <FaRegBuilding className="item-icon" size={16} />
-                          {this.state.row.contractorCompany}&nbsp;&nbsp;
-                            <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
-                            <FaExternalLinkAlt size={14} />
-                          </a>
-                        </span>
-                        <span className="item-with-icon">
-                          <FaUser className="item-icon" size={16} />
-                          {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaPhone className="item-icon" size={16} />
-                          {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                        </span>
-                        <span className="item-with-icon">
-                          <FaAt className="item-icon" size={16} />
-                          <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
-                        </span>
-                      </Card>
-                    )}
-                  </div>
-                )}
-                
+                  {(this.props.userType !== 1 || this.state.row.isInterested) && (
+                    <div className="job-details-column job-details-column-2">
+                      {(this.props.userType !== 1 || this.state.row.isInterested) && (
+                        <Card className="job-details-card">
+                          <p className="item-title">CUSTOMER DETAILS</p>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaPhone className="item-icon" size={16} />
+                            {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
+                          </span>
+                        </Card>
+                      )}
+                      {this.props.userType !== 1 && (
+                        <Card className="job-details-card">
+                          <p className="item-title">CONTRACTOR DETAILS</p>
+                          <span className="item-with-icon">
+                            <FaRegBuilding className="item-icon" size={16} />
+                            {this.state.row.contractorCompany}&nbsp;&nbsp;
+                              <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
+                              <FaExternalLinkAlt size={14} />
+                            </a>
+                          </span>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaPhone className="item-icon" size={16} />
+                            {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
+                          </span>
+                        </Card>
+                      )}
+                    </div>
+                  )}
                 </div>
-                {(this.props.userType === 1 && this.state.row.isAccepted === null) && (
-                  <div className="button-container">
-                    <Button
-                      style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
-                      onClick={() => this.claimLead(true)}
-                      variant="contained"
-                    >
-                      ACCEPT
-                    </Button>
-                    <Button
-                      style={{ fontWeight: "bold" }}
-                      onClick={this.dismissLead}
-                      variant="contained"
-                      color="secondary"
-                    >
-                      DISMISS
-                    </Button>
-                  </div>
-                )}
+                {this.getAlertContent()}
+                {this.getUIContent()}
               </Box>
             </Collapse>
           </TableCell>
@@ -403,7 +467,7 @@ class LeadsPage extends Component {
     return (
       <div className="page-container">
         <>
-          <Title>LEADS</Title>
+          <Title>My Leads</Title>
           {this.state.leadCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
                 <TableContainer className="desktop-table" component={Paper}>

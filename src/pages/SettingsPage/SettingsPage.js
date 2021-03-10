@@ -6,9 +6,7 @@ import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
 import { ServicesService } from "../../services/service";
 
-import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import TextField from "@material-ui/core/TextField";
@@ -83,7 +81,7 @@ class SettingsPage extends Component {
       services: null
     },
     passwordDetails: {
-      oldPassword: null,
+      currentPassword: null,
       newPassword: null,
       confirmNewPassword: null
     },
@@ -152,7 +150,7 @@ class SettingsPage extends Component {
     this.setState({ isLoading: true });
 
     AccountService.changePassword({
-      password: this.state.passwordDetails.oldPassword,
+      password: this.state.passwordDetails.currentPassword,
       newPassword: this.state.passwordDetails.newPassword
     })
       .then(() => {
@@ -160,14 +158,14 @@ class SettingsPage extends Component {
         this.setState({
           isLoading: false,
           passwordDetails: {
-            oldPassword: "",
+            currentPassword: "",
             newPassword: "",
             confirmNewPassword: ""
           }
         });
       })
       .catch(() => {
-        this.setMessage(true, "Old password is incorrect");
+        this.setMessage(true, "Current password is incorrect");
         this.setState({ isLoading: false });
       });
   };
@@ -206,19 +204,9 @@ class SettingsPage extends Component {
   render() {
     return (
       <div className="page-container">
-        {this.state.accountDetails.email && (
+        {!this.state.isLoading && (
           <>
             <h2 className="form-title">Account Details</h2>
-            <div className="textfield-container-col">
-              <TextField
-                type="text"
-                name="email"
-                label="Email"
-                value={this.state.accountDetails.email || ""}
-                variant="outlined"
-                onChange={this.accountDetailsChange}
-              />
-            </div>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
@@ -298,6 +286,17 @@ class SettingsPage extends Component {
                   onChange={this.accountDetailsChange}
                 />
               </div>
+            </div>
+            <span className="field-desc">Note: Since your email address is required to login, updating your email will change your login credentials.</span>
+            <div className="textfield-container-col">
+              <TextField
+                type="text"
+                name="email"
+                label="Email"
+                value={this.state.accountDetails.email || ""}
+                variant="outlined"
+                onChange={this.accountDetailsChange}
+              />
             </div>
             {(this.state.userType === 1 || this.state.userType === 2) && (
               <>
@@ -472,26 +471,25 @@ class SettingsPage extends Component {
               onClick={this.saveChangesClickHandler}
               variant="contained"
               color="secondary"
-              disabled={!this.state.hasEditedDetails}
+              disabled={!this.state.hasEditedDetails || this.state.accountDetails.email.trim() === ''}
             >
               SAVE DETAILS
             </Button>
-            <h2 className="form-title" style={{ marginTop: "25px" }}>Change Password</h2>
+            <hr style={{ marginTop: "35px" }} />
+            <h2 className="form-title">Change Password</h2>
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
-                  id="oldPassword"
                   type="password"
-                  name="oldPassword"
-                  label="Old Password"
-                  value={this.state.passwordDetails.oldPassword || ""}
+                  name="currentPassword"
+                  label="Current Password"
+                  value={this.state.passwordDetails.currentPassword || ""}
                   variant="outlined"
                   onChange={this.passwordChange}
                 />
               </div>
               <div className="textfield-container-col">
                 <TextField
-                  id="newPassword"
                   type="password"
                   name="newPassword"
                   label="New Password"
@@ -502,7 +500,6 @@ class SettingsPage extends Component {
               </div>
               <div className="textfield-container-col">
                 <TextField
-                  id="confirmNewPassword"
                   type="password"
                   name="confirmNewPassword"
                   label="Confirm New Password"
@@ -519,7 +516,7 @@ class SettingsPage extends Component {
               color="secondary"
               disabled={
                 !(
-                  this.state.passwordDetails.oldPassword &&
+                  this.state.passwordDetails.currentPassword &&
                   this.state.passwordDetails.newPassword &&
                   this.state.passwordDetails.confirmNewPassword
                 )
@@ -530,9 +527,7 @@ class SettingsPage extends Component {
           </>
         )
         }
-
         { this.state.isLoading ? <Backdrop /> : null}
-
         <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}

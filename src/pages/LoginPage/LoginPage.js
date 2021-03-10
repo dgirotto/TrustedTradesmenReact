@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./LoginPage.css";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import Auxil from "../../helpers/Auxil";
 
 // import Checkbox from "@material-ui/core/Checkbox";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -128,8 +127,8 @@ class LoginPage extends Component {
       <div className="login-page-container">
         <div className="login-form">
           {!this.state.showResetForm ? (
-            <Auxil>
-              <h1 className="login-form-title">LOGIN</h1>
+            <>
+              <h1 className="login-form-title">Login</h1>
               <div className="textfield-container-col">
                 <TextField
                   type="text"
@@ -177,43 +176,43 @@ class LoginPage extends Component {
               <div className="no-account-msg">
                 Don't have an account? Create one <a href="/register">here</a>.
                 </div>
-            </Auxil>
+            </>
           ) : (
-              <Auxil>
-                <h1 className="login-form-title">FORGOT PASSWORD</h1>
-                <span className="reset-password-msg">
-                  Enter the email address associated with your account and we'll
-                  email you a link to reset your password.
+            <>
+              <h1 className="login-form-title">Forgot Password</h1>
+              <span className="reset-password-msg">
+                Enter the email address associated with your account and we'll
+                email you a link to reset your password.
                 </span>
-                <TextField
-                  type="text"
-                  name="email"
-                  label="Email"
-                  value={this.state.emailToReset || ""}
-                  variant="outlined"
-                  onChange={this.emailChange}
-                />
-                <div className="reset-button-container">
-                  <Button
-                    disabled={!this.state.emailToReset}
-                    onClick={this.generateToken}
-                    variant="contained"
-                    color="primary"
-                    style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
-                  >
-                    RESET PASSWORD
+              <TextField
+                type="text"
+                name="email"
+                label="Email"
+                value={this.state.emailToReset || ""}
+                variant="outlined"
+                onChange={this.emailChange}
+              />
+              <div className="reset-button-container">
+                <Button
+                  disabled={!this.state.emailToReset}
+                  onClick={this.generateToken}
+                  variant="contained"
+                  color="primary"
+                  style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
+                >
+                  RESET PASSWORD
                   </Button>
-                  <Button
-                    onClick={this.toggleResetPassword}
-                    variant="contained"
-                    color="secondary"
-                    style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
-                  >
-                    BACK
+                <Button
+                  onClick={this.toggleResetPassword}
+                  variant="contained"
+                  color="secondary"
+                  style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
+                >
+                  BACK
                   </Button>
-                </div>
-              </Auxil>
-            )}
+              </div>
+            </>
+          )}
         </div>
 
         {this.state.isLoading && <Backdrop />}

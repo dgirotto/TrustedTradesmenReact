@@ -292,6 +292,14 @@ export class Row extends Component {
     this.props.handleOpen();
   }
 
+  contractorIsCommitted = () => {
+    let result = this.state.row.contractors.find(contractor => {
+      return contractor.contractorId === this.state.contractor  
+    });
+
+    return result.isCommitted;
+  }
+
   getUIContent = () => {
     let content = null;
 
@@ -302,7 +310,8 @@ export class Row extends Component {
           <>
             {this.state.row.contractors.length > 0 && (
               <Alert className="alert-msg" severity="info" color="info">
-                Contractors have shown an interest in your job! If you wish to commit to a particular contractor, click the <b>Hire Contractor</b> button.
+                Contractors have shown an interest in your job! When you wish to commit to a particular contractor, select the <b>Hire Contractor</b> button. <b>Note: 
+                This button will be available once the contractor has confirmed their commitment to the job.</b>
               </Alert>
             )}
             <div className="textfield-container-col">
@@ -331,13 +340,15 @@ export class Row extends Component {
               >
                 VIEW PROFILE
               </Button>
-              <Button
-                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
-                onClick={() => this.setModal(0)}
-                variant="contained"
-              >
-                HIRE CONTRACTOR
-              </Button>
+              {this.contractorIsCommitted() && (
+                <Button
+                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
+                  onClick={() => this.setModal(0)}
+                  variant="contained"
+                >
+                  HIRE CONTRACTOR
+                </Button>
+              )}
               <div className="spacer" />
               <Button
                 style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
@@ -1157,7 +1168,7 @@ class JobsPage extends Component {
     return (
       <div className="page-container">
         <>
-          <Title>JOBS</Title>
+          <Title>My Jobs</Title>
           {this.state.userType === 0 && !this.state.isLoading && (
             <div style={{ marginBottom: "15px" }} className="button-container">
               <div className="spacer" />

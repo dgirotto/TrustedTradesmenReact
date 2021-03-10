@@ -92,7 +92,7 @@ class RegisterPage extends Component {
     return (
       <div className="register-page-container">
         <div className="login-form">
-          <h1 className="login-form-title">REGISTER</h1>
+          <h1 className="login-form-title">Register</h1>
           <div className="textfield-container-col">
             <TextField
               type="text"

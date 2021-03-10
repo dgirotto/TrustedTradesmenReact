@@ -97,7 +97,7 @@ class ResetPage extends Component {
         return (
             <div className="reset-page-container">
                 <div className="login-form">
-                    <h1 className="login-form-title">CHANGE PASSWORD</h1>
+                    <h1 className="login-form-title">Change Password</h1>
                     <div className="textfield-container-col">
                         <TextField
                             type="password"
