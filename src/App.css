@@ -65,6 +65,7 @@
 .field-desc {
   display: block;
   margin: 5px 0 15px;
+  font-size: 16px;
 }
 
 .search-container {

@@ -214,9 +214,15 @@ export class Row extends Component {
     if (this.props.userType === 1) {
       body = {
         jobId: this.state.row.jobId,
-        contractorNotes: this.state.notes,
-        completionDate: this.state.completionDate
       };
+
+      if (this.state.row.completionDate === null) {          
+        body.contractorNotes = this.state.notes;
+        body.completionDate = this.state.completionDate;
+      }
+      else {
+        body.postInspectionCompletionDate = this.state.completionDate;
+      }
     }
     else if (this.props.userType === 2) {
       body = {
@@ -459,29 +465,36 @@ export class Row extends Component {
       }
       else if (this.state.row.invoiceAccepted &&
         this.state.row.holdingFeePaid &&
-        (this.state.row.completionDate === null || this.state.row.inspectionPassed === false)
+        (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null))
       ) {
         content = (
           <>
-            {this.requiresInspection && (
+            {this.state.row.completionDate === null ? (
               <>
-                <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
-                <div className="textfield-container-col">
-                  <TextField
-                    multiline
-                    rowsMax={6}
-                    type="text"
-                    label="Notes"
-                    value={this.state.notes}
-                    variant="outlined"
-                    onChange={event => {
-                      this.setState({ notes: event.target.value });
-                    }}
-                  />
-                </div>
+                {this.requiresInspection && (
+                  <>
+                    <span className="field-desc">Record any relevant notes to pass onto the inspector.</span>
+                    <div className="textfield-container-col">
+                      <TextField
+                        multiline
+                        rowsMax={6}
+                        type="text"
+                        label="Notes"
+                        value={this.state.notes}
+                        variant="outlined"
+                        onChange={event => {
+                          this.setState({ notes: event.target.value });
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+                <span className="field-desc">Record the date when your work was completed.</span>
               </>
+            ) :
+            (
+              <span className="field-desc">Record the date when your post-inspection work was completed.</span>
             )}
-            <span className="field-desc">Record the date when the job was completed.</span>
             <div className="textfield-container-col">
               <TextField
                 type="date"
@@ -490,6 +503,7 @@ export class Row extends Component {
                   this.setState({ completionDate: event.target.value });
                 }}
                 style={{ width: "175px", marginRight: "20px" }}
+                variant="outlined"
               />
             </div>
             <div className="button-container">
@@ -507,11 +521,11 @@ export class Row extends Component {
         );
       }
       else if (!this.state.row.invoicePaid &&
-        ((this.state.row.completionDate !== null && !this.requiresInspection) || this.state.row.inspectionPassed)
+        ((this.state.row.completionDate && !this.requiresInspection) || this.state.row.inspectionPassed || this.state.row.postInspectionCompletionDate)
       ) {
         content = (
           <>
-            <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> is owed by the customer.</Alert>
+            <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice is owed by the customer.</Alert>
             <div className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -570,9 +584,7 @@ export class Row extends Component {
                     label="Notes"
                     value={this.state.notes}
                     variant="outlined"
-                    onChange={event => {
-                      this.setState({ notes: event.target.value });
-                    }}
+                    onChange={event => { this.setState({ notes: event.target.value }); }}
                   />
                 </div>
               </>
@@ -587,13 +599,9 @@ export class Row extends Component {
                 <TextField
                   type="date"
                   value={this.state.completionDate}
-                  onChange={event => {
-                    this.setState({ completionDate: event.target.value });
-                  }}
-                  style={{
-                    width: "175px",
-                    marginRight: "20px"
-                  }}
+                  onChange={event => { this.setState({ completionDate: event.target.value }); }}
+                  style={{ width: "175px", marginRight: "20px" }}
+                  variant="outlined"
                 />
               </div>
               <FormControlLabel
@@ -682,12 +690,12 @@ export class Row extends Component {
     else if (this.props.userType === 1 && this.state.row.invoiceAccepted === false) {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (this.state.row.completionDate === null || this.state.row.inspectionPassed === false) {
+    else if (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null)) {
       status = <Chip className="status in-progress" label="In Progress" />;
     }
     else if (this.state.row.holdingFeePaid &&
       this.requiresInspection &&
-      (this.state.row.inspectorId === null || this.state.row.inspectionDate === null || this.state.row.inspectionPassed === false)
+      (this.state.row.inspectorId === null || this.state.row.inspectionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null))
     ) {
       if (this.state.row.inspectorId === null) {
         status = <Chip className="status required" label="Inspector Required" />;
@@ -776,13 +784,13 @@ export class Row extends Component {
         content = <Alert className="alert-msg" severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
       }
       else if (this.state.row.completionDate !== null &&
-        (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed))
+        (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.postInspectionCompletionDate)
       ) {
         if (this.state.row.invoicePaid) {
           content = <Alert className="alert-msg" severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
         }
         else {
-          content = <Alert className="alert-msg" severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please send the remaining invoice payment of <b>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</b> to the contractor.</Alert>;
+          content = <Alert className="alert-msg" severity="info" color="info">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])}. Please ensure that any remaining payments are sent to the contractor.</Alert>;
         }
       }
     }
@@ -839,14 +847,14 @@ export class Row extends Component {
                         <p className="item-title">INVOICE STATUS</p>
                         {this.state.row.invoiceAccepted === null ?
                           <span className="item-with-icon grey">
-                            <FaMinusCircle className="item-icon grey" size={16} />Pending Customer Approval
+                            <FaMinusCircle className="item-icon grey" size={16} />Pending Approval
                           </span> :
                           this.state.row.invoiceAccepted ?
                             <span className="item-with-icon green">
-                              <FaCheckCircle className="item-icon green" size={16} />Approved by Customer
+                              <FaCheckCircle className="item-icon green" size={16} />Approved
                             </span> :
                             <span className="item-with-icon red">
-                              <FaTimesCircle className="item-icon red" size={16} />Revision Requested by Customer
+                              <FaTimesCircle className="item-icon red" size={16} />Revision Requested
                             </span>
                         }
                         {this.state.row.invoiceAccepted && (
@@ -855,6 +863,14 @@ export class Row extends Component {
                               HOLDING FEE DETAILS 
                               <HelpOutlineIcon className="help-icon" />                            
                             </p>
+                            {this.state.row.holdingFeePaid ?
+                              <span className="item-with-icon green">
+                                <FaCheckCircle className="item-icon green" size={16} />Paid
+                              </span> :
+                              <span className="item-with-icon red">
+                                <FaTimesCircle className="item-icon red" size={16} />Not Paid
+                              </span>
+                            }
                             <div className="fee-table-container">
                               <table className="fee-table">
                                 <tbody>
@@ -877,14 +893,6 @@ export class Row extends Component {
                                 </tbody>
                               </table>
                             </div>
-                            {this.state.row.holdingFeePaid ?
-                              <span className="item-with-icon green">
-                                <FaCheckCircle className="item-icon green" size={16} />Paid
-                              </span> :
-                              <span className="item-with-icon red">
-                                <FaTimesCircle className="item-icon red" size={16} />Not Paid
-                              </span>
-                            }
                           </>
                         )}
                         <p className="item-title item-with-icon">
@@ -897,6 +905,15 @@ export class Row extends Component {
                             </>
                           )} */}                    
                         </p>
+                        {this.state.row.invoiceAccepted && (
+                          this.state.row.invoicePaid ?
+                            <span className="item-with-icon green">
+                              <FaCheckCircle className="item-icon green" size={16} />Paid
+                            </span> :
+                            <span className="item-with-icon red">
+                              <FaTimesCircle className="item-icon red" size={16} />Not Paid
+                            </span>
+                        )}
                         <div className="fee-table-container">
                           <table className="fee-table">
                             <tbody>
@@ -930,15 +947,6 @@ export class Row extends Component {
                             </tbody>
                           </table>
                         </div>
-                        {this.state.row.invoiceAccepted && (
-                          this.state.row.invoicePaid ?
-                            <span className="item-with-icon green">
-                              <FaCheckCircle className="item-icon green" size={16} />Paid
-                            </span> :
-                            <span className="item-with-icon red">
-                              <FaTimesCircle className="item-icon red" size={16} />Not Paid
-                            </span>
-                        )}
                       </Card>
                     )}
                     {this.state.row.completionDate && (
@@ -954,32 +962,41 @@ export class Row extends Component {
                             {this.state.row.contractorNotes}
                           </>
                         )}
-                      </Card>
-                    )}
-                    {this.state.row.inspectionDate && (
-                      <Card className="job-details-card">
-                        <p className="item-title">INSPECTION DATE</p>
-                        <span className="item-with-icon">
-                          <FaRegCalendarAlt className="item-icon" size={16} />
-                          {formatDate(this.state.row.inspectionDate.split(" ")[0])}
-                        </span>
-                        <p className="item-title">INSPECTION STATUS</p>
-                        {this.state.row.inspectionPassed ?
-                          <span className="item-with-icon green">
-                            <FaCheckCircle className="item-icon green" size={16} />Job Passed Inspection
-                        </span> :
-                          <span className="item-with-icon red">
-                            <FaTimesCircle className="item-icon red" size={16} />Job Failed Inspection
-                        </span>
-                        }
-                        {this.props.userType !== 0 && this.state.row.inspectorNotes && (
+                        {this.state.row.inspectionDate && (
                           <>
-                            <p className="item-title">INSPECTOR NOTES</p>
-                            {this.state.row.inspectorNotes}
+                            <p className="item-title">INSPECTION DATE</p>
+                            <span className="item-with-icon">
+                              <FaRegCalendarAlt className="item-icon" size={16} />
+                              {formatDate(this.state.row.inspectionDate.split(" ")[0])}
+                            </span>
+                            <p className="item-title">INSPECTION STATUS</p>
+                            {this.state.row.inspectionPassed ?
+                              <span className="item-with-icon green">
+                                <FaCheckCircle className="item-icon green" size={16} />Job Passed Inspection
+                            </span> :
+                              <span className="item-with-icon red">
+                                <FaTimesCircle className="item-icon red" size={16} />Job Failed Inspection
+                            </span>
+                            }
+                            {this.props.userType !== 0 && this.state.row.inspectorNotes && (
+                              <>
+                                <p className="item-title">INSPECTOR NOTES</p>
+                                {this.state.row.inspectorNotes}
+                              </>
+                            )}
+                            {this.state.row.postInspectionCompletionDate && (
+                              <>
+                                <p className="item-title">POST-INSPECTION COMPLETION DATE</p>
+                                <span className="item-with-icon">
+                                  <FaRegCalendarAlt className="item-icon" size={16} />
+                                  {formatDate(this.state.row.postInspectionCompletionDate.split(" ")[0])}
+                                </span>
+                              </>
+                            )}
                           </>
                         )}
                       </Card>
-                    )}
+                    )}                    
                   </div>
                   {!(this.props.userType === 0 && this.state.row.contractorId === null) && (
                     <div className="job-details-column job-details-column-2">
