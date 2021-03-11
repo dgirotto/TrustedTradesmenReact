@@ -71,32 +71,44 @@ var tableTheme = createMuiTheme({
 export class Row extends Component {
   hstValue = 0.13;
   invoiceThreshold = 5000;
-  requiresInspection = parseInt(this.props.row.invoicePrice) >= this.invoiceThreshold;
-  holdingFee = this.props.row.invoicePrice * 0.15;
-  holdingFeeHst = this.holdingFee * this.hstValue;
-  holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-  invoicePriceHst = this.props.row.invoicePrice * this.hstValue;
-  invoicePriceTotal = this.props.row.invoicePrice * 1.00 + this.invoicePriceHst;
+  holdingFeeThreshold = 500;
 
-  state = {
-    row: this.props.row,
-    open: false,
-    notes: this.getNotes,
-    invoicePrice: 0,
-    completionDate: "",
-    contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
-    inspectionPassed: null,
-    reportSent: false
-  };
+  requiresInspection = false;
+  holdingFee = 0;
+  holdingFeeHst = 0;
+  holdingFeeTotal = 0;
+  invoicePriceHst = 0;
+  invoicePriceTotal = 0;
 
-  componentWillReceiveProps(newProps) {
-    // TODO: Reduce this redundancy
-    this.requiresInspection = parseInt(newProps.row.invoicePrice) >= this.invoiceThreshold;
-    this.holdingFee = newProps.row.invoicePrice * 0.15;
+  constructor(props) {
+    super(props);
+
+    this.setInitialVals(props);
+
+    this.state = {
+      row: this.props.row,
+      open: false,
+      notes: this.getNotes,
+      invoicePrice: 0,
+      completionDate: "",
+      contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
+      inspectionPassed: null,
+      reportSent: false
+    };
+  }
+
+  setInitialVals = (props) => {
+    this.requiresInspection = parseInt(props.row.invoicePrice) >= this.invoiceThreshold;
+    this.holdingFee = props.row.invoicePrice * 0.15;
     this.holdingFeeHst = this.holdingFee * this.hstValue;
     this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-    this.invoicePriceHst = newProps.row.invoicePrice * this.hstValue;
-    this.invoicePriceTotal = newProps.row.invoicePrice * 1.00 + this.invoicePriceHst;
+    this.invoicePriceHst = props.row.invoicePrice * this.hstValue;
+    this.invoicePriceTotal = props.row.invoicePrice * 1.00 + this.invoicePriceHst;
+  }
+
+  // TODO: Convert this to componentDidUpdate()
+  componentWillReceiveProps(newProps) {
+    this.setInitialVals(newProps);
 
     this.setState({
       row: newProps.row,
