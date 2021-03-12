@@ -386,32 +386,42 @@ export class Row extends Component {
 }
 
 class LeadsPage extends Component {
-  state = {
-    userType: null,
-    leads: null,
-    leadCount: null,
-    pageNumber: 0,
-    itemsPerPage: 10,
-    isLoading: true,
-    // showSnackbar: false,
-    isError: false,
-    message: "",
-    isOpen: false,
-    modalContent: {
-      title: null,
-      content: null,
-      actions: null
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      userType: null,
+      leads: null,
+      leadCount: null,
+      pageNumber: 0,
+      itemsPerPage: 10,
+      isLoading: true,
+      // showSnackbar: false,
+      isError: false,
+      message: "",
+      isOpen: false,
+      modalContent: {
+        title: null,
+        content: null,
+        actions: null
+      }
+    };
 
-  componentDidMount() {
-    this.setState({
-      userType: AuthService.getRole()
-    }, () => {
-      this.getLeads();
-    });
+    this.getLeads();
   }
 
+  // componentDidMount() {
+  //   this.setState({
+  //     userType: AuthService.getRole()
+  //   }, () => {
+  //     this.getLeads();
+  //   });
+  // }
+
+  // TODO: Replace
+  componentWillReceiveProps() {
+    this.getLeads();
+  }
+  
   getLeads = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 

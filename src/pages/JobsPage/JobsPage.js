@@ -98,20 +98,6 @@ export class Row extends Component {
     };
   }
 
-  setInitialVals = (props) => {
-    this.requiresInspection = parseInt(props.row.invoicePrice) >= this.invoiceThreshold;
-    this.requiresHoldingFee = parseInt(props.row.invoicePrice) >= this.holdingFeeThreshold;
-
-    this.invoicePriceHst = props.row.invoicePrice * this.hstPct;
-    this.invoicePriceTotal = props.row.invoicePrice * 1.00 + this.invoicePriceHst;
-
-    if (this.requiresHoldingFee) {
-      this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
-      this.holdingFeeHst = this.holdingFee * this.hstPct;
-      this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-    }
-  }
-
   // TODO: Convert this to componentDidUpdate()
   componentWillReceiveProps(newProps) {
     this.setInitialVals(newProps);
@@ -124,6 +110,20 @@ export class Row extends Component {
       inspectionPassed: null,
       reportSent: false
     });
+  }
+
+  setInitialVals = (props) => {
+    this.requiresInspection = parseInt(props.row.invoicePrice) >= this.invoiceThreshold;
+    this.requiresHoldingFee = parseInt(props.row.invoicePrice) >= this.holdingFeeThreshold;
+
+    this.invoicePriceHst = props.row.invoicePrice * this.hstPct;
+    this.invoicePriceTotal = props.row.invoicePrice * 1.00 + this.invoicePriceHst;
+
+    if (this.requiresHoldingFee) {
+      this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
+      this.holdingFeeHst = this.holdingFee * this.hstPct;
+      this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
+    }
   }
 
   getNotes = () => {
@@ -592,7 +592,7 @@ export class Row extends Component {
             content = (
               <>
                 {content}
-                <span className="field-desc">Record any relevant notes to pass back to the contractor.</span>
+                <span className="field-desc">Explain in detail why the contractor's work did not pass inspection.</span>
                 <div className="textfield-container-col">
                   <TextField
                     multiline
@@ -1091,33 +1091,43 @@ export class Row extends Component {
 }
 
 class JobsPage extends Component {
-  state = {
-    userType: null,
-    jobs: null,
-    jobCount: null,
-    pageNumber: 0,
-    itemsPerPage: 10,
-    isLoading: true,
-    isFiltered: false,
-    sortDateDesc: null,
-    addressFilterVal: "",
-    // showSnackbar: false,
-    isError: false,
-    message: "",
-    isOpen: false,
-    modalContent: {
-      title: null,
-      content: null,
-      actions: null
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      userType: AuthService.getRole(),
+      jobs: null,
+      jobCount: null,
+      pageNumber: 0,
+      itemsPerPage: 10,
+      isLoading: true,
+      isFiltered: false,
+      sortDateDesc: null,
+      addressFilterVal: "",
+      // showSnackbar: false,
+      isError: false,
+      message: "",
+      isOpen: false,
+      modalContent: {
+        title: null,
+        content: null,
+        actions: null
+      }
+    };
 
-  componentDidMount() {
-    this.setState({
-      userType: AuthService.getRole()
-    }, () => {
-      this.getJobs();
-    });
+    this.getJobs();
+  }
+
+  // componentDidMount() {
+  //   this.setState({
+  //     userType: AuthService.getRole()
+  //   }, () => {
+  //     this.getJobs();
+  //   });
+  // }
+
+  // TODO: Replace
+  componentWillReceiveProps() {
+    this.getJobs();
   }
 
   getJobs = (loadFirstPage = false) => {
@@ -1214,14 +1224,13 @@ class JobsPage extends Component {
         <>
           {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
           {this.state.userType === 0 && !this.state.isLoading && (
-            <div style={{ marginBottom: "15px" }} className="button-container">
-              <div className="spacer" />
+            <div style={{ justifyContent: "space-around", marginBottom: "15px" }} className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
                 onClick={() => window.location.href="/services"}
                 variant="contained"
               >
-                POST NEW JOB
+                CREATE NEW JOB
               </Button>
             </div>
           )}
@@ -1341,7 +1350,7 @@ class JobsPage extends Component {
         {this.state.jobCount === 0 && !this.state.isLoading && (
           <Alert className="alert-msg" severity="info" color="info">
             {this.state.userType === 0 ? 
-              <>We couldn't find any jobs. Get started <a href="/services">here</a>!</> : 
+              <>We couldn't find any jobs.</> : 
               this.state.isFiltered ? 
                 <>We could not find any jobs that match that address. Please try a different one.</> : 
                 <>You currently don't have any assigned jobs.</>
