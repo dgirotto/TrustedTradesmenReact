@@ -233,7 +233,7 @@ export class Row extends Component {
         jobId: this.state.row.jobId,
       };
 
-      if (this.state.row.completionDate === null) {          
+      if (this.state.row.completionDate === null) {
         body.contractorNotes = this.state.notes;
         body.completionDate = this.state.completionDate;
       }
@@ -317,7 +317,7 @@ export class Row extends Component {
 
   contractorIsCommitted = () => {
     let result = this.state.row.contractors.find(contractor => {
-      return contractor.contractorId === this.state.contractor  
+      return contractor.contractorId === this.state.contractor
     });
 
     return result.isCommitted;
@@ -333,7 +333,7 @@ export class Row extends Component {
           <>
             {this.state.row.contractors.length > 0 && (
               <Alert className="alert-msg" severity="info" color="info">
-                Contractors have shown an interest in your job! When you wish to commit to a particular contractor, select the <b>Hire Contractor</b> button. <b>Note: 
+                Contractors have shown an interest in your job! When you wish to commit to a particular contractor, select the <b>Hire Contractor</b> button. <b>Note:
                 This button will be available once the contractor has confirmed their commitment to the job.</b>
               </Alert>
             )}
@@ -440,14 +440,14 @@ export class Row extends Component {
       if (this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === false) {
         content = (
           <>
-            {this.state.row.invoiceAccepted === false ? 
+            {this.state.row.invoiceAccepted === false ?
               <>
                 <Alert className="alert-msg" severity="error" color="error">The customer rejected your invoice of $<b>{this.state.row.invoicePrice}</b>. Please contact the customer to resolve pricing discrepancies.</Alert>
                 <span className="field-desc">
                   Please enter a new invoice price.
                 </span>
-              </>              
-              : 
+              </>
+              :
               <span className="field-desc">
                 Enter the invoice price. This will have to be confirmed by the customer.
               </span>
@@ -509,9 +509,9 @@ export class Row extends Component {
                 <span className="field-desc">Record the date when your work was completed.</span>
               </>
             ) :
-            (
-              <span className="field-desc">Record the date when your post-inspection work was completed.</span>
-            )}
+              (
+                <span className="field-desc">Record the date when your post-inspection work was completed.</span>
+              )}
             <div className="textfield-container-col">
               <TextField
                 type="date"
@@ -878,8 +878,8 @@ export class Row extends Component {
                         {this.state.row.invoiceAccepted && this.requiresHoldingFee && (
                           <>
                             <p className="item-title item-with-icon">
-                              HOLDING FEE DETAILS 
-                              <HelpOutlineIcon className="help-icon" />                            
+                              HOLDING FEE DETAILS
+                              <HelpOutlineIcon className="help-icon" />
                             </p>
                             {this.state.row.holdingFeePaid ?
                               <span className="item-with-icon green">
@@ -914,14 +914,14 @@ export class Row extends Component {
                           </>
                         )}
                         <p className="item-title item-with-icon">
-                          INVOICE DETAILS 
+                          INVOICE DETAILS
                           <HelpOutlineIcon className="help-icon" />
                           {/* {this.props.userType === 1 && ( 
                             <>
                               We do not advise that a full payment is taken before the job is complete. We respect that funding may be required
                               for materials and other costs, but payments should be received in increments.
                             </>
-                          )} */}                    
+                          )} */}
                         </p>
                         {this.state.row.invoiceAccepted && (
                           this.state.row.invoicePaid ?
@@ -956,9 +956,9 @@ export class Row extends Component {
                                     {this.state.row.holdingFeePaid ? (
                                       <>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</>
                                     ) :
-                                    (
-                                      <>${formatNumber(this.invoicePriceTotal.toFixed(2))}</>
-                                    )}                                    
+                                      (
+                                        <>${formatNumber(this.invoicePriceTotal.toFixed(2))}</>
+                                      )}
                                   </span>
                                 </td>
                               </tr>
@@ -1014,7 +1014,7 @@ export class Row extends Component {
                           </>
                         )}
                       </Card>
-                    )}                    
+                    )}
                   </div>
                   {!(this.props.userType === 0 && this.state.row.contractorId === null) && (
                     <div className="job-details-column job-details-column-2">
@@ -1126,7 +1126,7 @@ class JobsPage extends Component {
       this.getJobs();
     }
   }
-  
+
   getJobs = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 
@@ -1136,7 +1136,7 @@ class JobsPage extends Component {
           jobs: res.data.jobs,
           jobCount: res.data.job_count,
           pageNumber: pageNumberToLoad,
-          isLoading: false, 
+          isLoading: false,
           isFiltered: this.state.addressFilterVal !== ""
         });
       })
@@ -1220,11 +1220,21 @@ class JobsPage extends Component {
       <div className="page-container">
         <>
           {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
+          {this.state.jobCount === 0 && !this.state.isLoading && (
+          <Alert className="alert-msg" severity="info" color="info">
+            {this.state.userType === 0 ? 
+              <>We couldn't find any jobs.</> : 
+              this.state.isFiltered ? 
+                <>We could not find any jobs that match that address. Please try a different one.</> : 
+                <>You currently don't have any assigned jobs.</>
+            }
+          </Alert>  
+        )}
           {this.state.userType === 0 && !this.state.isLoading && (
             <div style={{ justifyContent: "space-around", marginBottom: "15px" }} className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
-                onClick={() => window.location.href="/services"}
+                onClick={() => window.location.href = "/services"}
                 variant="contained"
               >
                 CREATE NEW JOB
@@ -1264,7 +1274,7 @@ class JobsPage extends Component {
             </div>
           )}
           {this.state.jobCount > 0 && !this.state.isLoading && (
-            <>              
+            <>
               <ThemeProvider theme={tableTheme}>
                 <TableContainer className="desktop-table" component={Paper}>
                   <Table aria-label="collapsible table">
@@ -1343,17 +1353,6 @@ class JobsPage extends Component {
             </>
           )}
         </>
-
-        {this.state.jobCount === 0 && !this.state.isLoading && (
-          <Alert className="alert-msg" severity="info" color="info">
-            {this.state.userType === 0 ? 
-              <>We couldn't find any jobs.</> : 
-              this.state.isFiltered ? 
-                <>We could not find any jobs that match that address. Please try a different one.</> : 
-                <>You currently don't have any assigned jobs.</>
-            }
-          </Alert>  
-        )}
 
         <ResponsiveDialog
           isOpen={this.state.isOpen}
