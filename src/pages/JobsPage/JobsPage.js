@@ -69,11 +69,14 @@ var tableTheme = createMuiTheme({
 // }
 
 export class Row extends Component {
-  hstValue = 0.13;
+  // Constants
+  hstPct = 0.13;
+  holdingFeePct = 0.15;
   invoiceThreshold = 5000;
   holdingFeeThreshold = 500;
-
+  // Non-constants
   requiresInspection = false;
+  requiresHoldingFee = false;
   holdingFee = 0;
   holdingFeeHst = 0;
   holdingFeeTotal = 0;
@@ -82,9 +85,7 @@ export class Row extends Component {
 
   constructor(props) {
     super(props);
-
     this.setInitialVals(props);
-
     this.state = {
       row: this.props.row,
       open: false,
@@ -99,17 +100,21 @@ export class Row extends Component {
 
   setInitialVals = (props) => {
     this.requiresInspection = parseInt(props.row.invoicePrice) >= this.invoiceThreshold;
-    this.holdingFee = props.row.invoicePrice * 0.15;
-    this.holdingFeeHst = this.holdingFee * this.hstValue;
-    this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-    this.invoicePriceHst = props.row.invoicePrice * this.hstValue;
+    this.requiresHoldingFee = parseInt(props.row.invoicePrice) >= this.holdingFeeThreshold;
+
+    this.invoicePriceHst = props.row.invoicePrice * this.hstPct;
     this.invoicePriceTotal = props.row.invoicePrice * 1.00 + this.invoicePriceHst;
+
+    if (this.requiresHoldingFee) {
+      this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
+      this.holdingFeeHst = this.holdingFee * this.hstPct;
+      this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
+    }
   }
 
   // TODO: Convert this to componentDidUpdate()
   componentWillReceiveProps(newProps) {
     this.setInitialVals(newProps);
-
     this.setState({
       row: newProps.row,
       notes: this.getNotes,
@@ -476,7 +481,7 @@ export class Row extends Component {
         );
       }
       else if (this.state.row.invoiceAccepted &&
-        this.state.row.holdingFeePaid &&
+        (this.state.row.holdingFeePaid || !this.requiresHoldingFee) &&
         (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null))
       ) {
         content = (
@@ -649,7 +654,7 @@ export class Row extends Component {
     }
     else if (this.props.userType === 3) {
       // ADMIN
-      if (this.state.row.invoiceAccepted && !this.state.row.holdingFeePaid) {
+      if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
         content = (
           <>
             <Alert className="alert-msg" severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
@@ -719,12 +724,13 @@ export class Row extends Component {
         status = <Chip className="status required" label="Requires Revisit" />;
       }
     }
-    else if (!this.state.row.holdingFeePaid || !this.state.row.invoicePaid) {
+    else if ((!this.state.row.holdingFeePaid && this.requiresHoldingFee) || !this.state.row.invoicePaid) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
       status = <Chip className="status completed" label="Completed" />;
     }
+
     return status;
   }
 
@@ -792,7 +798,7 @@ export class Row extends Component {
       else if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === false) {
         content = <Alert className="alert-msg" severity="info" color="info">The contractor will contact you to discuss a revised invoice.</Alert>;
       }
-      else if (!this.state.row.holdingFeePaid && this.state.row.invoiceAccepted) {
+      else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
         content = <Alert className="alert-msg" severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
       }
       else if (this.state.row.completionDate !== null &&
@@ -810,7 +816,7 @@ export class Row extends Component {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm the invoice.</Alert>;
       }
-      else if (this.state.row.invoiceAccepted && !this.state.row.holdingFeePaid) {
+      else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to submit the holding fee.</Alert>;
       }
     }
@@ -869,7 +875,7 @@ export class Row extends Component {
                               <FaTimesCircle className="item-icon red" size={16} />Revision Requested
                             </span>
                         }
-                        {this.state.row.invoiceAccepted && (
+                        {this.state.row.invoiceAccepted && this.requiresHoldingFee && (
                           <>
                             <p className="item-title item-with-icon">
                               HOLDING FEE DETAILS 
@@ -891,7 +897,7 @@ export class Row extends Component {
                                     <td>${formatNumber(this.holdingFee.toFixed(2))}</td>
                                   </tr>
                                   <tr>
-                                    <td>HST ({this.hstValue * 100}%)</td>
+                                    <td>HST ({this.hstPct * 100}%)</td>
                                     <td>${formatNumber(this.holdingFeeHst.toFixed(2))}</td>
                                   </tr>
                                   <tr className="table-divider">
@@ -934,7 +940,7 @@ export class Row extends Component {
                                 <td>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</td>
                               </tr>
                               <tr>
-                                <td>HST ({this.hstValue * 100}%)</td>
+                                <td>HST ({this.hstPct * 100}%)</td>
                                 <td>${formatNumber(this.invoicePriceHst.toFixed(2))}</td>
                               </tr>
                               {this.state.row.holdingFeePaid && (
