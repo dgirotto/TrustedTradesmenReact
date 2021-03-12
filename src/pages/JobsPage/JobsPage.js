@@ -1113,23 +1113,20 @@ class JobsPage extends Component {
         actions: null
       }
     };
-
-    this.getJobs();
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     userType: AuthService.getRole()
-  //   }, () => {
-  //     this.getJobs();
-  //   });
-  // }
+  componentDidMount() {
+    this.getJobs();
+  }
 
   // TODO: Replace
-  componentWillReceiveProps() {
-    this.getJobs();
+  componentWillReceiveProps(newProps) {
+    if (this.props.location.key !== newProps.location.key) {
+      // Make call to getJobs() if props change
+      this.getJobs();
+    }
   }
-
+  
   getJobs = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 

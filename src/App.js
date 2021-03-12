@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import uuid from "react-uuid";
 
 import Toolbar from "./components/UI/Toolbar/Toolbar";
 import SideDrawer from "./components/UI/SideDrawer/SideDrawer";
@@ -133,10 +134,13 @@ class App extends Component {
               path="/leads"
               component={LeadsPage}
               notAllowed={[0, 2]}
+              key={() => uuid()}
             />
             <PrivateRoute
               path="/jobs"
-              component={JobsPage} />
+              component={JobsPage}
+              key={() => uuid()}
+            />
             <PrivateRoute
               path="/settings"
               component={SettingsPage}

@@ -389,7 +389,7 @@ class LeadsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userType: null,
+      userType: AuthService.getRole(),
       leads: null,
       leadCount: null,
       pageNumber: 0,
@@ -405,21 +405,18 @@ class LeadsPage extends Component {
         actions: null
       }
     };
+  }
 
+  componentDidMount() {
     this.getLeads();
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     userType: AuthService.getRole()
-  //   }, () => {
-  //     this.getLeads();
-  //   });
-  // }
-
   // TODO: Replace
-  componentWillReceiveProps() {
-    this.getLeads();
+  componentWillReceiveProps(newProps) {
+    if (this.props.location.key !== newProps.location.key) {
+      // Make call to getLeads() if props change
+      this.getLeads();
+    }
   }
   
   getLeads = (loadFirstPage = false) => {

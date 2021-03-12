@@ -7,18 +7,18 @@ export const PrivateRoute = ({
   notAllowed = [],
   ...rest
 }) => (
-    <Route
-      {...rest}
-      render={props =>
-        AuthService.isAuthenticated() ? (
-          notAllowed.indexOf(AuthService.getRole()) === -1 ? (
-            <Component {...props} />
-          ) : (
-              <Redirect to="/" />
-            )
+  <Route
+    {...rest}
+    render={props =>
+      AuthService.isAuthenticated() ? (
+        notAllowed.indexOf(AuthService.getRole()) === -1 ? (
+          <Component {...props} />
         ) : (
-            <Redirect to={{ pathname: "/login" }} />
-          )
-      }
-    />
-  );
+          <Redirect to="/" />
+        )
+      ) : (
+        <Redirect to={{ pathname: "/login" }} />
+      )
+    }
+  />
+);

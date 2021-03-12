@@ -121,7 +121,7 @@ class ServiceDetailsPage extends Component {
           isLoading: false,
           showSnackbar: true,
           isError: false,
-          message: "Job request submitted successfully"
+          message: "Job submitted successfully. Please allow 24 hours for contractor response."
         });
       })
       .catch(() => {
