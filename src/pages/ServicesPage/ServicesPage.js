@@ -104,22 +104,22 @@ class ServicesPage extends Component {
         }
       });
     }
-    else if (modalType === 1) {
-      // No contractors found modal
-      this.setState({
-        modalContent: {
-          title: 'No Contractors Available',
-          content: <>
-            Sorry, but there aren't any contractors currently available for that service. Please check back soon!
-          </>,
-          actions: <>
-            <Button onClick={this.handleClose}>
-              OK
-            </Button>
-          </>
-        }
-      });
-    }
+    // else if (modalType === 1) {
+    //   // No contractors found modal
+    //   this.setState({
+    //     modalContent: {
+    //       title: 'No Contractors Available',
+    //       content: <>
+    //         Sorry, but there aren't any contractors currently available for that service. Please check back soon!
+    //       </>,
+    //       actions: <>
+    //         <Button onClick={this.handleClose}>
+    //           OK
+    //         </Button>
+    //       </>
+    //     }
+    //   });
+    // }
     else {
       // Need a customer account to submit job request
       this.setState({
@@ -149,11 +149,11 @@ class ServicesPage extends Component {
       if (this.props.userType !== 0) {
         this.setModal(2);
       }
-      else if (service[0].hasContractors) {
-        window.location.href = "/services/" + service[0].serviceId;
-      }
+      // else if (!service[0].hasContractors) {
+      //   this.setModal(1);
+      // }
       else {
-        this.setModal(1);
+        window.location.href = "/services/" + service[0].serviceId;
       }
     }
     else {
