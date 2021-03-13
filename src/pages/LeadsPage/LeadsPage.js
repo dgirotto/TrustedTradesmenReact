@@ -44,12 +44,18 @@ var tableTheme = createMuiTheme({
         margin: "auto",
         border: "1px solid rgba(224, 224, 224, 1)",
         borderRadius: "0",
-        boxShadow: "none"
+        boxShadow: "none",
+        boxSizing: "border-box",
+        fontSize: "16px !important"
       }
     },
     MuiTableCell: {
       root: {
-        padding: "10px"
+        padding: "10px",
+        fontSize: "16px"
+      },
+      head: {
+        fontWeight: "bold"
       }
     }
   }

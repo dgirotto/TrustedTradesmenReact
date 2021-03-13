@@ -24,13 +24,13 @@ const ToolBar = props => {
             <Link to="/">
               <li>Home</li>
             </Link>
+            {(!props.isAuth || (props.isAuth && props.userType === 0)) && (
+              <Link to="/services">
+                <li>Services</li>
+              </Link>
+            )}
             {props.isAuth ? (
               <>
-                {props.userType === 0 && (
-                  <Link to="/services">
-                    <li>New Job</li>
-                  </Link>
-                )}
                 {(props.userType === 1 || props.userType === 3) && (
                   <Link to="/leads">
                     <li>Leads</li>
@@ -50,9 +50,6 @@ const ToolBar = props => {
               </>
             ) : (
               <>
-                <Link to="/services">
-                  <li>New Job</li>
-                </Link>
                 <Link to="/login">
                   <li>Login</li>
                 </Link>

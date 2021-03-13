@@ -16,7 +16,7 @@ import { JobService } from "../../services/jobs";
 import { AuthService } from "../../services/auth";
 import { formatTimeFrame, formatBudget } from '../../helpers/Utils';
 
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -143,10 +143,10 @@ class ServiceDetailsPage extends Component {
       <>
         <Title>{this.state.serviceDetails.serviceName} Request</Title>
         <Button
-          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white" }}
+          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white", marginBottom: "10px" }}
           onClick={() => { window.location.href = "/services" }}
         >
-          <KeyboardBackspaceIcon style={{ marginRight: "3px", marginLeft: "-3px" }} /> SERVICES
+          <ArrowBackIcon style={{ fontSize: "medium" }} /> SERVICES
         </Button>
         {/* <div style={{ margin: "35px 0" }}>
           <h2 className="form-title">DESCRIPTION</h2>
@@ -154,7 +154,8 @@ class ServiceDetailsPage extends Component {
         </div> */}
         {this.state.userType === 0 && (
           <>
-            <p>Are you interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
+            <p style={{ marginBottom: "35px" }}>Are you interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
+            <span className="field-desc">Provide a general description for job required (square footage, material type, etc.)</span>
             <div className="textfield-container-col">
               <TextField
                 type="text"
@@ -164,7 +165,6 @@ class ServiceDetailsPage extends Component {
                 required
                 value={this.state.jobDetails.description || ""}
                 onChange={this.jobDetailsChange}
-
               />
             </div>
             <div className="textfield-container-row">
@@ -328,7 +328,7 @@ class ServiceDetailsPage extends Component {
                 )
               }
             >
-              SUBMIT JOB REQUEST
+              SUBMIT REQUEST
             </Button>
           </>
         )}

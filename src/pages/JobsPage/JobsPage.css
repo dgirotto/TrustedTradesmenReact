@@ -41,12 +41,12 @@
   width: 18px !important;
   margin-left: 5px;
   margin-bottom: 1.2px;
-  color: #3c8cdb;
+  color: #009E2D;
 }
 
 .help-icon:hover {
   cursor: pointer;
-  color: #3b9cfd;
+  color: #00b433;
 }
 
 .item-icon {
@@ -138,7 +138,7 @@
 }
 
 .grey {
-  color: grey;
+  color: rgb(119, 119, 119);
 }
 
 @media (min-width: 661px) {

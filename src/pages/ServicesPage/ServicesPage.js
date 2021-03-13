@@ -175,7 +175,7 @@ class ServicesPage extends Component {
               <TextField
                 type="search"
                 name="search"
-                label="Search"
+                label="Search Services"
                 value={this.state.searchContent}
                 onChange={this.searchChange}
                 variant="outlined"
@@ -196,7 +196,7 @@ class ServicesPage extends Component {
                 </Card>
               ))}
               {this.state.filteredServices.length === 0 && (
-                <h2 style={{ margin: "20px auto 0", color: "#a5a5a5" }}>No services match</h2>
+                <h2 style={{ margin: "20px auto 0", color: "#a5a5a5" }}>Try a different search</h2>
               )}
             </div>
           </>

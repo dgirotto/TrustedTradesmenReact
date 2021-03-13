@@ -53,12 +53,17 @@ var tableTheme = createMuiTheme({
         border: "1px solid rgba(224, 224, 224, 1)",
         borderRadius: "0",
         boxShadow: "none",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        fontSize: "16px !important"
       }
     },
     MuiTableCell: {
       root: {
-        padding: "10px"
+        padding: "10px",
+        fontSize: "16px"
+      },
+      head: {
+        fontWeight: "bold"
       }
     }
   }
@@ -73,7 +78,7 @@ export class Row extends Component {
   hstPct = 0.13;
   holdingFeePct = 0.15;
   invoiceThreshold = 5000;
-  holdingFeeThreshold = 500;
+  holdingFeeThreshold = 1000;
   // Non-constants
   requiresInspection = false;
   requiresHoldingFee = false;
@@ -459,6 +464,7 @@ export class Row extends Component {
                 label="Invoice Price"
                 value={this.state.invoicePrice}
                 variant="outlined"
+                error={isNaN(this.state.invoicePrice)}
                 onChange={event => {
                   this.setState(
                     { invoicePrice: event.target.value }
@@ -471,7 +477,7 @@ export class Row extends Component {
                 style={{ fontWeight: "bold" }}
                 variant="contained"
                 onClick={this.sendInvoice}
-                disabled={this.state.invoicePrice === 0 || !this.state.invoicePrice}
+                disabled={this.state.invoicePrice === 0 || !this.state.invoicePrice || isNaN(this.state.invoicePrice)}
                 color="primary"
               >
                 SEND INVOICE
@@ -694,7 +700,7 @@ export class Row extends Component {
       }
       else {
         status = (
-          <Chip className="status required" label="Contractor Required" />
+          <Chip className="status required" label="Waiting for Contractors" />
         );
       }
     }
@@ -1132,6 +1138,10 @@ class JobsPage extends Component {
 
     JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc, this.state.addressFilterVal)
       .then(res => {
+        // if (this.state.userType === 0 && res.data.job_count === 0) {
+        //   window.location.href = "/services";
+        // }
+
         this.setState({
           jobs: res.data.jobs,
           jobCount: res.data.job_count,
@@ -1221,15 +1231,15 @@ class JobsPage extends Component {
         <>
           {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
           {this.state.jobCount === 0 && !this.state.isLoading && (
-          <Alert className="alert-msg" severity="info" color="info">
-            {this.state.userType === 0 ? 
-              <>We couldn't find any jobs.</> : 
-              this.state.isFiltered ? 
-                <>We could not find any jobs that match that address. Please try a different one.</> : 
-                <>You currently don't have any assigned jobs.</>
-            }
-          </Alert>  
-        )}
+            <Alert className="alert-msg" severity="info" color="info">
+              {this.state.userType === 0 ? 
+                <>We couldn't find any jobs.</> : 
+                this.state.isFiltered ? 
+                  <>We could not find any jobs that match that address. Please try a different one.</> : 
+                  <>You don't have any assigned jobs at the moment.</>
+              }
+            </Alert>  
+          )}
           {this.state.userType === 0 && !this.state.isLoading && (
             <div style={{ justifyContent: "space-around", marginBottom: "15px" }} className="button-container">
               <Button
@@ -1237,7 +1247,7 @@ class JobsPage extends Component {
                 onClick={() => window.location.href = "/services"}
                 variant="contained"
               >
-                CREATE NEW JOB
+                FIND A CONTRACTOR
               </Button>
             </div>
           )}
@@ -1353,15 +1363,12 @@ class JobsPage extends Component {
             </>
           )}
         </>
-
         <ResponsiveDialog
           isOpen={this.state.isOpen}
           modalContent={this.state.modalContent}
           handleClose={this.handleClose}
         />
-
         { this.state.isLoading && <Backdrop />}
-
         {/* <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}
