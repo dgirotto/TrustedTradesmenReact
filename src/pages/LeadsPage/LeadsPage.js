@@ -131,24 +131,19 @@ export class Row extends Component {
   getLeadStatus = () => {
     let status = null;
 
-    if (this.state.row.isCommitted) {
+    if (this.state.row.isInterested === false || this.state.row.isCommitted === false) {
       status = (
-        <Chip className="status completed" label="Committed" />
-      );
-    } 
-    else if (this.state.row.isCommitted === false) {
-      status = (
-        <Chip className="status cancelled" label="Not Committed" />
+        <Chip className="status cancelled" label="Dismissed" />
       );
     }
+    else if (this.state.row.isCommitted) {
+      status = (
+        <Chip className="status completed" label="Awaiting Approval" />
+      );
+    } 
     else if (this.state.row.isInterested) {
       status = (
         <Chip className="status completed" label="Interested" />
-      );
-    }
-    else if (this.state.row.isInterested === false) {
-      status = (
-        <Chip className="status cancelled" label="Dismissed" />
       );
     }
     else {
