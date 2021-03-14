@@ -897,7 +897,7 @@ export class Row extends Component {
                                   <FaTimesCircle className="item-icon red" size={16} />Not Paid
                                 </span>
                                 <span style={{fontSize: "14px"}} className="red">
-                                  Must be paid prior to start of job (with refund guarantee)
+                                  *Must be paid prior to start of job (with refund guarantee)
                                 </span>
                               </>
                             }
@@ -1031,7 +1031,7 @@ export class Row extends Component {
                   {!(this.props.userType === 0 && this.state.row.contractorId === null) && (
                     <div className="job-details-column job-details-column-2">
                       {this.props.userType !== 3 && (
-                        <Card style={{ background: "#fff4ca" }} className="job-details-card">
+                        <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
                           <p className="item-title">SUPPORT CONTACT</p>
                           <span className="item-with-icon">
                             <FaUser className="item-icon" size={16} />
