@@ -35,7 +35,7 @@ import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+// import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Chip from "@material-ui/core/Chip";
@@ -99,7 +99,7 @@ export class Row extends Component {
       completionDate: "",
       contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
       inspectionPassed: null,
-      reportSent: false
+      // reportSent: false
     };
   }
 
@@ -113,7 +113,7 @@ export class Row extends Component {
       completionDate: "",
       contractor: newProps.row.contractors && newProps.row.contractors.length > 0 ? newProps.row.contractors[0].contractorId : null,
       inspectionPassed: null,
-      reportSent: false
+      // reportSent: false
     });
   }
 
@@ -366,7 +366,7 @@ export class Row extends Component {
                 variant="contained"
                 color="primary"
               >
-                VIEW PROFILE
+                VIEW CONTRACTOR'S PROFILE
               </Button>
               {this.contractorIsCommitted() && (
                 <Button
@@ -548,7 +548,7 @@ export class Row extends Component {
       ) {
         content = (
           <>
-            <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice is owed by the customer.</Alert>
+            <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice is owed by the customer. The holding fee will be paid by Trusted Tradesmen (minus Trusted Tradesmen's fee).</Alert>
             <div className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
@@ -598,7 +598,7 @@ export class Row extends Component {
             content = (
               <>
                 {content}
-                <span className="field-desc">Explain in detail why the contractor's work did not pass inspection.</span>
+                <span className="field-desc">Explain in detail what the contractor is required to repair in order for their work to pass inspection.</span>
                 <div className="textfield-container-col">
                   <TextField
                     multiline
@@ -627,7 +627,7 @@ export class Row extends Component {
                   variant="outlined"
                 />
               </div>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={
                   <Checkbox
                     onChange={event => {
@@ -642,12 +642,13 @@ export class Row extends Component {
                   />
                 }
                 label="I have filled out an inspection report"
-              />
+              /> */}
               <div className="button-container">
                 <Button
                   variant="contained"
                   onClick={this.completeJob}
-                  disabled={this.state.completionDate === "" || !this.state.reportSent}
+                  // disabled={this.state.completionDate === "" || !this.state.reportSent}
+                  disabled={this.state.completionDate === ""}
                   color="primary"
                 >
                   SUBMIT
@@ -805,7 +806,7 @@ export class Row extends Component {
         content = <Alert className="alert-msg" severity="info" color="info">The contractor will contact you to discuss a revised invoice.</Alert>;
       }
       else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
-        content = <Alert className="alert-msg" severity="info" color="info">Please send the holding fee payment of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to HOLDING_ACCOUNT_HERE.</Alert>;
+        content = <Alert className="alert-msg" severity="info" color="info">Please E-transfer the holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to <b>trustedtradesmen@gmail.com</b>. This amount will be deducted from your final invoice bill. Work can begin once this payment is received.</Alert>;
       }
       else if (this.state.row.completionDate !== null &&
         (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.postInspectionCompletionDate)
@@ -866,7 +867,7 @@ export class Row extends Component {
                         {formatTimeFrame(this.state.row.timeFrame)}
                       </span>
                     </Card>
-                    {this.state.row.invoicePrice && (
+                    {this.props.userType !== 2 && this.state.row.invoicePrice && (
                       <Card className="job-details-card">
                         <p className="item-title">INVOICE STATUS</p>
                         {this.state.row.invoiceAccepted === null ?
@@ -891,9 +892,14 @@ export class Row extends Component {
                               <span className="item-with-icon green">
                                 <FaCheckCircle className="item-icon green" size={16} />Paid
                               </span> :
-                              <span className="item-with-icon red">
-                                <FaTimesCircle className="item-icon red" size={16} />Not Paid
-                              </span>
+                              <>
+                                <span className="item-with-icon red">
+                                  <FaTimesCircle className="item-icon red" size={16} />Not Paid
+                                </span>
+                                <span style={{fontSize: "14px"}} className="red">
+                                  Must be paid prior to start of job (with refund guarantee)
+                                </span>
+                              </>
                             }
                             <div className="fee-table-container">
                               <table className="fee-table">
@@ -1024,6 +1030,25 @@ export class Row extends Component {
                   </div>
                   {!(this.props.userType === 0 && this.state.row.contractorId === null) && (
                     <div className="job-details-column job-details-column-2">
+                      {this.props.userType !== 3 && (
+                        <Card style={{ background: "#fff4ca" }} className="job-details-card">
+                          <p className="item-title">SUPPORT CONTACT</p>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            Christopher Willick
+                          </span>
+                          {this.props.userType !== 0 &&
+                            <span className="item-with-icon">
+                              <FaPhone className="item-icon" size={16} />
+                              {formatPhoneNumber("9056017247")}
+                            </span>
+                          }
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href="mailto:trustedtradesmen@gmail.com">trustedtradesmen@gmail.com</a>
+                          </span>
+                        </Card>
+                      )}
                       {this.props.userType !== 0 && (
                         <Card className="job-details-card">
                           <p className="item-title">CUSTOMER DETAILS</p>
