@@ -1255,14 +1255,9 @@ class JobsPage extends Component {
       <div className="page-container">
         <>
           {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
-          {this.state.jobCount === 0 && !this.state.isLoading && (
+          {this.state.jobCount === 0 && !this.state.isLoading && this.state.userType === 0 && (
             <Alert className="alert-msg" severity="info" color="info">
-              {this.state.userType === 0 ? 
-                <>We couldn't find any jobs.</> : 
-                this.state.isFiltered ? 
-                  <>We could not find any jobs that match that address. Please try a different one.</> : 
-                  <>You don't have any assigned jobs at the moment.</>
-              }
+              You don't have any jobs at the moment.
             </Alert>  
           )}
           {this.state.userType === 0 && !this.state.isLoading && (
@@ -1307,6 +1302,14 @@ class JobsPage extends Component {
                 <FaSync size={21} />
               </Button>
             </div>
+          )}
+          {this.state.jobCount === 0 && !this.state.isLoading && this.state.userType !== 0 && (
+            <Alert className="alert-msg" severity="info" color="info">
+              {this.state.isFiltered ? 
+                  <>We could not find any jobs that match that address. Please try a different one.</> : 
+                  <>You don't have any assigned jobs at the moment.</>
+              }
+            </Alert>  
           )}
           {this.state.jobCount > 0 && !this.state.isLoading && (
             <>

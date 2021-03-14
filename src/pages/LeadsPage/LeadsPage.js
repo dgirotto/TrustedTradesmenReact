@@ -327,6 +327,23 @@ export class Row extends Component {
                   </div>
                   {(this.props.userType !== 1 || this.state.row.isInterested) && (
                     <div className="job-details-column job-details-column-2">
+                      {this.props.userType !== 3 && (
+                        <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
+                          <p className="item-title">SUPPORT CONTACT</p>
+                          <span className="item-with-icon">
+                            <FaUser className="item-icon" size={16} />
+                            Christopher Willick
+                          </span>
+                          <span className="item-with-icon">
+                            <FaPhone className="item-icon" size={16} />
+                            {formatPhoneNumber("9056017247")}
+                          </span>
+                          <span className="item-with-icon">
+                            <FaAt className="item-icon" size={16} />
+                            <a href="mailto:trustedtradesmen@gmail.com">trustedtradesmen@gmail.com</a>
+                          </span>
+                        </Card>
+                      )}
                       {(this.props.userType !== 1 || this.state.row.isInterested) && (
                         <Card className="job-details-card">
                           <p className="item-title">CUSTOMER DETAILS</p>
