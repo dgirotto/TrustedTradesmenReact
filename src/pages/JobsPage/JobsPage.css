@@ -56,30 +56,33 @@
 }
 
 .status {
-  width: 185px;
+  width: 210px;
+  border-radius: 5px !important;
+  font-size: 12px !important;
+  font-weight: bold;
   text-align: center;
-  color: #0e0e0e !important;
-  border-radius: 0 !important;
+  text-transform: uppercase;
+  color: white !important;
 }
 
 .status.cancelled {
-  background-color: #cfcfcf;
+  background-color: #919191;
 }
 
 .status.interested {
-  background-color: #95d1ff;
+  background-color: #57b6ff;
 }
 
 .status.required {
-  background-color: #ffe252;
+  background-color: #ff8620;
 }
 
 .status.in-progress {
-  background-color: #ff9b8e;
+  background-color: #ff634f;
 }
 
 .status.completed {
-  background-color: #9aff67;
+  background-color: rgb(30, 161, 30);
 }
 
 .alert-msg {

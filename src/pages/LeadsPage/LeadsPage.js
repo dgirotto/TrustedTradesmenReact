@@ -46,16 +46,17 @@ var tableTheme = createMuiTheme({
         borderRadius: "0",
         boxShadow: "none",
         boxSizing: "border-box",
-        fontSize: "16px !important"
       }
     },
     MuiTableCell: {
       root: {
         padding: "10px",
-        fontSize: "16px"
+        fontSize: "15px"
       },
       head: {
-        fontWeight: "bold"
+        fontSize: "14px",
+        fontWeight: "bold",
+        color: "#444444"
       }
     }
   }
@@ -168,7 +169,7 @@ export class Row extends Component {
                 <td>{this.state.row.serviceName}</td>
               </tr>
               <tr>
-                <td>Date Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
+                <td>Creation Date: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>Time Frame: {formatTimeFrame(this.state.row.timeFrame)}</td>
@@ -299,7 +300,7 @@ export class Row extends Component {
                       {this.state.row.leadId}
                       <p className="item-title">SERVICE</p>
                       {this.state.row.serviceName}
-                      <p className="item-title">SUBMISSION DATE</p>
+                      <p className="item-title">CREATION DATE</p>
                       <span className="item-with-icon">
                         <FaRegCalendarAlt className="item-icon" size={16} />
                         {formatDate(this.state.row.creationDate.split(" ")[0])}
@@ -325,68 +326,66 @@ export class Row extends Component {
                       </span>
                     </Card>
                   </div>
-                  {(this.props.userType !== 1 || this.state.row.isInterested) && (
-                    <div className="job-details-column job-details-column-2">
-                      {this.props.userType !== 3 && (
-                        <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
-                          <p className="item-title">SUPPORT CONTACT</p>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
-                            Christopher Willick
-                          </span>
-                          <span className="item-with-icon">
-                            <FaPhone className="item-icon" size={16} />
-                            {formatPhoneNumber("9056017247")}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href="mailto:trustedtradesmen@gmail.com">trustedtradesmen@gmail.com</a>
-                          </span>
-                        </Card>
-                      )}
-                      {(this.props.userType !== 1 || this.state.row.isInterested) && (
-                        <Card className="job-details-card">
-                          <p className="item-title">CUSTOMER DETAILS</p>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
-                            {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaPhone className="item-icon" size={16} />
-                            {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
-                          </span>
-                        </Card>
-                      )}
-                      {this.props.userType !== 1 && (
-                        <Card className="job-details-card">
-                          <p className="item-title">CONTRACTOR DETAILS</p>
-                          <span className="item-with-icon">
-                            <FaRegBuilding className="item-icon" size={16} />
-                            {this.state.row.contractorCompany}&nbsp;&nbsp;
-                              <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
-                              <FaExternalLinkAlt size={14} />
-                            </a>
-                          </span>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
-                            {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaPhone className="item-icon" size={16} />
-                            {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
-                          </span>
-                        </Card>
-                      )}
-                    </div>
-                  )}
+                  <div className="job-details-column job-details-column-2">
+                    {this.props.userType !== 3 && (
+                      <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
+                        <p className="item-title">SUPPORT CONTACT</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          Christopher Willick
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {formatPhoneNumber("9056017247")}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href="mailto:trustedtradesmen@gmail.com">trustedtradesmen@gmail.com</a>
+                        </span>
+                      </Card>
+                    )}
+                    {(this.props.userType !== 1 || this.state.row.isInterested) && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CUSTOMER DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                    {this.props.userType !== 1 && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaRegBuilding className="item-icon" size={16} />
+                          {this.state.row.contractorCompany}&nbsp;&nbsp;
+                            <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        </span>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.contractorName ? this.state.row.contractorName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                  </div>
                 </div>
                 {this.props.userType === 1 && (
                   <>
@@ -413,6 +412,7 @@ class LeadsPage extends Component {
       pageNumber: 0,
       itemsPerPage: 10,
       isLoading: true,
+      sortDateDesc: true,
       // showSnackbar: false,
       isError: false,
       message: "",
@@ -516,19 +516,24 @@ class LeadsPage extends Component {
                         <TableCell style={{ width: "10px" }}>                          
                         </TableCell>
                         <TableCell>
-                          Service
+                          SERVICE
                         </TableCell>
                         <TableCell>
-                          Date Created
+                          <div style={{ display: "flex", alignItems: "center" }}>
+                            <span style={{ paddingRight: "5px" }}>CREATION DATE</span>
+                            <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
+                              {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                            </IconButton>
+                          </div>
                         </TableCell>
                         <TableCell>
-                          Time Frame
+                          TIME FRAME
                         </TableCell>
                         <TableCell>
-                          Travel Distance
+                          TRAVEL DISTANCE
                         </TableCell>
-                        <TableCell style={{ width: "190px" }}>
-                          Status
+                        <TableCell style={{ width: "210px" }}>
+                          STATUS
                         </TableCell>
                       </TableRow>
                     </TableHead>

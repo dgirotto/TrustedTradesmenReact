@@ -54,16 +54,17 @@ var tableTheme = createMuiTheme({
         borderRadius: "0",
         boxShadow: "none",
         boxSizing: "border-box",
-        fontSize: "16px !important"
       }
     },
     MuiTableCell: {
       root: {
         padding: "10px",
-        fontSize: "16px"
+        fontSize: "15px"
       },
       head: {
-        fontWeight: "bold"
+        fontSize: "14px",
+        fontWeight: "bold",
+        color: "#444444"
       }
     }
   }
@@ -756,7 +757,7 @@ export class Row extends Component {
                 <td>{this.state.row.address}, {this.state.row.city}</td>
               </tr>
               <tr>
-                <td>Date Created: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
+                <td>Creation Date: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>{this.getJobStatus()}</td>
@@ -1027,9 +1028,8 @@ export class Row extends Component {
                         )}
                       </Card>
                     )}
-                  </div>
-                  {!(this.props.userType === 0 && this.state.row.contractorId === null) && (
-                    <div className="job-details-column job-details-column-2">
+                  </div>                  
+                  <div className="job-details-column job-details-column-2">
                       {this.props.userType !== 3 && (
                         <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
                           <p className="item-title">SUPPORT CONTACT</p>
@@ -1107,8 +1107,7 @@ export class Row extends Component {
                           </span>
                         </Card>
                       )}
-                    </div>
-                  )}
+                    </div>                  
                 </div>
                 {this.getAlertContent()}
                 {!this.state.row.isAbandoned && this.getUIContent()}
@@ -1132,7 +1131,7 @@ class JobsPage extends Component {
       itemsPerPage: 10,
       isLoading: true,
       isFiltered: false,
-      sortDateDesc: null,
+      sortDateDesc: true,
       addressFilterVal: "",
       // showSnackbar: false,
       isError: false,
@@ -1321,24 +1320,24 @@ class JobsPage extends Component {
                         <TableCell style={{ width: "10px" }} >
                         </TableCell>
                         <TableCell>
-                          Service
+                          SERVICE
                         </TableCell>
                         <TableCell>
-                          Address
+                          ADDRESS
                         </TableCell>
                         <TableCell>
-                          City
+                          CITY
                         </TableCell>
                         <TableCell>
                           <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ paddingRight: "5px" }}>Date Created</span>
+                            <span style={{ paddingRight: "5px" }}>CREATION DATE</span>
                             <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
                               {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                             </IconButton>
                           </div>
                         </TableCell>
-                        <TableCell style={{ width: "190px" }}>
-                          Status
+                        <TableCell style={{ width: "210px" }}>
+                          STATUS
                         </TableCell>
                       </TableRow>
                     </TableHead>

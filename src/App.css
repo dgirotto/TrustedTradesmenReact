@@ -9,8 +9,9 @@
 }
 
 .form-title {
-  font-size: 20px;
   margin: 35px 0 25px;
+  font-size: 20px;
+  color: #2b3f48;
 }
 
 .textfield-container {
