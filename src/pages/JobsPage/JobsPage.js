@@ -685,6 +685,7 @@ export class Row extends Component {
     return content;
   }
 
+  // TODO: Move this logic to the back end? (add status and statusType (required, cancelled, inProgress) fields to dto)
   getJobStatus = () => {
     let status = null;
 
@@ -694,19 +695,19 @@ export class Row extends Component {
     else if (this.state.row.contractorId === null) {
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         status = (
-          <Chip className="status interested" label={this.state.row.contractors.length === 1 ?
-            <span><b>1</b> Contractor Interested</span> :
-            <span><b>{this.state.row.contractors.length}</b> Contractors Interested</span>
-          } />
+          <Chip className="status interested" 
+            label={this.state.row.contractors.length === 1 ?
+              <span>1 Contractor Interested</span> :
+              <span>{this.state.row.contractors.length} Contractors Interested</span>
+            } 
+          />
         );
       }
       else {
-        status = (
-          <Chip className="status required" label="Waiting for Contractors" />
-        );
+        status = <Chip className="status required" label="Waiting for Contractors" />
       }
     }
-    else if (this.state.row.invoicePrice === null) {
+    else if (this.state.row.invoicePrice === null || (this.props.userType !== 1 && this.state.row.invoiceAccepted === false)) {
       status = <Chip className="status required" label="Invoice Required" />;
     }
     else if (this.state.row.invoiceAccepted === null) {
@@ -715,8 +716,11 @@ export class Row extends Component {
     else if (this.props.userType === 1 && this.state.row.invoiceAccepted === false) {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
+    else if (this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
+      status = <Chip className="status required" label="Holding Fee Required" />;
+    }
     else if (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null)) {
-      status = <Chip className="status in-progress" label="In Progress" />;
+      status = <Chip className="status in-progress" label="Job In Progress" />;
     }
     else if (this.state.row.holdingFeePaid &&
       this.requiresInspection &&
@@ -898,7 +902,7 @@ export class Row extends Component {
                                   <FaTimesCircle className="item-icon red" size={16} />Not Paid
                                 </span>
                                 <span style={{fontSize: "14px"}} className="red">
-                                  *Must be paid prior to start of job (with refund guarantee)
+                                  Must be paid prior to start of job (with refund guarantee)
                                 </span>
                               </>
                             }
