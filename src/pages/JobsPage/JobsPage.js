@@ -93,13 +93,14 @@ export class Row extends Component {
     super(props);
     this.setInitialVals(props);
     this.state = {
-      row: this.props.row,
       open: false,
-      notes: this.getNotes,
+      row: this.props.row,
+      notes: "",
       invoicePrice: 0,
       completionDate: "",
       contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
       inspectionPassed: null,
+      postInspectionCompleted: null,
       // reportSent: false
     };
   }
@@ -109,11 +110,12 @@ export class Row extends Component {
     this.setInitialVals(newProps);
     this.setState({
       row: newProps.row,
-      notes: this.getNotes,
+      notes: "",
       invoicePrice: 0,
       completionDate: "",
       contractor: newProps.row.contractors && newProps.row.contractors.length > 0 ? newProps.row.contractors[0].contractorId : null,
       inspectionPassed: null,
+      postInspectionCompleted: null,
       // reportSent: false
     });
   }
@@ -129,18 +131,6 @@ export class Row extends Component {
       this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
       this.holdingFeeHst = this.holdingFee * this.hstPct;
       this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-    }
-  }
-
-  getNotes = () => {
-    if (this.props.userType === 1) {
-      return this.state.row.contractorNotes;
-    }
-    else if (this.props.userType === 2) {
-      return this.state.row.inspectorNotes;
-    }
-    else {
-      return "";
     }
   }
 
@@ -240,11 +230,16 @@ export class Row extends Component {
       };
 
       if (this.state.row.completionDate === null) {
-        body.contractorNotes = this.state.notes;
         body.completionDate = this.state.completionDate;
+        body.contractorNotes = this.state.notes;
       }
       else {
         body.postInspectionCompletionDate = this.state.completionDate;
+        body.postInspectionCompleted = this.state.postInspectionCompleted === "true" ? true : false;
+
+        if (!body.postInspectionCompleted) {
+          body.postInspectionNotes = this.state.notes;
+        }
       }
     }
     else if (this.props.userType === 2) {
@@ -514,33 +509,88 @@ export class Row extends Component {
                   </>
                 )}
                 <span className="field-desc">Record the date when your work was completed.</span>
+                <div className="textfield-container-col">
+                  <TextField
+                    type="date"
+                    value={this.state.completionDate}
+                    onChange={event => {
+                      this.setState({ completionDate: event.target.value });
+                    }}
+                    style={{ width: "175px", marginRight: "20px" }}
+                    variant="outlined"
+                  />
+                </div>
+                <div className="button-container">
+                  <Button
+                    style={{ fontWeight: "bold" }}
+                    variant="contained"
+                    onClick={this.completeJob}
+                    disabled={this.state.completionDate === ""}
+                    color="primary"
+                  >
+                    SUBMIT
+                  </Button>
+                </div>
               </>
-            ) :
-              (
-                <span className="field-desc">Record the date when your post-inspection work was completed.</span>
-              )}
-            <div className="textfield-container-col">
-              <TextField
-                type="date"
-                value={this.state.completionDate}
-                onChange={event => {
-                  this.setState({ completionDate: event.target.value });
-                }}
-                style={{ width: "175px", marginRight: "20px" }}
-                variant="outlined"
-              />
-            </div>
-            <div className="button-container">
-              <Button
-                style={{ fontWeight: "bold" }}
-                variant="contained"
-                onClick={this.completeJob}
-                disabled={this.state.completionDate === ""}
-                color="primary"
-              >
-                SUBMIT
-              </Button>
-            </div>
+            ) : (
+              <>
+                <RadioGroup
+                  value={this.state.postInspectionCompleted}
+                  onChange={event => {
+                    this.setState({ postInspectionCompleted: event.target.value });
+                  }}
+                >
+                  <span style={{ marginBottom: "5px" }}>Were the inspector's rework suggestions completely met?</span>
+                  <span style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                    <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="false" control={<Radio />} label="No" />
+                  </span>
+                </RadioGroup>
+                {this.state.postInspectionCompleted === "false" && (
+                  <>
+                    <span className="field-desc">Explain what was not completed and why.</span>
+                    <div className="textfield-container-col">
+                      <TextField
+                        multiline
+                        rowsMax={6}
+                        type="text"
+                        label="Explanation"
+                        value={this.state.notes}
+                        variant="outlined"
+                        onChange={event => { this.setState({ notes: event.target.value }); }}
+                      />
+                    </div>
+                  </>
+                )}
+                {this.state.postInspectionCompleted !== null && (
+                  <>
+                    <span className="field-desc">Record the date when your post-inspection work was conducted.</span>
+                    <div className="textfield-container-col">
+                      <TextField
+                        type="date"
+                        value={this.state.completionDate}
+                        onChange={event => {
+                          this.setState({ completionDate: event.target.value });
+                        }}
+                        style={{ width: "175px", marginRight: "20px" }}
+                        variant="outlined"
+                      />
+                    </div>
+                  </>
+                )}
+                <div className="button-container">
+                  <Button
+                    style={{ fontWeight: "bold" }}
+                    variant="contained"
+                    onClick={this.completeJob}
+                    disabled={this.state.completionDate === "" || this.state.notes === ""}
+                    color="primary"
+                  >
+                    SUBMIT
+                  </Button>
+                </div>
+              </>
+            )}
           </>
         );
       }
@@ -695,11 +745,11 @@ export class Row extends Component {
     else if (this.state.row.contractorId === null) {
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         status = (
-          <Chip className="status interested" 
+          <Chip className="status interested"
             label={this.state.row.contractors.length === 1 ?
               <span>1 Contractor Interested</span> :
               <span>{this.state.row.contractors.length} Contractors Interested</span>
-            } 
+            }
           />
         );
       }
@@ -719,7 +769,8 @@ export class Row extends Component {
     else if (this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
       status = <Chip className="status required" label="Holding Fee Required" />;
     }
-    else if (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null)) {
+    //else if (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null)) {
+    else if (this.state.row.completionDate === null) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
     else if (this.state.row.holdingFeePaid &&
@@ -733,7 +784,7 @@ export class Row extends Component {
         status = <Chip className="status required" label="Requires Inspection" />;
       }
       else {
-        status = <Chip className="status required" label="Requires Revisit" />;
+        status = <Chip className="status required" label="Requires Rework" />;
       }
     }
     else if ((!this.state.row.holdingFeePaid && this.requiresHoldingFee) || !this.state.row.invoicePaid) {
@@ -901,9 +952,9 @@ export class Row extends Component {
                                 <span className="item-with-icon red">
                                   <FaTimesCircle className="item-icon red" size={16} />Not Paid
                                 </span>
-                                <span style={{fontSize: "14px"}} className="red">
-                                  Must be paid prior to start of job (with refund guarantee)
-                                </span>
+                                <div style={{ width: "290px", textAlign: "center", margin: "5px 0", padding: "3px", fontSize: "14px", fontWeight: "bold", background: "#ffd2d2" }} className="red">
+                                  MUST BE PAID PRIOR TO START OF JOB
+                                </div>
                               </>
                             }
                             <div className="fee-table-container">
@@ -1028,90 +1079,109 @@ export class Row extends Component {
                                 </span>
                               </>
                             )}
+                            {this.props.userType !== 0 && this.state.row.postInspectionCompleted !== null && (
+                              <>
+                                <p className="item-title">POST-INSPECTION STATUS</p>
+                                {this.state.row.postInspectionCompleted ?
+                                  <span className="item-with-icon green">
+                                    <FaCheckCircle className="item-icon green" size={16} />Completed
+                                  </span> :
+                                  <span className="item-with-icon red">
+                                    <FaTimesCircle className="item-icon red" size={16} />Not Completed
+                                  </span>
+                                }
+                                {!this.state.row.postInspectionCompleted && (
+                                  <>
+                                    <p className="item-title">POST-INSPECTION NOTES</p>
+                                    {this.state.row.postInspectionNotes}
+                                  </>
+                                )}
+                              </>
+                            )}
                           </>
                         )}
                       </Card>
                     )}
-                  </div>                  
+                  </div>
                   <div className="job-details-column job-details-column-2">
-                      {this.props.userType !== 3 && (
-                        <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
-                          <p className="item-title">SUPPORT CONTACT</p>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
+                    {this.props.userType !== 3 && (
+                      <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
+                        <p className="item-title">SUPPORT CONTACT</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
                             Christopher Willick
                           </span>
-                          {this.props.userType !== 0 &&
-                            <span className="item-with-icon">
-                              <FaPhone className="item-icon" size={16} />
-                              {formatPhoneNumber("9056017247")}
-                            </span>
-                          }
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href="mailto:trustedtradesmen@gmail.com">trustedtradesmen@gmail.com</a>
-                          </span>
-                        </Card>
-                      )}
-                      {this.props.userType !== 0 && (
-                        <Card className="job-details-card">
-                          <p className="item-title">CUSTOMER DETAILS</p>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
-                            {this.state.row.customerName ? this.state.row.customerName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
-                          </span>
+                        {this.props.userType !== 0 &&
                           <span className="item-with-icon">
                             <FaPhone className="item-icon" size={16} />
-                            {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                            {formatPhoneNumber("9056017247")}
                           </span>
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
-                          </span>
-                        </Card>
-                      )}
-                      {this.props.userType !== 1 && this.state.row.contractorId && (
-                        <Card className="job-details-card">
-                          <p className="item-title">CONTRACTOR DETAILS</p>
-                          <span className="item-with-icon">
-                            <FaRegBuilding className="item-icon" size={16} />
-                            {this.state.row.contractorCompany}&nbsp;
+                        }
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href="mailto:trustedtradesmen@gmail.com">trustedtradesmen@gmail.com</a>
+                        </span>
+                      </Card>
+                    )}
+                    {this.props.userType !== 0 && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CUSTOMER DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.customerName ? this.state.row.customerName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.row.customerPhone ? formatPhoneNumber(this.state.row.customerPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.customerEmail}>{this.state.row.customerEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                    {this.props.userType !== 1 && this.state.row.contractorId && (
+                      <Card className="job-details-card">
+                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaRegBuilding className="item-icon" size={16} />
+                          {this.state.row.contractorCompany}&nbsp;
                             <a className="item-with-icon" href={"/contractors/" + this.state.row.contractorId} rel="noopener noreferrer" target="_blank">
-                              <FaExternalLinkAlt size={14} />
-                            </a>
-                          </span>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
-                            {this.state.row.contractorName ? this.state.row.contractorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaPhone className="item-icon" size={16} />
-                            {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
-                          </span>
-                        </Card>
-                      )}
-                      {this.props.userType !== 2 && this.state.row.inspectorId && (
-                        <Card className="job-details-card">
-                          <p className="item-title">INSPECTOR DETAILS</p>
-                          <span className="item-with-icon">
-                            <FaUser className="item-icon" size={16} />
-                            {this.state.row.inspectorName ? this.state.row.inspectorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaPhone className="item-icon" size={16} />
-                            {this.state.inspectorPhone ? formatPhoneNumber(this.state.row.inspectorPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
-                          </span>
-                          <span className="item-with-icon">
-                            <FaAt className="item-icon" size={16} />
-                            <a href={"mailto:" + this.state.row.inspectorEmail}>{this.state.row.inspectorEmail}</a>
-                          </span>
-                        </Card>
-                      )}
-                    </div>                  
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        </span>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.contractorName ? this.state.row.contractorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.row.contractorPhone ? formatPhoneNumber(this.state.row.contractorPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.contractorEmail}>{this.state.row.contractorEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                    {this.props.userType !== 2 && this.state.row.inspectorId && (
+                      <Card className="job-details-card">
+                        <p className="item-title">INSPECTOR DETAILS</p>
+                        <span className="item-with-icon">
+                          <FaUser className="item-icon" size={16} />
+                          {this.state.row.inspectorName ? this.state.row.inspectorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaPhone className="item-icon" size={16} />
+                          {this.state.inspectorPhone ? formatPhoneNumber(this.state.row.inspectorPhone) : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
+                        </span>
+                        <span className="item-with-icon">
+                          <FaAt className="item-icon" size={16} />
+                          <a href={"mailto:" + this.state.row.inspectorEmail}>{this.state.row.inspectorEmail}</a>
+                        </span>
+                      </Card>
+                    )}
+                  </div>
                 </div>
                 {this.getAlertContent()}
                 {!this.state.row.isAbandoned && this.getUIContent()}
@@ -1259,12 +1329,12 @@ class JobsPage extends Component {
         <>
           {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
           {this.state.jobCount === 0 && !this.state.isLoading && this.state.userType === 0 && (
-            <Alert className="alert-msg" severity="info" color="info">
+            <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
               You don't have any jobs at the moment.
-            </Alert>  
+            </Alert>
           )}
           {this.state.userType === 0 && !this.state.isLoading && (
-            <div style={{ justifyContent: "space-around", marginBottom: "15px" }} className="button-container">
+            <div style={{ justifyContent: "space-around", marginBottom: "20px" }} className="button-container">
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
                 onClick={() => window.location.href = "/services"}
@@ -1307,12 +1377,25 @@ class JobsPage extends Component {
             </div>
           )}
           {this.state.jobCount === 0 && !this.state.isLoading && this.state.userType !== 0 && (
-            <Alert className="alert-msg" severity="info" color="info">
-              {this.state.isFiltered ? 
-                  <>We could not find any jobs that match that address. Please try a different one.</> : 
+            <>
+              <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
+                {this.state.isFiltered ?
+                  <>We could not find any jobs that match that address. Please try a different one.</> :
                   <>You don't have any assigned jobs at the moment.</>
-              }
-            </Alert>  
+                }
+              </Alert>
+              {this.state.userType === 1 && (
+                <div style={{ justifyContent: "space-around" }} className="button-container">
+                  <Button
+                    style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                    onClick={() => window.location.href = "/leads"}
+                    variant="contained"
+                  >
+                    MY LEADS
+                  </Button>
+                </div>
+              )}
+            </>
           )}
           {this.state.jobCount > 0 && !this.state.isLoading && (
             <>

@@ -91,7 +91,7 @@ export class Row extends Component {
         </Button>
       </>
     };
-  
+
     this.props.setDialog(modalContent);
     this.props.handleOpen();
   }
@@ -139,19 +139,19 @@ export class Row extends Component {
     }
     else if (this.state.row.isCommitted) {
       status = (
-        <Chip className="status completed" label="Awaiting Approval" />
+        <Chip className="status required" label="Awaiting Approval" />
       );
-    } 
+    }
     else if (this.state.row.isInterested) {
       status = (
         <Chip className="status completed" label="Interested" />
       );
     }
     else {
-        // TODO: Label should be "<x> HRS REMAINING"
-        status = (
-          <Chip className="status required" label="Response Required" />
-        );
+      // TODO: Label should be "<x> HRS REMAINING"
+      status = (
+        <Chip className="status required" label="Response Required" />
+      );
     }
 
     return status;
@@ -212,31 +212,27 @@ export class Row extends Component {
     return content;
   }
 
-  getAlertContent = () =>  {
+  getAlertContent = () => {
     let content = null;
 
-    if (this.props.row.isCommitted) 
-    {
+    if (this.props.row.isCommitted) {
       content = <Alert className="alert-msg" severity="info" color="info">Waiting on the customer to make their decision.</Alert>;
     }
-    else if (this.props.row.isInterested)
-    {
+    else if (this.props.row.isInterested) {
       content = <Alert className="alert-msg" severity="info" color="info">We advise that you visit the customer before committing to this job.</Alert>;
     }
 
-    return content; 
+    return content;
   }
 
-  getUIContent = () =>  {
+  getUIContent = () => {
     let content = null;
 
-    if (this.props.userType !== 1)
-    {
+    if (this.props.userType !== 1) {
       return;
     }
 
-    if (this.state.row.isInterested === null)
-    {
+    if (this.state.row.isInterested === null) {
       content = (
         <div className="button-container">
           <Button
@@ -257,8 +253,7 @@ export class Row extends Component {
         </div>
       )
     }
-    else if (this.state.row.isCommitted === null)
-    {
+    else if (this.state.row.isCommitted === null) {
       content = (
         <div className="button-container">
           <Button
@@ -436,7 +431,7 @@ class LeadsPage extends Component {
       this.getLeads();
     }
   }
-  
+
   getLeads = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 
@@ -509,85 +504,96 @@ class LeadsPage extends Component {
           {this.state.userType === 3 ? <Title>All Leads</Title> : <Title>My Leads</Title>}
           {this.state.leadCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
-                <TableContainer className="desktop-table" component={Paper}>
-                  <Table aria-label="collapsible table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell style={{ width: "10px" }}>                          
+              <TableContainer className="desktop-table" component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell style={{ width: "10px" }}>
+                      </TableCell>
+                      <TableCell>
+                        SERVICE
                         </TableCell>
-                        <TableCell>
-                          SERVICE
+                      <TableCell>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span style={{ paddingRight: "5px" }}>CREATION DATE</span>
+                          <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
+                            {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                          </IconButton>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        TIME FRAME
                         </TableCell>
-                        <TableCell>
-                          <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ paddingRight: "5px" }}>CREATION DATE</span>
-                            <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
-                              {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                            </IconButton>
-                          </div>
+                      <TableCell>
+                        TRAVEL DISTANCE
                         </TableCell>
-                        <TableCell>
-                          TIME FRAME
+                      <TableCell style={{ width: "210px" }}>
+                        STATUS
                         </TableCell>
-                        <TableCell>
-                          TRAVEL DISTANCE
-                        </TableCell>
-                        <TableCell style={{ width: "210px" }}>
-                          STATUS
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {this.state.leads.map(lead => (
-                        <Row
-                          key={lead.leadId}
-                          row={lead}
-                          userType={this.state.userType}
-                          isMobile={false}
-                          getLeads={this.getLeads}
-                          setDialog={this.setDialog}
-                          handleOpen={this.handleOpen}
-                          handleClose={this.handleClose}
-                        // setMessage={this.setMessage}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TableContainer className="mobile-table" component={Paper}>
-                  <Table aria-label="collapsible table">
-                    <TableBody>
-                      {this.state.leads.map(lead => (
-                        <Row
-                          key={lead.leadId}
-                          row={lead}
-                          userType={this.state.userType}
-                          isMobile={true}
-                          getLeads={this.getLeads}
-                          setDialog={this.setDialog}
-                          handleOpen={this.handleOpen}
-                          handleClose={this.handleClose}
-                        // setMessage={this.setMessage}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[10, 25, 50]}
-                  component="div"
-                  count={this.state.leadCount}
-                  rowsPerPage={this.state.itemsPerPage}
-                  page={this.state.pageNumber}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeItemsPerPage}
-                />
-              </ThemeProvider>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.leads.map(lead => (
+                      <Row
+                        key={lead.leadId}
+                        row={lead}
+                        userType={this.state.userType}
+                        isMobile={false}
+                        getLeads={this.getLeads}
+                        setDialog={this.setDialog}
+                        handleOpen={this.handleOpen}
+                        handleClose={this.handleClose}
+                      // setMessage={this.setMessage}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TableContainer className="mobile-table" component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableBody>
+                    {this.state.leads.map(lead => (
+                      <Row
+                        key={lead.leadId}
+                        row={lead}
+                        userType={this.state.userType}
+                        isMobile={true}
+                        getLeads={this.getLeads}
+                        setDialog={this.setDialog}
+                        handleOpen={this.handleOpen}
+                        handleClose={this.handleClose}
+                      // setMessage={this.setMessage}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                component="div"
+                count={this.state.leadCount}
+                rowsPerPage={this.state.itemsPerPage}
+                page={this.state.pageNumber}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeItemsPerPage}
+              />
+            </ThemeProvider>
           )}
         </>
 
         {this.state.leadCount === 0 && !this.state.isLoading && (
-          <Alert severity="info" color="info">You don't have any leads at the moment.</Alert>
+          <>
+            <Alert style={{ marginBottom: "20px" }} severity="info" color="info">You don't have any leads at the moment.</Alert>
+            <div style={{ justifyContent: "space-around" }} className="button-container">
+              <Button
+                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                onClick={() => window.location.href = "/jobs"}
+                variant="contained"
+              >
+                MY JOBS
+              </Button>
+            </div>
+          </>
         )}
 
         <ResponsiveDialog
