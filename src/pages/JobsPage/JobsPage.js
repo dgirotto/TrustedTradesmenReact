@@ -540,7 +540,7 @@ export class Row extends Component {
                     this.setState({ postInspectionCompleted: event.target.value });
                   }}
                 >
-                  <span style={{ marginBottom: "5px" }}>Were the inspector's rework suggestions completely met?</span>
+                  <span style={{ marginBottom: "0px" }} className="field-desc">Were the inspector's rework suggestions completely met?</span>
                   <span style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
                     <FormControlLabel value="true" control={<Radio />} label="Yes" />
                     <FormControlLabel value="false" control={<Radio />} label="No" />
@@ -636,7 +636,7 @@ export class Row extends Component {
               this.setState({ inspectionPassed: event.target.value });
             }}
           >
-            <span style={{ marginBottom: "5px" }}>Did the job pass inspection?</span>
+            <span style={{ marginBottom: "0px" }} className="field-desc">Did the job pass inspection?</span>
             <span style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
               <FormControlLabel value="true" control={<Radio />} label="Yes" />
               <FormControlLabel value="false" control={<Radio />} label="No" />

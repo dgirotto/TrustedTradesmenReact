@@ -148,9 +148,17 @@ export class Row extends Component {
       );
     }
     else {
-      // TODO: Label should be "<x> HRS REMAINING"
+      let statusVerbiage = '';
+
+      if (this.props.userType === 1) {
+        statusVerbiage = "Expires In " + this.state.row.hoursRemaining + " Hours";
+      }
+      else {
+        statusVerbiage = "Response Required";
+      }
+
       status = (
-        <Chip className="status required" label="Response Required" />
+        <Chip className="status required" label={statusVerbiage} />
       );
     }
 
