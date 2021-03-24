@@ -177,13 +177,10 @@ export class Row extends Component {
                 <td>{this.state.row.serviceName}</td>
               </tr>
               <tr>
-                <td>Creation Date: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
+                <td>Distance: {this.formatDistance()}</td>
               </tr>
               <tr>
                 <td>Time Frame: {formatTimeFrame(this.state.row.timeFrame)}</td>
-              </tr>
-              <tr>
-                <td>Travel Distance: {this.formatDistance()}</td>
               </tr>
               <tr>
                 <td>{this.getLeadStatus()}</td>
@@ -210,8 +207,8 @@ export class Row extends Component {
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
-          <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
           <TableCell>{this.formatDistance()}</TableCell>
+          <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
           <TableCell>{this.getLeadStatus()}</TableCell>
         </>
       );
@@ -303,29 +300,29 @@ export class Row extends Component {
                       {this.state.row.leadId}
                       <p className="item-title">SERVICE</p>
                       {this.state.row.serviceName}
-                      <p className="item-title">CREATION DATE</p>
+                      <p className="item-title">SUBMITTED</p>
                       <span className="item-with-icon">
                         <FaRegCalendarAlt className="item-icon" size={16} />
                         {formatDate(this.state.row.creationDate.split(" ")[0])}
                       </span>
                       <p className="item-title">LOCATION</p>
                       {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
-                      <p className="item-title">DESCRIPTION</p>
-                      {this.state.row.description}
-                      <p className="item-title">BUDGET</p>
+                      <p className="item-title">DISTANCE</p>
                       <span className="item-with-icon">
-                        <FaFileInvoiceDollar className="item-icon" size={16} />
-                        {formatBudget(this.state.row.budget)}
+                        <FaRoute className="item-icon" size={16} />
+                        {this.formatDistance()}
                       </span>
                       <p className="item-title">TIME FRAME</p>
                       <span className="item-with-icon">
                         <FaRegClock className="item-icon" size={16} />
                         {formatTimeFrame(this.state.row.timeFrame)}
                       </span>
-                      <p className="item-title">TRAVEL DISTANCE</p>
+                      <p className="item-title">DESCRIPTION</p>
+                      {this.state.row.description}
+                      <p className="item-title">BUDGET</p>
                       <span className="item-with-icon">
-                        <FaRoute className="item-icon" size={16} />
-                        {this.formatDistance()}
+                        <FaFileInvoiceDollar className="item-icon" size={16} />
+                        {formatBudget(this.state.row.budget)}
                       </span>
                     </Card>
                   </div>
@@ -523,21 +520,21 @@ class LeadsPage extends Component {
                         </TableCell>
                       <TableCell>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                          <span style={{ paddingRight: "5px" }}>CREATION DATE</span>
+                          <span style={{ paddingRight: "5px" }}>SUBMITTED</span>
                           <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
                             {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                           </IconButton>
                         </div>
                       </TableCell>
                       <TableCell>
-                        TIME FRAME
-                        </TableCell>
+                        DISTANCE
+                      </TableCell>
                       <TableCell>
-                        TRAVEL DISTANCE
-                        </TableCell>
+                        TIME FRAME
+                      </TableCell>
                       <TableCell style={{ width: "210px" }}>
                         STATUS
-                        </TableCell>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

@@ -287,7 +287,7 @@ class SettingsPage extends Component {
                 />
               </div>
             </div>
-            <span className="field-desc">Note: Since your email address is required to login, updating your email will change your login credentials.</span>
+            <span className="field-desc">Since your email address is required to login, updating your email will change your login credentials.</span>
             <div className="textfield-container-col">
               <TextField
                 type="text"

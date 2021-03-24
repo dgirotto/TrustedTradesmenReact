@@ -712,7 +712,10 @@ export class Row extends Component {
     }
     else if (this.props.userType === 3) {
       // ADMIN
-      if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
+      if (this.state.row.isOrphaned) {
+        content = <Alert className="alert-msg" severity="info" color="info">JOB IS ORPHANED. PICK A CONTRACTOR TO ASSIGN A LEAD TO FOR THIS JOB.</Alert>
+      }
+      else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
         content = (
           <>
             <Alert className="alert-msg" severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
@@ -742,6 +745,9 @@ export class Row extends Component {
     if (this.state.row.isAbandoned) {
       status = <Chip className="status cancelled" label="Cancelled" />;
     }
+    else if (this.props.userType === 3 && this.state.row.isOrphaned) {
+      status = <Chip className="status interested" label="Orphaned" />;
+    }
     else if (this.state.row.contractorId === null) {
       if (this.state.row.contractors && this.state.row.contractors.length > 0) {
         status = (
@@ -769,7 +775,6 @@ export class Row extends Component {
     else if (this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
       status = <Chip className="status required" label="Holding Fee Required" />;
     }
-    //else if (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null)) {
     else if (this.state.row.completionDate === null) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
@@ -810,9 +815,6 @@ export class Row extends Component {
               </tr>
               <tr>
                 <td>{this.state.row.address}, {this.state.row.city}</td>
-              </tr>
-              <tr>
-                <td>Creation Date: {formatDate(this.state.row.creationDate.split(" ")[0])}</td>
               </tr>
               <tr>
                 <td>{this.getJobStatus()}</td>
@@ -903,24 +905,24 @@ export class Row extends Component {
                       {this.state.row.jobId}
                       <p className="item-title">SERVICE</p>
                       {this.state.row.serviceName}
-                      <p className="item-title">CREATION DATE</p>
+                      <p className="item-title">SUBMITTED</p>
                       <span className="item-with-icon">
                         <FaRegCalendarAlt className="item-icon" size={16} />
                         {formatDate(this.state.row.creationDate.split(" ")[0])}
                       </span>
                       <p className="item-title">LOCATION</p>
                       {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
+                      <p className="item-title">TIME FRAME</p>
+                      <span className="item-with-icon">
+                        <FaRegClock className="item-icon" size={16} />
+                        {formatTimeFrame(this.state.row.timeFrame)}
+                      </span>
                       <p className="item-title">DESCRIPTION</p>
                       {this.state.row.description}
                       <p className="item-title">BUDGET</p>
                       <span className="item-with-icon">
                         <FaFileInvoiceDollar className="item-icon" size={16} />
                         {formatBudget(this.state.row.budget)}
-                      </span>
-                      <p className="item-title">TIME FRAME</p>
-                      <span className="item-with-icon">
-                        <FaRegClock className="item-icon" size={16} />
-                        {formatTimeFrame(this.state.row.timeFrame)}
                       </span>
                     </Card>
                     {this.props.userType !== 2 && this.state.row.invoicePrice && (
@@ -1417,7 +1419,7 @@ class JobsPage extends Component {
                         </TableCell>
                         <TableCell>
                           <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ paddingRight: "5px" }}>CREATION DATE</span>
+                            <span style={{ paddingRight: "5px" }}>SUBMITTED</span>
                             <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
                               {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                             </IconButton>
