@@ -1383,7 +1383,7 @@ class JobsPage extends Component {
               <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
                 {this.state.isFiltered ?
                   <>We could not find any jobs that match that address. Please try a different one.</> :
-                  <>You don't have any assigned jobs at the moment.</>
+                  <>You do not have any jobs assigned to you at the moment.</>
                 }
               </Alert>
               {this.state.userType === 1 && (

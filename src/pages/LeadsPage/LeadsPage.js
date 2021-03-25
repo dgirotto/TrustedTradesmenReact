@@ -137,6 +137,11 @@ export class Row extends Component {
         <Chip className="status cancelled" label="Dismissed" />
       );
     }
+    else if (!this.state.row.isActive) {
+      status = (
+        <Chip className="status cancelled" label="Deactivated" />
+      );
+    }
     else if (this.state.row.isCommitted) {
       status = (
         <Chip className="status required" label="Awaiting Approval" />
@@ -154,7 +159,7 @@ export class Row extends Component {
         statusVerbiage = "Expires In " + this.state.row.hoursRemaining + " Hours";
       }
       else {
-        statusVerbiage = "Response Required";
+        statusVerbiage = "Awaiting Response";
       }
 
       status = (
