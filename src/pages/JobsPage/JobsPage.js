@@ -13,8 +13,9 @@ import "./JobsPage.css";
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
-  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaRegCalendarAlt, FaRegBuilding,
-  FaExternalLinkAlt, FaCheckCircle, FaTimesCircle, FaMinusCircle, FaSearch, FaSync
+  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser,
+  FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt, FaCheckCircle,
+  FaTimesCircle, FaMinusCircle, FaSearch, FaSync, FaSortAmountDown, FaSortAmountUp
 } from "react-icons/fa";
 
 import Table from "@material-ui/core/Table";
@@ -840,8 +841,7 @@ export class Row extends Component {
             </IconButton>
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
-          <TableCell>{this.state.row.address}</TableCell>
-          <TableCell>{this.state.row.city}</TableCell>
+          <TableCell>{this.state.row.address}, {this.state.row.city}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.getJobStatus()}</TableCell>
         </>
@@ -895,7 +895,7 @@ export class Row extends Component {
           {this.getRowContent()}
         </TableRow>
         <TableRow>
-          <TableCell style={{ padding: 0 }} colSpan={6}>
+          <TableCell style={{ padding: 0 }} colSpan={5}>
             <Collapse in={this.state.open} timeout="auto">
               <Box margin={1}>
                 <div className="job-details">
@@ -1412,21 +1412,19 @@ class JobsPage extends Component {
                           SERVICE
                         </TableCell>
                         <TableCell>
-                          ADDRESS
-                        </TableCell>
-                        <TableCell>
-                          CITY
+                          LOCATION
                         </TableCell>
                         <TableCell>
                           <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ paddingRight: "5px" }}>SUBMITTED</span>
+                            <span style={{ paddingRight: "4px" }}>SUBMITTED</span>
                             <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
-                              {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                              {this.state.sortDateDesc ? <FaSortAmountUp style={{ color: "#444444" }} size={15} /> :
+                                <FaSortAmountDown style={{ color: "#444444" }} size={15} />}
                             </IconButton>
                           </div>
                         </TableCell>
                         <TableCell style={{ width: "210px" }}>
-                          STATUS
+                          JOB STATUS
                         </TableCell>
                       </TableRow>
                     </TableHead>

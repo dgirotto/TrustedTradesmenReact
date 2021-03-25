@@ -22,8 +22,8 @@ import Chip from "@material-ui/core/Chip";
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
-  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute,
-  FaRegBuilding, FaExternalLinkAlt, FaAt, FaPhone, FaUser
+  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute, FaRegBuilding,
+  FaExternalLinkAlt, FaAt, FaPhone, FaUser, FaSortAmountDown, FaSortAmountUp
 } from "react-icons/fa";
 
 import { LeadsService } from "../../services/leads";
@@ -522,14 +522,6 @@ class LeadsPage extends Component {
                       </TableCell>
                       <TableCell>
                         SERVICE
-                        </TableCell>
-                      <TableCell>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                          <span style={{ paddingRight: "5px" }}>SUBMITTED</span>
-                          <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
-                            {this.state.sortDateDesc ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                          </IconButton>
-                        </div>
                       </TableCell>
                       <TableCell>
                         DISTANCE
@@ -537,8 +529,17 @@ class LeadsPage extends Component {
                       <TableCell>
                         TIME FRAME
                       </TableCell>
+                      <TableCell>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <span style={{ paddingRight: "4px" }}>SUBMITTED</span>
+                          <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
+                            {this.state.sortDateDesc ? <FaSortAmountUp style={{ color: "#444444" }} size={15} /> :
+                              <FaSortAmountDown style={{ color: "#444444" }} size={15} />}
+                          </IconButton>
+                        </div>
+                      </TableCell>
                       <TableCell style={{ width: "210px" }}>
-                        STATUS
+                        LEAD STATUS
                       </TableCell>
                     </TableRow>
                   </TableHead>
