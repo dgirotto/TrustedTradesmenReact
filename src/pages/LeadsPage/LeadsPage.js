@@ -211,9 +211,9 @@ export class Row extends Component {
             </IconButton>
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
-          <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.formatDistance()}</TableCell>
           <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
+          <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.getLeadStatus()}</TableCell>
         </>
       );
