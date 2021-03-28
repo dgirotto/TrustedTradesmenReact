@@ -77,18 +77,20 @@ var tableTheme = createMuiTheme({
 
 export class Row extends Component {
   // Constants
+  ttFeePct = 0.15;
   hstPct = 0.13;
   holdingFeePct = 0.15;
   invoiceThreshold = 5000;
   holdingFeeThreshold = 1000;
   // Non-constants
   requiresInspection = false;
-  requiresHoldingFee = false;
+  holdingFeeRequired = false;
   holdingFee = 0;
   holdingFeeHst = 0;
   holdingFeeTotal = 0;
   invoicePriceHst = 0;
   invoicePriceTotal = 0;
+  ttFee = 0;
 
   constructor(props) {
     super(props);
@@ -101,7 +103,7 @@ export class Row extends Component {
       completionDate: "",
       contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
       inspectionPassed: null,
-      postInspectionCompleted: null,
+      reworkCompleted: null,
       // reportSent: false
     };
   }
@@ -116,22 +118,24 @@ export class Row extends Component {
       completionDate: "",
       contractor: newProps.row.contractors && newProps.row.contractors.length > 0 ? newProps.row.contractors[0].contractorId : null,
       inspectionPassed: null,
-      postInspectionCompleted: null,
+      reworkCompleted: null,
       // reportSent: false
     });
   }
 
   setInitialVals = (props) => {
     this.requiresInspection = parseInt(props.row.invoicePrice) >= this.invoiceThreshold;
-    this.requiresHoldingFee = parseInt(props.row.invoicePrice) >= this.holdingFeeThreshold;
+    this.holdingFeeRequired = parseInt(props.row.invoicePrice) >= this.holdingFeeThreshold;
 
     this.invoicePriceHst = props.row.invoicePrice * this.hstPct;
     this.invoicePriceTotal = props.row.invoicePrice * 1.00 + this.invoicePriceHst;
 
-    if (this.requiresHoldingFee) {
+    if (this.holdingFeeRequired) {
       this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
       this.holdingFeeHst = this.holdingFee * this.hstPct;
       this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
+      // TODO: How is TT Fee determined? Is it a percentage of the holding fee, or the total invoice price?
+      this.ttFee = this.holdingFee * this.ttFeePct;
     }
   }
 
@@ -193,6 +197,24 @@ export class Row extends Component {
     this.props.handleClose();
   }
 
+  paymentSent = () => {
+    let body = {
+      jobId: this.state.row.jobId,
+      contractorPaid: 1
+    };
+
+    JobService.updateJob(body)
+      .then(() => {
+        this.props.getJobs(true);
+        // this.props.setMessage(false, "Successfully updated invoice status");
+      })
+      .catch(err => {
+        // this.props.setMessage(false, "Unable to update invoice status");
+      });
+
+    this.props.handleClose();
+  }
+
   acceptInvoice = (isAccepted) => {
     let body = { jobId: this.state.row.jobId, invoiceAccepted: isAccepted };
 
@@ -235,11 +257,11 @@ export class Row extends Component {
         body.contractorNotes = this.state.notes;
       }
       else {
-        body.postInspectionCompletionDate = this.state.completionDate;
-        body.postInspectionCompleted = this.state.postInspectionCompleted === "true" ? true : false;
+        body.reworkCompletionDate = this.state.completionDate;
+        body.reworkCompleted = this.state.reworkCompleted === "true" ? true : false;
 
-        if (!body.postInspectionCompleted) {
-          body.postInspectionNotes = this.state.notes;
+        if (!body.reworkCompleted) {
+          body.reworkNotes = this.state.notes;
         }
       }
     }
@@ -296,14 +318,26 @@ export class Row extends Component {
         </>
       };
     }
-    else {
-      let verbiage = this.props.userType === 1 ? "Holding Fee" : "Payment";
-
+    else if (modalType === 2) {
       modalContent = {
-        title: `Confirm Received ${verbiage}`,
-        content: `Are you sure you've received the ${verbiage.toLowerCase()} for this job?`,
+        title: 'Confirm Received Payment',
+        content: "Are you sure you've received the payment for this job?",
         actions: <>
           <Button onClick={this.paymentReceived}>
+            Yes
+          </Button>
+          <Button onClick={this.props.handleClose}>
+            No
+          </Button>
+        </>
+      };
+    }
+    else {
+      modalContent = {
+        title: 'Confirm Sent Payment',
+        content: "Are you sure you've sent the payment to the contractor?",
+        actions: <>
+          <Button onClick={this.paymentSent}>
             Yes
           </Button>
           <Button onClick={this.props.handleClose}>
@@ -484,8 +518,8 @@ export class Row extends Component {
         );
       }
       else if (this.state.row.invoiceAccepted &&
-        (this.state.row.holdingFeePaid || !this.requiresHoldingFee) &&
-        (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null))
+        (this.state.row.holdingFeePaid || !this.holdingFeeRequired) &&
+        (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.reworkCompletionDate === null))
       ) {
         content = (
           <>
@@ -536,9 +570,9 @@ export class Row extends Component {
             ) : (
               <>
                 <RadioGroup
-                  value={this.state.postInspectionCompleted}
+                  value={this.state.reworkCompleted}
                   onChange={event => {
-                    this.setState({ postInspectionCompleted: event.target.value });
+                    this.setState({ reworkCompleted: event.target.value });
                   }}
                 >
                   <span style={{ marginBottom: "0px" }} className="field-desc">Were the inspector's rework suggestions completely met?</span>
@@ -547,7 +581,7 @@ export class Row extends Component {
                     <FormControlLabel value="false" control={<Radio />} label="No" />
                   </span>
                 </RadioGroup>
-                {this.state.postInspectionCompleted === "false" && (
+                {this.state.reworkCompleted === "false" && (
                   <>
                     <span className="field-desc">Explain what was not completed and why.</span>
                     <div className="textfield-container-col">
@@ -563,7 +597,7 @@ export class Row extends Component {
                     </div>
                   </>
                 )}
-                {this.state.postInspectionCompleted !== null && (
+                {this.state.reworkCompleted !== null && (
                   <>
                     <span className="field-desc">Record the date when your post-inspection work was conducted.</span>
                     <div className="textfield-container-col">
@@ -595,21 +629,30 @@ export class Row extends Component {
           </>
         );
       }
-      else if (!this.state.row.invoicePaid &&
-        ((this.state.row.completionDate && !this.requiresInspection) || this.state.row.inspectionPassed || this.state.row.postInspectionCompletionDate)
-      ) {
+      else if ((this.holdingFeeRequired || !this.state.row.invoicePaid) &&
+        ((this.state.row.completionDate && !this.requiresInspection) || this.state.row.inspectionPassed || this.state.row.reworkCompletionDate))
+      {
         content = (
           <>
-            <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice is owed by the customer. The holding fee will be paid by Trusted Tradesmen (minus Trusted Tradesmen's fee).</Alert>
-            <div className="button-container">
-              <Button
-                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
-                variant="contained"
-                onClick={() => this.setModal(2)}
-              >
-                PAYMENT RECEIVED
-              </Button>
-            </div>
+            {this.holdingFeeRequired && (
+              <Alert className="alert-msg" severity="info" color="info">
+                The holding fee will be paid by Trusted Tradesmen (minus TT's fee) in the amount of <b>${formatNumber((this.holdingFeeTotal - this.ttFee).toFixed(2))}</b>.
+              </Alert>
+            )}
+            {!this.state.row.invoicePaid && (
+              <>
+                <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice is owed by the customer.</Alert>
+                <div className="button-container">
+                  <Button
+                    style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
+                    variant="contained"
+                    onClick={() => this.setModal(2)}
+                  >
+                    CUSTOMER PAYMENT RECEIVED
+                  </Button>
+                </div>
+              </>
+            )}
           </>
         );
       }
@@ -716,7 +759,7 @@ export class Row extends Component {
       if (this.state.row.isOrphaned) {
         content = <Alert className="alert-msg" severity="info" color="info">JOB IS ORPHANED. PICK A CONTRACTOR TO ASSIGN A LEAD TO FOR THIS JOB.</Alert>
       }
-      else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
+      else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
         content = (
           <>
             <Alert className="alert-msg" severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
@@ -730,6 +773,29 @@ export class Row extends Component {
                 }}
               >
                 PAYMENT RECEIVED
+              </Button>
+            </div>
+          </>
+        );
+      }
+      else if (this.state.row.completionDate !== null &&
+        !this.state.row.paymentSent &&
+        (this.requiresInspection && (this.state.row.inspectionPassed || this.state.row.reworkCompleted !== null))) {
+        content = (
+          <>
+            <Alert className="alert-msg" severity="info" color="info">
+              The remaining payment of <b>${formatNumber((this.holdingFeeTotal - this.ttFee).toFixed(2))}</b> is owed to the contractor.
+            </Alert>
+            <div className="button-container">
+              <Button
+                variant="contained"
+                onClick={() => this.setModal(2)}
+                style={{
+                  backgroundColor: "#3bb13b",
+                  color: "white"
+                }}
+              >
+                PAYMENT SENT
               </Button>
             </div>
           </>
@@ -773,7 +839,7 @@ export class Row extends Component {
     else if (this.props.userType === 1 && this.state.row.invoiceAccepted === false) {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
+    else if (this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
       status = <Chip className="status required" label="Holding Fee Required" />;
     }
     else if (this.state.row.completionDate === null) {
@@ -781,7 +847,7 @@ export class Row extends Component {
     }
     else if (this.state.row.holdingFeePaid &&
       this.requiresInspection &&
-      (this.state.row.inspectorId === null || this.state.row.inspectionDate === null || (this.state.row.inspectionPassed === false && this.state.row.postInspectionCompletionDate === null))
+      (this.state.row.inspectorId === null || this.state.row.inspectionDate === null || (this.state.row.inspectionPassed === false && this.state.row.reworkCompletionDate === null))
     ) {
       if (this.state.row.inspectorId === null) {
         status = <Chip className="status required" label="Inspector Required" />;
@@ -793,7 +859,7 @@ export class Row extends Component {
         status = <Chip className="status required" label="Requires Rework" />;
       }
     }
-    else if ((!this.state.row.holdingFeePaid && this.requiresHoldingFee) || !this.state.row.invoicePaid) {
+    else if ((!this.state.row.holdingFeePaid && this.holdingFeeRequired) || !this.state.row.invoicePaid) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
@@ -863,11 +929,11 @@ export class Row extends Component {
       else if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === false) {
         content = <Alert className="alert-msg" severity="info" color="info">The contractor will contact you to discuss a revised invoice.</Alert>;
       }
-      else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
+      else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
         content = <Alert className="alert-msg" severity="info" color="info">Please E-transfer the holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to <b>trustedtradesmen@gmail.com</b>. This amount will be deducted from your final invoice bill. Work can begin once this payment is received.</Alert>;
       }
       else if (this.state.row.completionDate !== null &&
-        (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.postInspectionCompletionDate)
+        (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.reworkCompletionDate)
       ) {
         if (this.state.row.invoicePaid) {
           content = <Alert className="alert-msg" severity="success" color="success">The job was completed on {formatDate(this.state.row.completionDate.split(" ")[0])} and the invoice payment has been processed.</Alert>;
@@ -881,7 +947,7 @@ export class Row extends Component {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm the invoice.</Alert>;
       }
-      else if (this.state.row.invoiceAccepted && this.requiresHoldingFee && !this.state.row.holdingFeePaid) {
+      else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to submit the holding fee.</Alert>;
       }
     }
@@ -940,7 +1006,7 @@ export class Row extends Component {
                               <FaTimesCircle className="item-icon red" size={16} />Revision Requested
                             </span>
                         }
-                        {this.state.row.invoiceAccepted && this.requiresHoldingFee && (
+                        {this.state.row.invoiceAccepted && this.holdingFeeRequired && (
                           <>
                             <p className="item-title item-with-icon">
                               HOLDING FEE DETAILS
@@ -1072,19 +1138,19 @@ export class Row extends Component {
                                 {this.state.row.inspectorNotes}
                               </>
                             )}
-                            {this.state.row.postInspectionCompletionDate && (
+                            {this.state.row.reworkCompletionDate && (
                               <>
                                 <p className="item-title">REWORK COMPLETION DATE</p>
                                 <span className="item-with-icon">
                                   <FaRegCalendarAlt className="item-icon" size={16} />
-                                  {formatDate(this.state.row.postInspectionCompletionDate.split(" ")[0])}
+                                  {formatDate(this.state.row.reworkCompletionDate.split(" ")[0])}
                                 </span>
                               </>
                             )}
-                            {this.props.userType !== 0 && this.state.row.postInspectionCompleted !== null && (
+                            {this.props.userType !== 0 && this.state.row.reworkCompleted !== null && (
                               <>
                                 <p className="item-title">REWORK STATUS</p>
-                                {this.state.row.postInspectionCompleted ?
+                                {this.state.row.reworkCompleted ?
                                   <span className="item-with-icon green">
                                     <FaCheckCircle className="item-icon green" size={16} />Completed
                                   </span> :
@@ -1092,10 +1158,10 @@ export class Row extends Component {
                                     <FaTimesCircle className="item-icon red" size={16} />Not Completed
                                   </span>
                                 }
-                                {!this.state.row.postInspectionCompleted && (
+                                {!this.state.row.reworkCompleted && (
                                   <>
                                     <p className="item-title">REWORK NOTES</p>
-                                    {this.state.row.postInspectionNotes}
+                                    {this.state.row.reworkNotes}
                                   </>
                                 )}
                               </>
