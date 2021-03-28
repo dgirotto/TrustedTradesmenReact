@@ -1046,7 +1046,7 @@ export class Row extends Component {
                         </span>
                         {this.props.userType !== 0 && this.state.row.contractorNotes && (
                           <>
-                            <p className="item-title">CONTRACTOR NOTES</p>
+                            <p className="item-title">NOTES TO INSPECTOR</p>
                             {this.state.row.contractorNotes}
                           </>
                         )}
@@ -1060,21 +1060,21 @@ export class Row extends Component {
                             <p className="item-title">INSPECTION STATUS</p>
                             {this.state.row.inspectionPassed ?
                               <span className="item-with-icon green">
-                                <FaCheckCircle className="item-icon green" size={16} />Job Passed Inspection
+                                <FaCheckCircle className="item-icon green" size={16} />Inspection Passed
                             </span> :
                               <span className="item-with-icon red">
-                                <FaTimesCircle className="item-icon red" size={16} />Job Failed Inspection
+                                <FaTimesCircle className="item-icon red" size={16} />Inspection Failed
                             </span>
                             }
                             {this.props.userType !== 0 && this.state.row.inspectorNotes && (
                               <>
-                                <p className="item-title">INSPECTOR NOTES</p>
+                                <p className="item-title">NOTES TO CONTRACTOR</p>
                                 {this.state.row.inspectorNotes}
                               </>
                             )}
                             {this.state.row.postInspectionCompletionDate && (
                               <>
-                                <p className="item-title">POST-INSPECTION COMPLETION DATE</p>
+                                <p className="item-title">REWORK COMPLETION DATE</p>
                                 <span className="item-with-icon">
                                   <FaRegCalendarAlt className="item-icon" size={16} />
                                   {formatDate(this.state.row.postInspectionCompletionDate.split(" ")[0])}
@@ -1083,7 +1083,7 @@ export class Row extends Component {
                             )}
                             {this.props.userType !== 0 && this.state.row.postInspectionCompleted !== null && (
                               <>
-                                <p className="item-title">POST-INSPECTION STATUS</p>
+                                <p className="item-title">REWORK STATUS</p>
                                 {this.state.row.postInspectionCompleted ?
                                   <span className="item-with-icon green">
                                     <FaCheckCircle className="item-icon green" size={16} />Completed
@@ -1094,7 +1094,7 @@ export class Row extends Component {
                                 }
                                 {!this.state.row.postInspectionCompleted && (
                                   <>
-                                    <p className="item-title">POST-INSPECTION NOTES</p>
+                                    <p className="item-title">REWORK NOTES</p>
                                     {this.state.row.postInspectionNotes}
                                   </>
                                 )}
