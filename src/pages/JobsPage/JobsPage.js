@@ -1021,7 +1021,7 @@ export class Row extends Component {
                                 <span className="item-with-icon red">
                                   <FaTimesCircle className="item-icon red" size={16} />Not Paid
                                 </span>
-                                <div style={{ width: "290px", textAlign: "center", margin: "5px 0", padding: "3px", fontSize: "14px", fontWeight: "bold", background: "#ffd2d2" }} className="red">
+                                <div style={{ maxWidth: "285px", textAlign: "center", margin: "10px 0", padding: "3px", fontSize: "14px", fontWeight: "bold", background: "#ffd2d2" }} className="red">
                                   MUST BE PAID PRIOR TO START OF JOB
                                 </div>
                               </>
@@ -1447,21 +1447,27 @@ class JobsPage extends Component {
                 style={{ width: "100%" }}
               />
               <Button
-                style={{ margin: "0 10px", padding: "16.9px" }}
+                style={{ margin: "0 10px" }}
                 onClick={this.handleSearchClick}
                 variant="contained"
                 color="primary"
                 disabled={this.state.addressFilterVal === ""}
               >
-                <FaSearch size={22} />
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <FaSearch style={{margin: "2px auto 0"}} size={22} />
+                  <div style={{margin: "0 0 -4px 0", fontWeight: "bold"}}>SEARCH</div>
+                </div>
               </Button>
               <Button
-                style={{ padding: "17.5px", background: "#47a747" }}
+                style={{ background: "#47a747" }}
                 onClick={this.handleRefreshClick}
                 variant="contained"
                 color="primary"
               >
-                <FaSync size={21} />
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <FaSync style={{margin: "2px auto 0"}} size={22} />
+                  <div style={{margin: "0 0 -4px 0", fontWeight: "bold"}}>SYNC</div>
+                </div>
               </Button>
             </div>
           )}
