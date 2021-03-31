@@ -783,7 +783,7 @@ export class Row extends Component {
         );
       }
       else if (this.state.row.completionDate !== null &&
-        !this.state.row.paymentSent &&
+        !this.state.row.contractorPaid &&
         (this.requiresInspection && (this.state.row.inspectionPassed || this.state.row.reworkCompleted !== null))) {
         content = (
           <>
@@ -793,7 +793,7 @@ export class Row extends Component {
             <div className="button-container">
               <Button
                 variant="contained"
-                onClick={() => this.setModal(2)}
+                onClick={() => this.setModal(3)}
                 style={{
                   backgroundColor: "#3bb13b",
                   color: "white"
