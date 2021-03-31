@@ -78,7 +78,7 @@ var tableTheme = createMuiTheme({
 
 export class Row extends Component {
   // Constants
-  ttFeePct = 0.15;
+  ttFeePct = 0.06;
   hstPct = 0.13;
   holdingFeePct = 0.15;
   invoiceThreshold = 5000;
@@ -135,8 +135,7 @@ export class Row extends Component {
       this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
       this.holdingFeeHst = this.holdingFee * this.hstPct;
       this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-      // TODO: How is TT Fee determined? Is it a percentage of the holding fee, or the total invoice price?
-      this.ttFee = this.holdingFee * this.ttFeePct;
+      this.ttFee = this.invoicePriceTotal * this.ttFeePct;
     }
   }
 
@@ -1178,7 +1177,7 @@ export class Row extends Component {
                   <div className="job-details-column job-details-column-2">
                     {this.props.userType !== 3 && (
                       <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
-                        <p className="item-title">SUPPORT CONTACT</p>
+                        <p className="item-title">HAVE QUESTIONS? CONTACT US</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
                             Christopher Willick

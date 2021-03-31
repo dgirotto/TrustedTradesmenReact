@@ -144,7 +144,7 @@ export class Row extends Component {
     }
     else if (this.state.row.isCommitted) {
       status = (
-        <Chip className="status required" label="Awaiting Approval" />
+        <Chip className="status required" label="Awaiting Customer Approval" />
       );
     }
     else if (this.state.row.isInterested) {
@@ -271,7 +271,7 @@ export class Row extends Component {
             onClick={() => this.claimLead(true)}
             variant="contained"
           >
-            I'M COMMITTED
+            I WANT THE JOB
           </Button>
           <Button
             style={{ fontWeight: "bold" }}
@@ -334,7 +334,7 @@ export class Row extends Component {
                   <div className="job-details-column job-details-column-2">
                     {this.props.userType !== 3 && (
                       <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
-                        <p className="item-title">SUPPORT CONTACT</p>
+                        <p className="item-title">HAVE QUESTIONS? CONTACT US</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
                           Christopher Willick
