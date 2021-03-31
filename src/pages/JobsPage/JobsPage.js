@@ -593,6 +593,7 @@ export class Row extends Component {
                         label="Explanation"
                         value={this.state.notes}
                         variant="outlined"
+                        required
                         onChange={event => { this.setState({ notes: event.target.value }); }}
                       />
                     </div>
@@ -619,7 +620,9 @@ export class Row extends Component {
                     style={{ fontWeight: "bold" }}
                     variant="contained"
                     onClick={this.completeJob}
-                    disabled={this.state.completionDate === "" || this.state.notes === ""}
+                    disabled={this.state.reworkCompleted === null || 
+                      (this.state.reworkCompleted === "true" && this.state.completionDate === "") || 
+                      (this.state.reworkCompleted === "false" && (this.state.notes === "" || this.state.completionDate === ""))}
                     color="primary"
                   >
                     SUBMIT
@@ -1319,13 +1322,8 @@ class JobsPage extends Component {
 
     JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc, this.state.addressFilterVal)
       .then(res => {
-        // if (this.state.userType === 0 && res.data.job_count === 0) {
-        //   window.location.href = "/services";
-        // }
-
-        if (this.state.userType === 1 && res.data.jobs.length === 0)
+        if (this.state.userType === 1 && this.state.isFiltered && res.data.jobs.length === 0)
         {
-          // Get contractor details
           this.getContractorDetails();
         }
 
