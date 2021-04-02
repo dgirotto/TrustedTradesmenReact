@@ -36,14 +36,14 @@ class HomePage extends Component {
               >
                 REGISTER
               </Button>
-              <Button
+              {/* <Button
                 className="home-button"
                 onClick={() => (window.location.href = "/login")}
                 variant="contained"
                 color="primary"
               >
                 LOGIN
-              </Button>
+              </Button> */}
             </Card>
             <Card className="card">
               <FaFileContract className="card-icon" size="60" />
@@ -59,7 +59,7 @@ class HomePage extends Component {
             </Card>
             <Card className="card">
               <FaUsers className="card-icon" size="60" />
-              <p>Connect with one of our many qualified tradesmen</p>
+              <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
             </Card>
           </div>
         </div>

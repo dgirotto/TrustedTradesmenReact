@@ -14,11 +14,10 @@ import "./JobsPage.css";
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {
-  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser,
+  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser, FaCheck, FaTimes,
   FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt, FaCheckCircle,
   FaTimesCircle, FaMinusCircle, FaSearch, FaSync, FaSortAmountDown, FaSortAmountUp
 } from "react-icons/fa";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -30,6 +29,7 @@ import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import ReportProblemOutlinedIcon from '@material-ui/icons/ReportProblemOutlined';
 import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -1304,12 +1304,10 @@ class JobsPage extends Component {
   }
 
   getContractorDetails = () => {
-    this.setState({ isLoading: true });
-
     AccountService.getAccountDetails()
       .then(res => {
         console.log(res.data);
-        this.setState({ customerDetails: res.data });
+        this.setState({ contractorDetails: res.data});
       })
       .catch(error => {
         // this.setMessage(true, "Unable to obtain account details");
@@ -1321,7 +1319,7 @@ class JobsPage extends Component {
 
     JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc, this.state.addressFilterVal)
       .then(res => {
-        if (this.state.userType === 1 && this.state.isFiltered && res.data.jobs.length === 0)
+        if (this.state.userType === 1 && !this.state.isFiltered && res.data.jobs.length === 0)
         {
           this.getContractorDetails();
         }
@@ -1409,6 +1407,113 @@ class JobsPage extends Component {
   //   this.setState({ showSnackbar: !this.state.showSnackbar });
   // };
 
+  hasRequiredFields = () => {
+    return (this.state.contractorDetails.firstName 
+      && this.state.contractorDetails.lastName
+      && this.state.contractorDetails.phone
+      && this.state.contractorDetails.address
+      && this.state.contractorDetails.city
+      && this.state.contractorDetails.postalCode
+      && this.state.contractorDetails.maxDistance
+      && this.state.contractorDetails.services);
+  }
+
+  hasExtraFields = () => {
+    return (this.state.contractorDetails.bio 
+      && this.state.contractorDetails.photo
+      && (this.state.contractorDetails.linkedin 
+        || this.state.contractorDetails.facebook 
+        || this.state.contractorDetails.youtube 
+        || this.state.contractorDetails.instagram)
+      && this.state.contractorDetails.website
+      && this.state.contractorDetails.specials);
+  }
+
+  getContractorReqContent = () => {
+    let content = null;
+
+    content = <div style={{ fontSize: "15px" }}>
+      <div style={{ textAlign: "center" }}>
+        <ReportProblemOutlinedIcon style={{ fontSize: "55", color: "#ff9800" }} />
+        <h3 style={{ margin: "15px 0" }}>Wait! You're missing some key information</h3>
+      </div>
+      {!this.hasRequiredFields() && (
+        <>
+          <div style={{ marginBottom: "10px", fontSize: "16px" }}>Before you can receive any jobs (or leads), you must fill out the following fields:</div>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.firstName && this.state.contractorDetails.lastName ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Full Name
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.phone ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Phone Number
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.address ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Address
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.city ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            City
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.postalCode ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Postal Code
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.maxDistance ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Travel Distance
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.services ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Services
+          </span>
+        </>
+      )}
+      {!this.hasExtraFields() && (
+        <>
+          <div style={{ margin: "20px 0 10px", fontSize: "16px" }}>
+            The following fields will help bolster your <a href={"/contractors/" + this.state.contractorDetails.userId}>profile page</a>. Filling these
+            out gives your client a better idea of who you are and the skills you're capable of providing.
+          </div>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.bio ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Bio
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.photo ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Photo
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {(this.state.contractorDetails.linkedin 
+              || this.state.contractorDetails.facebook
+              || this.state.contractorDetails.youtube 
+              || this.state.contractorDetails.instagram) ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Social Media Links
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.website ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Website Link
+          </span>
+          <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
+            {this.state.contractorDetails.specials ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
+            Specials
+          </span>
+        </>
+      )}
+      <div style={{ justifyContent: "space-around", marginTop: "10px" }} className="button-container">
+        <Button
+          style={{ backgroundColor: "#282828", color: "white", fontWeight: "bold" }}
+          onClick={() => window.location.href = "/settings"}
+          variant="contained"
+        >
+          FILL OUT DETAILS
+        </Button>
+      </div>
+    </div>
+    return content;
+  }
+
   render() {
     return (
       <div className="page-container">
@@ -1474,9 +1579,13 @@ class JobsPage extends Component {
             </Alert>
           )}
           {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
-            <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
-              TELL CONTRACTORS WHAT FIELDS THEY NEED
-            </Alert>
+            <>
+              {this.state.contractorDetails !== null && (!this.hasRequiredFields() || !this.hasExtraFields()) && (
+                <Paper style={{ color: "rgb(102, 60, 0)", backgroundColor: "rgb(255, 244, 229)", maxWidth: "600px", margin: "0 auto 20px", padding: "20px", boxShadow: "none" }}>
+                  {this.state.contractorDetails && this.getContractorReqContent()}
+                </Paper>
+              )}
+            </>
           )}
           {(this.state.userType === 2 || this.state.userType === 3) && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
             <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
