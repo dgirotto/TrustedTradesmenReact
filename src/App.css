@@ -75,6 +75,16 @@
   margin-bottom: 15px;
 }
 
+.warning {
+  color: rgb(102, 60, 0) !important;
+  background-color: rgb(255, 244, 229) !important;
+}
+
+.info {
+  color: rgb(13, 60, 97) !important;
+  background-color: rgb(232, 244, 253) !important;
+}
+
 @media (max-width: 660px) {
   .page-container {
     padding: 0 20px 20px;

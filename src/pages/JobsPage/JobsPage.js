@@ -1475,11 +1475,7 @@ class JobsPage extends Component {
           {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
             <>
               {this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && (
-                <Paper style={{ color: "rgb(102, 60, 0)", backgroundColor: "rgb(255, 244, 229)", maxWidth: "600px", margin: "0 auto 20px", padding: "20px", boxShadow: "none" }}>
-                  {this.state.contractorDetails && (
-                    <Instructions contractorDetails={this.state.contractorDetails} />
-                  )}
-                </Paper>
+                <Instructions contractorDetails={this.state.contractorDetails} />
               )}
             </>
           )}
