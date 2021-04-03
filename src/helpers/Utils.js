@@ -1,3 +1,26 @@
+
+export const hasRequiredFields = (contractorDetails) => {
+    return (contractorDetails.firstName
+        && contractorDetails.lastName
+        && contractorDetails.phone
+        && contractorDetails.address
+        && contractorDetails.city
+        && contractorDetails.postalCode
+        && contractorDetails.maxDistance
+        && contractorDetails.services);
+}
+
+export const hasExtraFields = (contractorDetails) => {
+    return (contractorDetails.bio
+        && contractorDetails.photo
+        && (contractorDetails.linkedin
+            || contractorDetails.facebook
+            || contractorDetails.youtube
+            || contractorDetails.instagram)
+        && contractorDetails.website
+        && contractorDetails.specials);
+}
+
 export const formatNumber = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
