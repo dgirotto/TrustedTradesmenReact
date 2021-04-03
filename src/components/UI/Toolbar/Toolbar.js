@@ -40,7 +40,7 @@ const ToolBar = props => {
                   <li>Jobs</li>
                 </Link>
                 <Link to="/settings">
-                  <li>Account</li>
+                  <li>Settings</li>
                 </Link>
                 <Link to="/logout">
                   <li onClick={props.logout}>

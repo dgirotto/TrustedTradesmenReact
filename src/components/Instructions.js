@@ -2,15 +2,11 @@ import React, { Component } from "react";
 import { hasRequiredFields, hasExtraFields } from '../helpers/Utils';
 import { FaCheck, FaTimes } from "react-icons/fa";
 import Button from "@material-ui/core/Button";
-import CustomAlert from "../components/UI/CustomAlert";
 
 export default class Instructions extends Component {
     render() {
-        let content = null;
-        let title = "Wait! You're missing some key information";
-
-        content =
-            <CustomAlert type={"warning"} title={title}>
+        return (
+            <>
                 {!hasRequiredFields(this.props.contractorDetails) && (
                     <>
                         <div style={{ marginBottom: "10px", fontSize: "16px" }}>Before you can receive any jobs (or leads), you must fill out the following fields:</div>
@@ -84,7 +80,7 @@ export default class Instructions extends Component {
                         FILL OUT DETAILS
                     </Button>
                 </div>
-            </CustomAlert>
-        return content;
+            </>
+        );
     }
 }

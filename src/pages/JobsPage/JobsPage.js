@@ -46,6 +46,7 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
+import CustomAlert from "../../components/UI/CustomAlert";
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -1414,9 +1415,9 @@ class JobsPage extends Component {
         <>
           {this.state.userType === 3 ? <Title>All Jobs</Title> : <Title>My Jobs</Title>}
           {this.state.userType === 0 && this.state.jobCount === 0 && !this.state.isLoading && (
-            <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
-              You don't have any jobs at the moment. Find a contractor today!
-            </Alert>
+            <CustomAlert type={"info"} title={"No Jobs Found"}>
+              <div style={{ textAlign: "center" }}>You don't have any jobs at the moment. Find a contractor today!</div>
+            </CustomAlert>
           )}
           {this.state.userType === 0 && !this.state.isLoading && (
             <div style={{ justifyContent: "space-around", marginBottom: "20px" }} className="button-container">
@@ -1468,21 +1469,23 @@ class JobsPage extends Component {
             </div>
           )}
           {this.state.userType !== 0 && this.state.jobCount === 0 && this.state.isFiltered && !this.state.isLoading && (
-            <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
-              We could not find any jobs that match that address. Please try a different one.
-            </Alert>
+            <CustomAlert type={"info"} title={"Search Results"}>              
+              <div style={{ textAlign: "center" }}>We could not find any jobs that match that address. Try some different search terms.</div>
+            </CustomAlert>
           )}
           {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
             <>
               {this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && (
-                <Instructions contractorDetails={this.state.contractorDetails} />
+                <CustomAlert type={"warning"} title={"Wait! You're missing some key information"}>
+                  <Instructions contractorDetails={this.state.contractorDetails} />
+                </CustomAlert>
               )}
             </>
           )}
           {(this.state.userType === 2 || this.state.userType === 3) && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
-            <Alert style={{ marginBottom: "20px" }} className="alert-msg" severity="info" color="info">
-              You do not have any jobs assigned to you at the moment.            
-            </Alert>
+            <CustomAlert type={"info"} title={"No Jobs Found"}>
+              <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>
+            </CustomAlert>
           )}
           {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isLoading && (
             <div style={{ justifyContent: "space-around" }} className="button-container">

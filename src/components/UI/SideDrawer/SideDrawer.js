@@ -38,7 +38,7 @@ const sideDrawer = props => {
               <li>Jobs</li>
             </Link>
             <Link onClick={props.drawerToggleClickHandler} to="/settings">
-              <li>Account</li>
+              <li>Settings</li>
             </Link>
             <Link
               onClick={() => {
