@@ -19,6 +19,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import LinkIcon from '@material-ui/icons/Link';
 
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
 
@@ -493,15 +494,28 @@ class SettingsPage extends Component {
                       </div>
                     </>
                   )}
-                  <Button
-                    style={{ fontWeight: "bold" }}
-                    onClick={this.saveChangesClickHandler}
-                    variant="contained"
-                    color="secondary"
-                    disabled={!this.state.hasEditedDetails || this.state.accountDetails.email.trim() === ''}
-                  >
-                    SAVE DETAILS
-                </Button>
+                  <div style={{ display: "flex" }}>
+                    <Button
+                      style={{ fontWeight: "bold" }}
+                      onClick={this.saveChangesClickHandler}
+                      variant="contained"
+                      color="secondary"
+                      disabled={!this.state.hasEditedDetails || this.state.accountDetails.email.trim() === ''}
+                    >
+                      SAVE DETAILS
+                    </Button>
+                    {this.state.userType === 1 && (
+                      <>
+                        <div style={{ flex: "1" }} />
+                        <Button
+                          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white" }}
+                          onClick={() => { window.location.href = "/contractors/" + this.state.accountDetails.userId }}
+                        >
+                          <LinkIcon style={{ fontSize: "large" }} />&nbsp;MY PROFILE
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <>
