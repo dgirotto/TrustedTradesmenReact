@@ -9,9 +9,10 @@
 }
 
 .form-title {
-  margin: 35px 0 25px;
+  margin: 25px 0 20px;
   font-size: 20px;
   color: #2b3f48;
+  text-align: center;
 }
 
 .textfield-container {
