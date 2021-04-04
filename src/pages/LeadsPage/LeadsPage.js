@@ -1,4 +1,16 @@
 import React, { Component } from "react";
+
+import { LeadsService } from "../../services/leads";
+import { AuthService } from "../../services/auth";
+import { AccountService } from "../../services/account";
+import { formatPhoneNumber, formatDate, formatTimeFrame, formatBudget, hasRequiredFields, hasExtraFields } from '../../helpers/Utils';
+
+import { ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core/styles';
+import {
+  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute, FaRegBuilding,
+  FaExternalLinkAlt, FaAt, FaPhone, FaUser, FaSortAmountDown, FaSortAmountUp
+} from "react-icons/fa";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -16,23 +28,13 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 import Chip from "@material-ui/core/Chip";
-// import MuiAlert from "@material-ui/lab/Alert";
-// import Snackbar from "@material-ui/core/Snackbar";
-
-import { ThemeProvider } from '@material-ui/core'
-import { createMuiTheme } from '@material-ui/core/styles';
-import {
-  FaFileInvoiceDollar, FaRegClock, FaRegCalendarAlt, FaRoute, FaRegBuilding,
-  FaExternalLinkAlt, FaAt, FaPhone, FaUser, FaSortAmountDown, FaSortAmountUp
-} from "react-icons/fa";
-
-import { LeadsService } from "../../services/leads";
-import { AuthService } from "../../services/auth";
-
 import Title from "../../components/UI/Title/Title";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import ResponsiveDialog from "../../components/ResponsiveDialog";
-import { formatPhoneNumber, formatDate, formatTimeFrame, formatBudget } from '../../helpers/Utils';
+import CustomAlert from "../../components/UI/CustomAlert";
+import Instructions from "../../components/Instructions";
+// import MuiAlert from "@material-ui/lab/Alert";
+// import Snackbar from "@material-ui/core/Snackbar";
 
 import "./LeadsPage.css";
 
@@ -413,6 +415,7 @@ class LeadsPage extends Component {
     this.state = {
       userType: AuthService.getRole(),
       leads: null,
+      contractorDetails: null,
       leadCount: null,
       pageNumber: 0,
       itemsPerPage: 10,
@@ -442,11 +445,26 @@ class LeadsPage extends Component {
     }
   }
 
+  getContractorDetails = () => {
+    AccountService.getAccountDetails()
+      .then(res => {
+        console.log(res.data);
+        this.setState({ contractorDetails: res.data });
+      })
+      .catch(error => {
+        // this.setMessage(true, "Unable to obtain account details");
+      });
+  }
+
   getLeads = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 
     LeadsService.getLeads(pageNumberToLoad + 1, this.state.itemsPerPage)
       .then(res => {
+        if (this.state.userType === 1 && res.data.leads.length === 0) {
+          this.getContractorDetails();
+        }
+
         this.setState({
           leads: res.data.leads,
           leadCount: res.data.lead_count,
@@ -591,22 +609,32 @@ class LeadsPage extends Component {
             </ThemeProvider>
           )}
         </>
-
-        {this.state.leadCount === 0 && !this.state.isLoading && (
+        {this.state.userType === 1 && this.state.leadCount === 0 && !this.state.isLoading && (
           <>
-            <Alert style={{ marginBottom: "20px" }} severity="info" color="info">You don't have any leads at the moment.</Alert>
-            <div style={{ justifyContent: "space-around" }} className="button-container">
-              <Button
-                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
-                onClick={() => window.location.href = "/jobs"}
-                variant="contained"
-              >
-                MY JOBS
-              </Button>
-            </div>
+            {this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && (
+              <CustomAlert type={"warning"} title={"Stop! You're missing some key information"}>
+                <Instructions contractorDetails={this.state.contractorDetails} />
+              </CustomAlert>
+            )}
           </>
         )}
-
+        {this.state.leadCount === 0 && !this.state.isLoading
+          && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails) && (
+            <>
+              <CustomAlert type={"info"} title={"No Leads Found"}>
+                <div style={{ textAlign: "center" }}>You don't have any leads at the moment.</div>
+              </CustomAlert>
+              <div style={{ justifyContent: "space-around" }} className="button-container">
+                <Button
+                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                  onClick={() => window.location.href = "/jobs"}
+                  variant="contained"
+                >
+                  MY JOBS
+                </Button>
+              </div>
+            </>
+          )}
         <ResponsiveDialog
           isOpen={this.state.isOpen}
           modalContent={this.state.modalContent}

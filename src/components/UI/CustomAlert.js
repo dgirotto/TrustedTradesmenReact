@@ -8,20 +8,20 @@ export default class CustomAlert extends Component {
   getIcon = () => {
     let icon = null;
     if (this.props.type === "warning") {
-      icon = <ReportProblemOutlinedIcon style={{ fontSize: "55", color: "#ff9800" }} />
+      icon = <ReportProblemOutlinedIcon style={{ fontSize: "45", color: "#ff9800" }} />
     }
     else if (this.props.type === "info") {
-      icon = <InfoOutlined style={{ fontSize: "55", color: "#2196f3" }} />
+      icon = <InfoOutlined style={{ fontSize: "45", color: "#2196f3" }} />
     }
     else if (this.props.type === "success") {
-      icon = <CheckCircleOutlinedIcon style={{ fontSize: "55", color: "#4caf50" }} />
+      icon = <CheckCircleOutlinedIcon style={{ fontSize: "45", color: "#4caf50" }} />
     }
     return icon;
   }
 
   render() {
     return (
-      <Paper className={`${this.props.type}-alert`} style={{ maxWidth: "600px", margin: "0 auto 20px", padding: "20px", boxShadow: "none" }}>
+      <Paper className={`${this.props.type}-alert`} style={{ maxWidth: "700px", margin: "0 auto 20px", padding: "20px 20px 30px", boxShadow: "none" }}>
         <div style={{ fontSize: "15px" }}>
           <div style={{ textAlign: "center" }}>
             {this.getIcon()}

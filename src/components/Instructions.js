@@ -9,7 +9,7 @@ export default class Instructions extends Component {
             <>
                 {!hasRequiredFields(this.props.contractorDetails) && (
                     <>
-                        <div style={{ marginBottom: "10px", fontSize: "16px" }}>Before you can receive any jobs (or leads), you must fill out the following fields:</div>
+                        <div style={{ marginBottom: "10px" }}>Before you can receive any jobs (or leads), you must fill out the following fields:</div>
                         <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
                             {this.props.contractorDetails.firstName && this.props.contractorDetails.lastName ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}
                             Full Name
@@ -42,7 +42,7 @@ export default class Instructions extends Component {
                 )}
                 {!hasExtraFields(this.props.contractorDetails) && (
                     <>
-                        <div style={{ margin: "20px 0 10px", fontSize: "16px" }}>
+                        <div style={{ margin: "15px 0 10px" }}>
                             The following fields will help bolster your <a href={"/contractors/" + this.props.contractorDetails.userId}>profile page</a>. Filling these
                             out gives your client a better idea of who you are and the skills you're capable of providing.
                         </div>
@@ -71,9 +71,9 @@ export default class Instructions extends Component {
                         </span>
                     </>
                 )}
-                <div style={{ justifyContent: "space-around", marginTop: "10px" }} className="button-container">
+                <div style={{ justifyContent: "space-around", marginTop: "10px", marginBottom: "0px" }} className="button-container">
                     <Button
-                        style={{ backgroundColor: "#282828", color: "white", fontWeight: "bold" }}
+                        style={{ marginRight: "0", backgroundColor: "#282828", color: "white", fontWeight: "bold" }}
                         onClick={() => window.location.href = "/settings"}
                         variant="contained"
                     >

@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+
+import { ServicesService } from "../../services/service";
+import { AccountService } from "../../services/account";
+import { JobService } from "../../services/jobs";
+import { AuthService } from "../../services/auth";
+import { formatTimeFrame, formatBudget } from '../../helpers/Utils';
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -8,19 +15,14 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Backdrop from "../../components/UI/Backdrop/Backdrop";
 import Title from "../../components/UI/Title/Title";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import CustomAlert from "../../components/UI/CustomAlert";
+
 import "./ServiceDetailsPage.css";
 
-import { ServicesService } from "../../services/service";
-import { AccountService } from "../../services/account";
-import { JobService } from "../../services/jobs";
-import { AuthService } from "../../services/auth";
-import { formatTimeFrame, formatBudget } from '../../helpers/Utils';
-
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-function AlertPopup(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+// function AlertPopup(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
 
 class ServiceDetailsPage extends Component {
   budgets = [1, 2, 3, 4, 5];
@@ -30,13 +32,14 @@ class ServiceDetailsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userType: AuthService.getRole(),
       serviceDetails: null,
       accountDetails: null,
       jobDetails: {
         serviceId: this.props.match.params.id
       },
       setPrimaryAddress: true,
-      userType: AuthService.getRole(),
+      jobSubmitted: false,
       isLoading: true,
       showSnackbar: false,
       isError: false,
@@ -104,54 +107,31 @@ class ServiceDetailsPage extends Component {
 
     JobService.addJob(jobDetailsToSend)
       .then(() => {
-        var cleanJobDetails = this.state.jobDetails;
-        cleanJobDetails.description = null;
-        cleanJobDetails.budget = null;
-        cleanJobDetails.timeFrame = null;
-
-        var updatedAccountDetails = {
-          firstName: this.state.jobDetails.firstName,
-          lastName: this.state.jobDetails.lastName,
-          phone: this.state.jobDetails.phone
-        };
-
         this.setState({
-          accountDetails: updatedAccountDetails,
-          jobDetails: cleanJobDetails,
+          jobSubmitted: true,
           isLoading: false,
-          showSnackbar: true,
+          // showSnackbar: true,
           isError: false,
-          message: "Job submitted successfully. Please allow 24 hours for contractor response."
+          // message: "Job submitted successfully. Please allow 24 hours for contractor response."
         });
       })
       .catch(() => {
         this.setState({
           isLoading: false,
-          showSnackbar: true,
+          // showSnackbar: true,
           isError: true,
-          message: "Could not submit job request"
+          // message: "Could not submit job request"
         });
       });
   };
 
-  toggleSnackbar = () => {
-    this.setState({ showSnackbar: !this.state.showSnackbar });
-  };
+  // toggleSnackbar = () => {
+  //   this.setState({ showSnackbar: !this.state.showSnackbar });
+  // };
 
-  renderContent() {
+  renderJobForm() {
     return (
       <>
-        <Title>{this.state.serviceDetails.serviceName} Request</Title>
-        <Button
-          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white", marginBottom: "10px" }}
-          onClick={() => { window.location.href = "/services" }}
-        >
-          <ArrowBackIcon style={{ fontSize: "medium" }} /> SERVICES
-        </Button>
-        {/* <div style={{ margin: "35px 0" }}>
-          <h2 className="form-title">DESCRIPTION</h2>
-          <p>{this.state.serviceDetails.description}</p>
-        </div> */}
         {this.state.userType === 0 && (
           <>
             <p style={{ marginBottom: "35px" }}>Are you interested in hiring a <b>{this.state.serviceDetails.serviceName}</b> contractor? Fill out the form below and submit a request.</p>
@@ -339,9 +319,41 @@ class ServiceDetailsPage extends Component {
   render() {
     return (
       <div className="page-container">
-        {this.state.isLoading ? <Backdrop /> : this.renderContent()}
+        <Title>Request A Job</Title>
+        <Button
+          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white", marginBottom: "20px" }}
+          onClick={() => { window.location.href = "/services" }}
+        >
+          <ArrowBackIcon style={{ fontSize: "medium" }} />&nbsp;BACK TO SERVICES
+        </Button>
+        {/* <div style={{ margin: "35px 0" }}>
+          <h2 className="form-title">DESCRIPTION</h2>
+          <p>{this.state.serviceDetails.description}</p>
+        </div> */}
 
-        <Snackbar
+        {!this.state.jobSubmitted && !this.state.isLoading && this.renderJobForm()}
+
+        {this.state.jobSubmitted && !this.state.isLoading && (
+          <CustomAlert type={"success"} title={"Submission Successful"}>
+            <>
+              Your job submission was successful. A contractor will get in touch with you shortly.
+              Keep track of your job by visiting the Jobs page.
+              <div style={{ justifyContent: "space-around", marginTop: "10px", marginBottom: "0px" }} className="button-container">
+                <Button
+                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                  onClick={() => window.location.href = "/jobs"}
+                  variant="contained"
+                >
+                  MY JOBS
+                </Button>
+              </div>
+            </>
+          </CustomAlert>
+        )}
+
+        {this.state.isLoading && <Backdrop />}
+
+        {/* <Snackbar
           open={this.state.showSnackbar}
           autoHideDuration={5000}
           onClose={this.toggleSnackbar}
@@ -349,7 +361,7 @@ class ServiceDetailsPage extends Component {
           <AlertPopup onClose={this.toggleSnackbar} severity={this.state.isError ? "error" : "success"}>
             {this.state.message}
           </AlertPopup>
-        </Snackbar>
+        </Snackbar> */}
       </div>
     );
   }

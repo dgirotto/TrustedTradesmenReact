@@ -3,23 +3,17 @@ import React, { Component } from "react";
 import { JobService } from "../../services/jobs";
 import { AccountService } from "../../services/account";
 import { AuthService } from "../../services/auth";
-
-import Instructions from "../../components/Instructions";
-import Title from "../../components/UI/Title/Title";
-import Backdrop from "../../components/UI/Backdrop/Backdrop";
-import ResponsiveDialog from "../../components/ResponsiveDialog";
-import { formatNumber, formatPhoneNumber, formatDate, 
-  formatTimeFrame, formatBudget, hasRequiredFields, hasExtraFields } from '../../helpers/Utils';
-
-import "./JobsPage.css";
+import { formatNumber, formatPhoneNumber, formatDate, formatTimeFrame, formatBudget, hasRequiredFields, hasExtraFields } from '../../helpers/Utils';
 
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
-import {
-  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser,
+import { FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser,
   FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt, FaCheckCircle,
   FaTimesCircle, FaMinusCircle, FaSearch, FaSync, FaSortAmountDown, FaSortAmountUp
 } from "react-icons/fa";
+import Title from "../../components/UI/Title/Title";
+import Backdrop from "../../components/UI/Backdrop/Backdrop";
+import ResponsiveDialog from "../../components/ResponsiveDialog";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -38,15 +32,18 @@ import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
+import CustomAlert from "../../components/UI/CustomAlert";
+import Instructions from "../../components/Instructions";
+// import Checkbox from "@material-ui/core/Checkbox";
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
-import CustomAlert from "../../components/UI/CustomAlert";
+
+import "./JobsPage.css";
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -1444,7 +1441,7 @@ class JobsPage extends Component {
                 style={{ width: "100%" }}
               />
               <Button
-                style={{ margin: "0 10px" }}
+                style={{ minWidth: "75px", margin: "0 10px" }}
                 onClick={this.handleSearchClick}
                 variant="contained"
                 color="primary"
@@ -1469,34 +1466,32 @@ class JobsPage extends Component {
             </div>
           )}
           {this.state.userType !== 0 && this.state.jobCount === 0 && this.state.isFiltered && !this.state.isLoading && (
-            <CustomAlert type={"info"} title={"Search Results"}>              
-              <div style={{ textAlign: "center" }}>We could not find any jobs that match that address. Try some different search terms.</div>
+            <CustomAlert type={"info"} title={"No Results Found"}>              
+              <div style={{ textAlign: "center" }}>We could not find any jobs which match that address. Try a different search term.</div>
             </CustomAlert>
           )}
-          {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
+          {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading 
+            && this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && ( 
+            <CustomAlert type={"warning"} title={"Stop! You're missing some key information"}>
+              <Instructions contractorDetails={this.state.contractorDetails} />
+            </CustomAlert>
+          )}
+          {this.state.userType !== 0 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading 
+            && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails) && (
             <>
-              {this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && (
-                <CustomAlert type={"warning"} title={"Wait! You're missing some key information"}>
-                  <Instructions contractorDetails={this.state.contractorDetails} />
-                </CustomAlert>
-              )}
+              <CustomAlert type={"info"} title={"No Jobs Found"}>
+                <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>
+              </CustomAlert>
+              <div style={{ justifyContent: "space-around" }} className="button-container">
+                <Button
+                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                  onClick={() => window.location.href = "/leads"}
+                  variant="contained"
+                >
+                  MY LEADS
+                </Button>
+              </div>
             </>
-          )}
-          {(this.state.userType === 2 || this.state.userType === 3) && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading && (
-            <CustomAlert type={"info"} title={"No Jobs Found"}>
-              <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>
-            </CustomAlert>
-          )}
-          {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isLoading && (
-            <div style={{ justifyContent: "space-around" }} className="button-container">
-              <Button
-                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
-                onClick={() => window.location.href = "/leads"}
-                variant="contained"
-              >
-                MY LEADS
-              </Button>
-            </div>
           )}
           {this.state.jobCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
