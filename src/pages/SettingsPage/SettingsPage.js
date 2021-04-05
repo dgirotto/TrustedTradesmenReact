@@ -214,7 +214,6 @@ class SettingsPage extends Component {
     return (
       <>
         <AppBar
-          style={{ maxWidth: "320px", margin: "auto" }}
           position="relative"
           color="secondary">
           <Tabs

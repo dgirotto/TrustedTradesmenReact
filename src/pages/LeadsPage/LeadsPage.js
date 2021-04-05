@@ -612,7 +612,7 @@ class LeadsPage extends Component {
         {this.state.userType === 1 && this.state.leadCount === 0 && !this.state.isLoading && (
           <>
             {this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && (
-              <CustomAlert type={"warning"} title={"Stop! You're missing some key information"}>
+              <CustomAlert type={"warning"} title={"Wait! You're missing some key information"}>
                 <Instructions contractorDetails={this.state.contractorDetails} />
               </CustomAlert>
             )}

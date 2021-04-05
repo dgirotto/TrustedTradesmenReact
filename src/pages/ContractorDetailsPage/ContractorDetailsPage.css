@@ -1,5 +1,6 @@
 .links-container {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 10px;
     font-size: 14px;
 }
