@@ -214,7 +214,7 @@ class SettingsPage extends Component {
     return (
       <>
         <AppBar
-          style={{ maxWidth: "1250px", margin: "auto" }}
+          style={{ maxWidth: "320px", margin: "auto" }}
           position="relative"
           color="secondary">
           <Tabs
@@ -354,7 +354,7 @@ class SettingsPage extends Component {
                         <FormGroup style={{ flexDirection: "row" }}>
                           {this.state.services.map(service => (
                             <FormControlLabel
-                              style={{ width: "280px" }}
+                              style={{ width: "225px" }}
                               control={
                                 <Checkbox
                                   onChange={event => {
