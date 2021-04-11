@@ -128,6 +128,7 @@ export class Row extends Component {
     if (this.state.row.travelDistance !== null) {
       content = `${this.state.row.travelDistance} km`;
     }
+
     return content;
   }
 
@@ -448,7 +449,6 @@ class LeadsPage extends Component {
   getContractorDetails = () => {
     AccountService.getAccountDetails()
       .then(res => {
-        console.log(res.data);
         this.setState({ contractorDetails: res.data });
       })
       .catch(error => {

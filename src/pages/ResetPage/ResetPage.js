@@ -31,7 +31,6 @@ class ResetPage extends Component {
 
     componentDidMount() {
         const urlTokens = window.location.search.split('=');
-        console.log(urlTokens.length);
 
         if (urlTokens.length === 2 && urlTokens[0] === '?token') {
             this.setState({ resetDetails: { resetToken: urlTokens[1] } });

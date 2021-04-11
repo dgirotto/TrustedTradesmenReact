@@ -55,7 +55,7 @@
 
 .button-container {
   display: flex;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .button-container > button {

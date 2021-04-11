@@ -31,6 +31,7 @@ import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -39,7 +40,8 @@ import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
 import CustomAlert from "../../components/UI/CustomAlert";
 import Instructions from "../../components/Instructions";
-// import Checkbox from "@material-ui/core/Checkbox";
+import Select from '@material-ui/core/Select';
+import Checkbox from "@material-ui/core/Checkbox";
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
 
@@ -101,7 +103,8 @@ export class Row extends Component {
       notes: "",
       invoicePrice: 0,
       completionDate: "",
-      contractor: this.props.row.contractors && this.props.row.contractors.length > 0 ? this.props.row.contractors[0].contractorId : null,
+      interestedContractor: this.props.row.interestedContractors && this.props.row.interestedContractors.length > 0 ? this.props.row.interestedContractors[0].contractorId : null,
+      selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
       // reportSent: false
@@ -116,7 +119,8 @@ export class Row extends Component {
       notes: "",
       invoicePrice: 0,
       completionDate: "",
-      contractor: newProps.row.contractors && newProps.row.contractors.length > 0 ? newProps.row.contractors[0].contractorId : null,
+      interestedContractor: newProps.row.interestedContractors && newProps.row.interestedContractors.length > 0 ? newProps.row.interestedContractors[0].contractorId : null,
+      selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
       // reportSent: false
@@ -286,6 +290,43 @@ export class Row extends Component {
       });
   }
 
+  giftLeads = () => {
+    let body = {
+      jobId: this.state.row.jobId,
+      contractors: this.state.selectedContractors.join(',')
+    };
+
+    JobService.updateJob(body)
+      .then(() => {
+        this.props.getJobs(true);
+      })
+      .catch(err => {
+      });
+  }
+
+  contractorIsCommitted = () => {
+    let result = this.state.row.interestedContractors.find(interestedContractor => {
+      return interestedContractor.contractorId === this.state.interestedContractor
+    });
+
+    return result.isCommitted;
+  }
+
+  renderSelectedContractors = selectedContractors => {
+    if (selectedContractors === null || selectedContractors.length === 0) {
+        return <em>Select Contractors</em>;
+    }
+
+    return this.state.row.potentialContractors
+        .filter((x) => {
+            return selectedContractors.includes(x.contractorId);
+        })
+        .map((x) => {
+            return x.companyName;
+        })
+        .join(", ");
+  };
+
   setModal = modalType => {
     var modalContent;
 
@@ -350,23 +391,15 @@ export class Row extends Component {
     this.props.handleOpen();
   }
 
-  contractorIsCommitted = () => {
-    let result = this.state.row.contractors.find(contractor => {
-      return contractor.contractorId === this.state.contractor
-    });
-
-    return result.isCommitted;
-  }
-
   getUIContent = () => {
     let content = null;
 
     if (this.props.userType === 0) {
       // CUSTOMER
-      if (this.state.row.contractors && this.state.row.contractors.length > 0) {
+      if (this.state.row.interestedContractors.length > 0) {
         content = (
           <>
-            {this.state.row.contractors.length > 0 && (
+            {this.state.row.interestedContractors.length > 0 && (
               <Alert className="alert-msg" severity="info" color="info">
                 Contractors have shown an interest in your job! When you wish to commit to a particular contractor, select the <b>Hire Contractor</b> button. <b>Note:
                 This button will be available once the contractor has confirmed their commitment to the job.</b>
@@ -376,13 +409,13 @@ export class Row extends Component {
               <TextField
                 select
                 name="contractor"
-                value={this.state.contractor || this.state.row.contractors[0].contractorId}
+                value={this.state.interestedContractor || this.state.row.interestedContractors[0].contractorId}
                 onChange={event => {
-                  this.setState({ contractor: event.target.value })
+                  this.setState({ interestedContractor: event.target.value })
                 }}
                 variant="outlined"
               >
-                {this.state.row.contractors.map(option => (
+                {this.state.row.interestedContractors !== null && this.state.row.interestedContractors.map(option => (
                   <MenuItem key={option.contractorId} value={option.contractorId}>
                     {option.companyName}
                   </MenuItem>
@@ -759,7 +792,43 @@ export class Row extends Component {
     else if (this.props.userType === 3) {
       // ADMIN
       if (this.state.row.isOrphaned) {
-        content = <Alert className="alert-msg" severity="info" color="info">JOB IS ORPHANED. PICK A CONTRACTOR TO ASSIGN A LEAD TO FOR THIS JOB.</Alert>
+        content = (
+          <>
+            <Alert className="alert-msg" severity="info" color="info">Hand-pick contractors you wish to gift a job lead to.</Alert>
+            <div className="textfield-container-col">
+              <Select
+                  multiple
+                  displayEmpty
+                  variant="outlined"
+                  value={this.state.selectedContractors}
+                  onChange={event => this.setState({selectedContractors: event.target.value})}
+                  renderValue={(selected) => this.renderSelectedContractors(selected)}
+              >
+                  <MenuItem disabled value="">
+                      <em>Select Contractors</em>
+                  </MenuItem>
+                  {this.state.row.potentialContractors.map((con) => (
+                      <MenuItem key={con.contractorId} value={con.contractorId}>
+                          <Checkbox
+                            checked={this.state.selectedContractors && this.state.selectedContractors.includes(con.contractorId)}
+                          />
+                          <ListItemText primary={con.companyName} />
+                      </MenuItem>
+                  ))}
+              </Select>
+            </div>
+            <div className="button-container">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.giftLeads}
+                disabled={this.state.selectedContractors.length === 0}
+              >
+                GIFT LEADS
+              </Button>
+            </div>
+          </>
+        )
       }
       else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
         content = (
@@ -805,7 +874,7 @@ export class Row extends Component {
       }
     }
     return content;
-  }
+  } 
 
   // TODO: Move this logic to the back end? (add status and statusType (required, cancelled, inProgress) fields to dto)
   getJobStatus = () => {
@@ -818,12 +887,12 @@ export class Row extends Component {
       status = <Chip className="status interested" label="Orphaned" />;
     }
     else if (this.state.row.contractorId === null) {
-      if (this.state.row.contractors && this.state.row.contractors.length > 0) {
+      if (this.state.row.interestedContractors.length > 0) {
         status = (
           <Chip className="status interested"
-            label={this.state.row.contractors.length === 1 ?
+            label={this.state.row.interestedContractors.length === 1 ?
               <span>1 Contractor Interested</span> :
-              <span>{this.state.row.contractors.length} Contractors Interested</span>
+              <span>{this.state.row.interestedContractors.length} Contractors Interested</span>
             }
           />
         );
@@ -1305,7 +1374,6 @@ class JobsPage extends Component {
   getContractorDetails = () => {
     AccountService.getAccountDetails()
       .then(res => {
-        console.log(res.data);
         this.setState({ contractorDetails: res.data});
       })
       .catch(error => {
@@ -1477,7 +1545,7 @@ class JobsPage extends Component {
             </CustomAlert>
           )}
           {this.state.userType !== 0 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading 
-            && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails) && (
+            && (this.state.userType === 2 || this.state.userType === 3 || (this.state.userType === 1 && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails))) && (
             <>
               <CustomAlert type={"info"} title={"No Jobs Found"}>
                 <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>

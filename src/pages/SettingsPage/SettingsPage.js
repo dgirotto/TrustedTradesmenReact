@@ -233,7 +233,7 @@ class SettingsPage extends Component {
             <>
               {this.state.activeTab === 0 ? (
                 <div style={{ marginBottom: "25px" }}>
-                  <h2 className="form-title">Account Details</h2>
+                  <h2 style={{ textAlign: "center" }} className="form-title">Account Details</h2>
                   <div className="textfield-container-row">
                     <div className="textfield-container-col">
                       <TextField
@@ -518,7 +518,7 @@ class SettingsPage extends Component {
                 </div>
               ) : (
                 <>
-                  <h2 className="form-title">Change Password</h2>
+                  <h2 style={{ textAlign: "center" }} className="form-title">Change Password</h2>
                   <div className="textfield-container-row">
                     <div className="textfield-container-col">
                       <TextField
