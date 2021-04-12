@@ -52,14 +52,16 @@
 
 .service-item {
     padding: 5px 8px;
-    margin: 8px 8px 0 0;
-    background: rgb(235, 235, 235); 
+    margin: 5px 5px 0 0;
     border-radius: 5px;  
     text-align: center;
+    background: #2b3f48;
+    color: white;
 }
 
 .details-title {
     padding: 10px 0;
     font-size: 18px;
     font-weight: 650;
+    color: #2b3f48;
 }

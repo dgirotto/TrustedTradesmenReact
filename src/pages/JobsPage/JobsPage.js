@@ -145,8 +145,8 @@ export class Row extends Component {
   claimJob = () => {
     let body = { jobId: this.state.row.jobId };
 
-    if (this.state.contractor !== null) {
-      body.contractorId = this.state.contractor;
+    if (this.state.interestedContractor !== null) {
+      body.contractorId = this.state.interestedContractor;
     }
 
     JobService.updateJob(body)
@@ -425,11 +425,11 @@ export class Row extends Component {
             <div className="button-container multi-button">
               <Button
                 style={{ fontWeight: "bold" }}
-                onClick={() => window.open("/contractors/" + this.state.contractor)}
+                onClick={() => window.open("/contractors/" + this.state.interestedContractor)}
                 variant="contained"
                 color="primary"
               >
-                VIEW CONTRACTOR'S PROFILE
+                VIEW PROFILE
               </Button>
               {this.contractorIsCommitted() && (
                 <Button

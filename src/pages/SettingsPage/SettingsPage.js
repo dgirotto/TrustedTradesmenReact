@@ -314,7 +314,7 @@ class SettingsPage extends Component {
                       />
                     </div>
                   </div>
-                  <span className="field-desc">Since your email address is required to login, updating your email will change your login credentials.</span>
+                  {/* <span className="field-desc">Since your email address is required to login, updating your email will change your login credentials.</span>
                   <div className="textfield-container-col">
                     <TextField
                       type="text"
@@ -324,7 +324,7 @@ class SettingsPage extends Component {
                       variant="outlined"
                       onChange={this.accountDetailsChange}
                     />
-                  </div>
+                  </div> */}
                   {(this.state.userType === 1 || this.state.userType === 2) && (
                     <>
                       <span className="field-desc">How far are you willing to travel for a job?</span>

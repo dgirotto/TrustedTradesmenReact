@@ -35,8 +35,8 @@ class ContractorDetailsPage extends Component {
     renderContent() {
         return (
             <div className="page-container">
-                <Title>{this.state.contractorDetails.companyName.toUpperCase()}</Title>
-                <span className="details-title">LINKS</span>
+                <Title>{this.state.contractorDetails.companyName !== null ? this.state.contractorDetails.companyName.toUpperCase() : "CONTRACTOR PROFILE"}</Title>
+                <span className="details-title">Links</span>
                 <div className="links-container">
                     {this.state.contractorDetails.website && (<a href={"https://" + this.state.contractorDetails.website} target="_blank" rel="noopener noreferrer" className="social-link"><FaLink size="22" /><span>Website</span></a>)}
                     {this.state.contractorDetails.instagram && (<a href={"https://" + this.state.contractorDetails.instagram} target="_blank" rel="noopener noreferrer" className="social-link"><FaInstagram size="24" /><span>Instagram</span></a>)}
@@ -46,13 +46,13 @@ class ContractorDetailsPage extends Component {
                 </div>
                 <div className="contractor-details">
                     <div className="contact-details-container">
-                        <span className="details-title">CONTACT DETAILS</span>
+                        <span className="details-title">Contact Details</span>
                         <span className="contact-field"><FaPhone size="18" /><span>{this.state.contractorDetails.phone}</span></span>
                         <span className="contact-field"><FaAt size="18" /><span><a href={"mailto:" + this.state.contractorDetails.email}>{this.state.contractorDetails.email}</a></span></span>
                         <span className="contact-field"><FaGlobeAmericas size="18" /><span>{this.state.contractorDetails.city}, {this.state.contractorDetails.province}</span></span>
                     </div>
                     <div className="services-container">
-                        <span className="details-title">SERVICES OFFERED</span>
+                        <span className="details-title">Services Offered</span>
                         <div className="service-list">
                             {this.state.contractorDetails.services.split(';').map((service, i) => (
                                 <span key={i} className="service-item">{service}</span>
@@ -61,11 +61,11 @@ class ContractorDetailsPage extends Component {
                     </div>
                     {this.state.contractorDetails.specials && (
                         <div className="contractor-headline">
-                            <span className="details-title">DEALS</span>
+                            <span className="details-title">Deals</span>
                             <span>{this.state.contractorDetails.specials}</span>
                         </div>)}
                     <div className="contractor-bio">
-                        <span className="details-title">ABOUT</span>
+                        <span className="details-title">About</span>
                         <span>{this.state.contractorDetails.bio}</span>
                     </div>
                 </div>

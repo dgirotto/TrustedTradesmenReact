@@ -324,7 +324,7 @@ class ServiceDetailsPage extends Component {
           style={{ fontWeight: "bold", background: "#2f2f2f", color: "white", marginBottom: "20px" }}
           onClick={() => { window.location.href = "/services" }}
         >
-          <ArrowBackIcon style={{ fontSize: "medium" }} />&nbsp;BACK TO SERVICES
+          <ArrowBackIcon style={{ fontSize: "medium" }} />&nbsp;SERVICES
         </Button>
         {/* <div style={{ margin: "35px 0" }}>
           <h2 className="form-title">DESCRIPTION</h2>
