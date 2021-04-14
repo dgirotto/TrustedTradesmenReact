@@ -8,17 +8,13 @@ import "./Toolbar.css";
 const ToolBar = props => {
   return (
     <header className="toolbar">
-      <nav className="toolbar__navigation">
-        <div className="toolbar__toggle-button">
-          <DrawerToggleButton click={props.drawerToggleClickHandler} />
-        </div>
+      <nav className="toolbar__navigation desktop-nav">
         <div className="toolbar__logo">
           <Link to="/">
             <FaRegHandshake className="logo-icon" size="35" />
             <div className="logo-text">TRUSTED TRADESMEN</div>
           </Link>
         </div>
-        <div className="spacer" />
         <div className="toolbar__navigation-items">
           <ul>
             <Link to="/">
@@ -59,6 +55,17 @@ const ToolBar = props => {
               </>
             )}
           </ul>
+        </div>
+      </nav>
+      <nav className="toolbar__navigation mobile-nav">
+        <div className="toolbar__toggle-button">
+          <DrawerToggleButton click={props.drawerToggleClickHandler} />
+        </div>
+        <div className="toolbar__logo">
+          <Link to="/">
+            <FaRegHandshake className="logo-icon" size="35" />
+            <div className="logo-text">TRUSTED TRADESMEN</div>
+          </Link>
         </div>
       </nav>
     </header>

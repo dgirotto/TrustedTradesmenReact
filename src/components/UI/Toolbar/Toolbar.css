@@ -2,7 +2,7 @@
   width: 100%;
   background: #282828;
   z-index: 100;
-  height: 50px;
+  height: 60px;
 }
 
 .toolbar__logo a {
@@ -11,20 +11,22 @@
   align-content: center;
   color: white;
   text-decoration: none;
-  margin-left: 1rem;
 }
 
 .toolbar__logo a div {
   font-size: 20px;
-  font-weight: 600;
-  margin-left: 13px;
+  font-weight: 600;  
   margin-top: 7px;
 }
 
 .toolbar__navigation {
-  height: 100%; 
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  height: 100%;
+  max-width: 1250px; 
+  margin: auto;
+  padding: 0 40px;
 }
 
 .toolbar__navigation-items a {
@@ -49,8 +51,11 @@
 .toolbar__navigation-items ul {
   list-style: none;
   display: flex;
-  margin-right: 1.3em;
   padding: 0;
+}
+
+.logo-text {
+  margin-left: 13px;
 }
 
 @media (max-width: 335px) {
@@ -76,13 +81,27 @@
 }
 
 @media (max-width: 768px) {
-  .toolbar__navigation-items {
+  .desktop-nav {
     display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
   }
 }
 
 @media (min-width: 769px) {
-  .toolbar__toggle-button {
+  .desktop-nav {
+    display: flex;
+  }
+
+  .mobile-nav {
     display: none;
+  }
+}
+
+@media (max-width: 660px) {
+  .toolbar__navigation {
+    padding: 0 20px 20px;
   }
 }
