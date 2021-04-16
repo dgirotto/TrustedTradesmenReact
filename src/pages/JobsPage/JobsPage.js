@@ -42,6 +42,7 @@ import CustomAlert from "../../components/UI/CustomAlert";
 import Instructions from "../../components/Instructions";
 import Select from '@material-ui/core/Select';
 import Checkbox from "@material-ui/core/Checkbox";
+import Rating from '@material-ui/lab/Rating';
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
 
@@ -107,6 +108,9 @@ export class Row extends Component {
       selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
+      rating: null,
+      comments: "",
+      isAnonymous: false,
       // reportSent: false
     };
   }
@@ -123,6 +127,9 @@ export class Row extends Component {
       selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
+      rating: null,
+      comments: "",
+      isAnonymous: false,
       // reportSent: false
     });
   }
@@ -290,6 +297,22 @@ export class Row extends Component {
       });
   }
 
+  submitReview = () => {
+    let body = {
+      jobId: this.state.row.jobId,
+      rating: this.state.rating,
+      comments: this.state.comments,
+      isAnonymous: this.state.isAnonymous === "true" ? true : false
+    };
+    
+    JobService.updateJob(body)
+      .then(() => {
+        this.props.getJobs(true);
+      })
+      .catch(err => {
+      });
+  }
+
   giftLeads = () => {
     let body = {
       jobId: this.state.row.jobId,
@@ -394,7 +417,66 @@ export class Row extends Component {
   getUIContent = () => {
     let content = null;
 
-    if (this.props.userType === 0) {
+    if ((this.props.userType === 0 || this.props.userType === 2) 
+      && this.state.row.completionDate !== null 
+      && (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.reworkCompletionDate)
+      && !this.state.row.hasReviewed) {
+      content = <>
+        <span className="field-desc">How would you rate your experience with the contractor?</span>
+        <div className="textfield-container-col">
+          <Rating
+            // precision={0.5}
+            value={this.state.rating}
+            onChange={(event, newValue) => {
+              this.setState({ rating: newValue });
+            }}
+          />
+        </div>
+        <span className="field-desc">Comment on your experience with the contractor.</span>
+        <div className="textfield-container-col">
+          <TextField
+            multiline
+            rowsMax={6}
+            type="text"
+            label="Comments"
+            value={this.state.comments}
+            variant="outlined"
+            onChange={event => {
+              this.setState({ comments: event.target.value });
+            }}
+          />
+        </div>
+        <div className="textfield-container-col">
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={event => {
+                  if (event.target.checked) {
+                    this.setState({ isAnonymous: true });
+                  }
+                  else {
+                    this.setState({ isAnonymous: false });
+                  }
+                }}
+                checked={this.state.isAnonymous}
+              />
+            }
+            label="I wish to remain anonymous"
+          />
+        </div>
+        <div className="button-container">
+          <Button
+            style={{ fontWeight: "bold" }}
+            onClick={this.submitReview}
+            variant="contained"
+            color="primary"
+          >
+            SUBMIT
+          </Button>
+        </div>
+      </>;
+    }
+    else if (this.props.userType === 0) {
       // CUSTOMER
       if (this.state.row.interestedContractors.length > 0) {
         content = (
