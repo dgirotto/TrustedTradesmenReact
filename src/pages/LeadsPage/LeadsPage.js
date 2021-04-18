@@ -166,7 +166,7 @@ export class Row extends Component {
       }
 
       status = (
-        <Chip className="status required" label={statusVerbiage} />
+        <Chip className="status waiting" label={statusVerbiage} />
       );
     }
 
@@ -300,43 +300,41 @@ export class Row extends Component {
         <TableRow>
           <TableCell style={{ padding: 0 }} colSpan={6}>
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-              <Box margin={1}>
+              <Box margin={1.5}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
-                    <Card className="job-details-card">
-                      <p className="item-title">LEAD ID</p>
-                      {this.state.row.leadId}
-                      <p className="item-title">SERVICE</p>
-                      {this.state.row.serviceName}
-                      <p className="item-title">SUBMITTED</p>
-                      <span className="item-with-icon">
-                        <FaRegCalendarAlt className="item-icon" size={16} />
-                        {formatDate(this.state.row.creationDate.split(" ")[0])}
-                      </span>
-                      <p className="item-title">LOCATION</p>
-                      {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
-                      <p className="item-title">DISTANCE</p>
-                      <span className="item-with-icon">
-                        <FaRoute className="item-icon" size={16} />
-                        {this.formatDistance()}
-                      </span>
-                      <p className="item-title">TIME FRAME</p>
-                      <span className="item-with-icon">
-                        <FaRegClock className="item-icon" size={16} />
-                        {formatTimeFrame(this.state.row.timeFrame)}
-                      </span>
-                      <p className="item-title">DESCRIPTION</p>
-                      {this.state.row.description}
-                      <p className="item-title">BUDGET</p>
-                      <span className="item-with-icon">
-                        <FaFileInvoiceDollar className="item-icon" size={16} />
-                        {formatBudget(this.state.row.budget)}
-                      </span>
-                    </Card>
+                    <p className="item-title" style={{ marginTop: "0px" }}>LEAD ID</p>
+                    {this.state.row.leadId}
+                    <p className="item-title">SERVICE</p>
+                    {this.state.row.serviceName}
+                    <p className="item-title">SUBMITTED</p>
+                    <span className="item-with-icon">
+                      <FaRegCalendarAlt className="item-icon" size={16} />
+                      {formatDate(this.state.row.creationDate.split(" ")[0])}
+                    </span>
+                    <p className="item-title">LOCATION</p>
+                    {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
+                    <p className="item-title">DISTANCE</p>
+                    <span className="item-with-icon">
+                      <FaRoute className="item-icon" size={16} />
+                      {this.formatDistance()}
+                    </span>
+                    <p className="item-title">TIME FRAME</p>
+                    <span className="item-with-icon">
+                      <FaRegClock className="item-icon" size={16} />
+                      {formatTimeFrame(this.state.row.timeFrame)}
+                    </span>
+                    <p className="item-title">DESCRIPTION</p>
+                    {this.state.row.description}
+                    <p className="item-title">BUDGET</p>
+                    <span className="item-with-icon">
+                      <FaFileInvoiceDollar className="item-icon" size={16} />
+                      {formatBudget(this.state.row.budget)}
+                    </span>
                   </div>
                   <div className="job-details-column job-details-column-2">
                     {this.props.userType !== 3 && (
-                      <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
+                      <Card className="job-details-card" style={{ background: "#fff8df", border: "1px solid #e8daa2" }}>
                         <p className="item-title">HAVE QUESTIONS? CONTACT US</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
@@ -421,7 +419,7 @@ class LeadsPage extends Component {
       pageNumber: 0,
       itemsPerPage: 10,
       isLoading: true,
-      sortDateDesc: true,
+      sortDateDesc: null,
       // showSnackbar: false,
       isError: false,
       message: "",
@@ -459,7 +457,7 @@ class LeadsPage extends Component {
   getLeads = (loadFirstPage = false) => {
     var pageNumberToLoad = loadFirstPage ? 0 : this.state.pageNumber;
 
-    LeadsService.getLeads(pageNumberToLoad + 1, this.state.itemsPerPage)
+    LeadsService.getLeads(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc)
       .then(res => {
         if (this.state.userType === 1 && res.data.leads.length === 0) {
           this.getContractorDetails();
@@ -492,6 +490,15 @@ class LeadsPage extends Component {
       itemsPerPage: event.target.value
     }, () => {
       this.getLeads();
+    });
+  }
+
+  toggleSortDate = () => {
+    this.setState({
+      pageNumber: 0,
+      sortDateDesc: this.state.sortDateDesc ? !this.state.sortDateDesc : true
+    }, () => {
+      this.getLeads(true);
     });
   }
 

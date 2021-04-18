@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
 .job-details-column {
@@ -26,7 +27,7 @@
 }
 
 .item-title {
-  margin: 10px 0 1px;
+  margin: 10px 0 0;
   font-weight: bold;
   font-family: 'Yantramanav', sans-serif;
 }
@@ -71,6 +72,10 @@
 
 .status.interested {
   background-color: #57b6ff;
+}
+
+.status.waiting {
+  background-color: #ffb100;
 }
 
 .status.required {

@@ -572,7 +572,6 @@ export class Row extends Component {
       else if (this.state.row.contractorId === null || this.state.row.invoicePrice === null || this.state.row.invoiceAccepted === false) {
         content = (
           <div className="button-container">
-            <div className="spacer" />
             <Button
               style={{ margin: "0", background: "#2f2f2f", fontWeight: "bold" }}
               onClick={() => this.setModal(1)}
@@ -980,7 +979,7 @@ export class Row extends Component {
         );
       }
       else {
-        status = <Chip className="status required" label="Waiting for Contractors" />
+        status = <Chip className="status waiting" label="Waiting for Contractors" />
       }
     }
     else if (this.state.row.invoicePrice === null || (this.props.userType !== 1 && this.state.row.invoiceAccepted === false)) {
@@ -1114,38 +1113,36 @@ export class Row extends Component {
           {this.getRowContent()}
         </TableRow>
         <TableRow>
-          <TableCell style={{ padding: 0 }} colSpan={5}>
+          <TableCell style={{ padding: "0" }} colSpan={5}>
             <Collapse in={this.state.open} timeout="auto">
-              <Box margin={1}>
+              <Box margin={1.5}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
-                    <Card className="job-details-card">
-                      <p className="item-title">JOB ID</p>
-                      {this.state.row.jobId}
-                      <p className="item-title">SERVICE</p>
-                      {this.state.row.serviceName}
-                      <p className="item-title">SUBMITTED</p>
-                      <span className="item-with-icon">
-                        <FaRegCalendarAlt className="item-icon" size={16} />
-                        {formatDate(this.state.row.creationDate.split(" ")[0])}
-                      </span>
-                      <p className="item-title">LOCATION</p>
-                      {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
-                      <p className="item-title">TIME FRAME</p>
-                      <span className="item-with-icon">
-                        <FaRegClock className="item-icon" size={16} />
-                        {formatTimeFrame(this.state.row.timeFrame)}
-                      </span>
-                      <p className="item-title">DESCRIPTION</p>
-                      {this.state.row.description}
-                      <p className="item-title">BUDGET</p>
-                      <span className="item-with-icon">
-                        <FaFileInvoiceDollar className="item-icon" size={16} />
-                        {formatBudget(this.state.row.budget)}
-                      </span>
-                    </Card>
+                    <p className="item-title" style={{ marginTop: "0px" }}>JOB ID</p>
+                    {this.state.row.jobId}
+                    <p className="item-title">SERVICE</p>
+                    {this.state.row.serviceName}
+                    <p className="item-title">SUBMITTED</p>
+                    <span className="item-with-icon">
+                      <FaRegCalendarAlt className="item-icon" size={16} />
+                      {formatDate(this.state.row.creationDate.split(" ")[0])}
+                    </span>
+                    <p className="item-title">LOCATION</p>
+                    {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
+                    <p className="item-title">TIME FRAME</p>
+                    <span className="item-with-icon">
+                      <FaRegClock className="item-icon" size={16} />
+                      {formatTimeFrame(this.state.row.timeFrame)}
+                    </span>
+                    <p className="item-title">DESCRIPTION</p>
+                    {this.state.row.description}
+                    <p className="item-title">BUDGET</p>
+                    <span className="item-with-icon">
+                      <FaFileInvoiceDollar className="item-icon" size={16} />
+                      {formatBudget(this.state.row.budget)}
+                    </span>
                     {this.props.userType !== 2 && this.state.row.invoicePrice && (
-                      <Card className="job-details-card">
+                      <>
                         <p className="item-title">INVOICE STATUS</p>
                         {this.state.row.invoiceAccepted === null ?
                           <span className="item-with-icon grey">
@@ -1170,12 +1167,12 @@ export class Row extends Component {
                                 <FaCheckCircle className="item-icon green" size={16} />Paid
                               </span> :
                               <>
-                                <span className="item-with-icon red">
-                                  <FaTimesCircle className="item-icon red" size={16} />Not Paid
-                                </span>
                                 <div style={{ maxWidth: "285px", textAlign: "center", margin: "10px 0", padding: "3px", fontSize: "14px", fontWeight: "bold", background: "#ffd2d2" }} className="red">
                                   MUST BE PAID PRIOR TO START OF JOB
                                 </div>
+                                <span className="item-with-icon red">
+                                  <FaTimesCircle className="item-icon red" size={16} />Not Paid
+                                </span>
                               </>
                             }
                             <div className="fee-table-container">
@@ -1254,10 +1251,10 @@ export class Row extends Component {
                             </tbody>
                           </table>
                         </div>
-                      </Card>
+                      </>
                     )}
                     {this.state.row.completionDate && (
-                      <Card className="job-details-card">
+                      <>
                         <p className="item-title">JOB COMPLETION DATE</p>
                         <span className="item-with-icon">
                           <FaRegCalendarAlt className="item-icon" size={16} />
@@ -1321,12 +1318,12 @@ export class Row extends Component {
                             )}
                           </>
                         )}
-                      </Card>
+                      </>
                     )}
                   </div>
                   <div className="job-details-column job-details-column-2">
                     {this.props.userType !== 3 && (
-                      <Card style={{ background: "#fff5d1", border: "1px solid #e8daa2" }} className="job-details-card">
+                      <Card className="job-details-card" style={{ background: "#fff8df", border: "1px solid #e8daa2" }} >
                         <p className="item-title">HAVE QUESTIONS? CONTACT US</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
@@ -1427,7 +1424,7 @@ class JobsPage extends Component {
       itemsPerPage: 10,
       isLoading: true,
       isFiltered: false,
-      sortDateDesc: true,
+      sortDateDesc: null,
       addressFilterVal: "",
       // showSnackbar: false,
       isError: false,
@@ -1468,8 +1465,7 @@ class JobsPage extends Component {
 
     JobService.getJobs(pageNumberToLoad + 1, this.state.itemsPerPage, this.state.sortDateDesc, this.state.addressFilterVal)
       .then(res => {
-        if (this.state.userType === 1 && !this.state.isFiltered && res.data.jobs.length === 0)
-        {
+        if (this.state.userType === 1 && !this.state.isFiltered && res.data.jobs.length === 0) {
           this.getContractorDetails();
         }
 

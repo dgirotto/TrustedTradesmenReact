@@ -4,10 +4,21 @@ import { config } from "../config.js";
 
 const commonEndpoint = config.local.apiUrl;
 
-function getLeads(pageNumber, itemsPerPage) {
+function getLeads(pageNumber, itemsPerPage, sortDateDesc) {
   const headers = getHeaders();
+  let endpoint = `${commonEndpoint}/lead/read.php?pageNumber=${pageNumber}&itemsPerPage=${itemsPerPage}`;
+
+  if (sortDateDesc !== null) {
+    if (sortDateDesc) {
+      endpoint += `&sortDateDesc=1`;
+    }
+    else {
+      endpoint += `&sortDateDesc=0`;
+    }
+  }
+
   return axios.get(
-    `${commonEndpoint}/lead/read.php?pageNumber=${pageNumber}&itemsPerPage=${itemsPerPage}`,
+    endpoint,
     { headers }
   );
 }
