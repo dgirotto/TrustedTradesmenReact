@@ -162,7 +162,7 @@ export class Row extends Component {
         statusVerbiage = "Expires In " + this.state.row.hoursRemaining + " Hours";
       }
       else {
-        statusVerbiage = "Awaiting Response";
+        statusVerbiage = "Waiting For Response";
       }
 
       status = (
@@ -625,8 +625,8 @@ class LeadsPage extends Component {
             )}
           </>
         )}
-        {this.state.leadCount === 0 && !this.state.isLoading
-          && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails) && (
+        {this.state.userType !== 0 && this.state.leadCount === 0 && !this.state.isLoading
+          && (this.state.userType === 3 || (this.state.userType === 1 && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails))) && (
             <>
               <CustomAlert type={"info"} title={"No Leads Found"}>
                 <div style={{ textAlign: "center" }}>You don't have any leads at the moment.</div>
