@@ -7,7 +7,8 @@ import { formatNumber, formatPhoneNumber, formatDate, formatTimeFrame, formatBud
 
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
-import { FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser,
+import {
+  FaFileInvoiceDollar, FaRegClock, FaAt, FaPhone, FaUser,
   FaRegCalendarAlt, FaRegBuilding, FaExternalLinkAlt, FaCheckCircle,
   FaTimesCircle, FaMinusCircle, FaSearch, FaSync, FaSortAmountDown, FaSortAmountUp
 } from "react-icons/fa";
@@ -82,18 +83,11 @@ export class Row extends Component {
   // Constants
   ttFeePct = 0.06;
   hstPct = 0.13;
-  holdingFeePct = 0.15;
   invoiceThreshold = 5000;
-  holdingFeeThreshold = 1000;
   // Non-constants
   requiresInspection = false;
-  holdingFeeRequired = false;
-  holdingFee = 0;
-  holdingFeeHst = 0;
-  holdingFeeTotal = 0;
   invoicePriceHst = 0;
   invoicePriceTotal = 0;
-  ttFee = 0;
 
   constructor(props) {
     super(props);
@@ -136,17 +130,9 @@ export class Row extends Component {
 
   setInitialVals = (props) => {
     this.requiresInspection = parseInt(props.row.invoicePrice) >= this.invoiceThreshold;
-    this.holdingFeeRequired = parseInt(props.row.invoicePrice) >= this.holdingFeeThreshold;
 
     this.invoicePriceHst = props.row.invoicePrice * this.hstPct;
     this.invoicePriceTotal = props.row.invoicePrice * 1.00 + this.invoicePriceHst;
-
-    if (this.holdingFeeRequired) {
-      this.holdingFee = props.row.invoicePrice * this.holdingFeePct;
-      this.holdingFeeHst = this.holdingFee * this.hstPct;
-      this.holdingFeeTotal = this.holdingFee + this.holdingFeeHst;
-      this.ttFee = this.invoicePriceTotal * this.ttFeePct;
-    }
   }
 
   claimJob = () => {
@@ -154,16 +140,24 @@ export class Row extends Component {
 
     if (this.state.interestedContractor !== null) {
       body.contractorId = this.state.interestedContractor;
-    }
 
-    JobService.updateJob(body)
-      .then(() => {
-        this.props.getJobs(true);
-        // this.props.setMessage(false, "Contractor successfully hired");
-      })
-      .catch(err => {
-        // this.props.setMessage(true, "Unable to hire Contractor");
-      });
+      JobService.selectContractor(body)
+        .then(() => {
+          this.props.getJobs(true);
+          // this.props.setMessage(false, "Contractor successfully hired");
+        })
+        .catch(err => {
+          // this.props.setMessage(true, "Unable to hire Contractor");
+        });
+    }
+    else {
+      JobService.claimInspection(body)
+        .then(() => {
+          this.props.getJobs(true);
+        })
+        .catch(err => {
+        });
+    }
 
     this.props.handleClose();
   }
@@ -171,7 +165,7 @@ export class Row extends Component {
   cancelJob = () => {
     let body = { jobId: this.state.row.jobId, isAbandoned: true };
 
-    JobService.updateJob(body)
+    JobService.abandonJob(body)
       .then(() => {
         this.props.getJobs(true);
         // this.props.setMessage(false, "Job successfully cancelled");
@@ -190,19 +184,26 @@ export class Row extends Component {
 
     if (this.props.userType === 1) {
       body.invoicePaid = 1;
+
+      JobService.confirmInvoicePayment(body)
+        .then(() => {
+          this.props.getJobs(true);
+          // this.props.setMessage(false, "Successfully updated invoice status");
+        })
+        .catch(err => {
+          // this.props.setMessage(false, "Unable to update invoice status");
+        });
     }
     else {
-      body.holdingFeePaid = 1;
+      JobService.confirmContractorPayment(body)
+        .then(() => {
+          this.props.getJobs(true);
+          // this.props.setMessage(false, "Successfully updated invoice status");
+        })
+        .catch(err => {
+          // this.props.setMessage(false, "Unable to update invoice status");
+        });
     }
-
-    JobService.updateJob(body)
-      .then(() => {
-        this.props.getJobs(true);
-        // this.props.setMessage(false, "Successfully updated invoice status");
-      })
-      .catch(err => {
-        // this.props.setMessage(false, "Unable to update invoice status");
-      });
 
     this.props.handleClose();
   }
@@ -213,7 +214,7 @@ export class Row extends Component {
       contractorPaid: 1
     };
 
-    JobService.updateJob(body)
+    JobService.confirmContractorPayment(body)
       .then(() => {
         this.props.getJobs(true);
         // this.props.setMessage(false, "Successfully updated invoice status");
@@ -228,7 +229,7 @@ export class Row extends Component {
   acceptInvoice = (isAccepted) => {
     let body = { jobId: this.state.row.jobId, invoiceAccepted: isAccepted };
 
-    JobService.updateJob(body)
+    JobService.acceptInvoice(body)
       .then(() => {
         this.props.getJobs(true);
         // this.props.setMessage(false, "Invoice successfully accepted");
@@ -244,7 +245,7 @@ export class Row extends Component {
       invoicePrice: this.state.invoicePrice
     };
 
-    JobService.updateJob(body)
+    JobService.submitInvoice(body)
       .then(() => {
         this.props.getJobs(true);
         // this.props.setMessage(false, "Invoice successfully sent");
@@ -265,6 +266,15 @@ export class Row extends Component {
       if (this.state.row.completionDate === null) {
         body.completionDate = this.state.completionDate;
         body.contractorNotes = this.state.notes;
+
+        JobService.completeJob(body)
+          .then(() => {
+            this.props.getJobs(true);
+            // this.props.setMessage(false, "Successfully completed job");
+          })
+          .catch(err => {
+            // this.props.setMessage(false, "Unable to complete job");
+          });
       }
       else {
         body.reworkCompletionDate = this.state.completionDate;
@@ -273,6 +283,15 @@ export class Row extends Component {
         if (!body.reworkCompleted) {
           body.reworkNotes = this.state.notes;
         }
+
+        JobService.completeRework(body)
+          .then(() => {
+            this.props.getJobs(true);
+            // this.props.setMessage(false, "Successfully completed job");
+          })
+          .catch(err => {
+            // this.props.setMessage(false, "Unable to complete job");
+          });
       }
     }
     else if (this.props.userType === 2) {
@@ -285,16 +304,16 @@ export class Row extends Component {
       if (this.state.inspectionPassed === "false") {
         body.inspectorNotes = this.state.notes;
       }
-    }
 
-    JobService.updateJob(body)
-      .then(() => {
-        this.props.getJobs(true);
-        // this.props.setMessage(false, "Successfully completed job");
-      })
-      .catch(err => {
-        // this.props.setMessage(false, "Unable to complete job");
-      });
+      JobService.completeInspection(body)
+        .then(() => {
+          this.props.getJobs(true);
+          // this.props.setMessage(false, "Successfully completed rework");
+        })
+        .catch(err => {
+          // this.props.setMessage(false, "Unable to complete rework");
+        });
+    }
   }
 
   submitReview = () => {
@@ -304,8 +323,8 @@ export class Row extends Component {
       comments: this.state.comments,
       isAnonymous: this.state.isAnonymous === "true" ? true : false
     };
-    
-    JobService.updateJob(body)
+
+    JobService.addReview(body)
       .then(() => {
         this.props.getJobs(true);
       })
@@ -319,7 +338,7 @@ export class Row extends Component {
       contractors: this.state.selectedContractors.join(',')
     };
 
-    JobService.updateJob(body)
+    JobService.giftLead(body)
       .then(() => {
         this.props.getJobs(true);
       })
@@ -337,17 +356,17 @@ export class Row extends Component {
 
   renderSelectedContractors = selectedContractors => {
     if (selectedContractors === null || selectedContractors.length === 0) {
-        return <em>Select Contractors</em>;
+      return <em>Select Contractors</em>;
     }
 
     return this.state.row.potentialContractors
-        .filter((x) => {
-            return selectedContractors.includes(x.contractorId);
-        })
-        .map((x) => {
-            return x.companyName;
-        })
-        .join(", ");
+      .filter((x) => {
+        return selectedContractors.includes(x.contractorId);
+      })
+      .map((x) => {
+        return x.companyName;
+      })
+      .join(", ");
   };
 
   setModal = modalType => {
@@ -417,8 +436,8 @@ export class Row extends Component {
   getUIContent = () => {
     let content = null;
 
-    if ((this.props.userType === 0 || this.props.userType === 2) 
-      && this.state.row.completionDate !== null 
+    if ((this.props.userType === 0 || this.props.userType === 2)
+      && this.state.row.completionDate !== null
       && (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.reworkCompletionDate)
       && !this.state.row.hasReviewed) {
       content = <>
@@ -631,7 +650,6 @@ export class Row extends Component {
         );
       }
       else if (this.state.row.invoiceAccepted &&
-        (this.state.row.holdingFeePaid || !this.holdingFeeRequired) &&
         (this.state.row.completionDate === null || (this.state.row.inspectionPassed === false && this.state.row.reworkCompletionDate === null))
       ) {
         content = (
@@ -732,8 +750,8 @@ export class Row extends Component {
                     style={{ fontWeight: "bold" }}
                     variant="contained"
                     onClick={this.completeJob}
-                    disabled={this.state.reworkCompleted === null || 
-                      (this.state.reworkCompleted === "true" && this.state.completionDate === "") || 
+                    disabled={this.state.reworkCompleted === null ||
+                      (this.state.reworkCompleted === "true" && this.state.completionDate === "") ||
                       (this.state.reworkCompleted === "false" && (this.state.notes === "" || this.state.completionDate === ""))}
                     color="primary"
                   >
@@ -745,16 +763,9 @@ export class Row extends Component {
           </>
         );
       }
-      else if ((this.holdingFeeRequired || !this.state.row.invoicePaid) &&
-        ((this.state.row.completionDate && !this.requiresInspection) || this.state.row.inspectionPassed || this.state.row.reworkCompletionDate))
-      {
+      else if ((this.state.row.completionDate && !this.requiresInspection) || this.state.row.inspectionPassed || this.state.row.reworkCompletionDate) {
         content = (
           <>
-            {this.holdingFeeRequired && (
-              <Alert className="alert-msg" severity="info" color="info">
-                The holding fee will be paid by Trusted Tradesmen (minus TT's fee) in the amount of <b>${formatNumber((this.holdingFeeTotal - this.ttFee).toFixed(2))}</b>.
-              </Alert>
-            )}
             {!this.state.row.invoicePaid && (
               <>
                 <Alert className="alert-msg" severity="info" color="info">The remainder of the invoice is owed by the customer.</Alert>
@@ -878,24 +889,24 @@ export class Row extends Component {
             <Alert className="alert-msg" severity="info" color="info">Hand-pick contractors you wish to gift a job lead to.</Alert>
             <div className="textfield-container-col">
               <Select
-                  multiple
-                  displayEmpty
-                  variant="outlined"
-                  value={this.state.selectedContractors}
-                  onChange={event => this.setState({selectedContractors: event.target.value})}
-                  renderValue={(selected) => this.renderSelectedContractors(selected)}
+                multiple
+                displayEmpty
+                variant="outlined"
+                value={this.state.selectedContractors}
+                onChange={event => this.setState({ selectedContractors: event.target.value })}
+                renderValue={(selected) => this.renderSelectedContractors(selected)}
               >
-                  <MenuItem disabled value="">
-                      <em>Select Contractors</em>
+                <MenuItem disabled value="">
+                  <em>Select Contractors</em>
+                </MenuItem>
+                {this.state.row.potentialContractors.map((con) => (
+                  <MenuItem key={con.contractorId} value={con.contractorId}>
+                    <Checkbox
+                      checked={this.state.selectedContractors && this.state.selectedContractors.includes(con.contractorId)}
+                    />
+                    <ListItemText primary={con.companyName} />
                   </MenuItem>
-                  {this.state.row.potentialContractors.map((con) => (
-                      <MenuItem key={con.contractorId} value={con.contractorId}>
-                          <Checkbox
-                            checked={this.state.selectedContractors && this.state.selectedContractors.includes(con.contractorId)}
-                          />
-                          <ListItemText primary={con.companyName} />
-                      </MenuItem>
-                  ))}
+                ))}
               </Select>
             </div>
             <div className="button-container">
@@ -911,51 +922,9 @@ export class Row extends Component {
           </>
         )
       }
-      else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
-        content = (
-          <>
-            <Alert className="alert-msg" severity="info" color="info">A holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> is owed by the customer.</Alert>
-            <div className="button-container">
-              <Button
-                variant="contained"
-                onClick={() => this.setModal(2)}
-                style={{
-                  backgroundColor: "#3bb13b",
-                  color: "white"
-                }}
-              >
-                PAYMENT RECEIVED
-              </Button>
-            </div>
-          </>
-        );
-      }
-      else if (this.state.row.completionDate !== null &&
-        !this.state.row.contractorPaid &&
-        (this.requiresInspection && (this.state.row.inspectionPassed || this.state.row.reworkCompleted !== null))) {
-        content = (
-          <>
-            <Alert className="alert-msg" severity="info" color="info">
-              The remaining payment of <b>${formatNumber((this.holdingFeeTotal - this.ttFee).toFixed(2))}</b> is owed to the contractor.
-            </Alert>
-            <div className="button-container">
-              <Button
-                variant="contained"
-                onClick={() => this.setModal(3)}
-                style={{
-                  backgroundColor: "#3bb13b",
-                  color: "white"
-                }}
-              >
-                PAYMENT SENT
-              </Button>
-            </div>
-          </>
-        );
-      }
     }
     return content;
-  } 
+  }
 
   // TODO: Move this logic to the back end? (add status and statusType (required, cancelled, inProgress) fields to dto)
   getJobStatus = () => {
@@ -991,14 +960,10 @@ export class Row extends Component {
     else if (this.props.userType === 1 && this.state.row.invoiceAccepted === false) {
       status = <Chip className="status in-progress" label="Invoice Rejected" />;
     }
-    else if (this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
-      status = <Chip className="status required" label="Holding Fee Required" />;
-    }
     else if (this.state.row.completionDate === null) {
       status = <Chip className="status in-progress" label="Job In Progress" />;
     }
-    else if (this.state.row.holdingFeePaid &&
-      this.requiresInspection &&
+    else if (this.requiresInspection &&
       (this.state.row.inspectorId === null || this.state.row.inspectionDate === null || (this.state.row.inspectionPassed === false && this.state.row.reworkCompletionDate === null))
     ) {
       if (this.state.row.inspectorId === null) {
@@ -1011,7 +976,7 @@ export class Row extends Component {
         status = <Chip className="status required" label="Requires Rework" />;
       }
     }
-    else if ((!this.state.row.holdingFeePaid && this.holdingFeeRequired) || !this.state.row.invoicePaid) {
+    else if (!this.state.row.invoicePaid) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
@@ -1081,9 +1046,6 @@ export class Row extends Component {
       else if (this.state.row.contractorId !== null && this.state.row.invoiceAccepted === false) {
         content = <Alert className="alert-msg" severity="info" color="info">The contractor will contact you to discuss a revised invoice.</Alert>;
       }
-      else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
-        content = <Alert className="alert-msg" severity="info" color="info">Please E-transfer the holding fee of <b>${formatNumber(this.holdingFeeTotal.toFixed(2))}</b> to <b>trustedtradesmen@gmail.com</b>. This amount will be deducted from your final invoice bill. Work can begin once this payment is received.</Alert>;
-      }
       else if (this.state.row.completionDate !== null &&
         (!this.requiresInspection || (this.requiresInspection && this.state.row.inspectionPassed) || this.state.row.reworkCompletionDate)
       ) {
@@ -1098,9 +1060,6 @@ export class Row extends Component {
     else if (this.props.userType === 1) {
       if (this.state.row.invoicePrice !== null && this.state.row.invoiceAccepted === null) {
         content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to confirm the invoice.</Alert>;
-      }
-      else if (this.state.row.invoiceAccepted && this.holdingFeeRequired && !this.state.row.holdingFeePaid) {
-        content = <Alert className="alert-msg" severity="info" color="info">Waiting for the customer to submit the holding fee.</Alert>;
       }
     }
     return content;
@@ -1156,49 +1115,6 @@ export class Row extends Component {
                               <FaTimesCircle className="item-icon red" size={16} />Revision Requested
                             </span>
                         }
-                        {this.state.row.invoiceAccepted && this.holdingFeeRequired && (
-                          <>
-                            <p className="item-title item-with-icon">
-                              HOLDING FEE DETAILS
-                              <HelpOutlineIcon className="help-icon" />
-                            </p>
-                            {this.state.row.holdingFeePaid ?
-                              <span className="item-with-icon green">
-                                <FaCheckCircle className="item-icon green" size={16} />Paid
-                              </span> :
-                              <>
-                                <div style={{ maxWidth: "285px", textAlign: "center", margin: "10px 0", padding: "3px", fontSize: "14px", fontWeight: "bold", background: "#ffd2d2" }} className="red">
-                                  MUST BE PAID PRIOR TO START OF JOB
-                                </div>
-                                <span className="item-with-icon red">
-                                  <FaTimesCircle className="item-icon red" size={16} />Not Paid
-                                </span>
-                              </>
-                            }
-                            <div className="fee-table-container">
-                              <table className="fee-table">
-                                <tbody>
-                                  <tr>
-                                    <td>Subtotal (15% of Invoice)</td>
-                                    <td>${formatNumber(this.holdingFee.toFixed(2))}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>HST ({this.hstPct * 100}%)</td>
-                                    <td>${formatNumber(this.holdingFeeHst.toFixed(2))}</td>
-                                  </tr>
-                                  <tr className="table-divider">
-                                    <td>Total</td>
-                                    <td>
-                                      <span className={this.state.row.holdingFeePaid ? "green" : "red"} style={{ fontWeight: "bold" }}>
-                                        ${formatNumber(this.holdingFeeTotal.toFixed(2))}
-                                      </span>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </>
-                        )}
                         <p className="item-title item-with-icon">
                           INVOICE DETAILS
                           <HelpOutlineIcon className="help-icon" />
@@ -1222,29 +1138,18 @@ export class Row extends Component {
                           <table className="fee-table">
                             <tbody>
                               <tr>
-                                <td>Subtotal</td>
+                                <td>SUBTOTAL</td>
                                 <td>${formatNumber((this.state.row.invoicePrice * 1.00).toFixed(2))}</td>
                               </tr>
                               <tr>
                                 <td>HST ({this.hstPct * 100}%)</td>
                                 <td>${formatNumber(this.invoicePriceHst.toFixed(2))}</td>
                               </tr>
-                              {this.state.row.holdingFeePaid && (
-                                <tr>
-                                  <td>Holding Fee</td>
-                                  <td>- ${formatNumber(this.holdingFeeTotal.toFixed(2))}</td>
-                                </tr>
-                              )}
                               <tr className="table-divider">
-                                <td>Total</td>
+                                <td>TOTAL</td>
                                 <td>
                                   <span className={this.state.row.invoicePaid ? "green" : "red"} style={{ fontWeight: "bold" }}>
-                                    {this.state.row.holdingFeePaid ? (
-                                      <>${formatNumber((this.invoicePriceTotal - this.holdingFeeTotal).toFixed(2))}</>
-                                    ) :
-                                      (
-                                        <>${formatNumber(this.invoicePriceTotal.toFixed(2))}</>
-                                      )}
+                                    ${formatNumber(this.invoicePriceTotal.toFixed(2))}
                                   </span>
                                 </td>
                               </tr>
@@ -1343,7 +1248,7 @@ export class Row extends Component {
                     )}
                     {this.props.userType !== 0 && (
                       <Card className="job-details-card">
-                        <p className="item-title">CUSTOMER DETAILS</p>
+                        <p className="item-title">CUSTOMER INFO</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
                           {this.state.row.customerName ? this.state.row.customerName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
@@ -1360,7 +1265,7 @@ export class Row extends Component {
                     )}
                     {this.props.userType !== 1 && this.state.row.contractorId && (
                       <Card className="job-details-card">
-                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <p className="item-title">CONTRACTOR INFO</p>
                         <span className="item-with-icon">
                           <FaRegBuilding className="item-icon" size={16} />
                           {this.state.row.contractorCompany}&nbsp;
@@ -1384,7 +1289,7 @@ export class Row extends Component {
                     )}
                     {this.props.userType !== 2 && this.state.row.inspectorId && (
                       <Card className="job-details-card">
-                        <p className="item-title">INSPECTOR DETAILS</p>
+                        <p className="item-title">INSPECTOR INFO</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
                           {this.state.row.inspectorName ? this.state.row.inspectorName : <span className="grey" style={{ fontStyle: "italic" }}>N/A</span>}
@@ -1453,7 +1358,7 @@ class JobsPage extends Component {
   getContractorDetails = () => {
     AccountService.getAccountDetails()
       .then(res => {
-        this.setState({ contractorDetails: res.data});
+        this.setState({ contractorDetails: res.data });
       })
       .catch(error => {
         // this.setMessage(true, "Unable to obtain account details");
@@ -1594,8 +1499,8 @@ class JobsPage extends Component {
                 disabled={this.state.addressFilterVal === ""}
               >
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                  <FaSearch style={{margin: "2px auto 0"}} size={22} />
-                  <div style={{margin: "0 0 -4px 0", fontWeight: "bold"}}>SEARCH</div>
+                  <FaSearch style={{ margin: "2px auto 0" }} size={22} />
+                  <div style={{ margin: "0 0 -4px 0", fontWeight: "bold" }}>SEARCH</div>
                 </div>
               </Button>
               <Button
@@ -1605,40 +1510,40 @@ class JobsPage extends Component {
                 color="primary"
               >
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                  <FaSync style={{margin: "2px auto 0"}} size={22} />
-                  <div style={{margin: "0 0 -4px 0", fontWeight: "bold"}}>SYNC</div>
+                  <FaSync style={{ margin: "2px auto 0" }} size={22} />
+                  <div style={{ margin: "0 0 -4px 0", fontWeight: "bold" }}>SYNC</div>
                 </div>
               </Button>
             </div>
           )}
           {this.state.userType !== 0 && this.state.jobCount === 0 && this.state.isFiltered && !this.state.isLoading && (
-            <CustomAlert type={"info"} title={"No Results Found"}>              
+            <CustomAlert type={"info"} title={"No Results Found"}>
               <div style={{ textAlign: "center" }}>We could not find any jobs which match that address. Try a different search term.</div>
             </CustomAlert>
           )}
-          {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading 
-            && this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && ( 
-            <CustomAlert type={"warning"} title={"Wait! You're missing some key information"}>
-              <Instructions contractorDetails={this.state.contractorDetails} />
-            </CustomAlert>
-          )}
-          {this.state.userType !== 0 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading 
-            && (this.state.userType === 2 || this.state.userType === 3 || (this.state.userType === 1 && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails))) && (
-            <>
-              <CustomAlert type={"info"} title={"No Jobs Found"}>
-                <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>
+          {this.state.userType === 1 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading
+            && this.state.contractorDetails !== null && (!hasRequiredFields(this.state.contractorDetails) || !hasExtraFields(this.state.contractorDetails)) && (
+              <CustomAlert type={"warning"} title={"Wait! You're missing some key information"}>
+                <Instructions contractorDetails={this.state.contractorDetails} />
               </CustomAlert>
-              <div style={{ justifyContent: "space-around" }} className="button-container">
-                <Button
-                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
-                  onClick={() => window.location.href = "/leads"}
-                  variant="contained"
-                >
-                  MY LEADS
+            )}
+          {this.state.userType !== 0 && this.state.jobCount === 0 && !this.state.isFiltered && !this.state.isLoading
+            && (this.state.userType === 2 || this.state.userType === 3 || (this.state.userType === 1 && this.state.contractorDetails !== null && hasRequiredFields(this.state.contractorDetails) && hasExtraFields(this.state.contractorDetails))) && (
+              <>
+                <CustomAlert type={"info"} title={"No Jobs Found"}>
+                  <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>
+                </CustomAlert>
+                <div style={{ justifyContent: "space-around" }} className="button-container">
+                  <Button
+                    style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                    onClick={() => window.location.href = "/leads"}
+                    variant="contained"
+                  >
+                    MY LEADS
                 </Button>
-              </div>
-            </>
-          )}
+                </div>
+              </>
+            )}
           {this.state.jobCount > 0 && !this.state.isLoading && (
             <ThemeProvider theme={tableTheme}>
               <TableContainer className="desktop-table" component={Paper}>

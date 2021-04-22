@@ -124,6 +124,7 @@
   width: 100%;
   border-collapse: collapse;
   border: solid #d3d3d3 1px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .table-divider {

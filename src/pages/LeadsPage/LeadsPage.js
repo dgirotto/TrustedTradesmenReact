@@ -352,7 +352,7 @@ export class Row extends Component {
                     )}
                     {(this.props.userType !== 1 || this.state.row.isInterested) && (
                       <Card className="job-details-card">
-                        <p className="item-title">CUSTOMER DETAILS</p>
+                        <p className="item-title">CUSTOMER INFO</p>
                         <span className="item-with-icon">
                           <FaUser className="item-icon" size={16} />
                           {this.state.row.customerName ? this.state.row.customerName : <span style={{ color: "grey", fontStyle: "italic" }}>N/A</span>}
@@ -369,7 +369,7 @@ export class Row extends Component {
                     )}
                     {this.props.userType !== 1 && (
                       <Card className="job-details-card">
-                        <p className="item-title">CONTRACTOR DETAILS</p>
+                        <p className="item-title">CONTRACTOR INFO</p>
                         <span className="item-with-icon">
                           <FaRegBuilding className="item-icon" size={16} />
                           {this.state.row.contractorCompany}&nbsp;&nbsp;

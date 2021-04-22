@@ -36,9 +36,97 @@ function addJob(body) {
   );
 }
 
-function updateJob(body) {
+function abandonJob(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/job/update.php`,
+  return axios.post(`${commonEndpoint}/job/abandon_job.php`,
+    body,
+    { headers }
+  );
+}
+
+function acceptInvoice(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/accept_invoice.php`,
+    body,
+    { headers }
+  );
+}
+
+function addReview(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/add_review.php`,
+    body,
+    { headers }
+  );
+}
+
+function claimInspection(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/claim_inspection.php`,
+    body,
+    { headers }
+  );
+}
+
+function completeInspection(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/complete_inspection.php`,
+    body,
+    { headers }
+  );
+}
+
+function completeJob(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/complete_job.php`,
+    body,
+    { headers }
+  );
+}
+
+function completeRework(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/complete_rework.php`,
+    body,
+    { headers }
+  );
+}
+
+function confirmContractorPayment(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/confirm_contractor_payment.php`,
+    body,
+    { headers }
+  );
+}
+
+function confirmInvoicePayment(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/confirm_invoice_payment.php`,
+    body,
+    { headers }
+  );
+}
+
+function giftLead(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/gift_lead.php`,
+    body,
+    { headers }
+  );
+}
+
+function selectContractor(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/select_contractor.php`,
+    body,
+    { headers }
+  );
+}
+
+function submitInvoice(body) {
+  const headers = getHeaders();
+  return axios.post(`${commonEndpoint}/job/submit_invoice.php`,
     body,
     { headers }
   );
@@ -56,5 +144,16 @@ function getHeaders() {
 export const JobService = {
   getJobs,
   addJob,
-  updateJob
+  abandonJob,
+  acceptInvoice,
+  addReview,
+  claimInspection,
+  completeInspection,
+  completeJob,
+  completeRework,
+  confirmContractorPayment,
+  confirmInvoicePayment,
+  giftLead,
+  selectContractor,
+  submitInvoice
 };
