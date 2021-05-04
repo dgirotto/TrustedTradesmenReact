@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { LeadsService } from "../../services/leads";
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
-import { formatPhoneNumber, formatDate, formatTimeFrame, formatBudget, hasRequiredFields, hasExtraFields } from '../../helpers/Utils';
+import { formatNumber, formatPhoneNumber, formatDate, formatTimeFrame, formatBudget, hasRequiredFields, hasExtraFields } from '../../helpers/Utils';
 
 import { ThemeProvider } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -25,7 +25,9 @@ import Collapse from "@material-ui/core/Collapse";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Card from "@material-ui/core/Card";
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
 import Alert from "@material-ui/lab/Alert";
 import Chip from "@material-ui/core/Chip";
 import Title from "../../components/UI/Title/Title";
@@ -69,9 +71,13 @@ var tableTheme = createMuiTheme({
 // }
 
 export class Row extends Component {
+  timeFrames = [1, 2, 4, 8, 12, 24, 48];
+
   state = {
     row: this.props.row,
-    open: false
+    open: false,
+    invoiceQuote: '',
+    timeFrameQuote: null
   };
 
   componentWillReceiveProps(newProps) {
@@ -80,12 +86,81 @@ export class Row extends Component {
     });
   }
 
-  dismissLead = () => {
+  submitQuote = () => {
+    let body = {
+      leadId: this.state.row.leadId,
+      jobId: this.state.row.jobId,
+      invoiceQuote: this.state.invoiceQuote,
+      timeFrameQuote: this.state.timeFrameQuote
+    };
+
+    LeadsService.submitQuote(body)
+      .then(() => {
+        this.props.getLeads(true);
+        // this.props.setMessage(false, "Lead successfully updated");
+      })
+      .catch(() => {
+        // this.props.setMessage(true, "Unable to update lead");
+      });
+
+    this.props.handleClose();
+  }
+
+  claim = () => {
+    let body = {
+      leadId: this.state.row.leadId,
+      jobId: this.state.row.jobId
+    };
+
+    LeadsService.claim(body)
+      .then(() => {
+        this.props.getLeads(true);
+        // this.props.setMessage(false, "Lead successfully updated");
+      })
+      .catch(() => {
+        // this.props.setMessage(true, "Unable to update lead");
+      });
+
+    this.props.handleClose();
+  }
+
+  dismiss = () => {
+    let body = {
+      leadId: this.state.row.leadId,
+    };
+
+    if (this.state.row.isClaimed) {
+      body.jobId = this.state.row.jobId;
+
+      LeadsService.dismissClaimed(body)
+        .then(() => {
+          this.props.getLeads(true);
+          // this.props.setMessage(false, "Lead successfully updated");
+        })
+        .catch(() => {
+          // this.props.setMessage(true, "Unable to update lead");
+        });
+    }
+    else {
+      LeadsService.dismiss(body)
+        .then(() => {
+          this.props.getLeads(true);
+          // this.props.setMessage(false, "Lead successfully updated");
+        })
+        .catch(() => {
+          // this.props.setMessage(true, "Unable to update lead");
+        });
+    }
+
+    this.props.handleClose();
+  }
+
+  confirmDismissal = () => {
     let modalContent = {
       title: `Confirm Dismissal`,
       content: `Are you sure you wish to dismiss this lead? It will be removed from your feed.`,
       actions: <>
-        <Button onClick={() => this.claimLead(false)}>
+        <Button onClick={this.dismiss}>
           Yes
         </Button>
         <Button onClick={this.props.handleClose}>
@@ -96,30 +171,6 @@ export class Row extends Component {
 
     this.props.setDialog(modalContent);
     this.props.handleOpen();
-  }
-
-  claimLead = (claim) => {
-    let body = {
-      leadId: this.state.row.leadId
-    };
-
-    if (this.state.row.isInterested === null) {
-      body.isInterested = claim ? 1 : 0;
-    }
-    else {
-      body.isCommitted = claim ? 1 : 0;
-    }
-
-    LeadsService.updateLead(body)
-      .then(() => {
-        this.props.getLeads(true);
-        // this.props.setMessage(false, "Lead successfully updated");
-      })
-      .catch(() => {
-        // this.props.setMessage(true, "Unable to update lead");
-      });
-
-    this.props.handleClose();
   }
 
   formatDistance = () => {
@@ -135,7 +186,7 @@ export class Row extends Component {
   getLeadStatus = () => {
     let status = null;
 
-    if (this.state.row.isInterested === false || this.state.row.isCommitted === false) {
+    if (this.state.row.isClaimed === false || this.state.row.isCommitted === false) {
       status = (
         <Chip className="status cancelled" label="Dismissed" />
       );
@@ -147,10 +198,10 @@ export class Row extends Component {
     }
     else if (this.state.row.isCommitted) {
       status = (
-        <Chip className="status required" label="Awaiting Customer Approval" />
+        <Chip className="status required" label="Awaiting Approval" />
       );
     }
-    else if (this.state.row.isInterested) {
+    else if (this.state.row.isClaimed) {
       status = (
         <Chip className="status completed" label="Interested" />
       );
@@ -159,7 +210,7 @@ export class Row extends Component {
       let statusVerbiage = '';
 
       if (this.props.userType === 1) {
-        statusVerbiage = "Expires In " + this.state.row.hoursRemaining + " Hours";
+        statusVerbiage = "Expires In " + this.state.row.unclaimedHoursRemaining + " Hours";
       }
       else {
         statusVerbiage = "Waiting For Response";
@@ -188,7 +239,7 @@ export class Row extends Component {
                 <td>Distance: {this.formatDistance()}</td>
               </tr>
               <tr>
-                <td>Time Frame: {formatTimeFrame(this.state.row.timeFrame)}</td>
+                <td>Time Frame: {formatTimeFrame(this.state.row.customerTimeFrame)}</td>
               </tr>
               <tr>
                 <td>{this.getLeadStatus()}</td>
@@ -215,7 +266,7 @@ export class Row extends Component {
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
           <TableCell>{this.formatDistance()}</TableCell>
-          <TableCell>{formatTimeFrame(this.state.row.timeFrame)}</TableCell>
+          <TableCell>{formatTimeFrame(this.state.row.customerTimeFrame)}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.getLeadStatus()}</TableCell>
         </>
@@ -231,7 +282,7 @@ export class Row extends Component {
     if (this.props.row.isCommitted) {
       content = <Alert className="alert-msg" severity="info" color="info">Waiting on the customer to make their decision.</Alert>;
     }
-    else if (this.props.row.isInterested) {
+    else if (this.props.row.isClaimed) {
       content = <Alert className="alert-msg" severity="info" color="info">We advise that you visit the customer before committing to this job.</Alert>;
     }
 
@@ -245,19 +296,19 @@ export class Row extends Component {
       return;
     }
 
-    if (this.state.row.isInterested === null) {
+    if (this.state.row.isClaimed === null) {
       content = (
         <div className="button-container">
           <Button
             style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
-            onClick={() => this.claimLead(true)}
+            onClick={this.claim}
             variant="contained"
           >
             I'M INTERESTED
           </Button>
           <Button
             style={{ fontWeight: "bold" }}
-            onClick={this.dismissLead}
+            onClick={this.confirmDismissal}
             variant="contained"
             color="secondary"
           >
@@ -268,23 +319,64 @@ export class Row extends Component {
     }
     else if (this.state.row.isCommitted === null) {
       content = (
-        <div className="button-container">
-          <Button
-            style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
-            onClick={() => this.claimLead(true)}
-            variant="contained"
-          >
-            I WANT THE JOB
+        <>
+          <div className="textfield-container-col">
+            <TextField
+              required
+              type="text"
+              name="invoiceQuote"
+              label="Invoice Quote"
+              value={this.state.invoiceQuote}
+              variant="outlined"
+              error={isNaN(this.state.invoiceQuote)}
+              // helperText="Must be a number"
+              onChange={event => {
+                this.setState(
+                  { invoiceQuote: event.target.value }
+                );
+              }}
+            />
+          </div>
+          <div className="textfield-container-col">
+            <TextField
+              requred
+              select
+              name="customerTimeFrame"
+              label="Time Frame"
+              variant="outlined"
+              required
+              value={this.state.timeFrameQuote || ""}
+              onChange={event => {
+                this.setState({ timeFrameQuote: event.target.value })
+              }}
+            >
+              {this.timeFrames.map(option => (
+                <MenuItem key={option} value={option}>
+                  {formatTimeFrame(option)}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+          <div className="button-container">
+            <Button
+              // style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
+              onClick={this.submitQuote}
+              variant="contained"
+              color="primary"
+              disabled={this.state.invoiceQuote.length === 0 || isNaN(this.state.invoiceQuote) || this.state.timeFrameQuote === null}
+            >
+              SUBMIT QUOTE
           </Button>
-          <Button
-            style={{ fontWeight: "bold" }}
-            onClick={this.dismissLead}
-            variant="contained"
-            color="secondary"
-          >
-            NO THANKS
+            <Button
+              style={{ fontWeight: "bold" }}
+              onClick={this.confirmDismissal}
+              variant="contained"
+              color="secondary"
+            >
+              DECLINE JOB
           </Button>
-        </div>
+          </div>
+        </>
       )
     }
 
@@ -319,18 +411,32 @@ export class Row extends Component {
                       <FaRoute className="item-icon" size={16} />
                       {this.formatDistance()}
                     </span>
+                    <p className="item-title">DESCRIPTION</p>
+                    {this.state.row.description}
                     <p className="item-title">TIME FRAME</p>
                     <span className="item-with-icon">
                       <FaRegClock className="item-icon" size={16} />
-                      {formatTimeFrame(this.state.row.timeFrame)}
+                      {formatTimeFrame(this.state.row.customerTimeFrame)}
                     </span>
-                    <p className="item-title">DESCRIPTION</p>
-                    {this.state.row.description}
                     <p className="item-title">BUDGET</p>
                     <span className="item-with-icon">
                       <FaFileInvoiceDollar className="item-icon" size={16} />
                       {formatBudget(this.state.row.budget)}
                     </span>
+                    {this.state.row.isCommitted && (
+                      <>
+                        <p className="item-title">QUOTED TIME FRAME</p>
+                        <span className="item-with-icon">
+                          <FaRegClock className="item-icon" size={16} />
+                          {formatTimeFrame(this.state.row.timeFrameQuote)}
+                        </span>
+                        <p className="item-title">QUOTED INVOICE</p>
+                        <span className="item-with-icon">
+                          <FaFileInvoiceDollar className="item-icon" size={16} />
+                          ${formatNumber((this.state.row.invoiceQuote * 1.00).toFixed(2))}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <div className="job-details-column job-details-column-2">
                     {this.props.userType !== 3 && (
@@ -350,7 +456,7 @@ export class Row extends Component {
                         </span>
                       </Card>
                     )}
-                    {(this.props.userType !== 1 || this.state.row.isInterested) && (
+                    {(this.props.userType !== 1 || this.state.row.isClaimed) && (
                       <Card className="job-details-card">
                         <p className="item-title">CUSTOMER INFO</p>
                         <span className="item-with-icon">

@@ -168,11 +168,11 @@ class ServiceDetailsPage extends Component {
               <div className="textfield-container-col">
                 <TextField
                   select
-                  name="timeFrame"
+                  name="customerTimeFrame"
                   label="Time Frame"
                   variant="outlined"
                   required
-                  value={this.state.jobDetails.timeFrame || ""}
+                  value={this.state.jobDetails.customerTimeFrame || ""}
                   onChange={this.jobDetailsChange}
                 >
                   {this.timeFrames.map(option => (
@@ -297,7 +297,7 @@ class ServiceDetailsPage extends Component {
                 !(
                   this.state.jobDetails.description &&
                   this.state.jobDetails.budget &&
-                  this.state.jobDetails.timeFrame &&
+                  this.state.jobDetails.customerTimeFrame &&
                   this.state.jobDetails.firstName &&
                   this.state.jobDetails.lastName &&
                   this.state.jobDetails.phone &&

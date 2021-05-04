@@ -50,6 +50,9 @@ export const formatTimeFrame = (number) => {
         case 1:
             verbiage = '1 Week';
             break;
+        case 2:
+            verbiage = '2 Weeks';
+            break;
         case 4:
             verbiage = '1 Month';
             break;

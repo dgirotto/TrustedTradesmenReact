@@ -23,10 +23,37 @@ function getLeads(pageNumber, itemsPerPage, sortDateDesc) {
   );
 }
 
-function updateLead(body) {
+function dismiss(body) {
   const headers = getHeaders();
   return axios.post(
-    `${commonEndpoint}/lead/update.php`,
+    `${commonEndpoint}/lead/dismiss.php`,
+    body,
+    { headers }
+  );
+}
+
+function claim(body) {
+  const headers = getHeaders();
+  return axios.post(
+    `${commonEndpoint}/lead/claim.php`,
+    body,
+    { headers }
+  );
+}
+
+function dismissClaimed(body) {
+  const headers = getHeaders();
+  return axios.post(
+    `${commonEndpoint}/lead/dismiss_claimed.php`,
+    body,
+    { headers }
+  );
+}
+
+function submitQuote(body) {
+  const headers = getHeaders();
+  return axios.post(
+    `${commonEndpoint}/lead/submit_quote.php`,
     body,
     { headers }
   );
@@ -42,5 +69,8 @@ function getHeaders() {
 
 export const LeadsService = {
   getLeads,
-  updateLead
+  dismiss,
+  claim,
+  dismissClaimed,
+  submitQuote
 };

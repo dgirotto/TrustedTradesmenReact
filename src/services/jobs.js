@@ -44,14 +44,6 @@ function abandonJob(body) {
   );
 }
 
-function acceptInvoice(body) {
-  const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/job/accept_invoice.php`,
-    body,
-    { headers }
-  );
-}
-
 function addReview(body) {
   const headers = getHeaders();
   return axios.post(`${commonEndpoint}/job/add_review.php`,
@@ -116,17 +108,17 @@ function giftLead(body) {
   );
 }
 
-function selectContractor(body) {
+function hireContractor(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/job/select_contractor.php`,
+  return axios.post(`${commonEndpoint}/job/hire_contractor.php`,
     body,
     { headers }
   );
 }
 
-function submitInvoice(body) {
+function fireContractor(body) {
   const headers = getHeaders();
-  return axios.post(`${commonEndpoint}/job/submit_invoice.php`,
+  return axios.post(`${commonEndpoint}/job/fire_contractor.php`,
     body,
     { headers }
   );
@@ -145,7 +137,6 @@ export const JobService = {
   getJobs,
   addJob,
   abandonJob,
-  acceptInvoice,
   addReview,
   claimInspection,
   completeInspection,
@@ -154,6 +145,6 @@ export const JobService = {
   confirmContractorPayment,
   confirmInvoicePayment,
   giftLead,
-  selectContractor,
-  submitInvoice
+  hireContractor,
+  fireContractor
 };
