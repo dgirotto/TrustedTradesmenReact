@@ -97,7 +97,7 @@ export class Row extends Component {
       row: this.props.row,
       notes: "",
       completionDate: "",
-      interestedContractor: this.props.row.interestedContractors && this.props.row.interestedContractors.length > 0 ? this.props.row.interestedContractors[0].contractorId : null,
+      interestedContractor: this.props.row.interestedContractors && this.props.row.interestedContractors.length > 0 ? this.props.row.interestedContractors[0].contractorId : "",
       selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
@@ -115,7 +115,7 @@ export class Row extends Component {
       row: newProps.row,
       notes: "",
       completionDate: "",
-      interestedContractor: newProps.row.interestedContractors && newProps.row.interestedContractors.length > 0 ? newProps.row.interestedContractors[0].contractorId : null,
+      interestedContractor: this.state.interestedContractor ? this.state.interestedContractor : (newProps.row.interestedContractors && newProps.row.interestedContractors.length > 0 ? newProps.row.interestedContractors[0].contractorId : ""),
       selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
@@ -129,8 +129,8 @@ export class Row extends Component {
   setInitialVals = (props) => {
     this.requiresInspection = parseInt(props.row.invoice) >= this.invoiceThreshold;
 
-    this.invoiceHst = props.row.invoiceQuote * this.hstPct;
-    this.invoiceTotal = props.row.invoiceQuote * 1.00 + this.invoiceHst;
+    this.invoiceHst = props.row.invoice * this.hstPct;
+    this.invoiceTotal = props.row.invoice * 1.00 + this.invoiceHst;
   }
 
   hireContractor = () => {
@@ -159,8 +159,11 @@ export class Row extends Component {
 
     JobService.fireContractor(body)
       .then(() => {
-        this.props.getJobs(true);
-        // this.props.setMessage(false, "Contractor successfully fired");
+        this.setState({ interestedContractor: "" },
+          () => {
+            this.props.getJobs(true);
+            // this.props.setMessage(false, "Contractor successfully fired");
+          });
       })
       .catch(err => {
         // this.props.setMessage(true, "Unable to fire Contractor");
@@ -515,7 +518,7 @@ export class Row extends Component {
               <TextField
                 select
                 name="contractor"
-                value={this.state.interestedContractor || this.state.row.interestedContractors[0].contractorId}
+                value={this.state.interestedContractor}
                 onChange={event => {
                   this.setState({ interestedContractor: event.target.value })
                 }}
@@ -528,6 +531,9 @@ export class Row extends Component {
                 ))}
               </TextField>
             </div>
+            <div style={{ marginBottom: "15px" }}>
+              CONTRACTOR ID {this.state.interestedContractor} INVOICE AND TIME FRAME QUOTES HERE
+            </div>
             <div className="button-container multi-button">
               <Button
                 style={{ fontWeight: "bold" }}
@@ -537,7 +543,7 @@ export class Row extends Component {
               >
                 VIEW PROFILE
               </Button>
-              {this.contractorIsCommitted() && (
+              {this.contractorIsCommitted && (
                 <Button
                   style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
                   onClick={() => this.setModal(0)}
@@ -1011,7 +1017,7 @@ export class Row extends Component {
                         <p className="item-title">QUOTED TIME FRAME</p>
                         <span className="item-with-icon">
                           <FaRegClock className="item-icon" size={16} />
-                          {formatTimeFrame(this.state.row.timeFrameQuote)}
+                          {formatTimeFrame(this.state.row.timeFrame)}
                         </span>
                         <p className="item-title item-with-icon">
                           INVOICE DETAILS
@@ -1036,7 +1042,7 @@ export class Row extends Component {
                             <tbody>
                               <tr>
                                 <td>SUBTOTAL</td>
-                                <td>${formatNumber((this.state.row.invoiceQuote * 1.00).toFixed(2))}</td>
+                                <td>${formatNumber((this.state.row.invoice * 1.00).toFixed(2))}</td>
                               </tr>
                               <tr>
                                 <td>HST ({this.hstPct * 100}%)</td>

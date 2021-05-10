@@ -339,7 +339,7 @@ export class Row extends Component {
           </div>
           <div className="textfield-container-col">
             <TextField
-              requred
+              required
               select
               name="customerTimeFrame"
               label="Time Frame"
