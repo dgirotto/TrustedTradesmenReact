@@ -138,7 +138,8 @@ class ServiceDetailsPage extends Component {
             <span className="field-desc">Provide a general description for job required (square footage, material type, etc.)</span>
             <div className="textfield-container-col">
               <TextField
-                type="text"
+                multiline
+                rowsMax={6}
                 name="description"
                 label="Description"
                 variant="outlined"
@@ -186,7 +187,6 @@ class ServiceDetailsPage extends Component {
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
-                  type="text"
                   name="firstName"
                   label="First Name"
                   variant="outlined"
@@ -197,7 +197,6 @@ class ServiceDetailsPage extends Component {
               </div>
               <div className="textfield-container-col">
                 <TextField
-                  type="text"
                   name="lastName"
                   label="Last Name"
                   variant="outlined"
@@ -208,7 +207,6 @@ class ServiceDetailsPage extends Component {
               </div>
               <div className="textfield-container-col">
                 <TextField
-                  type="text"
                   name="phone"
                   label="Phone"
                   variant="outlined"
@@ -220,7 +218,6 @@ class ServiceDetailsPage extends Component {
             </div>
             <div className="textfield-container-col">
               <TextField
-                type="text"
                 name="address"
                 label="Address"
                 variant="outlined"
@@ -232,7 +229,6 @@ class ServiceDetailsPage extends Component {
             <div className="textfield-container-row">
               <div className="textfield-container-col">
                 <TextField
-                  type="text"
                   name="city"
                   label="City"
                   variant="outlined"
@@ -260,7 +256,6 @@ class ServiceDetailsPage extends Component {
               </div>
               <div className="textfield-container-col">
                 <TextField
-                  type="text"
                   name="postalCode"
                   label="Postal Code"
                   variant="outlined"
@@ -336,8 +331,7 @@ class ServiceDetailsPage extends Component {
         {this.state.jobSubmitted && !this.state.isLoading && (
           <CustomAlert type={"success"} title={"Submission Successful"}>
             <>
-              Your job submission was successful. A contractor will get in touch with you shortly.
-              Keep track of your job by visiting the Jobs page.
+              Your job submission was successful. A contractor will get in touch with you shortly (please allow at least 24 hours for a response). Keep track of your job by visiting the Jobs page.
               <div style={{ justifyContent: "space-around", marginTop: "10px", marginBottom: "0px" }} className="button-container">
                 <Button
                   style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}

@@ -206,6 +206,11 @@ export class Row extends Component {
         <Chip className="status completed" label="Interested" />
       );
     }
+    else if (this.state.row.isLocked) {
+      status = (
+        <Chip className="status cancelled" label="Locked" />
+      );
+    }
     else {
       let statusVerbiage = '';
 
@@ -239,7 +244,7 @@ export class Row extends Component {
                 <td>Distance: {this.formatDistance()}</td>
               </tr>
               <tr>
-                <td>Time Frame: {formatTimeFrame(this.state.row.customerTimeFrame)}</td>
+                <td>Desired Time Frame: {formatTimeFrame(this.state.row.customerTimeFrame)}</td>
               </tr>
               <tr>
                 <td>{this.getLeadStatus()}</td>
@@ -279,7 +284,10 @@ export class Row extends Component {
   getAlertContent = () => {
     let content = null;
 
-    if (this.props.row.isCommitted) {
+    if (this.props.row.isLocked) {
+      content = <Alert className="alert-msg" severity="info" color="info">Sorry, other contractors have already claimed this job. We'll let you know if it frees up again.</Alert>;
+    }
+    else if (this.props.row.isCommitted) {
       content = <Alert className="alert-msg" severity="info" color="info">Waiting on the customer to make their decision.</Alert>;
     }
     else if (this.props.row.isClaimed) {
@@ -300,9 +308,11 @@ export class Row extends Component {
       content = (
         <div className="button-container">
           <Button
-            style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
+            // style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
             onClick={this.claim}
             variant="contained"
+            color="primary"
+            disabled={this.state.row.isLocked}
           >
             I'M INTERESTED
           </Button>
@@ -342,7 +352,7 @@ export class Row extends Component {
               required
               select
               name="customerTimeFrame"
-              label="Time Frame"
+              label="Time Frame Quote"
               variant="outlined"
               required
               value={this.state.timeFrameQuote || ""}
@@ -395,9 +405,7 @@ export class Row extends Component {
               <Box margin={1.5}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
-                    <p className="item-title" style={{ marginTop: "0px" }}>LEAD ID</p>
-                    {this.state.row.leadId}
-                    <p className="item-title">SERVICE</p>
+                    <p className="item-title" style={{ marginTop: "0px" }}>SERVICE</p>
                     {this.state.row.serviceName}
                     <p className="item-title">SUBMITTED</p>
                     <span className="item-with-icon">
@@ -412,8 +420,8 @@ export class Row extends Component {
                       {this.formatDistance()}
                     </span>
                     <p className="item-title">DESCRIPTION</p>
-                    {this.state.row.description}
-                    <p className="item-title">TIME FRAME</p>
+                    <div className="multi-line-container">{this.state.row.description}</div>
+                    <p className="item-title">DESIRED TIME FRAME</p>
                     <span className="item-with-icon">
                       <FaRegClock className="item-icon" size={16} />
                       {formatTimeFrame(this.state.row.customerTimeFrame)}
@@ -658,7 +666,7 @@ class LeadsPage extends Component {
                         DISTANCE
                       </TableCell>
                       <TableCell>
-                        TIME FRAME
+                        DESIRED TIME FRAME
                       </TableCell>
                       <TableCell>
                         <div style={{ display: "flex", alignItems: "center" }}>

@@ -415,6 +415,8 @@ class SettingsPage extends Component {
                       <span className="field-desc">List any deals or specials you wish to be highlighted on your profile page.</span>
                       <div className="textfield-container-col">
                         <TextField
+                          multiline
+                          rowsMax={6}
                           type="text"
                           name="specials"
                           label="Specials"

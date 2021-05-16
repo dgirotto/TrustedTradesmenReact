@@ -62,11 +62,11 @@ class ContractorDetailsPage extends Component {
                     {this.state.contractorDetails.specials && (
                         <div className="contractor-headline">
                             <span className="details-title">Deals</span>
-                            <span>{this.state.contractorDetails.specials}</span>
+                            <div className="multi-line-container">{this.state.contractorDetails.specials}</div>
                         </div>)}
                     <div className="contractor-bio">
                         <span className="details-title">About</span>
-                        <span>{this.state.contractorDetails.bio}</span>
+                        <div className="multi-line-container">{this.state.contractorDetails.bio}</div>
                     </div>
                 </div>
             </div>

@@ -47,7 +47,12 @@ import Rating from '@material-ui/lab/Rating';
 // import MuiAlert from "@material-ui/lab/Alert";
 // import Snackbar from "@material-ui/core/Snackbar";
 
+// New Mat-UI Select Chip
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+
 import "./JobsPage.css";
+import { TrendingUpOutlined } from "@material-ui/icons";
 
 var tableTheme = createMuiTheme({
   overrides: {
@@ -83,7 +88,7 @@ export class Row extends Component {
   // Constants
   ttFeePct = 0.06;
   hstPct = 0.13;
-  invoiceThreshold = 5000;
+  invoiceThreshold = 7000;
   // Non-constants
   requiresInspection = false;
   invoiceHst = 0;
@@ -102,9 +107,7 @@ export class Row extends Component {
       inspectionPassed: null,
       reworkCompleted: null,
       rating: null,
-      comments: "",
-      isAnonymous: false,
-      // reportSent: false
+      comments: ""
     };
   }
 
@@ -120,9 +123,7 @@ export class Row extends Component {
       inspectionPassed: null,
       reworkCompleted: null,
       rating: null,
-      comments: "",
-      isAnonymous: false,
-      // reportSent: false
+      comments: ""
     });
   }
 
@@ -314,8 +315,7 @@ export class Row extends Component {
     let body = {
       jobId: this.state.row.jobId,
       rating: this.state.rating,
-      comments: this.state.comments,
-      isAnonymous: this.state.isAnonymous
+      comments: this.state.comments
     };
 
     JobService.addReview(body)
@@ -340,12 +340,13 @@ export class Row extends Component {
       });
   }
 
+  // TODO: FIX THIS
   contractorIsCommitted = () => {
     let result = this.state.row.interestedContractors.find(interestedContractor => {
       return interestedContractor.contractorId === this.state.interestedContractor
     });
 
-    return result.isCommitted;
+    return result.isCommitted === true;
   }
 
   renderSelectedContractors = selectedContractors => {
@@ -473,31 +474,12 @@ export class Row extends Component {
             }}
           />
         </div>
-        <div className="textfield-container-col">
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={event => {
-                  if (event.target.checked) {
-                    this.setState({ isAnonymous: true });
-                  }
-                  else {
-                    this.setState({ isAnonymous: false });
-                  }
-                }}
-                checked={this.state.isAnonymous}
-              />
-            }
-            label="I wish to remain anonymous"
-          />
-        </div>
         <div className="button-container">
           <Button
             style={{ fontWeight: "bold" }}
             onClick={this.submitReview}
             variant="contained"
-            color="primary"
-          >
+            color="primary">
             SUBMIT
           </Button>
         </div>
@@ -543,7 +525,7 @@ export class Row extends Component {
               >
                 VIEW PROFILE
               </Button>
-              {this.contractorIsCommitted && (
+              {this.contractorIsCommitted() && (
                 <Button
                   style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold" }}
                   onClick={() => this.setModal(0)}
@@ -788,27 +770,10 @@ export class Row extends Component {
                   variant="outlined"
                 />
               </div>
-              {/* <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={event => {
-                      if (event.target.checked) {
-                        this.setState({ reportSent: true });
-                      }
-                      else {
-                        this.setState({ reportSent: false });
-                      }
-                    }}
-                    checked={this.state.reportSent}
-                  />
-                }
-                label="I have filled out an inspection report"
-              /> */}
               <div className="button-container">
                 <Button
                   variant="contained"
                   onClick={this.completeJob}
-                  // disabled={this.state.completionDate === "" || !this.state.reportSent}
                   disabled={this.state.completionDate === ""}
                   color="primary"
                 >
@@ -827,7 +792,35 @@ export class Row extends Component {
           <>
             <Alert className="alert-msg" severity="info" color="info">Hand-pick contractors you wish to gift a job lead to.</Alert>
             <div className="textfield-container-col">
+              NEED TO FINISH THIS
+              {/* TODO: Implement the below */}
+              {/* <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel>
               <Select
+                labelId="demo-mutiple-chip-label"
+                id="demo-mutiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<Input id="select-multiple-chip" />}
+                renderValue={(selected) => (
+                  <div className={classes.chips}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} className={classes.chip} />
+                    ))}
+                  </div>
+                )}
+                MenuProps={MenuProps}
+              >
+                {this.state.row.potentialContractors.map((con) => (
+                  <MenuItem key={con.contractorId} value={con.contractorId}>
+                    {con.companyName}
+                  </MenuItem>
+                ))}
+              </Select> */}
+
+
+              {/* TODO: Remove the below select once the above is implemented  */}
+              {/* <Select
                 multiple
                 displayEmpty
                 variant="outlined"
@@ -846,7 +839,7 @@ export class Row extends Component {
                     <ListItemText primary={con.companyName} />
                   </MenuItem>
                 ))}
-              </Select>
+              </Select> */}
             </div>
             <div className="button-container">
               <Button
@@ -899,7 +892,7 @@ export class Row extends Component {
         status = <Chip className="status required" label="Requires Rework" />;
       }
     }
-    else if (!this.state.row.invoicePaid) {
+    else if (this.props.userType !== 2 && !this.state.row.invoicePaid) {
       status = <Chip className="status required" label="Payment Required" />;
     }
     else {
@@ -989,11 +982,9 @@ export class Row extends Component {
               <Box margin={1.5}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
-                    <p className="item-title" style={{ marginTop: "0px" }}>JOB ID</p>
-                    {this.state.row.jobId}
-                    <p className="item-title">SERVICE</p>
+                    <p className="item-title" style={{ marginTop: "0px" }}>SERVICE</p>
                     {this.state.row.serviceName}
-                    <p className="item-title">SUBMITTED</p>
+                    <p className="item-title">DATE SUBMITTED</p>
                     <span className="item-with-icon">
                       <FaRegCalendarAlt className="item-icon" size={16} />
                       {formatDate(this.state.row.creationDate.split(" ")[0])}
@@ -1001,8 +992,8 @@ export class Row extends Component {
                     <p className="item-title">LOCATION</p>
                     {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
                     <p className="item-title">DESCRIPTION</p>
-                    {this.state.row.description}
-                    <p className="item-title">TIME FRAME</p>
+                    <div className="multi-line-container">{this.state.row.description}</div>
+                    <p className="item-title">DESIRED TIME FRAME</p>
                     <span className="item-with-icon">
                       <FaRegClock className="item-icon" size={16} />
                       {formatTimeFrame(this.state.row.customerTimeFrame)}
@@ -1029,14 +1020,6 @@ export class Row extends Component {
                             </>
                           )} */}
                         </p>
-                        {this.state.row.invoicePaid ?
-                          <span className="item-with-icon green">
-                            <FaCheckCircle className="item-icon green" size={16} />Invoice Paid
-                            </span> :
-                          <span className="item-with-icon red">
-                            <FaTimesCircle className="item-icon red" size={16} />Payment Pending
-                            </span>
-                        }
                         <div className="fee-table-container">
                           <table className="fee-table">
                             <tbody>
@@ -1051,7 +1034,7 @@ export class Row extends Component {
                               <tr className="table-divider">
                                 <td>TOTAL</td>
                                 <td>
-                                  <span className={this.state.row.invoicePaid ? "green" : "red"} style={{ fontWeight: "bold" }}>
+                                  <span className={this.state.row.invoicePaid ? "green" : "red"}>
                                     ${formatNumber(this.invoiceTotal.toFixed(2))}
                                   </span>
                                 </td>
@@ -1059,6 +1042,14 @@ export class Row extends Component {
                             </tbody>
                           </table>
                         </div>
+                        {this.state.row.invoicePaid ?
+                          <span className="item-with-icon green">
+                            <FaCheckCircle className="item-icon green" size={16} />Invoice Paid
+                          </span> :
+                          <span className="item-with-icon red">
+                            <FaTimesCircle className="item-icon red" size={16} />Invoice Not Paid
+                          </span>
+                        }
                       </>
                     )}
                     {this.state.row.completionDate && (
@@ -1071,7 +1062,7 @@ export class Row extends Component {
                         {this.props.userType !== 0 && this.state.row.contractorNotes && (
                           <>
                             <p className="item-title">NOTES TO INSPECTOR</p>
-                            {this.state.row.contractorNotes}
+                            <div className="multi-line-container">{this.state.row.contractorNotes}</div>
                           </>
                         )}
                         {this.state.row.inspectionDate && (
@@ -1093,7 +1084,7 @@ export class Row extends Component {
                             {this.props.userType !== 0 && this.state.row.inspectorNotes && (
                               <>
                                 <p className="item-title">NOTES TO CONTRACTOR</p>
-                                {this.state.row.inspectorNotes}
+                                <div className="multi-line-container">{this.state.row.inspectorNotes}</div>
                               </>
                             )}
                             {this.state.row.reworkCompletionDate && (
@@ -1119,7 +1110,7 @@ export class Row extends Component {
                                 {!this.state.row.reworkCompleted && (
                                   <>
                                     <p className="item-title">REWORK NOTES</p>
-                                    {this.state.row.reworkNotes}
+                                    <div className="multi-line-container">{this.state.row.reworkNotes}</div>
                                   </>
                                 )}
                               </>
@@ -1375,8 +1366,7 @@ class JobsPage extends Component {
               <Button
                 style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
                 onClick={() => window.location.href = "/services"}
-                variant="contained"
-              >
+                variant="contained">
                 FIND A CONTRACTOR
               </Button>
             </div>
@@ -1399,8 +1389,7 @@ class JobsPage extends Component {
                 onClick={this.handleSearchClick}
                 variant="contained"
                 color="primary"
-                disabled={this.state.addressFilterVal === ""}
-              >
+                disabled={this.state.addressFilterVal === ""}>
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <FaSearch style={{ margin: "2px auto 0" }} size={22} />
                   <div style={{ margin: "0 0 -4px 0", fontWeight: "bold" }}>SEARCH</div>
@@ -1410,8 +1399,7 @@ class JobsPage extends Component {
                 style={{ background: "#47a747" }}
                 onClick={this.handleRefreshClick}
                 variant="contained"
-                color="primary"
-              >
+                color="primary">
                 <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <FaSync style={{ margin: "2px auto 0" }} size={22} />
                   <div style={{ margin: "0 0 -4px 0", fontWeight: "bold" }}>SYNC</div>
@@ -1436,15 +1424,16 @@ class JobsPage extends Component {
                 <CustomAlert type={"info"} title={"No Jobs Found"}>
                   <div style={{ textAlign: "center" }}>You do not have any jobs assigned to you at the moment.</div>
                 </CustomAlert>
-                <div style={{ justifyContent: "space-around" }} className="button-container">
-                  <Button
-                    style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
-                    onClick={() => window.location.href = "/leads"}
-                    variant="contained"
-                  >
-                    MY LEADS
-                </Button>
-                </div>
+                {this.state.userType === 1 && (
+                  <div style={{ justifyContent: "space-around" }} className="button-container">
+                    <Button
+                      style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                      onClick={() => window.location.href = "/leads"}
+                      variant="contained">
+                      MY LEADS
+                    </Button>
+                  </div>
+                )}
               </>
             )}
           {this.state.jobCount > 0 && !this.state.isLoading && (
