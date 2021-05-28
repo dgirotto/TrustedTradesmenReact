@@ -2,25 +2,69 @@ import React, { Component } from "react";
 import "./HomePage.css";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import { FaRegHandshake, FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
+import { FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 class HomePage extends Component {
   render() {
     return (
       <>
-        <div className="intro-container">
-          <h1 style={{ color: "#FFF" }} className="home-title">OUR MISSION</h1>
-          <div className="intro">
-            My name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
-              contracting jobs done incorrectly and witnessed many people get ripped off.<br /><br />
-              I've designed a website that has only inspector-approved contractors. Most other sites with contractor ratings are from
-              customers who may not be completely knowledgable about construction. Contractors at Trusted Tradesmen are rated by
-              both the customer and professional inspectors, who are trusted!<br /><br />
-              A great job for a fair price is my ultimate aim, by honest
-              contractors with integrity and morale. They're definitely out there, and I'm finding more as I go.<br /><br />
-              Get started today!
+        <div style={{
+          background: `url('${process.env.PUBLIC_URL}/images/home-page-banner-2.jpg')`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          height: 350
+        }}>
+          <div className="banner-container">
+            <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+              <div>
+                FREE HOME INSPECTION FOR JOBS OVER $7,000!
+                <Button
+                  style={{
+                    display: "block",
+                    marginTop: "20px",
+                    backgroundColor: "#263137",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    borderRadius: 0,
+                    border: "solid #fff 2px"
+                  }}
+                  onClick={() => window.location.href = "/about"}
+                  variant="contained"
+                >
+                  VIEW OUR SERVICES
+                </Button>
+              </div>
+            </div>
+            <div>
+            </div>
           </div>
-          <FaRegHandshake className="handshake-icon" size="80" />
+        </div>
+        <div className="verbiage-container">
+          <div>
+            <h1>20</h1>
+            <h3>Years helping and providing best Services</h3>
+            My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
+            contracting jobs done incorrectly and witnessed many people getting ripped off.
+            <Button
+              style={{
+                display: "block",
+                marginTop: "20px",
+                backgroundColor: "#fff",
+                color: "#007cd2",
+                fontWeight: "bold",
+                borderRadius: 0,
+                boxShadow: "none",
+                border: "solid #007cd2 2px"
+              }}
+              onClick={() => window.location.href = "/about"}
+              variant="contained"
+            >
+              READ MORE
+            </Button>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <img src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
+          </div>
         </div>
         <div className="info-container">
           <h1 style={{ color: "#2B3F48" }} className="home-title">HOW IT WORKS</h1>
