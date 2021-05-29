@@ -50,11 +50,11 @@ class HomePage extends Component {
                 display: "block",
                 marginTop: "20px",
                 backgroundColor: "#fff",
-                color: "#007cd2",
+                color: "#0097ff",
                 fontWeight: "bold",
                 borderRadius: 0,
                 boxShadow: "none",
-                border: "solid #007cd2 2px"
+                border: "solid #0097ff 2px"
               }}
               onClick={() => window.location.href = "/about"}
               variant="contained"
@@ -70,39 +70,51 @@ class HomePage extends Component {
           <h1 style={{ color: "#2B3F48" }} className="home-title">HOW IT WORKS</h1>
           <div className="card-container">
             <Card className="card">
-              <FaUserPlus className="card-icon" size="60" />
+              <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
               <p>Create an account and login</p>
               <Button
-                className="home-button"
-                onClick={() => (window.location.href = "/register")}
+                style={{
+                  display: "block",
+                  marginTop: "20px",
+                  backgroundColor: "#fff",
+                  color: "#0097ff",
+                  fontWeight: "bold",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  border: "solid #0097ff 2px",
+                  width: "auto",
+                  margin: "0 auto"
+                }}
+                onClick={() => window.location.href = "/register"}
                 variant="contained"
-                color="primary"
               >
                 REGISTER
               </Button>
-              {/* <Button
-                className="home-button"
-                onClick={() => (window.location.href = "/login")}
-                variant="contained"
-                color="primary"
-              >
-                LOGIN
-              </Button> */}
             </Card>
             <Card className="card">
-              <FaFileContract className="card-icon" size="60" />
+              <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
               <p>Choose a service and submit a job request</p>
               <Button
-                className="home-button"
-                onClick={() => (window.location.href = "/services")}
+                style={{
+                  display: "block",
+                  marginTop: "20px",
+                  backgroundColor: "#fff",
+                  color: "#0097ff",
+                  fontWeight: "bold",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  border: "solid #0097ff 2px",
+                  width: "auto",
+                  margin: "0 auto"
+                }}
+                onClick={() => window.location.href = "/services"}
                 variant="contained"
-                color="primary"
               >
                 SERVICES
               </Button>
             </Card>
             <Card className="card">
-              <FaUsers className="card-icon" size="60" />
+              <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
               <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
             </Card>
           </div>

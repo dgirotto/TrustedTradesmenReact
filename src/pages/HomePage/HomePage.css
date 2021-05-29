@@ -44,14 +44,14 @@
 }
 
 .info-container {
-  background: #bbbbbb;
+  background: #EFEFEF;
 }
 
 .intro {
   display: flex;
   flex-direction: column;
   max-width: 1000px;
-  margin: auto;
+  margin: 0 auto;
   padding: 15px;
   font-size: 17px;
   color: #e0e0e0;
@@ -65,20 +65,23 @@
   display: flex;   
   max-width: 1000px;
   margin: auto;
+  justify-content: space-between;
 }
 
 .card {
+  margin: 20px auto 20px !important;
+  box-sizing: border-box;
+  color: #e9e9e9 !important;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 300px;
-  margin: 15px;
-  padding: 20px;
+  height: 400px;
+  padding: 30px;
   font-size: 16px;
   text-align: center;
-  background-color: #FFF;
-  border: 1px solid rgb(0 0 0 / 13%);
+  background-color: #263137 !important;
+  border-radius: 5px;
   box-shadow: none !important;
+  width: 280px;
 }
 
 .home-button {
@@ -90,13 +93,13 @@
 }
 
 .card-icon {
+  display: block;
+  width: 90px;
   margin: 0 auto;
-  padding: 15px;
-  color:#424242;
 }
 
 .footer-container {
-  background: #333333;
+  background: #263137;
 }
 
 .footer-content {
