@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import "./HomePage.css";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import { FaUserPlus, FaFileContract, FaUsers, FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 class HomePage extends Component {
   render() {
@@ -67,9 +66,16 @@ class HomePage extends Component {
           </div>
         </div>
         <div className="info-container">
-          <h1 style={{ color: "#2B3F48" }} className="home-title">HOW IT WORKS</h1>
+
+          <h1>
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 1px", borderColor: "#2086" }}>HOW</span> IT WORKS
+          </h1>
+          <h1>
+            <span style="border-style: solid; border-width: 0px 0px 4px; border-color: #2086D1;">HOW</span> IT WORKS
+          </h1>
+          {/* <h1>HOW IT WORKS</h1> */}
           <div className="card-container">
-            <Card className="card">
+            <div className="card">
               <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
               <p>Create an account and login</p>
               <Button
@@ -90,8 +96,8 @@ class HomePage extends Component {
               >
                 REGISTER
               </Button>
-            </Card>
-            <Card className="card">
+            </div>
+            <div className="card">
               <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
               <p>Choose a service and submit a job request</p>
               <Button
@@ -112,11 +118,11 @@ class HomePage extends Component {
               >
                 SERVICES
               </Button>
-            </Card>
-            <Card className="card">
+            </div>
+            <div className="card">
               <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
               <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
-            </Card>
+            </div>
           </div>
         </div>
         <div className="footer-container">
