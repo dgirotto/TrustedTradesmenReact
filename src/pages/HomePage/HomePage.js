@@ -66,61 +66,59 @@ class HomePage extends Component {
             <img src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
           </div>
         </div>
-        <div style={{ margin: "auto", background: "#EFEFEF" }}>
-          <div className="how-container">
-            {/* <h1>
-              <span style={{ borderStyle: "solid", borderWidth: "0 0 1px", borderColor: "#2086D1" }}>HOW</span> IT WORKS
-            </h1> */}
-            <div className="card-container">
-              <div className="card">
-                <div>
-                  <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
-                  <p>Create an account and login</p>
-                  <Button style={{
-                    marginTop: "20px",
-                    backgroundColor: "#fff",
-                    color: "#0097ff",
-                    fontWeight: "bold",
-                    borderRadius: 0,
-                    boxShadow: "none",
-                    border: "solid #0097ff 2px",
-                    width: "auto",
-                    margin: "0 auto"
-                  }}
-                    onClick={() => window.location.href = "/register"}
-                    variant="contained"
-                  >
-                    REGISTER
-                  </Button>
-                </div>
+        <div style={{ margin: "auto", padding: "60px 0", background: "#EFEFEF" }}>
+          <h1 style={{ margin: 0, textAlign: "center", color: "#313131" }}>
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>HOW</span> IT WORKS
+          </h1>
+          <div className="card-container">
+            <div className="card">
+              <div>
+                <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
+                <p>Create an account and login</p>
+                <Button style={{
+                  marginTop: "20px",
+                  backgroundColor: "#fff",
+                  color: "#0097ff",
+                  fontWeight: "bold",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  border: "solid #0097ff 2px",
+                  width: "auto",
+                  margin: "0 auto"
+                }}
+                  onClick={() => window.location.href = "/register"}
+                  variant="contained"
+                >
+                  REGISTER
+                </Button>
               </div>
-              <div className="card">
-                <div>
-                  <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
-                  <p>Choose a service and submit a job request</p>
-                  <Button style={{
-                    marginTop: "20px",
-                    backgroundColor: "#fff",
-                    color: "#0097ff",
-                    fontWeight: "bold",
-                    borderRadius: 0,
-                    boxShadow: "none",
-                    border: "solid #0097ff 2px",
-                    width: "auto",
-                    margin: "0 auto"
-                  }}
-                    onClick={() => window.location.href = "/services"}
-                    variant="contained"
-                  >
-                    SERVICES
-                  </Button>
-                </div>
+            </div>
+            <div className="card">
+              <div>
+                <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
+                <p>Choose a service and submit a job request</p>
+                <Button style={{
+                  marginTop: "20px",
+                  backgroundColor: "#fff",
+                  color: "#0097ff",
+                  fontWeight: "bold",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  border: "solid #0097ff 2px",
+                  width: "auto",
+                  margin: "0 auto"
+                }}
+                  onClick={() => window.location.href = "/services"}
+                  variant="contained"
+                >
+                  SERVICES
+                </Button>
               </div>
-              <div className="card">
-                <div>
-                  <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
-                  <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
-                </div>
+            </div>
+            <div className="card">
+              <div>
+                <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
+                <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
               </div>
             </div>
           </div>

@@ -26,18 +26,16 @@
   flex: 1;
 }
 
-.how-container {
+.card-container {
+  display: flex;
+  justify-content: space-between;
   max-width: 1050px; 
-  padding: 0 20px;
+  padding: 20px;
   margin: auto;
   box-sizing: border-box; 
   background: #EFEFEF;
 }
 
-.card-container {
-  display: flex;
-  justify-content: space-between;
-}
 
 .card {
   display: flex;
