@@ -14,7 +14,7 @@ class HomePage extends Component {
           height: 350
         }}>
           <div className="banner-container">
-            <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <div>
                 FREE HOME INSPECTION FOR JOBS OVER $7,000!
                 <Button
@@ -39,13 +39,13 @@ class HomePage extends Component {
           </div>
         </div>
         <div className="verbiage-container">
-          <div>
-            <h1>20</h1>
-            <h3>Years helping and providing best Services</h3>
-            My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
-            contracting jobs done incorrectly and witnessed many people getting ripped off.
-            <Button
-              style={{
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div>
+              <h1 style={{ margin: 0 }}>20</h1>
+              <h3>Years helping and providing best Services</h3>
+              My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
+              contracting jobs done incorrectly and witnessed many people getting ripped off.
+              <Button style={{
                 display: "block",
                 marginTop: "20px",
                 backgroundColor: "#fff",
@@ -55,73 +55,73 @@ class HomePage extends Component {
                 boxShadow: "none",
                 border: "solid #0097ff 2px"
               }}
-              onClick={() => window.location.href = "/about"}
-              variant="contained"
-            >
-              READ MORE
-            </Button>
+                onClick={() => window.location.href = "/about"}
+                variant="contained"
+              >
+                READ MORE
+              </Button>
+            </div>
           </div>
           <div style={{ textAlign: "right" }}>
             <img src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
           </div>
         </div>
-        <div className="info-container">
-
-          <h1>
-            <span style={{ borderStyle: "solid", borderWidth: "0 0 1px", borderColor: "#2086" }}>HOW</span> IT WORKS
-          </h1>
-          <h1>
-            <span style="border-style: solid; border-width: 0px 0px 4px; border-color: #2086D1;">HOW</span> IT WORKS
-          </h1>
-          {/* <h1>HOW IT WORKS</h1> */}
-          <div className="card-container">
-            <div className="card">
-              <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
-              <p>Create an account and login</p>
-              <Button
-                style={{
-                  display: "block",
-                  marginTop: "20px",
-                  backgroundColor: "#fff",
-                  color: "#0097ff",
-                  fontWeight: "bold",
-                  borderRadius: 0,
-                  boxShadow: "none",
-                  border: "solid #0097ff 2px",
-                  width: "auto",
-                  margin: "0 auto"
-                }}
-                onClick={() => window.location.href = "/register"}
-                variant="contained"
-              >
-                REGISTER
-              </Button>
-            </div>
-            <div className="card">
-              <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
-              <p>Choose a service and submit a job request</p>
-              <Button
-                style={{
-                  display: "block",
-                  marginTop: "20px",
-                  backgroundColor: "#fff",
-                  color: "#0097ff",
-                  fontWeight: "bold",
-                  borderRadius: 0,
-                  boxShadow: "none",
-                  border: "solid #0097ff 2px",
-                  width: "auto",
-                  margin: "0 auto"
-                }}
-                onClick={() => window.location.href = "/services"}
-                variant="contained"
-              >
-                SERVICES
-              </Button>
-            </div>
-            <div className="card">
-              <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
-              <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
+        <div style={{ margin: "auto", background: "#EFEFEF" }}>
+          <div className="how-container">
+            {/* <h1>
+              <span style={{ borderStyle: "solid", borderWidth: "0 0 1px", borderColor: "#2086D1" }}>HOW</span> IT WORKS
+            </h1> */}
+            <div className="card-container">
+              <div className="card">
+                <div>
+                  <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
+                  <p>Create an account and login</p>
+                  <Button style={{
+                    display: "block",
+                    marginTop: "20px",
+                    backgroundColor: "#fff",
+                    color: "#0097ff",
+                    fontWeight: "bold",
+                    borderRadius: 0,
+                    boxShadow: "none",
+                    border: "solid #0097ff 2px",
+                    width: "auto",
+                    margin: "0 auto"
+                  }}
+                    onClick={() => window.location.href = "/register"}
+                    variant="contained"
+                  >
+                    REGISTER
+                  </Button>
+                </div>
+              </div>
+              <div className="card">
+                <div>
+                  <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
+                  <p>Choose a service and submit a job request</p>
+                  <Button style={{
+                    display: "block",
+                    marginTop: "20px",
+                    backgroundColor: "#fff",
+                    color: "#0097ff",
+                    fontWeight: "bold",
+                    borderRadius: 0,
+                    boxShadow: "none",
+                    border: "solid #0097ff 2px",
+                    width: "auto",
+                    margin: "0 auto"
+                  }}
+                    onClick={() => window.location.href = "/services"}
+                    variant="contained"
+                  >
+                    SERVICES
+                  </Button>
+                </div>
+              </div>
+              <div className="card">
+                <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
+                <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
+              </div>
             </div>
           </div>
         </div>
