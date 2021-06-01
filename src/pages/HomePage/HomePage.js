@@ -77,7 +77,6 @@ class HomePage extends Component {
                   <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
                   <p>Create an account and login</p>
                   <Button style={{
-                    display: "block",
                     marginTop: "20px",
                     backgroundColor: "#fff",
                     color: "#0097ff",
@@ -100,7 +99,6 @@ class HomePage extends Component {
                   <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
                   <p>Choose a service and submit a job request</p>
                   <Button style={{
-                    display: "block",
                     marginTop: "20px",
                     backgroundColor: "#fff",
                     color: "#0097ff",
@@ -119,8 +117,10 @@ class HomePage extends Component {
                 </div>
               </div>
               <div className="card">
-                <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
-                <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
+                <div>
+                  <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
+                  <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
+                </div>
               </div>
             </div>
           </div>

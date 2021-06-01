@@ -35,8 +35,7 @@
 }
 
 .card-container {
-  display: flex;   
-  margin: auto;
+  display: flex;
   justify-content: space-between;
 }
 
@@ -97,6 +96,14 @@
 }
 
 @media (max-width: 768px) {
+  .banner-container {
+    flex-direction: column;
+  }
+
+  .verbiage-container {
+    flex-direction: column;
+  }
+
   .card-container {
     flex-direction: column;
   }
