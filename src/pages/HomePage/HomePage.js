@@ -7,6 +7,12 @@ class HomePage extends Component {
   render() {
     return (
       <>
+        <div className="main-menu">
+          <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
+          <div>
+            OTHER LINKS
+          </div>
+        </div>
         <div style={{
           background: `url('${process.env.PUBLIC_URL}/images/home-page-banner-2.jpg')`,
           backgroundRepeat: "no-repeat",
@@ -62,19 +68,19 @@ class HomePage extends Component {
               </Button>
             </div>
           </div>
-          <div style={{ textAlign: "right" }}>
+          <div className="img-container">
             <img src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
           </div>
         </div>
         <div style={{ padding: "60px 0", background: "#EFEFEF" }}>
-          <h1 style={{ margin: "20px 0", textAlign: "center", color: "#313131" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>HOW</span> IT WORKS
           </h1>
           <div className="card-container">
             <div className="card">
               <div>
                 <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
-                <p>Create an account and login</p>
+                <p style={{ padding: "5px 0" }}>Create an account and login</p>
                 <Button style={{
                   marginTop: "20px",
                   backgroundColor: "#fff",
@@ -96,7 +102,7 @@ class HomePage extends Component {
             <div className="card">
               <div>
                 <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
-                <p>Choose a service and submit a job request</p>
+                <p style={{ padding: "5px 0" }}>Choose a service and submit a job request</p>
                 <Button style={{
                   marginTop: "20px",
                   backgroundColor: "#fff",
@@ -118,7 +124,7 @@ class HomePage extends Component {
             <div className="card">
               <div>
                 <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
-                <p>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
+                <p style={{ padding: "5px 0" }}>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
                 <Button style={{
                   marginTop: "20px",
                   backgroundColor: "#fff",

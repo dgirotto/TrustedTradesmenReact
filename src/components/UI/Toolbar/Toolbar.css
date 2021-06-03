@@ -2,25 +2,23 @@
   width: 100%;
   background: #399cdf;
   z-index: 100;
-  height: 60px;
+  height: 40px;
+}
+
+.toolbar__logo {
+  margin-top: 4px;
 }
 
 .toolbar__logo a {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  margin-right: 15px;
   color: white;
-  text-decoration: none;
 }
 
-.toolbar__logo a div {
-  font-size: 20px;
-  font-weight: 600;  
-  margin-top: 7px;
+.toolbar__logo a:hover {
+  color: #1e5275;
 }
 
 .toolbar__navigation {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
@@ -42,7 +40,7 @@
 }
 
 .toolbar__navigation-items li:hover {
-  color: #009E2D;
+  color: #1e5275;
 }
 
 .toolbar__navigation-items li:active {

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegHandshake } from "react-icons/fa";
 import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
+import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 import "./Toolbar.css";
 
@@ -10,10 +11,10 @@ const ToolBar = props => {
     <header className="toolbar">
       <nav className="toolbar__navigation desktop-nav">
         <div className="toolbar__logo">
-          <Link to="/">
-            <FaRegHandshake className="logo-icon" size="35" />
-            <div className="logo-text">TRUSTED TRADESMEN</div>
-          </Link>
+          <a href="https://www.instagram.com" target="blank"><FaInstagram size="20" /></a>
+          <a href="https://www.facebook.com" target="blank"><FaFacebook size="20" /></a>
+          <a href="https://www.twitter.com" target="blank"><FaTwitter size="20" /></a>
+          <a href="https://www.linkedin.com" target="blank"><FaLinkedin size="20" /></a>
         </div>
         <div className="toolbar__navigation-items">
           <ul>
@@ -57,7 +58,7 @@ const ToolBar = props => {
           </ul>
         </div>
       </nav>
-      <nav className="toolbar__navigation mobile-nav">
+      {/* <nav className="toolbar__navigation mobile-nav">
         <div className="toolbar__toggle-button">
           <DrawerToggleButton click={props.drawerToggleClickHandler} />
         </div>
@@ -67,7 +68,7 @@ const ToolBar = props => {
             <div className="logo-text">TRUSTED TRADESMEN</div>
           </Link>
         </div>
-      </nav>
+      </nav> */}
     </header>
   );
 };
