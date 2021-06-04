@@ -145,6 +145,23 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
+        <div style={{ padding: "50px 20px" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>WHAT</span> OUR CLIENTS SAY
+          </h1>
+          <div className="testimonial-container">
+            <div style={{ display: "flex", alignItems: "center", width: "80px" }}>
+              AAA
+            </div>
+            <div className="testimonial-main">
+              <div>PIC</div>
+              <div>CONTENT</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", width: "80px", justifyContent: "flex-end" }}>
+              BBB
+            </div>
+          </div>
+        </div>
         <div className="footer-container">
           <div className="footer-content">
             <a href="register" className="footer-link">Register</a>
