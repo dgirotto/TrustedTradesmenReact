@@ -150,15 +150,26 @@ class HomePage extends Component {
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>WHAT</span> OUR CLIENTS SAY
           </h1>
           <div className="testimonial-container">
-            <div style={{ display: "flex", alignItems: "center", width: "80px" }}>
-              AAA
+            <div style={{ display: "flex", alignItems: "center", width: "60px" }}>
+              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow.svg'} />
             </div>
             <div className="testimonial-main">
-              <div>PIC</div>
-              <div>CONTENT</div>
+              <div style={{ display: "flex", alignItems: "center", width: "45%", paddingRight: "15px" }}>
+                <img width="100%" src={process.env.PUBLIC_URL + '/images/img-user.jpg'} />
+              </div>
+              <div style={{ width: "55%", padding: "30px 0 30px 25px" }}>
+                <img width="40px" src={process.env.PUBLIC_URL + '/icons/icon-quotes.svg'} />
+                <p>
+                  Text here text here text here text here text here text here text here text here text here text here text here
+                  text here text here text here text here text here text here text here text here text here text here text here text here text here text here
+                  text here text here
+                </p>
+                <h1 style={{ fontSize: "20px", marginBottom: "0" }}>John Smith</h1>
+                <h2 style={{ fontSize: "14px", marginTop: "5px" }}>OAKVILLE, ON</h2>
+              </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", width: "80px", justifyContent: "flex-end" }}>
-              BBB
+            <div style={{ display: "flex", alignItems: "center", width: "60px", justifyContent: "flex-end" }}>
+              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow.svg'} />
             </div>
           </div>
         </div>

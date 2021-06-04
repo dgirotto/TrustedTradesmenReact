@@ -85,19 +85,16 @@
 
 .testimonial-container {
   display: flex; 
-  max-width: 900px; 
-  height: 425px;
+  max-width: 950px; 
+  height: 375px;
   margin: 40px auto;
-  background: grey;
 }
 
 .testimonial-main {
   display: flex; 
   flex: 1;
-}
-
-.testimonial-main > div {
-  flex: 1;
+  background: #f3f3f3;
+  padding: 40px;
 }
 
 .footer-container {
