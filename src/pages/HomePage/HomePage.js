@@ -147,6 +147,31 @@ class HomePage extends Component {
         </div>
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>OUR</span> SERVICES
+          </h1>
+          <div className="services-container">
+          </div>
+        </div>
+        <div style={{ padding: "50px 20px", background: "#263137" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff" }}>
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
+          </h1>
+          <div className="gallery-container">
+            <div style={{ display: "flex", alignItems: "center", width: "60px" }}>
+              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow-white.svg'} />
+            </div>
+            <div className="gallery-main">
+              <div className="gallery-card">1</div>
+              <div className="gallery-card">2</div>
+              <div className="gallery-card">3</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", width: "60px", justifyContent: "flex-end" }}>
+              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow-white.svg'} />
+            </div>
+          </div>
+        </div>
+        <div style={{ padding: "50px 20px" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>WHAT</span> OUR CLIENTS SAY
           </h1>
           <div className="testimonial-container">
@@ -154,7 +179,7 @@ class HomePage extends Component {
               <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow.svg'} />
             </div>
             <div className="testimonial-main">
-              <div style={{ display: "flex", alignItems: "center", width: "45%", paddingRight: "15px" }}>
+              <div className="testimonial-pic">
                 <img width="100%" src={process.env.PUBLIC_URL + '/images/img-user.jpg'} />
               </div>
               <div style={{ width: "55%", padding: "30px 0 30px 25px" }}>
