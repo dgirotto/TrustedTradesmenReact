@@ -17,13 +17,13 @@ class HomePage extends Component {
           background: `url('${process.env.PUBLIC_URL}/images/home-page-banner-2.jpg')`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          height: 350
+          height: 310
         }}>
           <div className="banner-container">
             <div style={{ display: "flex", alignItems: "center" }}>
               <div>
                 FREE HOME INSPECTION FOR JOBS OVER $7,000!
-                <Button
+                <Button className="home-button"
                   style={{
                     display: "block",
                     marginTop: "20px",
@@ -31,7 +31,7 @@ class HomePage extends Component {
                     color: "#fff",
                     fontWeight: "bold",
                     borderRadius: 0,
-                    border: "solid #fff 2px"
+                    border: "solid #fff 2px",
                   }}
                   onClick={() => window.location.href = "/about"}
                   variant="contained"
@@ -51,16 +51,17 @@ class HomePage extends Component {
               <h3>Years helping and providing best Services</h3>
               My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
               contracting jobs done incorrectly and witnessed many people getting ripped off.
-              <Button style={{
-                display: "block",
-                marginTop: "20px",
-                backgroundColor: "#fff",
-                color: "#0097ff",
-                fontWeight: "bold",
-                borderRadius: 0,
-                boxShadow: "none",
-                border: "solid #0097ff 2px"
-              }}
+              <Button className="home-button"
+                style={{
+                  display: "block",
+                  marginTop: "20px",
+                  backgroundColor: "#fff",
+                  color: "#0097ff",
+                  fontWeight: "bold",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  border: "solid #0097ff 2px"
+                }}
                 onClick={() => window.location.href = "/about"}
                 variant="contained"
               >
@@ -69,7 +70,7 @@ class HomePage extends Component {
             </div>
           </div>
           <div className="img-container">
-            <img src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
+            <img style={{ width: "100%", maxWidth: "375px" }} src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
           </div>
         </div>
         <div style={{ padding: "60px 0", background: "#EFEFEF" }}>
@@ -157,16 +158,22 @@ class HomePage extends Component {
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
           </h1>
           <div className="gallery-container">
-            <div style={{ display: "flex", alignItems: "center", width: "60px" }}>
-              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow-white.svg'} />
+            <div style={{ display: "flex", alignItems: "center", width: "40px" }}>
+              <img width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-left.svg'} />
             </div>
             <div className="gallery-main">
-              <div className="gallery-card">1</div>
-              <div className="gallery-card">2</div>
-              <div className="gallery-card">3</div>
+              <div className="gallery-card a">
+                <img style={{ maxWidth: "100%", maxHeight: "100%" }} src={process.env.PUBLIC_URL + '/images/img-roofing.jpg'} />
+              </div>
+              <div className="gallery-card b">
+                <img width="100%" src={process.env.PUBLIC_URL + '/images/img-flooring.jpg'} />
+              </div>
+              <div className="gallery-card c">
+                <img width="100%" src={process.env.PUBLIC_URL + '/images/img-welding.jpg'} />
+              </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", width: "60px", justifyContent: "flex-end" }}>
-              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow-white.svg'} />
+            <div style={{ display: "flex", alignItems: "center", width: "40px", justifyContent: "flex-end" }}>
+              <img width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-right.svg'} />
             </div>
           </div>
         </div>
@@ -216,7 +223,7 @@ class HomePage extends Component {
             <a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter size="27" /></a>
             <a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin size="27" /></a>
           </div>
-          <p className="copyright-msg">Copyright © 2021 Trusted Tradesmen. All rights reserved.</p>
+          <p className="copyright-msg">Copyright © 2021 Trusted Tra men. All rights reserved.</p>
         </div>
       </ >
     );
