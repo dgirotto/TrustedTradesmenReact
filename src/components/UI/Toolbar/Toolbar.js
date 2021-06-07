@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter, FaRegEdit, FaUserCog, FaSignOutAlt, FaRegUser } from "react-icons/fa";
-
+import DrawerToggleButton from "../SideDrawer/DrawerToggleButton";
 import "./Toolbar.css";
 
 const ToolBar = props => {
@@ -53,9 +52,36 @@ const ToolBar = props => {
           </div>
         </div>
         <div className="toolbar-bottom">
-          <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
-          <div >
-            OTHER LINKS
+          <Link style={{ height: "100%" }} to="/">
+            <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
+          </Link>
+          <div className="nav-items-bottom">
+            {/* <Link to="/">
+              <div className="nav-item-bottom">
+                Home
+              </div>
+            </Link> */}
+            <Link to="/services">
+              <div className="nav-item-bottom">
+                Our Services
+              </div>
+            </Link>
+            {props.isAuth && (
+              <>
+                {(props.userType === 1 || props.userType === 3) && (
+                  <Link to="/leads">
+                    <div className="nav-item-bottom">
+                      My Leads
+                    </div>
+                  </Link>
+                )}
+                <Link to="/jobs">
+                  <div className="nav-item-bottom">
+                    My Jobs
+                  </div>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

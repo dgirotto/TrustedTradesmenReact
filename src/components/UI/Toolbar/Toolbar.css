@@ -17,7 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1250px; 
+  max-width: 1200px; 
   margin: auto;
   padding: 0 20px;
   box-sizing: border-box;
@@ -60,11 +60,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1250px;
+  max-width: 1200px;
   height: 80px;
   margin: auto;
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+.nav-items-bottom {
+  display: flex;
+  height: 100%;
+}
+
+.nav-items-bottom a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  padding-left: 30px;
+}
+
+.nav-items-bottom a:hover {
+  text-decoration: underline;
+}
+
+.nav-item-bottom {
+  margin-right: 0px;
+  color: #313131;
 }
 
 @media (max-width: 768px) {

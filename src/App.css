@@ -3,9 +3,9 @@
 }
 
 .page-container {
-  max-width: 1250px;
+  max-width: 1200px;
   margin: auto;
-  padding: 20px;
+  padding: 0 20px;
   box-sizing: border-box;
 }
 
@@ -91,10 +91,6 @@
 }
 
 @media (max-width: 660px) {
-  .page-container {
-    padding: 0 10px 20px;
-  }
-
   .textfield-container-row {
     flex-direction: column;
   }
