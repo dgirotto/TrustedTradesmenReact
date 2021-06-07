@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./SettingsPage.css";
+import "./AccountPage.css";
 
 import { AuthService } from "../../services/auth";
 import { AccountService } from "../../services/account";
@@ -27,7 +27,7 @@ function AlertPopup(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-class SettingsPage extends Component {
+class AccountPage extends Component {
   provinces = [
     {
       value: "ON",
@@ -591,4 +591,4 @@ class SettingsPage extends Component {
   }
 }
 
-export default SettingsPage;
+export default AccountPage;

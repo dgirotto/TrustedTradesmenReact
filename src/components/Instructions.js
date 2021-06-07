@@ -74,7 +74,7 @@ export default class Instructions extends Component {
                 <div style={{ justifyContent: "space-around", marginTop: "10px", marginBottom: "0px" }} className="button-container">
                     <Button
                         style={{ marginRight: "0", backgroundColor: "#282828", color: "white", fontWeight: "bold" }}
-                        onClick={() => window.location.href = "/settings"}
+                        onClick={() => window.location.href = "/account"}
                         variant="contained"
                     >
                         FILL OUT DETAILS

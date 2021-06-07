@@ -7,12 +7,6 @@ class HomePage extends Component {
   render() {
     return (
       <>
-        <div className="main-menu">
-          <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
-          <div>
-            OTHER LINKS
-          </div>
-        </div>
         <div style={{
           background: `url('${process.env.PUBLIC_URL}/images/home-page-banner-2.jpg')`,
           backgroundRepeat: "no-repeat",
@@ -33,7 +27,7 @@ class HomePage extends Component {
                     borderRadius: 0,
                     border: "solid #fff 2px",
                   }}
-                  onClick={() => window.location.href = "/about"}
+                  onClick={() => window.location.href = "/services"}
                   variant="contained"
                 >
                   VIEW OUR SERVICES

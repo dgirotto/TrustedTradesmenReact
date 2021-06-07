@@ -15,7 +15,7 @@ import ResetPage from "./pages/ResetPage/ResetPage";
 import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
 import JobsPage from "./pages/JobsPage/JobsPage";
-import SettingsPage from "./pages/SettingsPage/SettingsPage";
+import AccountPage from "./pages/AccountPage/AccountPage";
 import AboutPage from "./pages/AboutPage/AboutPage";
 import DisclaimersPage from "./pages/DisclaimersPage/DisclaimersPage";
 import FaqPage from "./pages/FaqPage/FaqPage";
@@ -142,8 +142,8 @@ class App extends Component {
               key={() => uuid()}
             />
             <PrivateRoute
-              path="/settings"
-              component={SettingsPage}
+              path="/account"
+              component={AccountPage}
             />
             <Route
               path="/about"
