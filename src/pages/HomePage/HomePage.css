@@ -16,7 +16,7 @@
 
 .verbiage-container {
   display: flex;
-  max-width: 950px; 
+  max-width: 1000px; 
   padding: 40px 20px;
   margin: auto;
   box-sizing: border-box; 
@@ -33,7 +33,7 @@
 .card-container {
   display: flex;
   justify-content: space-between;
-  max-width: 1050px; 
+  max-width: 1000px; 
   margin: auto;
   padding: 20px;
   box-sizing: border-box; 
@@ -81,7 +81,7 @@
 
 .gallery-container {
   display: flex; 
-  max-width: 1200px; 
+  max-width: 1150px; 
   max-height: 275px;
   margin: 40px auto;
 }

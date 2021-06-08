@@ -170,7 +170,7 @@ class ServicesPage extends Component {
       <div className="page-container">
         {!this.state.isLoading && this.state.services ? (
           <>
-            <Title>Services</Title>
+            <Title>Our Services</Title>
             <div className="search-container">
               <TextField
                 type="search"

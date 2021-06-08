@@ -9,6 +9,17 @@
   box-sizing: border-box;
 }
 
+.title-container {
+  max-width: 1200px; 
+  height: 100%;
+  padding: 40px 20px;
+  margin: auto;
+  box-sizing: border-box; 
+  font-size: 32px;
+  color: #FFF;
+  text-align: center;
+}
+
 .form-title {
   margin: 30px 0 20px;
   font-size: 18px;

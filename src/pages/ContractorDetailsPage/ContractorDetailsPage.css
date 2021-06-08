@@ -45,11 +45,6 @@
     padding-left: 10px;
 }
 
-.service-list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 .service-item {
     padding: 5px 8px;
     margin: 5px 5px 0 0;

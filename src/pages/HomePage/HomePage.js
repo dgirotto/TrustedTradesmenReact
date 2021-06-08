@@ -11,7 +11,7 @@ class HomePage extends Component {
           background: `url('${process.env.PUBLIC_URL}/images/home-page-banner-2.jpg')`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          height: 310
+          height: 300
         }}>
           <div className="banner-container">
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -152,7 +152,7 @@ class HomePage extends Component {
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
           </h1>
           <div className="gallery-container">
-            <div style={{ display: "flex", alignItems: "center", width: "40px" }}>
+            <div style={{ display: "flex", alignItems: "center", width: "35px" }}>
               <img width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-left.svg'} />
             </div>
             <div className="gallery-main">
@@ -166,7 +166,7 @@ class HomePage extends Component {
                 <img width="100%" src={process.env.PUBLIC_URL + '/images/img-welding.jpg'} />
               </div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", width: "40px", justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", alignItems: "center", width: "35px", justifyContent: "flex-end" }}>
               <img width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-right.svg'} />
             </div>
           </div>
