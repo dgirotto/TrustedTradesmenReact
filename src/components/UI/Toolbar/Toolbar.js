@@ -61,11 +61,13 @@ const ToolBar = props => {
                 Home
               </div>
             </Link> */}
-            <Link to="/services">
-              <div className="nav-item-bottom">
-                Our Services
-              </div>
-            </Link>
+            {(!props.isAuth || props.isAuth && props.userType === 0) && (
+              <Link to="/services">
+                <div className="nav-item-bottom">
+                  Our Services
+                </div>
+              </Link>
+            )}
             {props.isAuth && (
               <>
                 {(props.userType === 1 || props.userType === 3) && (

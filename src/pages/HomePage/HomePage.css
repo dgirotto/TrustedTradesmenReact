@@ -16,8 +16,8 @@
 
 .verbiage-container {
   display: flex;
-  max-width: 1000px; 
-  padding: 40px 20px;
+  max-width: 950px; 
+  padding: 60px 20px;
   margin: auto;
   box-sizing: border-box; 
 }
@@ -28,6 +28,7 @@
 
 .img-container {
   text-align: right;
+  max-width: 400px;
 }
 
 .card-container {
@@ -129,6 +130,7 @@
 
 .footer-container {
   background: #263137;
+  padding: 50px 20px;
 }
 
 .footer-content {

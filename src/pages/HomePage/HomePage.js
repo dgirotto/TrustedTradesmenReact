@@ -64,7 +64,7 @@ class HomePage extends Component {
             </div>
           </div>
           <div className="img-container">
-            <img style={{ width: "100%", maxWidth: "375px" }} src={process.env.PUBLIC_URL + '/icons/img-building.svg'} />
+            <img style={{ width: "100%", maxWidth: "300px" }} src={process.env.PUBLIC_URL + '/icons/img-home-repair.svg'} />
           </div>
         </div>
         <div style={{ padding: "60px 0", background: "#EFEFEF" }}>
@@ -217,7 +217,7 @@ class HomePage extends Component {
             <a href="https://www.twitter.com" target="blank" className="footer-link with-icon"><FaTwitter size="27" /></a>
             <a href="https://www.linkedin.com" target="blank" className="footer-link with-icon"><FaLinkedin size="27" /></a>
           </div>
-          <p className="copyright-msg">Copyright © 2021 Trusted Tra men. All rights reserved.</p>
+          <p className="copyright-msg">Copyright © 2021 Trusted Tradesmen. All rights reserved.</p>
         </div>
       </ >
     );
