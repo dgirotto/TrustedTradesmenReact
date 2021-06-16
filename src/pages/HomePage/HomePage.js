@@ -4,6 +4,80 @@ import Button from "@material-ui/core/Button";
 import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 class HomePage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      testimonials: [
+        {
+          image: '/images/img-user.jpg',
+          content: `Text here text here text here text here text here text here text here text here text here text here text here
+        text here text here text here text here text here text here text here text here text here text here text here text here text here text here
+        text here text here`,
+          name: 'John Smith',
+          location: 'Oakville, ON'
+        },
+        {
+          image: '/images/img-user.jpg',
+          content: `testing testing testing testing testing testing testing testing testing testing testing testing testing testing testing 
+          testing testing testing testing testing testing testing testing testing testing testing testing testing testing testing 
+          testing testing testing testing testing testing`,
+          name: 'Peter S',
+          location: 'Windsor, ON'
+        },
+        {
+          image: '/images/img-user.jpg',
+          content: `1234 1234 1234 1234 1234 1234 TEST TEST TEST TEST`,
+          name: 'Daniel G',
+          location: 'Guelph, ON'
+        }
+      ],
+      galleryPhotos: [
+        '/images/img-roofing.jpg',
+        '/images/img-flooring.jpg',
+        '/images/img-welding.jpg',
+        '/images/img-roofing.jpg',
+        '/images/img-flooring.jpg',
+        '/images/img-welding.jpg'
+      ],
+      testimonialCounter: 0,
+      galleryCounter: 0,
+      isError: false,
+      message: ""
+    };
+  }
+
+  galleryArrowClickHandler(incrementCounter) {
+    if (incrementCounter) {
+      console.log('this.state.galleryCounter: ' + this.state.galleryCounter);
+      console.log('this.state.galleryPhotos.length: ' + this.state.galleryPhotos.length);
+      console.log('this.state.galleryCounter === this.state.galleryPhotos.length: ' + (this.state.galleryCounter === this.state.galleryPhotos.length));
+      if (this.state.galleryCounter + 3 === this.state.galleryPhotos.length) {
+        return;
+      }
+      this.setState({ galleryCounter: this.state.galleryCounter + 1 });
+    } else {
+      if (this.state.galleryCounter === 0) {
+        return;
+      }
+      this.setState({ galleryCounter: this.state.galleryCounter - 1 });
+    }
+  }
+
+  testimonialArrowClickHandler(incrementCounter) {
+    if (incrementCounter) {
+      if (this.state.testimonialCounter === this.state.testimonials.length - 1) {
+        return;
+      }
+      this.setState({ testimonialCounter: this.state.testimonialCounter + 1 });
+    } else {
+      if (this.state.testimonialCounter === 0) {
+        return;
+      }
+      this.setState({ testimonialCounter: this.state.testimonialCounter - 1 });
+    }
+  }
+
   render() {
     return (
       <>
@@ -140,6 +214,7 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
+
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>OUR</span> SERVICES
@@ -147,58 +222,63 @@ class HomePage extends Component {
           <div className="services-container">
           </div>
         </div>
+
         <div style={{ padding: "50px 20px", background: "#263137" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
           </h1>
           <div className="gallery-container">
             <div style={{ display: "flex", alignItems: "center", width: "35px" }}>
-              <img width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-left.svg'} />
+              <img className="arrow" onClick={() => this.galleryArrowClickHandler(false)} width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-left.svg'} />
             </div>
             <div className="gallery-main">
               <div className="gallery-card a">
-                <img style={{ maxWidth: "100%", maxHeight: "100%" }} src={process.env.PUBLIC_URL + '/images/img-roofing.jpg'} />
+                <img style={{ maxWidth: "100%", maxHeight: "100%" }} src={process.env.PUBLIC_URL + this.state.galleryPhotos[this.state.galleryCounter]} />
               </div>
               <div className="gallery-card b">
-                <img width="100%" src={process.env.PUBLIC_URL + '/images/img-flooring.jpg'} />
+                <img width="100%" src={process.env.PUBLIC_URL + this.state.galleryPhotos[this.state.galleryCounter + 1]} />
               </div>
               <div className="gallery-card c">
-                <img width="100%" src={process.env.PUBLIC_URL + '/images/img-welding.jpg'} />
+                <img width="100%" src={process.env.PUBLIC_URL + this.state.galleryPhotos[this.state.galleryCounter + 2]} />
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", width: "35px", justifyContent: "flex-end" }}>
-              <img width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-right.svg'} />
+              <img className="arrow" onClick={() => this.galleryArrowClickHandler(true)} width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-right.svg'} />
             </div>
           </div>
         </div>
+
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>WHAT</span> OUR CLIENTS SAY
           </h1>
           <div className="testimonial-container">
             <div style={{ display: "flex", alignItems: "center", width: "50px" }}>
-              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow.svg'} />
+              <img className="arrow" onClick={() => this.testimonialArrowClickHandler(false)} width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow.svg'} />
             </div>
             <div className="testimonial-main">
               <div className="testimonial-pic">
-                <img width="100%" src={process.env.PUBLIC_URL + '/images/img-user.jpg'} />
+                <img width="100%" src={process.env.PUBLIC_URL + this.state.testimonials[this.state.testimonialCounter].image} />
               </div>
               <div className="testimonial-content">
                 <img width="40px" src={process.env.PUBLIC_URL + '/icons/icon-quotes.svg'} />
                 <p>
-                  Text here text here text here text here text here text here text here text here text here text here text here
-                  text here text here text here text here text here text here text here text here text here text here text here text here text here text here
-                  text here text here
+                  {this.state.testimonials[this.state.testimonialCounter].content}
                 </p>
-                <h1 style={{ fontSize: "20px", marginBottom: "0" }}>John Smith</h1>
-                <h2 style={{ fontSize: "14px", marginTop: "5px" }}>OAKVILLE, ON</h2>
+                <h1 style={{ fontSize: "20px", marginBottom: "0" }}>
+                  {this.state.testimonials[this.state.testimonialCounter].name}
+                </h1>
+                <h2 style={{ fontSize: "14px", marginTop: "5px" }}>
+                  {this.state.testimonials[this.state.testimonialCounter].location}
+                </h2>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", width: "50px", justifyContent: "flex-end" }}>
-              <img width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow.svg'} />
+              <img className="arrow" onClick={() => this.testimonialArrowClickHandler(true)} width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow.svg'} />
             </div>
           </div>
         </div>
+
         <div className="footer-container">
           <div className="footer-content">
             <a href="register" className="footer-link">Register</a>
