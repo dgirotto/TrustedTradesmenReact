@@ -2,6 +2,28 @@
     display: flex;
 }
 
+.contractor-profile-container {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin-right: 20px;
+}
+
+.contractor-info-container {
+    display: flex;
+}
+
+.contact-details-container {
+    display: flex; 
+    flex-direction: column; 
+    width: 250px; 
+    max-height: 255px; 
+    margin-left: 20px;
+    padding-top: 20px;
+    background: #263137;
+    color: white;
+}
+
 .social-link {
     margin-right: 15px;
     color:  white;
@@ -33,15 +55,36 @@
     display: flex;
 }
 
-@media (max-width: 1024px) {  
+@media (max-width: 1024px) {
     .contractor-details-container {
         flex-direction: column;
-        /* max-width: 500px; */
         margin: auto;
+    }
+
+    .contractor-profile-container {
+        width: 350px;
+        margin: 0 auto 20px;
     }
 }
 
 @media (max-width: 768px) {  
+    .contractor-details-container {
+        flex-direction: column;
+    }
+
+    .contractor-profile-container {
+        max-width: 400px;
+    }
+    
+    .contractor-info-container {
+        flex-direction: column;
+    }
+
+    .contact-details-container {
+        width: 100%;
+        margin: 20px 0 0;
+    }
+
     .reviews-container {
         flex-direction: column;
     }
