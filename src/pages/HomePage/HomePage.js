@@ -95,7 +95,7 @@ class HomePage extends Component {
                   style={{
                     display: "block",
                     marginTop: "20px",
-                    backgroundColor: "#263137",
+                    backgroundColor: "#20292d",
                     color: "#fff",
                     fontWeight: "bold",
                     borderRadius: 0,
@@ -124,11 +124,11 @@ class HomePage extends Component {
                   display: "block",
                   marginTop: "20px",
                   backgroundColor: "#fff",
-                  color: "#0097ff",
+                  color: "#e89600",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #0097ff 2px"
+                  border: "solid #e89600 2px"
                 }}
                 onClick={() => window.location.href = "/about"}
                 variant="contained"
@@ -143,7 +143,7 @@ class HomePage extends Component {
         </div>
         <div style={{ padding: "60px 0", background: "#EFEFEF" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
-            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>HOW</span> IT WORKS
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>HOW</span> IT WORKS
           </h1>
           <div className="card-container">
             <div className="card">
@@ -153,11 +153,11 @@ class HomePage extends Component {
                 <Button style={{
                   marginTop: "20px",
                   backgroundColor: "#fff",
-                  color: "#0097ff",
+                  color: "#e89600",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #0097ff 2px",
+                  border: "solid #e89600 2px",
                   width: "auto",
                   margin: "0 auto"
                 }}
@@ -175,11 +175,11 @@ class HomePage extends Component {
                 <Button style={{
                   marginTop: "20px",
                   backgroundColor: "#fff",
-                  color: "#0097ff",
+                  color: "#e89600",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #0097ff 2px",
+                  border: "solid #e89600 2px",
                   width: "auto",
                   margin: "0 auto"
                 }}
@@ -197,11 +197,11 @@ class HomePage extends Component {
                 <Button style={{
                   marginTop: "20px",
                   backgroundColor: "#fff",
-                  color: "#0097ff",
+                  color: "#e89600",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #0097ff 2px",
+                  border: "solid #e89600 2px",
                   width: "auto",
                   margin: "0 auto"
                 }}
@@ -217,13 +217,13 @@ class HomePage extends Component {
 
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
-            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>OUR</span> SERVICES
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>OUR</span> SERVICES
           </h1>
           <div className="services-container">
           </div>
         </div>
 
-        <div style={{ padding: "50px 20px", background: "#263137" }}>
+        <div style={{ padding: "50px 20px", background: "#20292d" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
           </h1>
@@ -250,7 +250,7 @@ class HomePage extends Component {
 
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
-            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#2086D1" }}>WHAT</span> OUR CLIENTS SAY
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>WHAT</span> OUR CLIENTS SAY
           </h1>
           <div className="testimonial-container">
             <div style={{ display: "flex", alignItems: "center", width: "50px" }}>

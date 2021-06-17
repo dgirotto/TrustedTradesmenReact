@@ -1,5 +1,6 @@
 .contractor-details-container {
     display: flex;
+    margin-top: 30px;
 }
 
 .contractor-profile-container {
@@ -20,7 +21,7 @@
     max-height: 255px; 
     margin-left: 20px;
     padding-top: 20px;
-    background: #263137;
+    background: #20292d;
     color: white;
 }
 
@@ -47,7 +48,7 @@
     text-align: center;
     text-transform: uppercase;
     font-size: smaller;
-    background: #2086d1;
+    background: #e89600;
     color: white;
 }
 
@@ -62,7 +63,6 @@
     }
 
     .contractor-profile-container {
-        width: 350px;
         margin: 0 auto 20px;
     }
 }

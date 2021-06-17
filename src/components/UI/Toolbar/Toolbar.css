@@ -10,7 +10,7 @@
   width: 100%;
   z-index: 100;
   padding: 5px 0;
-  background: #2086D1;
+  background: #20292d;
 }
 
 .toolbar-top {
@@ -33,7 +33,7 @@
 }
 
 .socials-container a:hover {
-  color: #1e5275;
+  color: #e89600;
 }
 
 .nav-items-top {
@@ -53,7 +53,7 @@
 }
 
 .nav-item-top:hover {
-  color: #1e5275;
+  color: #e89600;
 }
 
 .toolbar-bottom {
