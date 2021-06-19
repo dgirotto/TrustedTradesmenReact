@@ -90,7 +90,7 @@ class HomePage extends Component {
           <div className="banner-container">
             <div style={{ display: "flex", alignItems: "center" }}>
               <div>
-                FREE HOME INSPECTION FOR JOBS OVER $7,000!
+                <h1 style={{ fontFamily: "'Quicksand', sans-serif", fontSize: "30px" }}>FREE INSPECTIONS FOR JOBS OVER $7,000!</h1>
                 <Button className="home-button"
                   style={{
                     display: "block",
@@ -115,10 +115,12 @@ class HomePage extends Component {
         <div className="verbiage-container">
           <div style={{ display: "flex", alignItems: "center" }}>
             <div>
-              <h1 style={{ margin: 0 }}>20</h1>
-              <h3>Years helping and providing best Services</h3>
-              My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
-              contracting jobs done incorrectly and witnessed many people getting ripped off.
+              <h1 style={{ margin: 0, fontFamily: "'Noto Sans', sans-serif", fontSize: "70px", color: "#545454" }}>20</h1>
+              <h3 style={{ marginTop: "-10px" }}>Years helping and providing best Services</h3>
+              <p style={{ fontFamily: "'Open Sans', sans-serif" }}>
+                My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
+                contracting jobs done incorrectly and witnessed many people getting ripped off.
+              </p>
               <Button className="home-button"
                 style={{
                   display: "block",
@@ -142,7 +144,7 @@ class HomePage extends Component {
           </div>
         </div>
         <div style={{ padding: "60px 0", background: "#EFEFEF" }}>
-          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>HOW</span> IT WORKS
           </h1>
           <div className="card-container">
@@ -152,12 +154,12 @@ class HomePage extends Component {
                 <p style={{ padding: "5px 0" }}>Create an account and login</p>
                 <Button style={{
                   marginTop: "20px",
-                  backgroundColor: "#fff",
-                  color: "#e89600",
+                  backgroundColor: "#e89600",
+                  color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #e89600 2px",
+                  border: "solid #fff 2px",
                   width: "auto",
                   margin: "0 auto"
                 }}
@@ -174,12 +176,12 @@ class HomePage extends Component {
                 <p style={{ padding: "5px 0" }}>Choose a service and submit a job request</p>
                 <Button style={{
                   marginTop: "20px",
-                  backgroundColor: "#fff",
-                  color: "#e89600",
+                  backgroundColor: "#e89600",
+                  color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #e89600 2px",
+                  border: "solid #fff 2px",
                   width: "auto",
                   margin: "0 auto"
                 }}
@@ -196,12 +198,12 @@ class HomePage extends Component {
                 <p style={{ padding: "5px 0" }}>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
                 <Button style={{
                   marginTop: "20px",
-                  backgroundColor: "#fff",
-                  color: "#e89600",
+                  backgroundColor: "#e89600",
+                  color: "#fff",
                   fontWeight: "bold",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #e89600 2px",
+                  border: "solid #fff 2px",
                   width: "auto",
                   margin: "0 auto"
                 }}
@@ -216,15 +218,15 @@ class HomePage extends Component {
         </div>
 
         <div style={{ padding: "50px 20px" }}>
-          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
-            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>OUR</span> SERVICES
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
+            <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>POPULAR</span> SERVICES
           </h1>
           <div className="services-container">
           </div>
         </div>
 
         <div style={{ padding: "50px 20px", background: "#20292d" }}>
-          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
           </h1>
           <div className="gallery-container">
@@ -249,7 +251,7 @@ class HomePage extends Component {
         </div>
 
         <div style={{ padding: "50px 20px" }}>
-          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131" }}>
+          <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>WHAT</span> OUR CLIENTS SAY
           </h1>
           <div className="testimonial-container">

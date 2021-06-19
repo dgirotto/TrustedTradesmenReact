@@ -56,6 +56,7 @@
   border-radius: 5px;
   text-align: center;
   font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
   background-color: #20292d;
   color: #e9e9e9;
 }
@@ -131,6 +132,7 @@
 .testimonial-content {
   width: 55%;
   padding: 30px 0 30px 25px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .footer-container {
@@ -237,7 +239,7 @@
 
 @media (max-width: 600px) {
   .home-button {
-    margin: 20px auto !important;
+    margin: 20px 0 !important;
   }
 
   .gallery-main {
