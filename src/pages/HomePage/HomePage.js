@@ -90,7 +90,7 @@ class HomePage extends Component {
           <div className="banner-container">
             <div style={{ display: "flex", alignItems: "center" }}>
               <div>
-                <h1 style={{ fontFamily: "'Quicksand', sans-serif", fontSize: "30px" }}>FREE INSPECTIONS FOR JOBS OVER $7,000!</h1>
+                <h1 style={{ fontFamily: "'Quicksand', sans-serif", fontSize: "30px" }}>FREE HOME INSPECTIONS FOR JOBS OVER $7,000</h1>
                 <Button className="home-button"
                   style={{
                     display: "block",

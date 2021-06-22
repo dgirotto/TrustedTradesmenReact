@@ -18,7 +18,7 @@
     display: flex; 
     flex-direction: column; 
     width: 250px; 
-    max-height: 255px; 
+    max-height: 274px; 
     margin-left: 30px;
     padding-top: 20px;
     background: #20292d;
@@ -43,11 +43,12 @@
 .service-item {
     display: inline-block;
     margin: 0 10px 10px 0;
-    padding: 4px 6px;
+    padding: 2px 4px;
     border-radius: 5px; 
     text-align: center;
     text-transform: uppercase;
-    font-size: smaller;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
     background: #e89600;
     color: white;
 }
@@ -63,7 +64,7 @@
     }
 
     .contractor-profile-container {
-        margin: 0 auto 20px;
+        margin: 20px auto;
     }
 }
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import { CacheService } from "./caching";
 import { config } from "../config.js";
 
-const commonEndpoint = config.prod.apiUrl;
+const commonEndpoint = config.local.apiUrl;
 
 function getJobs(pageNumber, itemsPerPage, sortDateDesc, addressFilterVal) {
   const headers = getHeaders();
