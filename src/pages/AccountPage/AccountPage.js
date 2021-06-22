@@ -505,17 +505,6 @@ class AccountPage extends Component {
                     >
                       SAVE DETAILS
                     </Button>
-                    {this.state.userType === 1 && (
-                      <>
-                        <div style={{ flex: "1" }} />
-                        <Button
-                          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white" }}
-                          onClick={() => { window.location.href = "/contractors/" + this.state.accountDetails.userId }}
-                        >
-                          <LinkIcon style={{ fontSize: "large" }} />&nbsp;MY PROFILE
-                        </Button>
-                      </>
-                    )}
                   </div>
                 </div>
               ) : (

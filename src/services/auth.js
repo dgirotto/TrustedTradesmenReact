@@ -50,6 +50,11 @@ function getRole() {
   return user.data.accountType;
 }
 
+function getUserId() {
+  const user = getAuthenticatedUser();
+  return user.data.userId;
+}
+
 function isAuthenticated() {
   return !CacheService.isExpired();
 }
@@ -74,6 +79,7 @@ export const AuthService = {
   generateToken,
   resetPassword,
   getRole,
+  getUserId,
   isAuthenticated,
   getAuthenticatedUser
 };

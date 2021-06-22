@@ -4,6 +4,8 @@
 
 .toolbar-mobile {
   display: none;
+  background: #20292d;
+  padding: 10px 20px;
 }
 
 .toolbar-top-container {

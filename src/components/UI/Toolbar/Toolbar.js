@@ -56,11 +56,6 @@ const ToolBar = props => {
             <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
           </Link>
           <div className="nav-items-bottom">
-            {/* <Link to="/">
-              <div className="nav-item-bottom">
-                Home
-              </div>
-            </Link> */}
             {(!props.isAuth || props.isAuth && props.userType === 0) && (
               <Link to="/services">
                 <div className="nav-item-bottom">
@@ -82,17 +77,23 @@ const ToolBar = props => {
                     My Jobs
                   </div>
                 </Link>
+                {(props.userType === 1) && (
+                  <Link to={"/contractors/" + props.userId}>
+                    <div className="nav-item-bottom">
+                      My Profile
+                    </div>
+                  </Link>
+                )}
               </>
             )}
           </div>
         </div>
       </div>
-
-      {/* <div className="toolbar-mobile">
+      <div className="toolbar-mobile">
         <div className="toolbar-toggle-button">
           <DrawerToggleButton click={props.drawerToggleClickHandler} />
         </div>
-      </div> */}
+      </div>
     </>
   );
 };

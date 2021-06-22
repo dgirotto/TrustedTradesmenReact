@@ -42,7 +42,8 @@ class App extends Component {
     if (AuthService.isAuthenticated()) {
       this.setState({
         isAuth: true,
-        userType: AuthService.getRole()
+        userType: AuthService.getRole(),
+        userId: AuthService.getUserId()
       });
     } else {
       this.setState({ isAuth: false, userType: null });
@@ -77,12 +78,14 @@ class App extends Component {
           <Toolbar
             isAuth={this.state.isAuth}
             userType={this.state.userType}
+            userId={this.state.userId}
             logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
           />
           <SideDrawer
             isAuth={this.state.isAuth}
             userType={this.state.userType}
+            userId={this.state.userId}
             logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
             show={this.state.sideDrawerOpen}
