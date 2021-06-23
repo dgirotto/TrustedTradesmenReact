@@ -14,17 +14,18 @@
   padding: 10px;
   cursor: pointer;
   text-align: center;
-  background: #5c5c5c !important;
+  font-family: "Noto Sans", sans-serif;
+  background: #3e4244 !important;
 }
 
 .service:hover {
-  /* box-shadow: 0 0 15px grey; */
-  transform: scale(1.05);
+  box-shadow: 0 0 15px grey;
+  background: orange !important;
 }
 
 .service-title {
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color:white;
 }
