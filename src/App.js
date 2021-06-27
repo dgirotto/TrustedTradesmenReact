@@ -5,12 +5,11 @@ import uuid from "react-uuid";
 import Toolbar from "./components/UI/Toolbar/Toolbar";
 import SideDrawer from "./components/UI/SideDrawer/SideDrawer";
 import Backdrop from "./components/UI/Backdrop/Backdrop";
+import LoginDialog from "./components/LoginDialog";
 
 import HomePage from "./pages/HomePage/HomePage";
 import ServicesPage from "./pages/ServicesPage/ServicesPage";
 import ServiceDetailsPage from "./pages/ServiceDetailsPage/ServiceDetailsPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import LoginPage from "./pages/LoginPage/LoginPage";
 import ResetPage from "./pages/ResetPage/ResetPage";
 import ContractorDetailsPage from "./pages/ContractorDetailsPage/ContractorDetailsPage";
 import LeadsPage from "./pages/LeadsPage/LeadsPage";
@@ -31,7 +30,9 @@ class App extends Component {
   state = {
     isAuth: false,
     userType: null,
-    sideDrawerOpen: false
+    sideDrawerOpen: false,
+    loginModalOpen: false,
+    isRegistering: false
   };
 
   componentDidMount() {
@@ -46,7 +47,10 @@ class App extends Component {
         userId: AuthService.getUserId()
       });
     } else {
-      this.setState({ isAuth: false, userType: null });
+      this.setState({
+        isAuth: false,
+        userType: null
+      });
     }
   }
 
@@ -57,6 +61,19 @@ class App extends Component {
     });
     AuthService.logout();
   };
+
+  handleLoginOpen = (isRegistering) => {
+    this.setState({
+      loginModalOpen: true,
+      isRegistering: isRegistering
+    });
+  }
+
+  handleLoginClose = () => {
+    this.setState({
+      loginModalOpen: false
+    });
+  }
 
   drawerToggleClickHandler = () => {
     this.setState(prevState => {
@@ -81,7 +98,9 @@ class App extends Component {
             userId={this.state.userId}
             logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
+            handleOpen={this.handleLoginOpen}
           />
+
           <SideDrawer
             isAuth={this.state.isAuth}
             userType={this.state.userType}
@@ -89,7 +108,15 @@ class App extends Component {
             logout={this.handleLogout}
             drawerToggleClickHandler={this.drawerToggleClickHandler}
             show={this.state.sideDrawerOpen}
+            handleOpen={this.handleLoginOpen}
           />
+
+          <LoginDialog
+            isOpen={this.state.loginModalOpen}
+            isRegistering={this.state.isRegistering}
+            handleClose={this.handleLoginClose}
+          />
+
           {this.state.sideDrawerOpen ? (
             <Backdrop hideLoader={true} click={this.backdropClickHandler} />
           ) : null}
@@ -98,32 +125,36 @@ class App extends Component {
             <Route
               path="/"
               exact
-              component={HomePage}
+              render={() => (
+                <HomePage
+                  isAuth={this.state.isAuth}
+                  handleOpen={this.handleLoginOpen}
+                />
+              )}
             />
-            <Route path="/services"
+            <Route
+              path="/services"
               exact
-              render={() => <ServicesPage isAuth={this.state.isAuth} userType={this.state.userType} />}
+              render={() => (
+                <ServicesPage
+                  isAuth={this.state.isAuth}
+                  userType={this.state.userType}
+                  handleOpen={this.handleLoginOpen}
+                />
+              )}
             />
             <PrivateRoute
               path="/services/:id"
               component={ServiceDetailsPage}
             />
-            <Route
-              path="/register"
-              render={() => <RegisterPage isAuth={this.state.isAuth} />}
-            />
-            <Route
-              path="/login"
-              render={() => (
-                <LoginPage
-                  isAuth={this.state.isAuth}
-                  authenticate={this.authenticate}
-                />
-              )}
-            />
             <PrivateRoute
               path="/logout"
-              component={LoginPage}
+              render={() => (
+                <HomePage
+                  isAuth={this.state.isAuth}
+                  handleOpen={this.handleLoginOpen}
+                />
+              )}
             />
             <Route
               path="/reset"
@@ -153,7 +184,13 @@ class App extends Component {
               component={AboutPage}
             />
             <Route
-              render={() => <DisclaimersPage isAuth={this.state.isAuth} userType={this.state.userType} />}
+              path="/disclaimers"
+              render={() => (
+                <DisclaimersPage
+                  isAuth={this.state.isAuth}
+                  userType={this.state.userType}
+                />
+              )}
             />
             <Route
               path="/faq"
@@ -163,7 +200,9 @@ class App extends Component {
               path="/support"
               component={SupportPage}
             />
-            <Route component={PageNotFound} />
+            <Route
+              component={PageNotFound}
+            />
           </Switch>
         </div>
       </BrowserRouter>

@@ -1,13 +1,3 @@
-.close-icon {
-  float: right;
-  cursor: pointer;
-  padding: 10px;
-  color: #282828;
-}
-
-.close-icon:hover {
-  color:#e89600;
-}
 
 .side-drawer {
   position: fixed;
@@ -40,13 +30,13 @@
   margin: 8px 0;
 }
 
-.side-drawer a {
+.side-drawer a, .side-drawer ul li {
   color: #282828;
   text-decoration: none;
   font-size: 22px;
 }
 
-.side-drawer a:hover {
+.side-drawer a:hover, .side-drawer ul li:hover {
   color: #e89600;
 }
 

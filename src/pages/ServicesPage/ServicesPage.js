@@ -18,7 +18,6 @@ class ServicesPage extends Component {
       filteredServices: null,
       searchContent: "",
       isLoading: false,
-      isOpen: false,
       modalContent: {
         title: null,
         content: null
@@ -70,75 +69,75 @@ class ServicesPage extends Component {
     });
   }
 
-  setModal = modalType => {
-    if (modalType === 0) {
-      // Must log in modal
-      this.setState({
-        modalContent: {
-          title: 'Login Required',
-          content: <>
-            <span style={{ display: "block", margin: "10px 0" }}>You'll need to login to be able to submit a job request.</span>
-            <Button
-              onClick={() => (window.location.href = "/login")}
-              variant="contained"
-              color="primary"
-              style={{ background: "#282828", borderRadius: "0" }}
-            >
-              LOGIN
-            </Button>
-            <span style={{ display: "block", margin: "20px 0 10px" }}>Don't have an account?</span>
-            <Button
-              onClick={() => (window.location.href = "/register")}
-              variant="contained"
-              color="primary"
-              style={{ background: "#282828", borderRadius: "0" }}
-            >
-              REGISTER
-            </Button>
-          </>,
-          actions: <>
-            <Button onClick={this.handleClose}>
-              CLOSE
-            </Button>
-          </>
-        }
-      });
-    }
-    // else if (modalType === 1) {
-    //   // No contractors found modal
-    //   this.setState({
-    //     modalContent: {
-    //       title: 'No Contractors Available',
-    //       content: <>
-    //         Sorry, but there aren't any contractors currently available for that service. Please check back soon!
-    //       </>,
-    //       actions: <>
-    //         <Button onClick={this.handleClose}>
-    //           OK
-    //         </Button>
-    //       </>
-    //     }
-    //   });
-    // }
-    else {
-      // Need a customer account to submit job request
-      this.setState({
-        modalContent: {
-          title: 'Invalid Account Type',
-          content: <>
-            You need to be logged in as a customer to submit a job request.
-          </>,
-          actions: <>
-            <Button onClick={this.handleClose}>
-              OK
-            </Button>
-          </>
-        }
-      });
-    }
+  // setModal = modalType => {
+  //   if (modalType === 0) {
+  //     // Must log in modal
+  //     this.setState({
+  //       modalContent: {
+  //         title: 'Login Required',
+  //         content: <>
+  //           <span style={{ display: "block", margin: "10px 0" }}>You'll need to login to be able to submit a job request.</span>
+  //           <Button
+  //             onClick={() => (window.location.href = "/login")}
+  //             variant="contained"
+  //             color="primary"
+  //             style={{ background: "#282828", borderRadius: "0" }}
+  //           >
+  //             LOGIN
+  //           </Button>
+  //           <span style={{ display: "block", margin: "20px 0 10px" }}>Don't have an account?</span>
+  //           <Button
+  //             onClick={() => (window.location.href = "/register")}
+  //             variant="contained"
+  //             color="primary"
+  //             style={{ background: "#282828", borderRadius: "0" }}
+  //           >
+  //             REGISTER
+  //           </Button>
+  //         </>,
+  //         actions: <>
+  //           <Button onClick={this.handleClose}>
+  //             CLOSE
+  //           </Button>
+  //         </>
+  //       }
+  //     });
+  //   }
+  //   else if (modalType === 1) {
+  //     // No contractors found modal
+  //     this.setState({
+  //       modalContent: {
+  //         title: 'No Contractors Available',
+  //         content: <>
+  //           Sorry, but there aren't any contractors currently available for that service. Please check back soon!
+  //         </>,
+  //         actions: <>
+  //           <Button onClick={this.handleClose}>
+  //             OK
+  //           </Button>
+  //         </>
+  //       }
+  //     });
+  //   }
+  //   else {
+  //     // Need a customer account to submit job request
+  //     this.setState({
+  //       modalContent: {
+  //         title: 'Invalid Account Type',
+  //         content: <>
+  //           You need to be logged in as a customer to submit a job request.
+  //         </>,
+  //         actions: <>
+  //           <Button onClick={this.handleClose}>
+  //             OK
+  //           </Button>
+  //         </>
+  //       }
+  //     });
+  //   }
 
-    this.setState({ isOpen: true });
-  }
+  //   this.setState({ isOpen: true });
+  // }
 
   serviceCardClickHandler = serviceId => {
     var service = this.state.services.filter(service => {
@@ -147,7 +146,7 @@ class ServicesPage extends Component {
 
     if (this.props.isAuth) {
       if (this.props.userType !== 0) {
-        this.setModal(2);
+        // this.setModal(2);
       }
       // else if (!service[0].hasContractors) {
       //   this.setModal(1);
@@ -157,13 +156,9 @@ class ServicesPage extends Component {
       }
     }
     else {
-      this.setModal(0);
+      this.props.handleOpen(false);
     }
   };
-
-  handleClose = () => {
-    this.setState({ isOpen: false });
-  }
 
   render() {
     return (
@@ -202,11 +197,11 @@ class ServicesPage extends Component {
           </>
         ) : <Backdrop />}
 
-        <ResponsiveDialog
+        {/* <ResponsiveDialog
           isOpen={this.state.isOpen}
           modalContent={this.state.modalContent}
           handleClose={this.handleClose}
-        />
+        /> */}
       </div>
     );
   }

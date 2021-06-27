@@ -153,20 +153,37 @@ class HomePage extends Component {
                 <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-register.svg'} />
                 <p style={{ padding: "5px 0" }}>Create an account and login</p>
                 <Button style={{
-                  marginTop: "20px",
-                  backgroundColor: "#e89600",
-                  color: "#fff",
-                  fontWeight: "bold",
+                  display: "block",
+                  width: "120px",
+                  margin: "0 auto",
+                  border: "solid #fff 2px",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #fff 2px",
-                  width: "auto",
-                  margin: "0 auto"
+                  fontWeight: "bold",
+                  backgroundColor: "#e89600",
+                  color: "#fff"
                 }}
-                  onClick={() => window.location.href = "/register"}
+                  onClick={() => this.props.handleOpen(true)}
                   variant="contained"
+                  disabled={this.props.isAuth}
                 >
                   REGISTER
+                </Button>
+                <Button style={{
+                  width: "120px",
+                  margin: "20px auto 0px",
+                  border: "solid #fff 2px",
+                  borderRadius: 0,
+                  boxShadow: "none",
+                  fontWeight: "bold",
+                  backgroundColor: "#e89600",
+                  color: "#fff"
+                }}
+                  onClick={() => this.props.handleOpen(false)}
+                  variant="contained"
+                  disabled={this.props.isAuth}
+                >
+                  LOGIN
                 </Button>
               </div>
             </div>
@@ -175,15 +192,14 @@ class HomePage extends Component {
                 <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-services.svg'} />
                 <p style={{ padding: "5px 0" }}>Choose a service and submit a job request</p>
                 <Button style={{
-                  marginTop: "20px",
-                  backgroundColor: "#e89600",
-                  color: "#fff",
-                  fontWeight: "bold",
+                  width: "120px",
+                  margin: "0 auto",
+                  border: "solid #fff 2px",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #fff 2px",
-                  width: "auto",
-                  margin: "0 auto"
+                  fontWeight: "bold",
+                  backgroundColor: "#e89600",
+                  color: "#fff",
                 }}
                   onClick={() => window.location.href = "/services"}
                   variant="contained"
@@ -197,15 +213,13 @@ class HomePage extends Component {
                 <img className="card-icon" src={process.env.PUBLIC_URL + '/icons/icon-hire-a-professional.svg'} />
                 <p style={{ padding: "5px 0" }}>Get connected with one of our many qualified tradesmen, and we'll get to work!</p>
                 <Button style={{
-                  marginTop: "20px",
-                  backgroundColor: "#e89600",
-                  color: "#fff",
-                  fontWeight: "bold",
+                  margin: "0 auto",
+                  border: "solid #fff 2px",
                   borderRadius: 0,
                   boxShadow: "none",
-                  border: "solid #fff 2px",
-                  width: "auto",
-                  margin: "0 auto"
+                  fontWeight: "bold",
+                  backgroundColor: "#e89600",
+                  color: "#fff"
                 }}
                   onClick={() => window.location.href = "/services"}
                   variant="contained"

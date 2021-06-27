@@ -57,12 +57,8 @@ const sideDrawer = props => {
           </>
         ) : (
           <>
-            <Link onClick={props.drawerToggleClickHandler} to="/login">
-              <li>Login</li>
-            </Link>
-            <Link onClick={props.drawerToggleClickHandler} to="/register">
-              <li>Register</li>
-            </Link>
+            <li onClick={() => props.handleOpen(false)}>Login</li>
+            <li onClick={() => props.handleOpen(true)}>Register</li>
           </>
         )}
       </ul>

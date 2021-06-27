@@ -101,6 +101,29 @@
   background-color: rgb(237, 247, 237) !important;
 }
 
+.login-dialog {
+  display: flex;
+  height: 680px;
+  padding: 0px !important;
+}
+
+.close-icon {
+  float: right;
+  cursor: pointer;
+  padding: 10px;
+  color: #282828;
+}
+
+.close-icon:hover {
+  color:#e89600;
+}
+
+@media (max-width: 768px) {
+  .login-image {
+    display: none;
+  }
+}
+
 @media (max-width: 660px) {
   .textfield-container-row {
     flex-direction: column;

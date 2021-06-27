@@ -34,18 +34,14 @@ const ToolBar = props => {
                 </>
               ) : (
                 <>
-                  <Link to="/register">
-                    <div className="nav-item-top">
-                      <span style={{ paddingRight: "5px" }}>Register Now</span>
-                      <FaRegEdit size="18" />
-                    </div>
-                  </Link>
-                  <Link to="/login">
-                    <div className="nav-item-top">
-                      <span style={{ paddingRight: "5px" }}>Login</span>
-                      <FaSignOutAlt size="18" />
-                    </div>
-                  </Link>
+                  <div onClick={() => props.handleOpen(true)} className="nav-item-top">
+                    <span style={{ paddingRight: "5px" }}>Register Now</span>
+                    <FaRegEdit size="18" />
+                  </div>
+                  <div onClick={() => props.handleOpen(false)} className="nav-item-top">
+                    <span style={{ paddingRight: "5px" }}>Login</span>
+                    <FaSignOutAlt size="18" />
+                  </div>
                 </>
               )}
             </div>
