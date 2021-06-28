@@ -1,3 +1,7 @@
+.disabled-arrow {
+  opacity: .4;
+}
+
 .arrow:hover {
   cursor: pointer;
   opacity: .7;

@@ -10,7 +10,7 @@ class HomePage extends Component {
     this.state = {
       testimonials: [
         {
-          image: '/images/img-user.jpg',
+          image: '/images/thum-placeholder.jpg',
           content: `Text here text here text here text here text here text here text here text here text here text here text here
         text here text here text here text here text here text here text here text here text here text here text here text here text here text here
         text here text here`,
@@ -18,7 +18,7 @@ class HomePage extends Component {
           location: 'Oakville, ON'
         },
         {
-          image: '/images/img-user.jpg',
+          image: '/images/thum-placeholder.jpg',
           content: `testing testing testing testing testing testing testing testing testing testing testing testing testing testing testing 
           testing testing testing testing testing testing testing testing testing testing testing testing testing testing testing 
           testing testing testing testing testing testing`,
@@ -26,7 +26,7 @@ class HomePage extends Component {
           location: 'Windsor, ON'
         },
         {
-          image: '/images/img-user.jpg',
+          image: '/images/thum-placeholder.jpg',
           content: `1234 1234 1234 1234 1234 1234 TEST TEST TEST TEST`,
           name: 'Daniel G',
           location: 'Guelph, ON'
@@ -90,7 +90,14 @@ class HomePage extends Component {
           <div className="banner-container">
             <div style={{ display: "flex", alignItems: "center" }}>
               <div>
-                <h1 style={{ fontFamily: "'Quicksand', sans-serif", fontSize: "30px" }}>FREE HOME INSPECTIONS FOR JOBS OVER $7,000</h1>
+                <h1 style={{
+                  padding: "10px",
+                  fontFamily: "'Quicksand', sans-serif",
+                  fontSize: "28px",
+                  background: "#ffffff1f"
+                }}>
+                  FREE HOME INSPECTIONS FOR JOBS OVER $7,000
+                </h1>
                 <Button className="home-button"
                   style={{
                     display: "block",
@@ -116,7 +123,7 @@ class HomePage extends Component {
           <div style={{ display: "flex", alignItems: "center" }}>
             <div>
               <h1 style={{ margin: 0, fontFamily: "'Noto Sans', sans-serif", fontSize: "70px", color: "#545454" }}>20</h1>
-              <h3 style={{ marginTop: "-10px" }}>Years helping and providing best Services</h3>
+              <h3 style={{ marginTop: "-10px", color: "#545454" }}>Years of inspecting, quality work, and seeking good contractors</h3>
               <p style={{ fontFamily: "'Open Sans', sans-serif" }}>
                 My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
                 contracting jobs done incorrectly and witnessed many people getting ripped off.
@@ -245,7 +252,10 @@ class HomePage extends Component {
           </h1>
           <div className="gallery-container">
             <div style={{ display: "flex", alignItems: "center", width: "35px" }}>
-              <img className="arrow" onClick={() => this.galleryArrowClickHandler(false)} width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-left.svg'} />
+              <img
+                className={this.state.galleryCounter === 0 ? "disabled-arrow" : "arrow"}
+                onClick={() => this.galleryArrowClickHandler(false)} width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-left.svg'}
+              />
             </div>
             <div className="gallery-main">
               <div className="gallery-card a">
@@ -259,7 +269,10 @@ class HomePage extends Component {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", width: "35px", justifyContent: "flex-end" }}>
-              <img className="arrow" onClick={() => this.galleryArrowClickHandler(true)} width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-right.svg'} />
+              <img
+                className={this.state.galleryCounter === (this.state.galleryPhotos.length - 3) ? "disabled-arrow" : "arrow"}
+                onClick={() => this.galleryArrowClickHandler(true)} width="20px" src={process.env.PUBLIC_URL + '/icons/icon-arrow-right.svg'}
+              />
             </div>
           </div>
         </div>
@@ -270,7 +283,10 @@ class HomePage extends Component {
           </h1>
           <div className="testimonial-container">
             <div style={{ display: "flex", alignItems: "center", width: "50px" }}>
-              <img className="arrow" onClick={() => this.testimonialArrowClickHandler(false)} width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow.svg'} />
+              <img
+                className={this.state.testimonialCounter === 0 ? "disabled-arrow" : "arrow"}
+                onClick={() => this.testimonialArrowClickHandler(false)} width="35px" src={process.env.PUBLIC_URL + '/icons/icon-left-arrow.svg'}
+              />
             </div>
             <div className="testimonial-main">
               <div className="testimonial-pic">
@@ -290,7 +306,10 @@ class HomePage extends Component {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", width: "50px", justifyContent: "flex-end" }}>
-              <img className="arrow" onClick={() => this.testimonialArrowClickHandler(true)} width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow.svg'} />
+              <img
+                className={this.state.testimonialCounter === (this.state.testimonials.length - 1) ? "disabled-arrow" : "arrow"}
+                onClick={() => this.testimonialArrowClickHandler(true)} width="35px" src={process.env.PUBLIC_URL + '/icons/icon-right-arrow.svg'}
+              />
             </div>
           </div>
         </div>
