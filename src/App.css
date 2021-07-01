@@ -4,8 +4,8 @@
 
 .page-container {
   max-width: 1200px;
-  margin: auto;
-  padding: 0 20px;
+  margin: 0 auto;
+  padding: 0 20px 50px;
   box-sizing: border-box;
 }
 

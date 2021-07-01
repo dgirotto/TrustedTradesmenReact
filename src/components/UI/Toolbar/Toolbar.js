@@ -34,13 +34,13 @@ const ToolBar = props => {
                 </>
               ) : (
                 <>
-                  <div onClick={() => props.handleOpen(true)} className="nav-item-top">
-                    <span style={{ paddingRight: "5px" }}>Register Now</span>
-                    <FaRegEdit size="18" />
-                  </div>
                   <div onClick={() => props.handleOpen(false)} className="nav-item-top">
-                    <span style={{ paddingRight: "5px" }}>Login</span>
+                    <span style={{ paddingRight: "8px" }}>Login</span>
                     <FaSignOutAlt size="18" />
+                  </div>
+                  <div onClick={() => props.handleOpen(true)} className="nav-item-top">
+                    <span style={{ paddingRight: "8px" }}>Register Now</span>
+                    <FaRegEdit size="18" />
                   </div>
                 </>
               )}

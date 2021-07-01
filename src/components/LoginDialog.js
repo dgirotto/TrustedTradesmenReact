@@ -16,15 +16,9 @@ export default function LoginDialog(props) {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
-    const [showRegisterForm, setShowRegisterForm] = useState(false);
-    const [showResetForm, setShowResetForm] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
-    React.useEffect(() => {
-        setShowRegisterForm(props.isRegistering);
-    }, [props.isRegistering]);
 
     const change = event => {
         console.log(event.target.name);
@@ -39,9 +33,30 @@ export default function LoginDialog(props) {
         }
     };
 
-    const login = () => {
-        // this.setState({ isLoading: true });
+    const generateToken = () => {
+        AuthService.generateToken({
+            email: email
+        })
+            .then(() => {
+                // this.setState({
+                //   emailToReset: "",
+                //   isLoading: false,
+                //   showSnackbar: true,
+                //   isError: false,
+                //   message: "A password reset token has been sent to your email address."
+                // });
+            })
+            .catch(error => {
+                // this.setState({
+                //   isLoading: false,
+                //   showSnackbar: true,
+                //   isError: true,
+                //   message: error.response.data.message
+                // });
+            });
+    };
 
+    const login = () => {
         const loginDetails = {
             email: email,
             password: password
@@ -81,7 +96,7 @@ export default function LoginDialog(props) {
                 />
             </div>
 
-        if (showResetForm) {
+        if (props.modalTypeToShow === 2) {
             userInterface = <>
                 <h1>FORGOT PASSWORD</h1>
                 {userInterface}
@@ -102,7 +117,7 @@ export default function LoginDialog(props) {
                 </div>
             </>
 
-            if (showRegisterForm) {
+            if (props.modalTypeToShow === 0) {
                 userInterface = <>
                     <h1>CREATE AN ACCOUNT</h1>
                     {userInterface}
@@ -122,14 +137,11 @@ export default function LoginDialog(props) {
                 userInterface = <>
                     <h1>LOGIN</h1>
                     {userInterface}
-                    {/* <div className="forgot-password" onClick={this.toggleResetPassword}>
+                    <div className="forgot-password" onClick={() => props.handleModalTypeChange(2)}>
                         Forgot Password?
-                    </div> */}
+                    </div>
                     <Button
-                        // disabled={
-                        //     !this.state.loginDetails.email ||
-                        //     !this.state.loginDetails.password
-                        // }
+                        disabled={!email || !password}
                         onClick={login}
                         variant="contained"
                         color="primary"

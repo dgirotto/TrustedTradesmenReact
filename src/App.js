@@ -32,7 +32,7 @@ class App extends Component {
     userType: null,
     sideDrawerOpen: false,
     loginModalOpen: false,
-    isRegistering: false
+    modalTypeToShow: null
   };
 
   componentDidMount() {
@@ -62,14 +62,21 @@ class App extends Component {
     AuthService.logout();
   };
 
+  handleModalTypeChange = (modalType) => {
+    this.setState({
+      modalTypeToShow: modalType
+    });
+  }
+
   handleLoginOpen = (isRegistering) => {
     this.setState({
       loginModalOpen: true,
-      isRegistering: isRegistering
+      modalTypeToShow: isRegistering ? 0 : 1
     });
   }
 
   handleLoginClose = () => {
+    console.log('INSIDE handleLoginClose');
     this.setState({
       loginModalOpen: false
     });
@@ -113,7 +120,8 @@ class App extends Component {
 
           <LoginDialog
             isOpen={this.state.loginModalOpen}
-            isRegistering={this.state.isRegistering}
+            modalTypeToShow={this.state.modalTypeToShow}
+            handleModalTypeChange={this.handleModalTypeChange}
             handleClose={this.handleLoginClose}
           />
 
