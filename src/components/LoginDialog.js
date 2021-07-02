@@ -99,7 +99,30 @@ export default function LoginDialog(props) {
         if (props.modalTypeToShow === 2) {
             userInterface = <>
                 <h1>FORGOT PASSWORD</h1>
+                <span className="reset-password-msg">
+                    Enter the email address associated with your account and we'll
+                    email you a link to reset your password.
+                </span>
                 {userInterface}
+                <div className="reset-button-container">
+                    <Button
+                        disabled={!this.state.emailToReset}
+                        onClick={this.generateToken}
+                        variant="contained"
+                        color="primary"
+                        style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
+                    >
+                        RESET PASSWORD
+                    </Button>
+                    <Button
+                        onClick={this.toggleResetPassword}
+                        variant="contained"
+                        color="secondary"
+                        style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
+                    >
+                        BACK
+                    </Button>
+                </div>
             </>;
         }
         else {
@@ -133,7 +156,7 @@ export default function LoginDialog(props) {
                     </div>
                 </>;
             }
-            else {
+            else if (props.modalTypeToShow === 1) {
                 userInterface = <>
                     <h1>LOGIN</h1>
                     {userInterface}
@@ -145,13 +168,21 @@ export default function LoginDialog(props) {
                         onClick={login}
                         variant="contained"
                         color="primary"
-                        style={{ width: "175px", fontWeight: "bold" }}
+                        style={{
+                            display: "block",
+                            width: '100%',
+                            border: "solid #20292d 2px",
+                            borderRadius: 0,
+                            fontWeight: "bold",
+                            backgroundColor: "#fff",
+                            color: "#20292d"
+                        }}
                     >
-                        LOGIN
+                        SIGN IN
                     </Button>
-                    {/* <div className="no-account-msg">
+                    <div className="no-account-msg">
                         Don't have an account? Create one <a href="/register">here</a>.
-                    </div> */}
+                    </div>
                 </>;
             }
         }
@@ -175,13 +206,13 @@ export default function LoginDialog(props) {
                     backgroundSize: "cover"
                 }}>
                 </div>
-                <div style={{ flex: 1 }}>
-                    <RiCloseLine
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1 }}>
+                    {/* <RiCloseLine
                         className="close-icon"
                         size="43"
                         onClick={props.handleClose}
-                    />
-                    <div>
+                    /> */}
+                    <div style={{ margin: '30px' }}>
                         {getUIContent()}
                     </div>
                 </div>
