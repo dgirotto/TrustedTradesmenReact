@@ -21,11 +21,11 @@ export default class CustomAlert extends Component {
 
   render() {
     return (
-      <Paper className={`${this.props.type}-alert`} style={{ maxWidth: "700px", margin: "0 auto 20px", padding: "20px 20px 30px", boxShadow: "none" }}>
+      <Paper className={`${this.props.type}-alert`} style={{ maxWidth: "700px", margin: "auto", padding: "40px", boxShadow: "none" }}>
         <div style={{ fontSize: "16px" }}>
           <div style={{ textAlign: "center" }}>
             {this.getIcon()}
-            <h3 style={{ margin: "15px 0" }}>{this.props.title}</h3>
+            <h3 style={{ margin: "20px 0" }}>{this.props.title}</h3>
           </div>
           {this.props.children}
         </div>

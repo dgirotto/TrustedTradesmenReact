@@ -10,7 +10,7 @@
 .banner-container {
   display: flex;
   align-items: center;
-  max-width: 1200px; 
+  max-width: 1050px; 
   height: 100%;
   padding: 40px 20px;
   margin: auto;
@@ -18,7 +18,7 @@
   font-size: 32px;
   color: #FFF;
 }
-
+  
 .banner-container > div {
   flex: 1;
 }

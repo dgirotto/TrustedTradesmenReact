@@ -56,6 +56,21 @@ export default function LoginDialog(props) {
             });
     };
 
+    const register = () => {
+        if (password !== confirmPassword) {
+            alert("Passwords don't match");
+            return;
+        }
+
+        const registerDetails = {
+            email: email,
+            password: password,
+            accountType: 0
+        };
+
+        AuthService.register(registerDetails);
+    }
+
     const login = () => {
         const loginDetails = {
             email: email,
@@ -84,7 +99,10 @@ export default function LoginDialog(props) {
     };
 
     const getUIContent = () => {
-        var userInterface =
+        var userInterface = <>
+            <div style={{ height: "90px", paddingBottom: "20px", textAlign: "center" }}>
+                <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-trusted-tradesmen.jpg'} />
+            </div>
             <div className="textfield-container-col">
                 <TextField
                     type="text"
@@ -95,10 +113,10 @@ export default function LoginDialog(props) {
                     onChange={change}
                 />
             </div>
+        </>;
 
         if (props.modalTypeToShow === 2) {
             userInterface = <>
-                <h1>FORGOT PASSWORD</h1>
                 <span className="reset-password-msg">
                     Enter the email address associated with your account and we'll
                     email you a link to reset your password.
@@ -142,7 +160,6 @@ export default function LoginDialog(props) {
 
             if (props.modalTypeToShow === 0) {
                 userInterface = <>
-                    <h1>CREATE AN ACCOUNT</h1>
                     {userInterface}
                     <div className="textfield-container-col">
                         <TextField
@@ -154,15 +171,31 @@ export default function LoginDialog(props) {
                             onChange={change}
                         />
                     </div>
+                    <Button
+                        disabled={!email || !password || !confirmPassword}
+                        onClick={register}
+                        variant="contained"
+                        color="primary"
+                        style={{
+                            display: "block",
+                            width: '100%',
+                            border: "solid #20292d 2px",
+                            borderRadius: 0,
+                            fontWeight: "bold",
+                            backgroundColor: "#fff",
+                            color: "#20292d"
+                        }}
+                    >
+                        CREATE ACCOUNT
+                    </Button>
+                    <div className="no-account-msg">
+                        Already have an account? Sign in <a href="/login">here</a>.
+                    </div>
                 </>;
             }
             else if (props.modalTypeToShow === 1) {
                 userInterface = <>
-                    <h1>LOGIN</h1>
                     {userInterface}
-                    <div className="forgot-password" onClick={() => props.handleModalTypeChange(2)}>
-                        Forgot Password?
-                    </div>
                     <Button
                         disabled={!email || !password}
                         onClick={login}
@@ -180,6 +213,9 @@ export default function LoginDialog(props) {
                     >
                         SIGN IN
                     </Button>
+                    <div className="forgot-password" onClick={() => props.handleModalTypeChange(2)}>
+                        Forgot Password?
+                    </div>
                     <div className="no-account-msg">
                         Don't have an account? Create one <a href="/register">here</a>.
                     </div>
