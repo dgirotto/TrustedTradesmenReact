@@ -100,9 +100,6 @@ export default function LoginDialog(props) {
 
     const getUIContent = () => {
         var userInterface = <>
-            <div style={{ height: "90px", paddingBottom: "20px", textAlign: "center" }}>
-                <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-trusted-tradesmen.jpg'} />
-            </div>
             <div className="textfield-container-col">
                 <TextField
                     type="text"
@@ -117,29 +114,30 @@ export default function LoginDialog(props) {
 
         if (props.modalTypeToShow === 2) {
             userInterface = <>
-                <span className="reset-password-msg">
+                <div className="reset-password-msg">
                     Enter the email address associated with your account and we'll
                     email you a link to reset your password.
-                </span>
+                </div>
                 {userInterface}
-                <div className="reset-button-container">
-                    <Button
-                        disabled={!this.state.emailToReset}
-                        onClick={this.generateToken}
-                        variant="contained"
-                        color="primary"
-                        style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
-                    >
-                        RESET PASSWORD
-                    </Button>
-                    <Button
-                        onClick={this.toggleResetPassword}
-                        variant="contained"
-                        color="secondary"
-                        style={{ width: "175px", marginTop: "15px", fontWeight: "bold" }}
-                    >
-                        BACK
-                    </Button>
+                <Button
+                    disabled={!email}
+                    onClick={generateToken}
+                    variant="contained"
+                    color="primary"
+                    style={{
+                        display: "block",
+                        width: '100%',
+                        border: "solid #20292d 2px",
+                        borderRadius: 0,
+                        fontWeight: "bold",
+                        backgroundColor: "#fff",
+                        color: "#20292d"
+                    }}
+                >
+                    RESET PASSWORD
+                </Button>
+                <div className="forgot-password" onClick={() => props.handleModalTypeChange(1)}>
+                    Sign in
                 </div>
             </>;
         }
@@ -189,7 +187,7 @@ export default function LoginDialog(props) {
                         CREATE ACCOUNT
                     </Button>
                     <div className="no-account-msg">
-                        Already have an account? Sign in <a href="/login">here</a>.
+                        Already have an account? Sign in <span className="forgot-password" onClick={() => props.handleModalTypeChange(1)}>here</span>.
                     </div>
                 </>;
             }
@@ -217,7 +215,7 @@ export default function LoginDialog(props) {
                         Forgot Password?
                     </div>
                     <div className="no-account-msg">
-                        Don't have an account? Create one <a href="/register">here</a>.
+                        Don't have an account? Create one <span className="forgot-password" onClick={() => props.handleModalTypeChange(0)}>here</span>.
                     </div>
                 </>;
             }
@@ -249,6 +247,9 @@ export default function LoginDialog(props) {
                         onClick={props.handleClose}
                     /> */}
                     <div style={{ margin: '30px' }}>
+                        <div style={{ height: "90px", paddingBottom: "20px", textAlign: "center" }}>
+                            <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-trusted-tradesmen.jpg'} />
+                        </div>
                         {getUIContent()}
                     </div>
                 </div>

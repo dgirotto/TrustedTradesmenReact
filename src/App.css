@@ -41,30 +41,14 @@
   color: #f50057;
 }
 
-/* .reset-password-msg {
-  margin-bottom: 15px;
-} */
+.reset-password-msg {
+  margin-bottom: 20px;
+}
 
 .no-account-msg {
   margin-top: 20px;
   text-align: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .app-container {
   height: 100%;
