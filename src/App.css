@@ -160,7 +160,8 @@
 }
 
 .close-icon {
-  float: right;
+  position: absolute;
+  right: 0px;
   cursor: pointer;
   padding: 10px;
   color: #282828;

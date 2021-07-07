@@ -1,11 +1,18 @@
 .toolbar-desktop {
   display: block;
+  box-shadow: 0 0 3px #0000004d;
 }
 
 .toolbar-mobile {
   display: none;
   background: #20292d;
   padding: 10px 20px;
+}
+
+.toolbar-verbiage {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
 }
 
 .toolbar-top-container {
@@ -98,6 +105,8 @@
   }
 
   .toolbar-mobile {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 }

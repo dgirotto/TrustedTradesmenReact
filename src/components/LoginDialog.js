@@ -233,6 +233,11 @@ export default function LoginDialog(props) {
             maxWidth={'md'}
         >
             <DialogContent className="login-dialog">
+                <RiCloseLine
+                    className="close-icon"
+                    size="43"
+                    onClick={props.handleClose}
+                />
                 <div className="login-image" style={{
                     flex: 1,
                     background: `url('${process.env.PUBLIC_URL}/images/login-background-2.jpg')`,
@@ -241,13 +246,8 @@ export default function LoginDialog(props) {
                 }}>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', flex: 1 }}>
-                    {/* <RiCloseLine
-                        className="close-icon"
-                        size="43"
-                        onClick={props.handleClose}
-                    /> */}
                     <div style={{ margin: '30px' }}>
-                        <div style={{ height: "90px", paddingBottom: "20px", textAlign: "center" }}>
+                        <div style={{ height: "100px", paddingBottom: "20px", textAlign: "center" }}>
                             <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-trusted-tradesmen.jpg'} />
                         </div>
                         {getUIContent()}

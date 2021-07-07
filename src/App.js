@@ -155,7 +155,7 @@ class App extends Component {
               path="/services/:id"
               component={ServiceDetailsPage}
             />
-            <PrivateRoute
+            <Route
               path="/logout"
               render={() => (
                 <HomePage

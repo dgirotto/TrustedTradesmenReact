@@ -89,6 +89,9 @@ const ToolBar = props => {
         <div className="toolbar-toggle-button">
           <DrawerToggleButton click={props.drawerToggleClickHandler} />
         </div>
+        <div className="toolbar-verbiage">
+          TRUSTED TRADESMEN
+        </div>
       </div>
     </>
   );
