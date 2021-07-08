@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import "./HomePage.css";
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
 import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
-class HomePage extends Component {
+import { ServicesService } from "../../services/service";
 
+class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      services: null,
       testimonials: [
         {
           image: '/images/thum-placeholder.jpg',
@@ -47,6 +50,18 @@ class HomePage extends Component {
     };
   }
 
+  componentDidMount() {
+    ServicesService.getServices()
+      .then(res => {
+        this.setState({
+          services: res.data.slice(0, 10)
+        });
+      })
+      .catch(err => {
+        console.error("Error while getting services: " + err.response);
+      });
+  }
+
   galleryArrowClickHandler(incrementCounter) {
     if (incrementCounter) {
       console.log('this.state.galleryCounter: ' + this.state.galleryCounter);
@@ -77,6 +92,19 @@ class HomePage extends Component {
       this.setState({ testimonialCounter: this.state.testimonialCounter - 1 });
     }
   }
+
+  serviceCardClickHandler = serviceId => {
+    var service = this.state.services.filter(service => {
+      return service.serviceId === serviceId
+    });
+
+    if (this.props.isAuth && this.props.userType === 0) {
+      window.location.href = "/services/" + service[0].serviceId;
+    }
+    else {
+      this.props.handleOpen(false);
+    }
+  };
 
   render() {
     return (
@@ -242,23 +270,20 @@ class HomePage extends Component {
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>POPULAR</span> SERVICES
           </h1>
           <div className="services-container">
-            {/* <div className="services">
-              {this.state.filteredServices.map(service => (
-                  <Card
-                      className="service"
-                      variant="outlined"
-                      key={service.serviceId}
-                      onClick={() => this.serviceCardClickHandler(service.serviceId)}
-                  >
-                      <h2 className="service-title">
-                          {service.serviceName.toUpperCase()}
-                      </h2>
-                  </Card>
+            <div className="services">
+              {this.state.services && this.state.services.map(service => (
+                <Card
+                  className="service"
+                  variant="outlined"
+                  key={service.serviceId}
+                  onClick={() => this.serviceCardClickHandler(service.serviceId)}
+                >
+                  <h2 className="service-title">
+                    {service.serviceName.toUpperCase()}
+                  </h2>
+                </Card>
               ))}
-              {this.state.filteredServices.length === 0 && (
-                  <h2 style={{ margin: "20px auto 0", color: "#a5a5a5" }}>Try a different search</h2>
-              )}
-            </div> */}
+            </div>
           </div>
         </div>
         <div style={{ padding: "50px 20px", background: "#20292d" }}>
@@ -347,7 +372,7 @@ class HomePage extends Component {
           </div>
           <p className="copyright-msg">Copyright © 2021 Trusted Tradesmen. All rights reserved.</p>
         </div>
-      </ >
+      </>
     );
   }
 }

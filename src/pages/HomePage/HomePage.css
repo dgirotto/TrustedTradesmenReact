@@ -84,9 +84,7 @@
 }
 
 .services-container {
-  display: flex; 
-  max-width: 950px; 
-  height: 375px;
+  max-width: 900px; 
   margin: 40px auto;
 }
 
