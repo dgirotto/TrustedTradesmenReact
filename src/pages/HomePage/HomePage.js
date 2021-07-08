@@ -237,15 +237,30 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>POPULAR</span> SERVICES
           </h1>
           <div className="services-container">
+            {/* <div className="services">
+              {this.state.filteredServices.map(service => (
+                  <Card
+                      className="service"
+                      variant="outlined"
+                      key={service.serviceId}
+                      onClick={() => this.serviceCardClickHandler(service.serviceId)}
+                  >
+                      <h2 className="service-title">
+                          {service.serviceName.toUpperCase()}
+                      </h2>
+                  </Card>
+              ))}
+              {this.state.filteredServices.length === 0 && (
+                  <h2 style={{ margin: "20px auto 0", color: "#a5a5a5" }}>Try a different search</h2>
+              )}
+            </div> */}
           </div>
         </div>
-
         <div style={{ padding: "50px 20px", background: "#20292d" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#fff" }}>OUR</span> WORK
@@ -276,7 +291,6 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-
         <div style={{ padding: "50px 20px" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>WHAT</span> OUR CLIENTS SAY
@@ -313,7 +327,6 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-
         <div className="footer-container">
           <div className="footer-content">
             <a href="register" className="footer-link">Register</a>

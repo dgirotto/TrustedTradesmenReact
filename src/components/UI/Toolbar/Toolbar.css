@@ -1,10 +1,21 @@
 .toolbar-desktop {
+  z-index: 999;
   display: block;
-  box-shadow: 0 0 3px #0000004d;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-shadow: 0 0 2px #0000004d;
+  box-sizing: border-box;
 }
 
 .toolbar-mobile {
+  z-index: 999;
   display: none;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
   background: #20292d;
   padding: 10px 20px;
 }
@@ -13,11 +24,12 @@
   font-size: 20px;
   font-weight: bold;
   color: white;
+  flex: 1;
+  text-align: center;
 }
 
 .toolbar-top-container {
   width: 100%;
-  z-index: 100;
   padding: 5px 0;
   background: #20292d;
 }
@@ -64,6 +76,11 @@
 .nav-item-top:hover {
   color: #e89600;
   cursor: pointer;
+}
+
+.toolbar-bottom-container {
+  width: 100%;
+  background: white;
 }
 
 .toolbar-bottom {

@@ -47,51 +47,54 @@ const ToolBar = props => {
             </div>
           </div>
         </div>
-        <div className="toolbar-bottom">
-          <Link style={{ height: "100%" }} to="/">
-            <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
-          </Link>
-          <div className="nav-items-bottom">
-            {(!props.isAuth || props.isAuth && props.userType === 0) && (
-              <Link to="/services">
-                <div className="nav-item-bottom">
-                  Our Services
-                </div>
-              </Link>
-            )}
-            {props.isAuth && (
-              <>
-                {(props.userType === 1 || props.userType === 3) && (
-                  <Link to="/leads">
-                    <div className="nav-item-bottom">
-                      My Leads
-                    </div>
-                  </Link>
-                )}
-                <Link to="/jobs">
+        <div className="toolbar-bottom-container">
+          <div className="toolbar-bottom">
+            <Link style={{ height: "100%" }} to="/">
+              <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
+            </Link>
+            <div className="nav-items-bottom">
+              {(!props.isAuth || props.isAuth && props.userType === 0) && (
+                <Link to="/services">
                   <div className="nav-item-bottom">
-                    My Jobs
-                  </div>
+                    Our Services
+                </div>
                 </Link>
-                {(props.userType === 1) && (
-                  <Link to={"/contractors/" + props.userId}>
-                    <div className="nav-item-bottom">
-                      My Profile
+              )}
+              {props.isAuth && (
+                <>
+                  {(props.userType === 1 || props.userType === 3) && (
+                    <Link to="/leads">
+                      <div className="nav-item-bottom">
+                        My Leads
                     </div>
+                    </Link>
+                  )}
+                  <Link to="/jobs">
+                    <div className="nav-item-bottom">
+                      My Jobs
+                  </div>
                   </Link>
-                )}
-              </>
-            )}
+                  {(props.userType === 1) && (
+                    <Link to={"/contractors/" + props.userId}>
+                      <div className="nav-item-bottom">
+                        My Profile
+                    </div>
+                    </Link>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
       <div className="toolbar-mobile">
-        <div className="toolbar-toggle-button">
+        <div style={{ width: "30px" }}>
           <DrawerToggleButton click={props.drawerToggleClickHandler} />
         </div>
         <div className="toolbar-verbiage">
           TRUSTED TRADESMEN
         </div>
+        <div style={{ width: "30px" }} />
       </div>
     </>
   );

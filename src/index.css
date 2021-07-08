@@ -12,10 +12,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.app-container {
-  height: 100%;
-}
-
 #root {
   height: 100%;
 }

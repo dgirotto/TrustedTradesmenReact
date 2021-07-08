@@ -52,6 +52,7 @@
 
 .app-container {
   height: 100%;
+  margin-top: 118px;
 }
 
 .page-container {
@@ -172,6 +173,10 @@
 }
 
 @media (max-width: 768px) {
+  .app-container {
+    margin-top: 50px;
+  }
+  
   .login-image {
     display: none;
   }
