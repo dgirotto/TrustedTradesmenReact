@@ -147,8 +147,8 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-        <div className="verbiage-container">
-          <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="intro-container">
+          <div className="verbiage-container">
             <div>
               <h1 style={{ margin: 0, fontFamily: "'Noto Sans', sans-serif", fontSize: "70px", color: "#545454" }}>20</h1>
               <h3 style={{ marginTop: "-10px", color: "#545454" }}>Years of inspecting, quality work, and seeking good contractors</h3>
@@ -175,7 +175,7 @@ class HomePage extends Component {
             </div>
           </div>
           <div className="img-container">
-            <img style={{ width: "100%", maxWidth: "300px" }} src={process.env.PUBLIC_URL + '/icons/img-home-repair.svg'} />
+            <img style={{ width: "100%" }} src={process.env.PUBLIC_URL + '/icons/img-home-repair.svg'} />
           </div>
         </div>
         <div style={{ padding: "60px 0", background: "#EFEFEF" }}>
@@ -265,7 +265,7 @@ class HomePage extends Component {
             </div>
           </div>
         </div>
-        <div style={{ padding: "50px 20px" }}>
+        <div style={{ padding: "50px 20px", textAlign: "center" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#313131", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
             <span style={{ borderStyle: "solid", borderWidth: "0 0 4px", borderColor: "#e89600" }}>POPULAR</span> SERVICES
           </h1>
@@ -285,6 +285,20 @@ class HomePage extends Component {
               ))}
             </div>
           </div>
+          <Button style={{
+            margin: "auto",
+            border: "solid #e89600 2px",
+            borderRadius: "20px",
+            boxShadow: "none",
+            fontWeight: "bold",
+            backgroundColor: "#fff",
+            color: "#e89600"
+          }}
+            onClick={() => window.location.href = "/services"}
+            variant="contained"
+          >
+            VIEW ALL SERVICES
+          </Button>
         </div>
         <div style={{ padding: "50px 20px", background: "#20292d" }}>
           <h1 style={{ margin: "20px 0 0", textAlign: "center", color: "#fff", fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px" }}>
@@ -354,8 +368,12 @@ class HomePage extends Component {
         </div>
         <div className="footer-container">
           <div className="footer-content">
-            <a href="register" className="footer-link">Register</a>
-            <a href="login" className="footer-link">Login</a>
+            <div className="footer-link" onClick={() => this.props.handleOpen(true)}>
+              Register
+            </div>
+            <div className="footer-link" onClick={() => this.props.handleOpen(false)}>
+              Login
+            </div>
             <a href="services" className="footer-link">Services</a>
           </div>
           <div className="footer-content">

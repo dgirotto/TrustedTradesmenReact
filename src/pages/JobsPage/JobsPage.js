@@ -984,7 +984,7 @@ export class Row extends Component {
                   <div className="job-details-column job-details-column-1">
                     <p className="item-title" style={{ marginTop: "0px" }}>SERVICE</p>
                     {this.state.row.serviceName}
-                    <p className="item-title">DATE SUBMITTED</p>
+                    <p className="item-title">SUBMISSION DATE</p>
                     <span className="item-with-icon">
                       <FaRegCalendarAlt className="item-icon" size={16} />
                       {formatDate(this.state.row.creationDate.split(" ")[0])}
@@ -1364,7 +1364,7 @@ class JobsPage extends Component {
           {this.state.userType === 0 && !this.state.isLoading && (
             <div style={{ justifyContent: "space-around", marginBottom: "20px" }} className="button-container">
               <Button
-                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginTop: "20px", marginRight: "0px" }}
                 onClick={() => window.location.href = "/services"}
                 variant="contained">
                 FIND A CONTRACTOR
@@ -1452,7 +1452,7 @@ class JobsPage extends Component {
                       </TableCell>
                       <TableCell>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                          <span style={{ paddingRight: "4px" }}>SUBMITTED</span>
+                          <span style={{ paddingRight: "4px" }}>SUBMISSION DATE</span>
                           <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
                             {this.state.sortDateDesc ? <FaSortAmountUp style={{ color: "#444444" }} size={15} /> :
                               <FaSortAmountDown style={{ color: "#444444" }} size={15} />}

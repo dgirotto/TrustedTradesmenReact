@@ -34,13 +34,13 @@ const ToolBar = props => {
                 </>
               ) : (
                 <>
-                  <div onClick={() => props.handleOpen(false)} className="nav-item-top">
-                    <span style={{ paddingRight: "8px" }}>Login</span>
-                    <FaSignOutAlt size="18" />
-                  </div>
                   <div onClick={() => props.handleOpen(true)} className="nav-item-top">
                     <span style={{ paddingRight: "8px" }}>Register Now</span>
                     <FaRegEdit size="18" />
+                  </div>
+                  <div onClick={() => props.handleOpen(false)} className="nav-item-top">
+                    <span style={{ paddingRight: "8px" }}>Login</span>
+                    <FaSignOutAlt size="18" />
                   </div>
                 </>
               )}
@@ -62,6 +62,13 @@ const ToolBar = props => {
               )}
               {props.isAuth && (
                 <>
+                  {(props.userType === 1) && (
+                    <Link to={"/contractors/" + props.userId}>
+                      <div className="nav-item-bottom">
+                        My Profile
+                    </div>
+                    </Link>
+                  )}
                   {(props.userType === 1 || props.userType === 3) && (
                     <Link to="/leads">
                       <div className="nav-item-bottom">
@@ -74,13 +81,6 @@ const ToolBar = props => {
                       My Jobs
                   </div>
                   </Link>
-                  {(props.userType === 1) && (
-                    <Link to={"/contractors/" + props.userId}>
-                      <div className="nav-item-bottom">
-                        My Profile
-                    </div>
-                    </Link>
-                  )}
                 </>
               )}
             </div>

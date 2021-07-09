@@ -334,7 +334,7 @@ class ServiceDetailsPage extends Component {
               Your job submission was successful. A contractor will get in touch with you shortly (please allow at least 24 hours for a response). Keep track of your job by visiting the Jobs page.
               <div style={{ justifyContent: "space-around", marginTop: "10px", marginBottom: "0px" }} className="button-container">
                 <Button
-                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginTop: "20px", marginRight: "0px" }}
                   onClick={() => window.location.href = "/jobs"}
                   variant="contained"
                 >

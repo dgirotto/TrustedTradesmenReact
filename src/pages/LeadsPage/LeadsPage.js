@@ -244,9 +244,6 @@ export class Row extends Component {
                 <td>Distance: {this.formatDistance()}</td>
               </tr>
               <tr>
-                <td>Desired Time Frame: {formatTimeFrame(this.state.row.customerTimeFrame)}</td>
-              </tr>
-              <tr>
                 <td>{this.getLeadStatus()}</td>
               </tr>
               <tr>
@@ -271,7 +268,6 @@ export class Row extends Component {
           </TableCell>
           <TableCell>{this.state.row.serviceName}</TableCell>
           <TableCell>{this.formatDistance()}</TableCell>
-          <TableCell>{formatTimeFrame(this.state.row.customerTimeFrame)}</TableCell>
           <TableCell>{formatDate(this.state.row.creationDate.split(" ")[0])}</TableCell>
           <TableCell>{this.getLeadStatus()}</TableCell>
         </>
@@ -400,21 +396,21 @@ export class Row extends Component {
           {this.getRowContent()}
         </TableRow>
         <TableRow>
-          <TableCell style={{ padding: 0 }} colSpan={6}>
+          <TableCell style={{ padding: 0 }} colSpan={5}>
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
               <Box margin={1.5}>
                 <div className="job-details">
                   <div className="job-details-column job-details-column-1">
                     <p className="item-title" style={{ marginTop: "0px" }}>SERVICE</p>
                     {this.state.row.serviceName}
-                    <p className="item-title">SUBMITTED</p>
+                    <p className="item-title">SUBMISSION DATE</p>
                     <span className="item-with-icon">
                       <FaRegCalendarAlt className="item-icon" size={16} />
                       {formatDate(this.state.row.creationDate.split(" ")[0])}
                     </span>
                     <p className="item-title">LOCATION</p>
                     {this.state.row.address}, {this.state.row.city}, {this.state.row.province}, {this.state.row.postalCode}
-                    <p className="item-title">DISTANCE</p>
+                    <p className="item-title">TRAVEL DISTANCE</p>
                     <span className="item-with-icon">
                       <FaRoute className="item-icon" size={16} />
                       {this.formatDistance()}
@@ -663,14 +659,11 @@ class LeadsPage extends Component {
                         SERVICE
                       </TableCell>
                       <TableCell>
-                        DISTANCE
-                      </TableCell>
-                      <TableCell>
-                        DESIRED TIME FRAME
+                        TRAVEL DISTANCE
                       </TableCell>
                       <TableCell>
                         <div style={{ display: "flex", alignItems: "center" }}>
-                          <span style={{ paddingRight: "4px" }}>SUBMITTED</span>
+                          <span style={{ paddingRight: "4px" }}>SUBMISSION DATE</span>
                           <IconButton onClick={this.toggleSortDate} aria-label="expand row" size="small">
                             {this.state.sortDateDesc ? <FaSortAmountUp style={{ color: "#444444" }} size={15} /> :
                               <FaSortAmountDown style={{ color: "#444444" }} size={15} />}
@@ -747,7 +740,7 @@ class LeadsPage extends Component {
               </CustomAlert>
               <div style={{ justifyContent: "space-around" }} className="button-container">
                 <Button
-                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginRight: "0px" }}
+                  style={{ backgroundColor: "#3bb13b", color: "white", fontWeight: "bold", marginTop: "20px", marginRight: "0px" }}
                   onClick={() => window.location.href = "/jobs"}
                   variant="contained"
                 >

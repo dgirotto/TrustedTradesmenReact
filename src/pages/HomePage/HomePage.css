@@ -23,21 +23,24 @@
   flex: 1;
 }
 
-.verbiage-container {
+.intro-container {
   display: flex;
-  max-width: 950px; 
+  align-items: center;
+  max-width: 1000px; 
   padding: 60px 20px;
   margin: auto;
   box-sizing: border-box; 
 }
 
-.verbiage-container > div {
-  flex: 1;
+.verbiage-container {
+  display: flex; 
+  flex: 1; 
+  align-items: center;
 }
 
 .img-container {
-  text-align: right;
-  max-width: 400px;
+  max-width: 325px;
+  padding-left: 30px;
 }
 
 .card-container {
@@ -154,6 +157,7 @@
   color: inherit;
   font-size: 16px;
   margin: 3px 10px;
+  cursor: pointer;
 }
 
 .footer-link:hover {
@@ -188,14 +192,12 @@
     flex-direction: column;
   }
 
-  .verbiage-container {
+  .intro-container {
     flex-direction: column;
   }
 
   .img-container {
-    text-align: center;
-    max-width: 100%;
-    padding-top: 30px;
+    padding: 20px 0 0;
   }
 
   .card-container {
