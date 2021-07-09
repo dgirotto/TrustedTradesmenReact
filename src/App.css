@@ -51,8 +51,7 @@
 }
 
 .app-container {
-  height: 100%;
-  margin-top: 108px;
+  padding-top: 108px;
 }
 
 .page-container {

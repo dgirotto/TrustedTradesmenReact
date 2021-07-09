@@ -160,11 +160,7 @@ export class Row extends Component {
 
     JobService.fireContractor(body)
       .then(() => {
-        this.setState({ interestedContractor: "" },
-          () => {
-            this.props.getJobs(true);
-            // this.props.setMessage(false, "Contractor successfully fired");
-          });
+        this.props.getJobs(true);
       })
       .catch(err => {
         // this.props.setMessage(true, "Unable to fire Contractor");

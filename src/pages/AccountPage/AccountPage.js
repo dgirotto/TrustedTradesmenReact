@@ -215,7 +215,8 @@ class AccountPage extends Component {
       <>
         <AppBar
           position="relative"
-          color="secondary">
+          color="secondary"
+          style={{ zIndex: "998" }}>
           <Tabs
             value={this.state.activeTab}
             onChange={this.appBarClickHandler}

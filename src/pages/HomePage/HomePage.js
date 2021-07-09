@@ -286,7 +286,7 @@ class HomePage extends Component {
             </div>
           </div>
           <Button style={{
-            margin: "auto",
+            margin: "0 auto 20px",
             border: "solid #e89600 2px",
             borderRadius: "20px",
             boxShadow: "none",
