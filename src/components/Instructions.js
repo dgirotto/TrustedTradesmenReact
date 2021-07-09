@@ -42,9 +42,9 @@ export default class Instructions extends Component {
                 )}
                 {!hasExtraFields(this.props.contractorDetails) && (
                     <>
-                        <div style={{ margin: "15px 0 10px" }}>
-                            The following fields will help bolster your <a href={"/contractors/" + this.props.contractorDetails.userId}>profile page</a>. Filling these
-                            out gives your client a better idea of who you are and the skills you're capable of providing.
+                        <div style={{ margin: "20px 0" }}>
+                            The following fields will help strengthen your <a href={"/contractors/" + this.props.contractorDetails.userId}>profile page</a>. Filling these
+                            out gives clients a better idea of who you are and the skills you're capable of providing.
                         </div>
                         <span className="item-with-icon" style={{ paddingBottom: "5px" }}>
                             {this.props.contractorDetails.bio ? <FaCheck className="item-icon green" /> : <FaTimes className="item-icon red" />}

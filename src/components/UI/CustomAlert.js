@@ -21,7 +21,7 @@ export default class CustomAlert extends Component {
 
   render() {
     return (
-      <Paper className={`${this.props.type}-alert`} style={{ maxWidth: "700px", margin: "auto", padding: "40px", boxShadow: "none" }}>
+      <Paper className={`${this.props.type}-alert`} style={{ maxWidth: "600px", margin: "auto", padding: "40px", boxShadow: "none" }}>
         <div style={{ fontSize: "16px" }}>
           <div style={{ textAlign: "center" }}>
             {this.getIcon()}

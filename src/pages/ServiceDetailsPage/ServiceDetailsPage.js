@@ -315,12 +315,7 @@ class ServiceDetailsPage extends Component {
     return (
       <div className="page-container">
         <Title>Request A Job</Title>
-        <Button
-          style={{ fontWeight: "bold", background: "#2f2f2f", color: "white", marginBottom: "20px" }}
-          onClick={() => { window.location.href = "/services" }}
-        >
-          <ArrowBackIcon style={{ fontSize: "medium" }} />&nbsp;SERVICES
-        </Button>
+
         {/* <div style={{ margin: "35px 0" }}>
           <h2 className="form-title">DESCRIPTION</h2>
           <p>{this.state.serviceDetails.description}</p>
