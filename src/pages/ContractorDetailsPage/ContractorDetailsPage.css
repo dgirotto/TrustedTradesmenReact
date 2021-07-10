@@ -16,17 +16,37 @@
     color: #fff;
 }
 
+.contact-details-container {
+    display: flex; 
+    flex-direction: column; 
+    margin-top: 20px;
+    background: #20292d;
+    color: white;
+}
+
 .contractor-info-container {
     display: flex;
     flex: 1;
     flex-direction: column;
 }
 
-.contact-details-container {
-    display: flex; 
-    flex-direction: column; 
+.services-offered-container {
     margin-top: 20px;
-    background: #20292d;
+    padding: 15px 20px;
+    border-radius: 3px;
+    background: #f1f1f1;
+}
+
+.service-item {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+    padding: 2px 4px;
+    border-radius: 5px; 
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    background: #e89600;
     color: white;
 }
 
@@ -55,26 +75,6 @@
 
 .contact-field > span {
     padding-left: 10px;
-}
-
-.services-offered-container {
-    margin-top: 20px;
-    padding: 15px 20px;
-    border-radius: 3px;
-    background: #f1f1f1;
-}
-
-.service-item {
-    display: inline-block;
-    margin: 10px 10px 0 0;
-    padding: 2px 4px;
-    border-radius: 5px; 
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
-    background: #e89600;
-    color: white;
 }
 
 .reviews-container {
@@ -111,13 +111,13 @@
         margin: 0px;
     }
     
-    .contractor-info-container {
-        flex-direction: column;
-    }
-
     .contact-details-container {
         width: 100%;
         margin: 20px 0 0;
+    }
+
+    .contractor-info-container {
+        flex-direction: column;
     }
 
     .reviews-container {

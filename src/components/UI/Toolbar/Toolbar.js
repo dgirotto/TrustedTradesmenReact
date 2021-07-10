@@ -58,7 +58,7 @@ const ToolBar = props => {
                   Home
                 </div>
               </Link>
-              {(!props.isAuth || props.isAuth && props.userType === 0) && (
+              {(!props.isAuth || (props.isAuth && props.userType === 0)) && (
                 <Link to="/services">
                   <div className="nav-item-bottom">
                     Our Services
@@ -97,7 +97,9 @@ const ToolBar = props => {
           <DrawerToggleButton click={props.drawerToggleClickHandler} />
         </div>
         <div className="toolbar-verbiage">
-          TRUSTED TRADESMEN
+          <a href="/" style={{ textDecoration: "none", color: "#fff" }}>
+            TRUSTED TRADESMEN
+          </a>
         </div>
         <div style={{ width: "30px" }} />
       </div>
