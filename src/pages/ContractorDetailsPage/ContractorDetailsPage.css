@@ -9,8 +9,12 @@
     margin-right: 20px;
 }
 
+.profile-pic-container {
+    margin-bottom: 20px;
+}
+
 .specials-container {
-    margin-top: 20px;
+    margin-bottom: 20px;
     border-radius: 3px;
     background: #20292d;
     color: #fff;
@@ -19,7 +23,6 @@
 .contact-details-container {
     display: flex; 
     flex-direction: column; 
-    margin-top: 20px;
     background: #20292d;
     color: white;
 }
@@ -31,7 +34,6 @@
 }
 
 .services-offered-container {
-    margin-top: 20px;
     padding: 15px 20px;
     border-radius: 3px;
     background: #f1f1f1;
@@ -107,13 +109,8 @@
         margin-right: 20px;
     }
 
-    .specials-container {
-        margin: 0px;
-    }
-    
     .contact-details-container {
         width: 100%;
-        margin: 20px 0 0;
     }
 
     .contractor-info-container {

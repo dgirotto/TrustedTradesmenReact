@@ -12,6 +12,15 @@ function getAccountDetails() {
   );
 }
 
+function uploadProfilePicture(body) {
+  const headers = getHeaders();
+  return axios.post(
+    `${commonEndpoint}/user/upload_profile_picture.php`,
+    body,
+    { headers }
+  );
+}
+
 function setAccountDetails(body) {
   const headers = getHeaders();
   return axios.post(
@@ -49,6 +58,7 @@ function getHeaders() {
 
 export const AccountService = {
   getAccountDetails,
+  uploadProfilePicture,
   setAccountDetails,
   changePassword,
   getContractorDetails

@@ -19,7 +19,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import LinkIcon from '@material-ui/icons/Link';
 
 // How to style MatUI text fields: https://stackoverflow.com/questions/46966413/how-to-style-material-ui-textfield
 
@@ -89,6 +88,7 @@ class AccountPage extends Component {
       newPassword: null,
       confirmNewPassword: null
     },
+    profilePicture: null,
     services: null,
     hasEditedDetails: false,
     isLoading: false,
@@ -124,6 +124,14 @@ class AccountPage extends Component {
           this.setState({ isLoading: false });
         }
       });
+  }
+
+  fileSelectedHandler = event => {
+    this.setState({ profilePicture: event.target.files[0] });
+  }
+
+  uploadFileClickHandler = () => {
+    AccountService.uploadProfilePicture();
   }
 
   appBarClickHandler = (event, newValue) => {
@@ -235,6 +243,26 @@ class AccountPage extends Component {
               {this.state.activeTab === 0 ? (
                 <div style={{ marginBottom: "25px" }}>
                   <h2 style={{ textAlign: "center" }} className="form-title">Account Details</h2>
+                  {/* UPLOADING FILES: https://www.youtube.com/watch?v=XeiOnkEI7XI&ab_channel=Academind */}
+                  {/* <div style={{ marginBottom: "20px" }}>
+                    <span className="field-desc">Upload a photo for your profile page.</span>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <input
+                        type="file"
+                        onChange={this.fileSelectedHandler}
+                        style={{ marginRight: "20px", fontSize: "16px" }}
+                      />
+                      <Button
+                        style={{ fontWeight: "bold" }}
+                        onClick={this.uploadFileClickHandler}
+                        variant="contained"
+                        color="secondary"
+                        disabled={!this.state.profilePicture}
+                      >
+                        UPLOAD
+                      </Button>
+                    </div>
+                  </div> */}
                   <div className="textfield-container-row">
                     <div className="textfield-container-col">
                       <TextField
@@ -350,7 +378,7 @@ class AccountPage extends Component {
                   {this.state.userType === 1 && this.state.services !== null && (
                     <>
                       <span className="field-desc">Which services are you capable of providing? Please select only those of which you <b>specialize</b> in.</span>
-                      <FormControl component="fieldset">
+                      <FormControl style={{ marginBottom: "20px" }} component="fieldset">
                         <FormGroup style={{ flexDirection: "row" }}>
                           {this.state.services.map(service => (
                             <FormControlLabel
@@ -401,8 +429,6 @@ class AccountPage extends Component {
                           ))}
                         </FormGroup>
                       </FormControl>
-                      <br />
-                      <br />
                       <div className="textfield-container-col">
                         <TextField
                           type="text"
@@ -496,17 +522,15 @@ class AccountPage extends Component {
                       </div>
                     </>
                   )}
-                  <div style={{ display: "flex" }}>
-                    <Button
-                      style={{ fontWeight: "bold" }}
-                      onClick={this.saveChangesClickHandler}
-                      variant="contained"
-                      color="secondary"
-                      disabled={!this.state.hasEditedDetails || this.state.accountDetails.email.trim() === ''}
-                    >
-                      SAVE DETAILS
-                    </Button>
-                  </div>
+                  <Button
+                    style={{ fontWeight: "bold" }}
+                    onClick={this.saveChangesClickHandler}
+                    variant="contained"
+                    color="secondary"
+                    disabled={!this.state.hasEditedDetails || this.state.accountDetails.email.trim() === ''}
+                  >
+                    SAVE DETAILS
+                  </Button>
                 </div>
               ) : (
                 <>
@@ -557,7 +581,7 @@ class AccountPage extends Component {
                     }
                   >
                     CHANGE PASSWORD
-                </Button>
+                  </Button>
                 </>
               )}
             </>
