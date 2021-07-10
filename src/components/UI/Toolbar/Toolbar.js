@@ -53,11 +53,16 @@ const ToolBar = props => {
               <img height="100%" src={process.env.PUBLIC_URL + '/images/logo-no-text.png'} />
             </Link>
             <div className="nav-items-bottom">
+              <Link to="/">
+                <div className="nav-item-bottom">
+                  Home
+                </div>
+              </Link>
               {(!props.isAuth || props.isAuth && props.userType === 0) && (
                 <Link to="/services">
                   <div className="nav-item-bottom">
                     Our Services
-                </div>
+                  </div>
                 </Link>
               )}
               {props.isAuth && (
@@ -66,20 +71,20 @@ const ToolBar = props => {
                     <Link to={"/contractors/" + props.userId}>
                       <div className="nav-item-bottom">
                         My Profile
-                    </div>
+                      </div>
                     </Link>
                   )}
                   {(props.userType === 1 || props.userType === 3) && (
                     <Link to="/leads">
                       <div className="nav-item-bottom">
                         My Leads
-                    </div>
+                      </div>
                     </Link>
                   )}
                   <Link to="/jobs">
                     <div className="nav-item-bottom">
                       My Jobs
-                  </div>
+                    </div>
                   </Link>
                 </>
               )}

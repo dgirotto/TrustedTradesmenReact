@@ -173,7 +173,7 @@
 
 @media (max-width: 768px) {
   .app-container {
-    margin-top: 50px;
+    padding-top: 50px;
   }
   
   .login-image {
