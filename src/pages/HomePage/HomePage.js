@@ -119,9 +119,9 @@ class HomePage extends Component {
             <div style={{ display: "flex", alignItems: "center" }}>
               <div>
                 <h1 style={{
-                  padding: "10px",
+                  padding: "15px",
                   fontFamily: "'Quicksand', sans-serif",
-                  fontSize: "28px",
+                  fontSize: "24px",
                   background: "#ffffff1f"
                 }}>
                   FREE HOME INSPECTIONS FOR JOBS OVER $7,000
@@ -149,30 +149,29 @@ class HomePage extends Component {
         </div>
         <div className="intro-container">
           <div className="verbiage-container">
-            <div>
-              <h1 style={{ margin: 0, fontFamily: "'Noto Sans', sans-serif", fontSize: "70px", color: "#545454" }}>20</h1>
-              <h3 style={{ marginTop: "-10px", color: "#545454" }}>Years of inspecting, quality work, and seeking good contractors</h3>
-              <p style={{ fontFamily: "'Open Sans', sans-serif" }}>
-                My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
-                contracting jobs done incorrectly and witnessed many people getting ripped off.
-              </p>
-              <Button className="home-button"
-                style={{
-                  display: "block",
-                  marginTop: "20px",
-                  backgroundColor: "#fff",
-                  color: "#e89600",
-                  fontWeight: "bold",
-                  borderRadius: 0,
-                  boxShadow: "none",
-                  border: "solid #e89600 2px"
-                }}
-                onClick={() => window.location.href = "/about"}
-                variant="contained"
-              >
-                READ MORE
-              </Button>
-            </div>
+            <h1 style={{ margin: 0, fontFamily: "'Noto Sans', sans-serif", fontSize: "70px" }}>20</h1>
+            <h3 style={{ marginTop: "-10px" }}>Years of inspecting, quality work, and seeking good contractors</h3>
+            <p style={{ margin: 0, fontFamily: "'Open Sans', sans-serif" }}>
+              My Name is Chris Willick. I've been a professional home inspector for over 20 years. I have seen my fair share of
+              contracting jobs done incorrectly and witnessed many people getting ripped off.
+            </p>
+            <Button className="home-button"
+              style={{
+                display: "block",
+                width: "130px",
+                marginTop: "20px",
+                backgroundColor: "#fff",
+                color: "#e89600",
+                fontWeight: "bold",
+                borderRadius: 0,
+                boxShadow: "none",
+                border: "solid #e89600 2px"
+              }}
+              onClick={() => window.location.href = "/about"}
+              variant="contained"
+            >
+              READ MORE
+            </Button>
           </div>
           <div className="img-container">
             <img style={{ width: "100%" }} src={process.env.PUBLIC_URL + '/icons/img-home-repair.svg'} />

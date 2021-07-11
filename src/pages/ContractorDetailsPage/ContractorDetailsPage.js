@@ -55,7 +55,7 @@ class ContractorDetailsPage extends Component {
                                 <div style={{ display: "flex", flexDirection: "column", padding: "15px 20px", fontFamily: "'Open Sans', sans-serif" }}>
                                     <span className="contact-field">
                                         Location:&nbsp;
-                                        {this.state.contractorDetails.city && this.state.contractorDetails.state ? (
+                                        {this.state.contractorDetails.city && this.state.contractorDetails.province ? (
                                             <>{this.state.contractorDetails.city}, {this.state.contractorDetails.province}</>
                                         ) : (
                                             <>N/A</>

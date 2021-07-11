@@ -34,8 +34,9 @@
 
 .verbiage-container {
   display: flex; 
+  flex-direction: column;
   flex: 1; 
-  align-items: center;
+  color: #313131; 
 }
 
 .img-container {
@@ -243,6 +244,10 @@
 }
 
 @media (max-width: 600px) {
+  .img-container {
+    max-width: 250px;
+  }
+
   .home-button {
     margin: 20px 0 !important;
   }
