@@ -131,7 +131,7 @@ class AccountPage extends Component {
   }
 
   uploadFileClickHandler = () => {
-    AccountService.uploadProfilePicture();
+    AccountService.uploadProfilePicture(this.state.profilePicture);
   }
 
   appBarClickHandler = (event, newValue) => {

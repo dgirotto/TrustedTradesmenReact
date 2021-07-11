@@ -25,8 +25,8 @@ const ToolBar = props => {
                       <FaRegUser size="16" />
                     </div>
                   </Link>
-                  <Link to="/logout">
-                    <div className="nav-item-top" onClick={props.logout}>
+                  <Link to="/logout" onClick={props.logout}>
+                    <div className="nav-item-top" >
                       <span style={{ paddingRight: "5px" }}>Logout</span>
                       <FaSignOutAlt size="18" />
                     </div>

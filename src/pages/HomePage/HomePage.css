@@ -157,7 +157,7 @@
   text-decoration: none;
   color: inherit;
   font-size: 16px;
-  margin: 3px 10px;
+  margin: 0 10px;
   cursor: pointer;
 }
 
@@ -165,8 +165,16 @@
   color: #e89600;
 }
 
-.with-icon {
-  margin: 10px;
+.footer-icon {
+  text-decoration: none;
+  color: inherit;
+  font-size: 16px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.footer-icon:hover {
+  color: #e89600;
 }
 
 .copyright-msg {
@@ -235,7 +243,8 @@
   }
 
   .footer-link {
-    font-size: 18px !important;
+    margin: 5px 0;
+    font-size: 20px !important;
   }
   
   .copyright-msg {

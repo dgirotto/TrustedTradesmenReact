@@ -29,6 +29,11 @@ const sideDrawer = props => {
         )}
         {props.isAuth ? (
           <>
+            {(props.userType === 1) && (
+              <Link onClick={props.drawerToggleClickHandler} to={"/contractors/" + props.userId}>
+                <li>My Profile</li>
+              </Link>
+            )}
             {(props.userType === 1 || props.userType === 3) && (
               <Link onClick={props.drawerToggleClickHandler} to="/leads">
                 <li>My Leads</li>
@@ -37,11 +42,6 @@ const sideDrawer = props => {
             <Link onClick={props.drawerToggleClickHandler} to="/jobs">
               <li>My Jobs</li>
             </Link>
-            {(props.userType === 1) && (
-              <Link onClick={props.drawerToggleClickHandler} to={"/contractors/" + props.userId}>
-                <li>My Profile</li>
-              </Link>
-            )}
             <Link onClick={props.drawerToggleClickHandler} to="/account">
               <li>My Account</li>
             </Link>
