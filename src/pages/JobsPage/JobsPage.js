@@ -438,6 +438,14 @@ export class Row extends Component {
     this.props.handleOpen();
   }
 
+  getInterestedContractorDetails = () => {
+    console.log(this.state.interestedContractor);
+
+    let contractorDetails = this.state.row.interestedContractors.find(x => x.contractorId = this.state.interestedContractor);
+
+    console.log(contractorDetails);
+  }
+
   getUIContent = () => {
     let content = null;
 
@@ -509,9 +517,10 @@ export class Row extends Component {
                 ))}
               </TextField>
             </div>
-            <div style={{ marginBottom: "15px" }}>
+            {/* <div style={{ marginBottom: "15px" }}>
+              {this.getInterestedContractorDetails()}
               CONTRACTOR ID {this.state.interestedContractor} INVOICE AND TIME FRAME QUOTES HERE
-            </div>
+            </div> */}
             <div className="button-container multi-button">
               <Button
                 style={{ fontWeight: "bold" }}
