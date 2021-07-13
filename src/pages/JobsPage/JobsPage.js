@@ -97,12 +97,13 @@ export class Row extends Component {
   constructor(props) {
     super(props);
     this.setInitialVals(props);
+
     this.state = {
       open: false,
       row: this.props.row,
       notes: "",
       completionDate: "",
-      interestedContractor: this.props.row.interestedContractors && this.props.row.interestedContractors.length > 0 ? this.props.row.interestedContractors[0].contractorId : "",
+      interestedContractor: this.props.row.interestedContractors && this.props.row.interestedContractors.length > 0 ? this.props.row.interestedContractors[0] : null,
       selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
@@ -118,7 +119,7 @@ export class Row extends Component {
       row: newProps.row,
       notes: "",
       completionDate: "",
-      interestedContractor: this.state.interestedContractor ? this.state.interestedContractor : (newProps.row.interestedContractors && newProps.row.interestedContractors.length > 0 ? newProps.row.interestedContractors[0].contractorId : ""),
+      interestedContractor: this.state.interestedContractor ? this.state.interestedContractor : (newProps.row.interestedContractors && newProps.row.interestedContractors.length > 0 ? newProps.row.interestedContractors[0] : null),
       selectedContractors: [],
       inspectionPassed: null,
       reworkCompleted: null,
@@ -137,7 +138,7 @@ export class Row extends Component {
   hireContractor = () => {
     let body = {
       jobId: this.state.row.jobId,
-      contractorId: this.state.interestedContractor
+      contractorId: this.state.interestedContractor.contractorId
     };
 
     JobService.hireContractor(body)
@@ -155,7 +156,7 @@ export class Row extends Component {
   fireContractor = () => {
     let body = {
       jobId: this.state.row.jobId,
-      contractorId: this.state.interestedContractor
+      contractorId: this.state.interestedContractor.contractorId
     };
 
     JobService.fireContractor(body)
@@ -339,7 +340,7 @@ export class Row extends Component {
   // TODO: FIX THIS
   contractorIsCommitted = () => {
     let result = this.state.row.interestedContractors.find(interestedContractor => {
-      return interestedContractor.contractorId === this.state.interestedContractor
+      return interestedContractor.contractorId === this.state.interestedContractor.contractorId
     });
 
     return result.isCommitted === true;
@@ -438,12 +439,10 @@ export class Row extends Component {
     this.props.handleOpen();
   }
 
-  getInterestedContractorDetails = () => {
-    console.log(this.state.interestedContractor);
+  setInterestedContractor = event => {
+    let contractorDetails = this.state.row.interestedContractors.find(x => x.contractorId === event.target.value);
 
-    let contractorDetails = this.state.row.interestedContractors.find(x => x.contractorId = this.state.interestedContractor);
-
-    console.log(contractorDetails);
+    this.setState({ interestedContractor: contractorDetails });
   }
 
   getUIContent = () => {
@@ -494,20 +493,18 @@ export class Row extends Component {
       if (this.state.row.interestedContractors.length > 0) {
         content = (
           <>
-            {/* {this.state.row.interestedContractors.length > 0 && (
+            {this.state.row.interestedContractors.length > 0 && (
               <Alert className="alert-msg" severity="info" color="info">
                 Contractors have shown an interest in your job! When you wish to commit to a particular contractor, select the <b>Hire Contractor</b> button. <b>Note:
                 This button will be available once the contractor has confirmed their commitment to the job.</b>
               </Alert>
-            )} */}
+            )}
             <div className="textfield-container-col">
               <TextField
                 select
                 name="contractor"
-                value={this.state.interestedContractor}
-                onChange={event => {
-                  this.setState({ interestedContractor: event.target.value })
-                }}
+                value={this.state.interestedContractor.contractorId}
+                onChange={this.setInterestedContractor}
                 variant="outlined"
               >
                 {this.state.row.interestedContractors !== null && this.state.row.interestedContractors.map(option => (
@@ -517,10 +514,11 @@ export class Row extends Component {
                 ))}
               </TextField>
             </div>
-            {/* <div style={{ marginBottom: "15px" }}>
-              {this.getInterestedContractorDetails()}
-              CONTRACTOR ID {this.state.interestedContractor} INVOICE AND TIME FRAME QUOTES HERE
-            </div> */}
+            <div style={{ marginBottom: "15px" }}>
+              QUOTED INVOICE: {this.state.interestedContractor.invoiceQuote}
+              <br />
+              QUOTED TIME FRAME: {this.state.interestedContractor.timeFrameQuote}
+            </div>
             <div className="button-container multi-button">
               <Button
                 style={{ fontWeight: "bold" }}
